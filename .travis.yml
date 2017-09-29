@@ -1,1 +1,6 @@
 language: java
+services:
+    - mysql
+before_install:
+#    - mysql -u root < db_schema/gym_system_schema.sql
+    - mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('password');"
