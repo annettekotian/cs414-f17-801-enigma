@@ -28,7 +28,7 @@ public class User implements Serializable {
 	@Column(nullable=false, length=16)
 	private String username;
 
-	//bi-directional many-to-one association to UserLevel
+	//uni-directional many-to-one association to UserLevel
 	@ManyToOne
 	@JoinColumn(name="user_level_id", nullable=false, insertable=false, updatable=false)
 	private UserLevel userLevel;
@@ -72,10 +72,40 @@ public class User implements Serializable {
 		EntityManager em = EntityManagerFactoryListener.createEntityManager();
 		Query query = em.createNamedQuery("User.findUser");
 		query.setParameter("name", userName);
+		User user;
 		try {
-			return (User) query.getSingleResult();
+			user = (User) query.getSingleResult();
 		} catch(javax.persistence.NoResultException e) {
-			return null;
+			user = null;
 		}
+		em.close();
+		return user;
 	}
+	
+	public static void commitUser(User user) throws IllegalArgumentException {
+		EntityManager em = EntityManagerFactoryListener.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(user);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public static void removeUser(User user) {
+		EntityManager em = EntityManagerFactoryListener.createEntityManager();
+		User removedUser = em.find(User.class, user.getId());
+		em.getTransaction().begin();
+		em.remove(removedUser);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public static void modifyPassword(UserPK userId, String password) {
+		EntityManager em = EntityManagerFactoryListener.createEntityManager();
+		User modifyUser = em.find(User.class, userId);
+		em.getTransaction().begin();
+		modifyUser.setPassword(password);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
 }
