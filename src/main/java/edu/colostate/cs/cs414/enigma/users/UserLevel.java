@@ -1,8 +1,11 @@
 package edu.colostate.cs.cs414.enigma.users;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.*;
+
+import edu.colostate.cs.cs414.enigma.listeners.EntityManagerFactoryListener;
 
 
 /**
@@ -11,7 +14,10 @@ import java.util.List;
  */
 @Entity
 @Table(name="user_level")
-@NamedQuery(name="UserLevel.findAll", query="SELECT u FROM UserLevel u")
+@NamedQueries({
+	@NamedQuery(name="UserLevel.findAll", query="SELECT u FROM UserLevel u"),
+	@NamedQuery(name="UserLevel.findLevel", query="SELECT u FROM UserLevel u WHERE u.description = :level")
+})
 public class UserLevel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -22,10 +28,6 @@ public class UserLevel implements Serializable {
 
 	@Column(nullable=false, length=255)
 	private String description;
-
-	//bi-directional many-to-one association to User
-	@OneToMany(mappedBy="userLevel")
-	private List<User> users;
 
 	public UserLevel() {
 	}
@@ -46,26 +48,30 @@ public class UserLevel implements Serializable {
 		this.description = description;
 	}
 
-	public List<User> getUsers() {
-		return this.users;
+	public static List<UserLevel> getUserLevels() {
+		EntityManager em = EntityManagerFactoryListener.createEntityManager();
+		Query query = em.createNamedQuery("UserLevel.findAll");
+		List<UserLevel> results;
+		try {
+			results = (List<UserLevel>) query.getResultList();
+		} catch(javax.persistence.NoResultException e) {
+			results = null;
+		}
+		em.close();
+		return results;
 	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
+	
+	public static UserLevel findUser(String level) {
+		EntityManager em = EntityManagerFactoryListener.createEntityManager();
+		Query query = em.createNamedQuery("UserLevel.findLevel");
+		query.setParameter("level", level);
+		UserLevel userLevel;
+		try {
+			userLevel = (UserLevel) query.getSingleResult();
+		} catch(javax.persistence.NoResultException e) {
+			userLevel = null;
+		}
+		em.close();
+		return userLevel;
 	}
-
-	public User addUser(User user) {
-		getUsers().add(user);
-		user.setUserLevel(this);
-
-		return user;
-	}
-
-	public User removeUser(User user) {
-		getUsers().remove(user);
-		user.setUserLevel(null);
-
-		return user;
-	}
-
 }

@@ -5,6 +5,9 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
 	<persistence-unit name="GymSystem" transaction-type="RESOURCE_LOCAL">
+		<class>edu.colostate.cs.cs414.enigma.users.User</class>
+		<class>edu.colostate.cs.cs414.enigma.users.UserPK</class>
+		<class>edu.colostate.cs.cs414.enigma.users.UserLevel</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/GymSystem" />
