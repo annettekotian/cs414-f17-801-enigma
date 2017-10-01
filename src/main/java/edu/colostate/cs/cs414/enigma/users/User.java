@@ -108,4 +108,11 @@ public class User implements Serializable {
 		em.close();
 	}
 	
+	public static boolean authenticate(String userName, String password) {
+		User user = User.findUser(userName);
+		if(user == null) {
+			return false;
+		}
+		return user.getPassword().equals(password);
+	}
 }
