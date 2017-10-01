@@ -2,9 +2,6 @@ package edu.colostate.cs.cs414.enigma.users.test;
 
 import static org.junit.Assert.*;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -58,6 +55,48 @@ public class UserTest {
 		User.modifyPassword(manager.getId(), "password");
 		manager = User.findUser(manager.getUsername());
 		assertNotEquals("User password was not successfully changed", "toasters", manager.getPassword());
+		
+		manager = User.findUser(manager.getUsername());
+		User.removeUser(manager);
+		assertNull("User was not removed from database", User.findUser(manager.getUsername()));
+	}
+	
+	@Test
+	public void authenticateUserSuccess() {
+		UserLevel level = UserLevel.findUser("MANAGER");
+		
+		UserPK key = new UserPK();
+		key.setUserLevelId(level.getId());
+		
+		User manager = new User();
+		manager.setId(key);
+		manager.setUsername("java_runs_on");
+		manager.setPassword("toasters");
+		
+		User.commitUser(manager);
+		assertNotNull("User was not committed to database", User.findUser(manager.getUsername()));
+		assertTrue("User was not successfully authenticated", User.authenticate(manager.getUsername(), manager.getPassword()));
+		
+		manager = User.findUser(manager.getUsername());
+		User.removeUser(manager);
+		assertNull("User was not removed from database", User.findUser(manager.getUsername()));
+	}
+	
+	@Test
+	public void authenticateUserFailure() {
+		UserLevel level = UserLevel.findUser("MANAGER");
+		
+		UserPK key = new UserPK();
+		key.setUserLevelId(level.getId());
+		
+		User manager = new User();
+		manager.setId(key);
+		manager.setUsername("java_runs_on");
+		manager.setPassword("toasters");
+		
+		User.commitUser(manager);
+		assertNotNull("User was not committed to database", User.findUser(manager.getUsername()));
+		assertFalse("User was incorrectly authenticated", User.authenticate(manager.getUsername(), "wrong"));
 		
 		manager = User.findUser(manager.getUsername());
 		User.removeUser(manager);

@@ -27,8 +27,8 @@ public class SessionFilter implements Filter {
 			if(request.getSession(false) == null) {
 				String url = request.getRequestURL().toString();
 				String uri = request.getRequestURI();
-				if(!request.getRequestURI().contains("login")) {
-					response.sendRedirect(request.getContextPath() + "/login");
+				if(!request.getRequestURI().contains("index")) {
+					response.sendRedirect(request.getContextPath() + "/index.jsp");
 					return;
 				}
 			}
