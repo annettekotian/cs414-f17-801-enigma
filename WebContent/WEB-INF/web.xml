@@ -9,9 +9,14 @@
     <filter-name>SessionFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  <!-- <session-config>
-    <session-timeout>60</session-timeout>
-  </session-config> -->
+    <filter>
+    <filter-name>ManagerFilter</filter-name>
+    <filter-class>edu.colostate.cs.cs414.enigma.filters.ManagerFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ManagerFilter</filter-name>
+    <url-pattern>/manager/*</url-pattern>
+  </filter-mapping>
   <listener>
     <listener-class>edu.colostate.cs.cs414.enigma.listeners.EntityManagerFactoryListener</listener-class>
   </listener>
