@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<script src="js/jquery-3.2.1.min.js"></script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Login</title>
@@ -25,7 +26,7 @@
 	</table>
 </form>
 
-<!-- <script>
+<script>
 	$("#submit").on('click', function(){
 		$.ajax({
 			url: "Login",
@@ -37,11 +38,11 @@
 				
 			},
 			success: function(result){
-				//window.location.href = "manager.jsp";
+				alert("Logged in")
 			}
 		})
 	})
-</script> -->
+</script>
 
 </body>
 </html>

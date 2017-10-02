@@ -50,9 +50,10 @@ public class Login extends HttpServlet {
 			request.getSession(false).invalidate();
 			HttpSession session = request.getSession(true);
 			session.setAttribute("level", user.getUserLevel().getDescription());
-			
-			PrintWriter out = response.getWriter();
-			out.println("Logged in in as " + userName);
+			response.getWriter().write("{isSuccess: true}");
+		}
+		else{
+			response.getWriter().write("{isSuccess: false}");
 		}
 	}
 
