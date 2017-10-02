@@ -1,7 +1,7 @@
 package edu.colostate.cs.cs414.enigma.users;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
 
 /**
  * Servlet implementation class Login
@@ -45,16 +47,22 @@ public class Login extends HttpServlet {
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
 
+		Map<String, String> values = new HashMap<String, String>();
 		if(User.authenticate(userName, password)) {
 			User user = User.findUser(userName);
 			request.getSession(false).invalidate();
 			HttpSession session = request.getSession(true);
 			session.setAttribute("level", user.getUserLevel().getDescription());
-			response.getWriter().write("{isSuccess: true}");
+			
+			values.put("isLoggedIn", "true");
+			values.put("url", "manager.jsp");
 		}
 		else{
-			response.getWriter().write("{isSuccess: false}");
+			values.put("isLoggedIn", "false");
 		}
+		
+		response.setContentType("application/json");
+		response.getWriter().write(new Gson().toJson(values));
 	}
 
 }
