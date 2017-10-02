@@ -1,0 +1,90 @@
+@charset "ISO-8859-1";
+
+body{
+	margin:0px;
+	font-family: Arial;
+}
+
+#formDiv {
+	margin-top:10%;
+	margin-left: 40%;
+}
+#topHeaderDiv {
+	width:100%;
+	height:40px; 
+	color:white;
+	background:lightskyblue; 
+	text-align:center;
+	line-height: 40px
+}
+
+
+ #logoutLink {
+	float:right;
+	padding-top:10px;
+	padding-right:10px
+}
+
+#topHeader {
+	list-style-type: none;
+	margin:0px;
+}
+
+#weclcomeLi{
+	float:left;
+	padding-top:10px
+}
+
+#menuBar{
+	list-style-type: none;
+	padding-left: 0px;
+
+}
+
+#trainerLi {
+	background:darkgrey;
+}
+
+#menuBarDiv{
+background: gainsboro;	
+width: 40%;
+margin-left:19.8%;
+margin-top:3%;
+}
+
+#menuBarDiv li{
+	padding:15px;
+	display:inline-block; 	
+	
+}
+
+.menuLi{
+	float:left
+}
+
+#addTrainer {
+		margin-left: 300px;
+	
+}
+
+#trainerResults {
+	margin-left:300px;
+	margin-top: 20px;
+	
+}
+
+#trainerResults table {
+	font-size:13px;
+	text-align:center;
+	border:1px solid black;
+}
+
+ #trainerResults th, #trainerResults td {
+	width: 150px;
+	border:1px solid black;
+	
+}
+
+#trainerResults tr {
+	height: 45px;
+}
