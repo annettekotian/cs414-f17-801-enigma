@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="css/gymSystem.css">
+<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 <title>Login</title>
 </head>
 <body>
@@ -25,28 +26,34 @@
 				<td><input id="password" name="password" type="password"/></td>
 			</tr>
 			<tr>
-				<td><input type="submit" /></td>
+				<td><input type="button" onclick="sumbitLoginForm()" value="Login" /></td>
 			</tr>
 		</table>
 	</form>
 </div>
 
 <script>
-	$("#submit").on('click', function(){
-		$.ajax({
-			url: "Login",
-			method: "POST",
-			data: {
-				type: "loginUser",
-				userName: $("#username").val(),
-				password: $("#password").val()
-				
-			},
-			success: function(result){
-				alert("Logged in")
+function sumbitLoginForm() {
+	var userName = $("input#username").val();
+	var password = $("input#password").val();
+	$.ajax({
+		url: "Login",
+		method: "POST",
+		data: {
+			type: "loginUser",
+			userName: userName,
+			password: password	
+		},
+		success: function(data, textStatus, jqXHR) {
+			if(data.isLoggedIn == "true") {
+				window.location.href = data.url;
 			}
-		})
-	})
+			else {
+				alert("error");
+			}
+		}
+	});
+}
 </script>
 
 </body>
