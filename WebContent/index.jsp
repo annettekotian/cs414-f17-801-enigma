@@ -5,26 +5,31 @@
 <script src="js/jquery-3.2.1.min.js"></script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="css/gymSystem.css">
 <title>Login</title>
 </head>
 <body>
 
-<h2>Gym System Login</h2>
-<form method="post" action="Login">
-	<table>
-		<tr>
-			<td><label>User name: </label></td>
-			<td><input id="username" name="userName" type="text"/></td>
-		</tr>
-		<tr>
-			<td><label>Password: </label></td>
-			<td><input id="password" name="password" type="password"/></td>
-		</tr>
-		<tr>
-			<td><input type="submit" /></td>
-		</tr>
-	</table>
-</form>
+<div id="topHeaderDiv" ><span>Welcome to Gym Managment System</span> </div>
+<div id="formDiv">
+
+	<h2>Gym System Login</h2>
+	<form method="post" action="Login">
+		<table>
+			<tr>
+				<td><label>User name: </label></td>
+				<td><input id="username" name="userName" type="text"/></td>
+			</tr>
+			<tr>
+				<td><label>Password: </label></td>
+				<td><input id="password" name="password" type="password"/></td>
+			</tr>
+			<tr>
+				<td><input type="submit" /></td>
+			</tr>
+		</table>
+	</form>
+</div>
 
 <script>
 	$("#submit").on('click', function(){
