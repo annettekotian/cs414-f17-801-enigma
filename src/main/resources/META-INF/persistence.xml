@@ -8,6 +8,11 @@
 		<class>edu.colostate.cs.cs414.enigma.users.User</class>
 		<class>edu.colostate.cs.cs414.enigma.users.UserPK</class>
 		<class>edu.colostate.cs.cs414.enigma.users.UserLevel</class>
+		<class>edu.colostate.cs.cs414.enigma.users.ManagerPK</class>
+		<class>edu.colostate.cs.cs414.enigma.users.HealthInsurance</class>
+		<class>edu.colostate.cs.cs414.enigma.users.PersonalInformation</class>
+		<class>edu.colostate.cs.cs414.enigma.users.PersonalInformationPK</class>
+		<class>edu.colostate.cs.cs414.enigma.users.Manager</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/GymSystem" />
