@@ -1,4 +1,4 @@
-package edu.colostate.cs.cs414.enigma.users;
+package edu.colostate.cs.cs414.engima.controllers;
 
 import java.io.IOException;
 import java.util.*;
@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+
+import edu.colostate.cs.cs414.enigma.users.User;
 
 /**
  * Servlet implementation class Login

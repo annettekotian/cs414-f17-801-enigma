@@ -49,7 +49,7 @@ function sumbitLoginForm() {
 				window.location.href = data.url;
 			}
 			else {
-				alert("error");
+				alert("Incorrect user name and/or password!");
 			}
 		}
 	});
