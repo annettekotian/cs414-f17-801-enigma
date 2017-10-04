@@ -7,6 +7,7 @@ import edu.colostate.cs.cs414.enigma.entity.User;
 /**
  * Data access object for the User entity.
  * @author Ian Ziemba
+ * @see EntityManagerDao
  * @see User
  */
 public class UserDao extends EntityManagerDao<User> {
@@ -28,6 +29,8 @@ public class UserDao extends EntityManagerDao<User> {
 	 * @see User
 	 */
 	public User findUserByUserName(String userName) {
+		
+		// Issue a NamedQuery found in User.class
 		Query query = this.getEntityManager().createNamedQuery("User.findUser");
 		query.setParameter("name", userName);
 		User user;
