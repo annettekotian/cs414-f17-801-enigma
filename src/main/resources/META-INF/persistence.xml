@@ -5,13 +5,11 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
 	<persistence-unit name="GymSystem" transaction-type="RESOURCE_LOCAL">
-		<class>edu.colostate.cs.cs414.enigma.users.User</class>
-		<class>edu.colostate.cs.cs414.enigma.users.UserPK</class>
-		<class>edu.colostate.cs.cs414.enigma.users.UserLevel</class>
-		
-		<class>edu.colostate.cs.cs414.enigma.users.HealthInsurance</class>
-		<class>edu.colostate.cs.cs414.enigma.users.PersonalInformation</class>
-		<class>edu.colostate.cs.cs414.enigma.users.PersonalInformationPK</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.User</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.UserLevel</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.HealthInsurance</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.PersonalInformation</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.PersonalInformationPK</class>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

@@ -12,7 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
-import edu.colostate.cs.cs414.enigma.users.User;
+import edu.colostate.cs.cs414.enigma.dao.UserDao;
+import edu.colostate.cs.cs414.enigma.entity.User;
 
 /**
  * Servlet implementation class Login
@@ -50,8 +51,9 @@ public class Login extends HttpServlet {
 		String password = request.getParameter("password");
 
 		Map<String, String> values = new HashMap<String, String>();
-		if(User.authenticate(userName, password)) {
-			User user = User.findUser(userName);
+		UserDao userDao = new UserDao();
+		if(userDao.authenticateUser(userName, password)) {
+			User user = userDao.findUserByUserName(userName);
 			HttpSession session = request.getSession(true);
 			session.setAttribute("level", user.getUserLevel().getDescription());
 			
