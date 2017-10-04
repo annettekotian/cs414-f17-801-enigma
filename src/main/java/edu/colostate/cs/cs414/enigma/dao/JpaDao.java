@@ -19,4 +19,11 @@ public interface JpaDao<T> {
 	 * @param entity
 	 */
 	void remove(T entity);
+	
+	/**
+	 * Attach a entity to a database.
+	 * @param entity
+	 * @return Entity attached with the database.
+	 */
+	T attach(T entity);
 }

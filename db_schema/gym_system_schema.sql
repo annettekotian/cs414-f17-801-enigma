@@ -23,7 +23,7 @@ USE `GymSystem` ;
 DROP TABLE IF EXISTS `GymSystem`.`user_level` ;
 
 CREATE TABLE IF NOT EXISTS `GymSystem`.`user_level` (
-  `id` INT UNSIGNED NOT NULL,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `description` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),

@@ -25,6 +25,10 @@ public class UserLevel implements Serializable {
 	@Column(name="description", nullable=false, length=255)
 	private String description;
 
+	public UserLevel(String description) {
+		this.description = description;
+	}
+	
 	protected UserLevel() {
 	}
 
