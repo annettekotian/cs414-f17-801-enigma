@@ -1,4 +1,4 @@
-package edu.colostate.cs.cs414.enigma.users;
+package edu.colostate.cs.cs414.enigma.entity;
 
 import java.io.Serializable;
 import java.util.List;
