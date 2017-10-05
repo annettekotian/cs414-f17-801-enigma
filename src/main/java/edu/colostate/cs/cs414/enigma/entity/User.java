@@ -3,9 +3,6 @@ package edu.colostate.cs.cs414.enigma.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import edu.colostate.cs.cs414.enigma.listeners.EntityManagerFactoryListener;
-
-
 /**
  * The persistent class for the user database table.
  * 
@@ -74,22 +71,6 @@ public class User implements Serializable {
 
 	public void setUserLevel(UserLevel userLevel) {
 		this.userLevel = userLevel;
-	}
-	
-	public void commit() throws EntityExistsException, IllegalArgumentException, TransactionRequiredException {
-		EntityManager em = EntityManagerFactoryListener.createEntityManager();
-		em.getTransaction().begin();
-		em.persist(this);
-		em.getTransaction().commit();
-		em.close();
-	}
-	
-	public void update() throws IllegalArgumentException, TransactionRequiredException {
-		EntityManager em = EntityManagerFactoryListener.createEntityManager();
-		em.getTransaction().begin();
-		em.merge(this);
-		em.getTransaction().commit();
-		em.close();
 	}
 	
 	@Override
