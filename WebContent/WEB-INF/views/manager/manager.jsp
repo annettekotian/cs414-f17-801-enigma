@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Enigma</title>
-<link rel="stylesheet" type="text/css" href="css/gymSystem.css">
+<link rel="stylesheet" type="text/css" href="../css/gymSystem.css">
 </head>
 <body>
 <div style="width:100%; height:40px; color:white;background:lightskyblue; text-align:center">
