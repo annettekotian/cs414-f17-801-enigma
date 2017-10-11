@@ -1,8 +1,7 @@
 package edu.colostate.cs.cs414.enigma.dao;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
-import javax.persistence.TransactionRequiredException;
+import javax.persistence.PersistenceException;
 
 import edu.colostate.cs.cs414.enigma.listeners.EntityManagerFactoryListener;
 
@@ -28,7 +27,7 @@ public abstract class EntityManagerDao<T> implements JpaDao<T> {
 	/**
 	 * Commit all transactions to the database and close the entity manager.
 	 */
-	public void close() {
+	public void close() throws IllegalStateException {
 		this.em.getTransaction().commit();
 		this.em.close();
 	}
@@ -42,25 +41,37 @@ public abstract class EntityManagerDao<T> implements JpaDao<T> {
 	}
 
 	/**
-	 * Persist an entity with the entity manager. Note that the entity will not be written to the
+	 * Persist an entity with the entity manager. In the case where the entity cannot be persisted
+	 * (a PersistenceException occurs), the current transaction with the entity manager will be
+	 * rolled back, and a new transaction started. Note that the entity will not be written to the
 	 * database until close() or commit() is called.
 	 * @param entity
 	 */
 	@Override
-	public void persist(T entity) throws EntityExistsException, IllegalArgumentException, TransactionRequiredException {
-		this.em.persist(entity);
-		this.em.flush();
+	public void persist(T entity) throws PersistenceException {
+		try {
+			this.em.persist(entity);
+			this.em.flush();	
+		} catch(PersistenceException e) {
+			this.em.getTransaction().rollback();
+			this.em.getTransaction().begin();
+			throw e;
+		}
 	}
 
 	/**
-	 * Remove an entity from the database. If entity is not attached to the underlying entity,
-	 * manager an IllegalArgumentException with be thrown. Note that the entity will not be
-	 * removed from the database until close() or commit() is called.
+	 * Remove an entity from the database. If entity is not attached, the entity will be attached
+	 * before removed. Note that the entity will not be removed from the database until close()
+	 * or commit() is called.
 	 * @param entity
 	 */
 	@Override
-	public void remove(T entity) throws IllegalArgumentException, TransactionRequiredException {
-		this.em.remove(entity);
+	public void remove(T entity) {
+		T removeEntity = entity;
+		if(!this.em.contains(entity)) {
+			removeEntity = this.attach(entity);
+		}
+		this.em.remove(removeEntity);
 	}
 	
 	/**
@@ -68,7 +79,7 @@ public abstract class EntityManagerDao<T> implements JpaDao<T> {
 	 * @param entity
 	 */
 	@Override
-	public T attach(T entity) throws IllegalArgumentException, TransactionRequiredException {
+	public T attach(T entity) {
 		return this.em.merge(entity);
 	}
 	
