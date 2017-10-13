@@ -6,6 +6,7 @@
              version="2.1">
 	<persistence-unit name="GymSystem" transaction-type="RESOURCE_LOCAL">
 		<class>edu.colostate.cs.cs414.enigma.entity.User</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.Trainer</class>
 		<class>edu.colostate.cs.cs414.enigma.entity.UserLevel</class>
 		<class>edu.colostate.cs.cs414.enigma.entity.HealthInsurance</class>
 		<class>edu.colostate.cs.cs414.enigma.entity.PersonalInformation</class>
