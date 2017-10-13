@@ -20,8 +20,10 @@ import edu.colostate.cs.cs414.enigma.listeners.EntityManagerFactoryListener;
 public class PersonalInformation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private PersonalInformationPK id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
+	private int id;
 
 	@Column(nullable=false, length=255)
 	private String email;
@@ -43,11 +45,11 @@ public class PersonalInformation implements Serializable {
 	public PersonalInformation() {
 	}
 
-	public PersonalInformationPK getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(PersonalInformationPK id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

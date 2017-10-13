@@ -10,13 +10,13 @@
 		<class>edu.colostate.cs.cs414.enigma.entity.UserLevel</class>
 		<class>edu.colostate.cs.cs414.enigma.entity.HealthInsurance</class>
 		<class>edu.colostate.cs.cs414.enigma.entity.PersonalInformation</class>
-		<class>edu.colostate.cs.cs414.enigma.entity.PersonalInformationPK</class>
+		
 		
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/GymSystem" />
 			<property name="javax.persistence.jdbc.user" value="root" />
-            <property name="javax.persistence.jdbc.password" value="password" />
+			<property name="javax.persistence.jdbc.password" value="pass123"/>
 		</properties>
 	</persistence-unit>
 </persistence>
