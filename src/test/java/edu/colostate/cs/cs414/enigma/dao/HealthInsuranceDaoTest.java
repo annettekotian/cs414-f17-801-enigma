@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
-import edu.colostate.cs.cs414.enigma.listeners.EntityManagerFactoryListener;
+import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 public class HealthInsuranceDaoTest {
 	

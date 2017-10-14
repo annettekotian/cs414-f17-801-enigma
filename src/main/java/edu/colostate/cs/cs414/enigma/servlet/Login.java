@@ -1,4 +1,4 @@
-package edu.colostate.cs.cs414.enigma.controllers;
+package edu.colostate.cs.cs414.enigma.servlet;
 
 import java.io.IOException;
 import java.util.*;

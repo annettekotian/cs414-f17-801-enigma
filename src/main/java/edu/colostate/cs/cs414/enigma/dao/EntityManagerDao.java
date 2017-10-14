@@ -3,7 +3,7 @@ package edu.colostate.cs.cs414.enigma.dao;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
-import edu.colostate.cs.cs414.enigma.listeners.EntityManagerFactoryListener;
+import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 /**
  * Data access object for an entity class manager by a JPA entity manager.

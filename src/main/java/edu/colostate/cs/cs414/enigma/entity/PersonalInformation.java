@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import edu.colostate.cs.cs414.enigma.listeners.EntityManagerFactoryListener;
+import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 
 /**

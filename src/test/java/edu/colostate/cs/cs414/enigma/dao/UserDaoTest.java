@@ -17,7 +17,7 @@ import edu.colostate.cs.cs414.enigma.dao.UserDao;
 import edu.colostate.cs.cs414.enigma.dao.UserLevelDao;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
-import edu.colostate.cs.cs414.enigma.listeners.EntityManagerFactoryListener;
+import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 public class UserDaoTest {
 	
@@ -81,8 +81,15 @@ public class UserDaoTest {
 	}
 	
 	@Test
-	public void verifyAdminAccount( ) {
+	public void verifyAdminAccount() {
 		User admin = userDao.findUserByUserName("admin");
 		assertNotNull("Admin account does not exist", admin);
+	}
+	
+	@Test(expected = PersistenceException.class)
+	public void addDuplicateUser() {
+		User admin = new User("admin", "password", userLevel);
+		userDao.persist(admin);
+		userDao.commit();
 	}
 }

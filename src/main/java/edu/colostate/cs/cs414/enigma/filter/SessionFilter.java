@@ -1,4 +1,4 @@
-package edu.colostate.cs.cs414.enigma.filters;
+package edu.colostate.cs.cs414.enigma.filter;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ManagerFilter implements Filter {
+public class SessionFilter implements Filter {
 
 	@Override
 	public void destroy() {
@@ -24,20 +24,13 @@ public class ManagerFilter implements Filter {
 		if(req instanceof HttpServletRequest) {
 			HttpServletRequest request = (HttpServletRequest) req;
 			HttpServletResponse response = (HttpServletResponse) res;
-
-			String level = (String) request.getSession(false).getAttribute("level");
-			if(level == null) {
+			if(request.getSession(false) == null) {
+				String url = request.getRequestURL().toString();
+				String uri = request.getRequestURI();
 				if(!request.getRequestURI().contains("index")) {
 					response.sendRedirect(request.getContextPath() + "/index.jsp");
 					return;
-				}	
-			}
-			
-			if(!(level.equals("MANAGER") || level.equals("ADMIN"))) {
-				if(!request.getRequestURI().contains("index")) {
-					response.sendRedirect(request.getContextPath() + "/index.jsp");
-					return;
-				}	
+				}
 			}
 		}
 		chain.doFilter(req, res);

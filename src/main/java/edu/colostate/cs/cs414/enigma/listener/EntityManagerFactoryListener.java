@@ -1,4 +1,4 @@
-package edu.colostate.cs.cs414.enigma.listeners;
+package edu.colostate.cs.cs414.enigma.listener;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
