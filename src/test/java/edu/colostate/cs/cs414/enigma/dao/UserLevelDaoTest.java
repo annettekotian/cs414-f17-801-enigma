@@ -95,16 +95,6 @@ public class UserLevelDaoTest {
 		assertNotNull("Failed to retrieve default admin user level", userLevelDao.findUserLevelByDescription("CUSTOMER"));
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
-	public void removeNonAttachedUserLevel() {
-		UserLevel newUserLevel = new UserLevel("SUPERUSER");
-		userLevelDao.persist(newUserLevel);
-		addedUserLevels.add(newUserLevel);
-		
-		UserLevelDao newUserLevelDao = new UserLevelDao();
-		newUserLevelDao.remove(newUserLevel);
-	}
-	
 	@Test
 	public void modifyUserLevel() {
 		
