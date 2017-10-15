@@ -19,10 +19,10 @@ public class UserLevel implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id", unique=true, nullable=false)
+	@Column(name="id", unique=true, nullable=false, updatable=false)
 	private int id;
 
-	@Column(name="description", nullable=false, length=255)
+	@Column(name="description", unique=true, nullable=false, updatable=false, length=255)
 	private String description;
 
 	public UserLevel(String description) {

@@ -18,18 +18,18 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id", unique=true, nullable=false)
+	@Column(name="id", unique=true, nullable=false, updatable=false)
 	private int id;
 
-	@Column(name="password", nullable=false, length=32)
+	@Column(name="password", nullable=false, updatable=true, length=32)
 	private String password;
 
-	@Column(name="username", nullable=false, length=16)
+	@Column(name="username", unique=true, nullable=false, updatable=true, length=16)
 	private String username;
 
 	//uni-directional many-to-one association to UserLevel
 	@ManyToOne
-	@JoinColumn(name="user_level_id")
+	@JoinColumn(name="user_level_id", nullable=false, updatable=true)
 	private UserLevel userLevel;
 
 	public User(String username, String password, UserLevel userLevel) {

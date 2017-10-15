@@ -22,31 +22,40 @@ public class PersonalInformation implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(name="id", unique=true, nullable=false, updatable=false)
 	private int id;
 
-	@Column(nullable=false, length=255)
+	@Column(name="email", nullable=false, updatable=true, length=255)
 	private String email;
 
-	@Column(name="first_name", nullable=false, length=45)
+	@Column(name="first_name", nullable=false, updatable=true, length=45)
 	private String firstName;
 
-	@Column(name="last_name", nullable=false, length=45)
+	@Column(name="last_name", nullable=false, updatable=true, length=45)
 	private String lastName;
 
-	@Column(name="phone_number", nullable=false, length=45)
+	@Column(name="phone_number", nullable=false, updatable=true, length=45)
 	private String phoneNumber;
 
 	//uni-directional many-to-one association to HealthInsurance
-	@ManyToOne
-	@JoinColumn(name="health_insurance_id", nullable=false, insertable=false, updatable=false)
+	@ManyToOne(cascade=CascadeType.PERSIST)
+	@JoinColumn(name="health_insurance_id", nullable=false, insertable=true, updatable=true)
 	private HealthInsurance healthInsurance;
 
-	public PersonalInformation() {
+	protected PersonalInformation() {
+	}
+
+	public PersonalInformation(String email, String firstName, String lastName, String phoneNumber,
+			HealthInsurance healthInsurance) {
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phoneNumber = phoneNumber;
+		this.healthInsurance = healthInsurance;
 	}
 
 	public int getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(int id) {
@@ -54,7 +63,7 @@ public class PersonalInformation implements Serializable {
 	}
 
 	public String getEmail() {
-		return this.email;
+		return email;
 	}
 
 	public void setEmail(String email) {
@@ -62,7 +71,7 @@ public class PersonalInformation implements Serializable {
 	}
 
 	public String getFirstName() {
-		return this.firstName;
+		return firstName;
 	}
 
 	public void setFirstName(String firstName) {
@@ -70,7 +79,7 @@ public class PersonalInformation implements Serializable {
 	}
 
 	public String getLastName() {
-		return this.lastName;
+		return lastName;
 	}
 
 	public void setLastName(String lastName) {
@@ -78,43 +87,76 @@ public class PersonalInformation implements Serializable {
 	}
 
 	public String getPhoneNumber() {
-		return this.phoneNumber;
+		return phoneNumber;
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public HealthInsurance getHealthInsurance() {
-		return this.healthInsurance;
+	public final HealthInsurance getHealthInsurance() {
+		return healthInsurance;
 	}
 
 	public void setHealthInsurance(HealthInsurance healthInsurance) {
 		this.healthInsurance = healthInsurance;
 	}
 
-	public static void commitPersonalInformation(PersonalInformation info) throws IllegalArgumentException {
-		EntityManager em = EntityManagerFactoryListener.createEntityManager();
-		em.getTransaction().begin();
-		em.persist(info);
-		em.getTransaction().commit();
-		em.close();
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((healthInsurance == null) ? 0 : healthInsurance.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
+		return result;
 	}
-	
-	public static void removePersonalInformation(PersonalInformation info) {
-		EntityManager em = EntityManagerFactoryListener.createEntityManager();
-		PersonalInformation infoUser = em.find(PersonalInformation.class, info.getId());
-		em.getTransaction().begin();
-		em.remove(infoUser);
-		em.getTransaction().commit();
-		em.close();
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PersonalInformation other = (PersonalInformation) obj;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (healthInsurance == null) {
+			if (other.healthInsurance != null)
+				return false;
+		} else if (!healthInsurance.equals(other.healthInsurance))
+			return false;
+		if (id != other.id)
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		if (phoneNumber == null) {
+			if (other.phoneNumber != null)
+				return false;
+		} else if (!phoneNumber.equals(other.phoneNumber))
+			return false;
+		return true;
 	}
-	
-	public static List<PersonalInformation> getAllPersonalInformation() {
-		EntityManager em = EntityManagerFactoryListener.createEntityManager();
-		Query query = em.createNamedQuery("PersonalInformation.findAll");
-		List<PersonalInformation> info = (List<PersonalInformation>) query.getResultList();
-		em.close();
-		return info;
+
+	@Override
+	public String toString() {
+		return "PersonalInformation [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", phoneNumber=" + phoneNumber + ", healthInsurance=" + healthInsurance + "]";
 	}
 }
