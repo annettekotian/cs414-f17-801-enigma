@@ -7,6 +7,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+/**
+ * The persistent class for the manager database table.
+ */
 @Entity
 @Table(name="manager")
 @NamedQueries({

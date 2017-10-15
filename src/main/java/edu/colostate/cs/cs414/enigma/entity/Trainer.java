@@ -1,19 +1,14 @@
 package edu.colostate.cs.cs414.enigma.entity;
 
-import javax.persistence.Column;
+import java.io.Serializable;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
  * The persistent class for the trainer database table.
- * 
  */
 @Entity
 @Table(name="trainer")
@@ -21,51 +16,16 @@ import javax.persistence.Table;
 	@NamedQuery(name="Trainer.findAll", query="SELECT t FROM Trainer t"),
 	
 })
+public class Trainer extends GymSystemUser implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-public class Trainer {
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id", unique=true, nullable=false)
-	private int id;
-	
-	
-	/*@Column(name="personal_information_id", nullable=false)
-	private int personal_information_id;
-	
-	
-	@Column(name="user_id", nullable=false)
-	private int user_id;*/
-	
-	@OneToOne
-	@JoinColumn(name="personal_information_id")
-	private PersonalInformation personalInformation;
-	
-	@OneToOne
-	@JoinColumn (name="user_id")
-	private User user;
-
-	public Trainer(PersonalInformation personalInformation) {
-		
-		this.personalInformation = personalInformation;
-	}
-	
-	
-	public Trainer() {
+	protected Trainer() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
-
-	public PersonalInformation getPersonalInformation() {
-		return personalInformation;
+	public Trainer(PersonalInformation personalInformation, User user) {
+		super(personalInformation, user);
+		// TODO Auto-generated constructor stub
 	}
-
-
-	public void setPersonalInformation(PersonalInformation personalInformation) {
-		this.personalInformation = personalInformation;
-	}
-	
-	
-	
-	
 }
