@@ -3,7 +3,7 @@
   <display-name>cs414-f17-801-enigma</display-name>
   <filter>
     <filter-name>SessionFilter</filter-name>
-    <filter-class>edu.colostate.cs.cs414.enigma.filters.SessionFilter</filter-class>
+    <filter-class>edu.colostate.cs.cs414.enigma.filter.SessionFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>SessionFilter</filter-name>
@@ -11,13 +11,13 @@
   </filter-mapping>
     <filter>
     <filter-name>ManagerFilter</filter-name>
-    <filter-class>edu.colostate.cs.cs414.enigma.filters.ManagerFilter</filter-class>
+    <filter-class>edu.colostate.cs.cs414.enigma.filter.ManagerFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>ManagerFilter</filter-name>
     <url-pattern>/manager/*</url-pattern>
   </filter-mapping>
   <listener>
-    <listener-class>edu.colostate.cs.cs414.enigma.listeners.EntityManagerFactoryListener</listener-class>
+    <listener-class>edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener</listener-class>
   </listener>
 </web-app>
