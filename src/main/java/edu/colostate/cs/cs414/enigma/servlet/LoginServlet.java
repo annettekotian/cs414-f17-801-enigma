@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 import edu.colostate.cs.cs414.enigma.dao.UserDao;
 import edu.colostate.cs.cs414.enigma.entity.User;
+import edu.colostate.cs.cs414.enigma.handler.LoginHandler;
 
 /**
  * Servlet implementation class Login
@@ -24,13 +25,13 @@ import edu.colostate.cs.cs414.enigma.entity.User;
 				"/Login", 
 				"/login"
 		})
-public class Login extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Login() {
+    public LoginServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -46,27 +47,33 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
+		// Get username and password from the AJAX post
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
 
+		// Build a hashmap used to return information to 
 		Map<String, String> values = new HashMap<String, String>();
-		UserDao userDao = new UserDao();
-		if(userDao.authenticateUser(userName, password)) {
-			User user = userDao.findUserByUserName(userName);
+		
+		LoginHandler loginHandler = new LoginHandler();
+		
+		if(loginHandler.authenticate(userName, password)) {
 			HttpSession session = request.getSession(true);
-			String level = user.getUserLevel().getDescription();
+			String level = loginHandler.getUserLevel(userName);
 			session.setAttribute("level", level);
+			session.setAttribute("userid", loginHandler.getUserId(userName));
 			
-			values.put("isLoggedIn", "true");
-			values.put("level", level);
+			values.put("rc", "0");
 			if(level.equals("ADMIN") || level.equals("MANAGER")) {
 				values.put("url", "manager/ui");
 			}
 		}
 		else{
-			values.put("isLoggedIn", "false");
+			values.put("rc", "1");
+			values.put("msg", "Invalid Username/Password");
 		}
+		
+		loginHandler.close();
 		
 		response.setContentType("application/json");
 		response.getWriter().write(new Gson().toJson(values));

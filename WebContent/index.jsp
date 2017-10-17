@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<div id="topHeaderDiv" ><span>Welcome to Gym Managment System</span> </div>
+<div id="topHeaderDiv" ><span>Welcome to Gym Management System</span> </div>
 <div id="formDiv">
 
 	<h2>Gym System Login</h2>
@@ -45,15 +45,24 @@ function sumbitLoginForm() {
 			password: password	
 		},
 		success: function(data, textStatus, jqXHR) {
-			if(data.isLoggedIn == "true") {
+			if(data.rc == 0) {
 				window.location.href = data.url + "?level=" + data.level;
 			}
 			else {
-				alert("Incorrect user name and/or password!");
+				$("input#username").val("");
+				$("input#password").val("");
+				$("input#username").focus();
+				alert(data.msg);
 			}
 		}
 	});
 }
+
+$(document).keypress(function(e) {
+	if(e.which == 13) {
+		sumbitLoginForm()
+	}
+});
 </script>
 
 </body>
