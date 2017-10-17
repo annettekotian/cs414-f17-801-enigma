@@ -18,7 +18,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="membership")
 @NamedQueries({
-	@NamedQuery(name="Membership.findAll", query="SELECT m FROM Membership m")
+	@NamedQuery(name="Membership.findAll", query="SELECT m FROM Membership m"),
+	@NamedQuery(name="Membership.findType", query="SELECT m FROM Membership m WHERE m.type = :type")
 })
 public class Membership implements Serializable {
 	private static final long serialVersionUID = 1L;

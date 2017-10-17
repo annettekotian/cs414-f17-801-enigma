@@ -7,6 +7,7 @@ import javax.persistence.Query;
 
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
 import edu.colostate.cs.cs414.enigma.entity.Membership;
+import edu.colostate.cs.cs414.enigma.entity.User;
 
 /**
  * Data access object for the Membership entity.
@@ -45,5 +46,25 @@ public class MembershipDao extends EntityManagerDao<Membership> {
 			memberships.add((Membership) results.get(i));
 		}
 		return memberships;
+	}
+	
+	/**
+	 * Get a membership type by a unique name from the GymSystem database membership table.
+	 * @param type The type of membership object.
+	 * @return Membership object on success, else null.
+	 * @see Membership
+	 */
+	public Membership findMembershipByType(String type) {
+		
+		// Issue a NamedQuery found in Membership.class
+		Query query = this.getEntityManager().createNamedQuery("Membership.findType");
+		query.setParameter("type", type);
+		Membership membership;
+		try {
+			membership = (Membership) query.getSingleResult();
+		} catch(javax.persistence.NoResultException e) {
+			membership = null;
+		}
+		return membership;
 	}
 }
