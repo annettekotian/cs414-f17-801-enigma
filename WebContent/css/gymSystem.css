@@ -41,9 +41,7 @@ body{
 
 }
 
-#trainerLi {
-	background:darkgrey;
-}
+
 
 #menuBarDiv{
 background: gainsboro;	
@@ -59,10 +57,11 @@ margin-top:3%;
 }
 
 .menuLi{
-	float:left
+	float:left;
+	color:black;
 }
 
-#addTrainer {
+#addTrainer, #addManager {
 		margin-left: 300px;
 	
 }
@@ -70,6 +69,7 @@ margin-top:3%;
 #trainerResults {
 	margin-left:300px;
 	margin-top: 20px;
+	display:none;
 	
 }
 
@@ -86,5 +86,28 @@ margin-top:3%;
 }
 
 #trainerResults tr {
+	height: 45px;
+}
+
+#managerResults {
+	margin-left:300px;
+	margin-top: 20px;
+	display:none;
+	
+}
+
+#managerResults table {
+	font-size:13px;
+	text-align:center;
+	border:1px solid black;
+}
+
+ #managerResults th, #managerResults td {
+	width: 150px;
+	border:1px solid black;
+	
+}
+
+#managerResults tr {
 	height: 45px;
 }

@@ -55,10 +55,14 @@ public class Login extends HttpServlet {
 		if(userDao.authenticateUser(userName, password)) {
 			User user = userDao.findUserByUserName(userName);
 			HttpSession session = request.getSession(true);
-			session.setAttribute("level", user.getUserLevel().getDescription());
+			String level = user.getUserLevel().getDescription();
+			session.setAttribute("level", level);
 			
 			values.put("isLoggedIn", "true");
-			values.put("url", "manager/ui");
+			values.put("level", level);
+			if(level.equals("ADMIN") || level.equals("MANAGER")) {
+				values.put("url", "manager/ui");
+			}
 		}
 		else{
 			values.put("isLoggedIn", "false");

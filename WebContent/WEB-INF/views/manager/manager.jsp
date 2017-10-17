@@ -6,6 +6,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Enigma</title>
 <link rel="stylesheet" type="text/css" href="../css/gymSystem.css">
+<script src="../js/jquery-3.2.1.min.js"></script>
+
 </head>
 <body>
 <div style="width:100%; height:40px; color:white;background:lightskyblue; text-align:center">
@@ -17,13 +19,62 @@
 </div>
 	<div id="menuBarDiv">
 	<ul id="menuBar">
+		<li id="managerLi" class="menuLi">Managers</li>
 		<li id="trainerLi" class="menuLi">Trainers</li>
-		<li class="menuLi">Customers</li>
-		<li class="">Inventory</li>
+		<li id="customersLi">Customers</li>
+		<li id="inventoryLi">Inventory</li>
 	</ul>
 	</div>
 	
+	<button id="addManager">Add Manager</button>
 	<button id="addTrainer">Add Trainer</button>
+	<div id="managerResults">
+		<table>
+			<tr>
+				<th>
+					
+				</th>
+				<th>
+					Name
+				</th>
+				<th>
+					Address
+				</th>
+				<th>
+					Qualifications
+				</th>
+				<th>
+					Health Insurance Provider
+				</th>
+				
+			</tr>
+			<tr>
+				<td><a href="">Edit</a></td>
+				<td>Manager 1</td>
+				<td>Street 1, Fort Collins, CO-80521</td>
+				<td>Qualification 1</td>
+				<td>Insurance 1</td>
+				
+			</tr>
+			<tr>
+				<td><a href="">Edit</a></td>
+				<td>Manager 2</td>
+				<td>Street 1, Fort Collins, CO-80521</td>
+				<td>Qualification 1</td>
+				<td>Insurance 2</td>
+				
+			</tr>
+			<tr>
+				<td><a href="">Edit</a></td>
+				<td>Manager 3</td>
+				<td>Street 1, Fort Collins, CO-80521</td>
+				<td>Qualification 1</td>
+				<td>Insurance 3</td>
+				
+			</tr>
+		</table>
+	</div>
+	
 	<div id="trainerResults">
 		<table>
 			<tr>
@@ -46,7 +97,7 @@
 			</tr>
 			<tr>
 				<td><a href="">Edit</a></td>
-				<td>Trainer 1</td>
+				<td>Manager 1</td>
 				<td>Street 1, Fort Collins, CO-80521</td>
 				<td>Qualification 1</td>
 				<td>Insurance 1</td>
@@ -54,7 +105,7 @@
 			</tr>
 			<tr>
 				<td><a href="">Edit</a></td>
-				<td>Trainer 2</td>
+				<td>Manager 2</td>
 				<td>Street 1, Fort Collins, CO-80521</td>
 				<td>Qualification 1</td>
 				<td>Insurance 2</td>
@@ -62,7 +113,7 @@
 			</tr>
 			<tr>
 				<td><a href="">Edit</a></td>
-				<td>Trainer 3</td>
+				<td>Manager 3</td>
 				<td>Street 1, Fort Collins, CO-80521</td>
 				<td>Qualification 1</td>
 				<td>Insurance 3</td>
@@ -71,10 +122,21 @@
 		</table>
 	</div>
 
+
+<script src="../js/manager.js"></script>
 <script type="text/javascript">
-$(".customerDiv").on("click", function(){
+var level = "<%=request.getAttribute("level")%>"
+
+	switch(level) {
+	case "ADMIN": 
+		showAdminUI();
+		break;
+	case "MANAGER":
+			
+		showManagerUI();
+	}
 	
-})
+
 </script>
 </body>
 </html>

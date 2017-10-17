@@ -46,7 +46,7 @@ function sumbitLoginForm() {
 		},
 		success: function(data, textStatus, jqXHR) {
 			if(data.isLoggedIn == "true") {
-				window.location.href = data.url;
+				window.location.href = data.url + "?level=" + data.level;
 			}
 			else {
 				alert("Incorrect user name and/or password!");
