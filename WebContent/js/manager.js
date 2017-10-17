@@ -27,3 +27,26 @@ $("#trainerLi, #managerLi, #customersLi, #inventoryLi ").on("click", function(){
 	$("#trainerLi, #managerLi, #customersLi, #inventoryLi").css("background", "none");
 	$(this).css("background", "darkgrey");
 })
+
+$("#trainerLi").on("click", function(){
+	showTrainerData();
+});
+
+$("#managerLi").on("click", function(){
+	showManagerData();
+})
+
+function showTrainerData() {
+	$("#addManager").hide();
+	$("#managerResults").hide();
+	$("#addTrainer").show();
+	$("#trainerResults").show();
+}
+
+function showManagerData() {
+	$("#addTrainer").hide();
+	$("#trainerResults").hide();
+	$("#addManager").show();
+	$("#managerResults").show();
+	
+}

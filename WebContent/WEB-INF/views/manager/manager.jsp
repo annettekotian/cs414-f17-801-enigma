@@ -97,7 +97,7 @@
 			</tr>
 			<tr>
 				<td><a href="">Edit</a></td>
-				<td>Manager 1</td>
+				<td>Trainer 1</td>
 				<td>Street 1, Fort Collins, CO-80521</td>
 				<td>Qualification 1</td>
 				<td>Insurance 1</td>
@@ -105,7 +105,7 @@
 			</tr>
 			<tr>
 				<td><a href="">Edit</a></td>
-				<td>Manager 2</td>
+				<td>Trainer 2</td>
 				<td>Street 1, Fort Collins, CO-80521</td>
 				<td>Qualification 1</td>
 				<td>Insurance 2</td>
@@ -113,7 +113,7 @@
 			</tr>
 			<tr>
 				<td><a href="">Edit</a></td>
-				<td>Manager 3</td>
+				<td>Trainer 3</td>
 				<td>Street 1, Fort Collins, CO-80521</td>
 				<td>Qualification 1</td>
 				<td>Insurance 3</td>
