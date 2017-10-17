@@ -84,6 +84,7 @@ public class PersonalInformationDaoTest {
 		personalInformationDao.commit();
 		assertEquals("Unable to update health insurance", personalInformationDao.findPersonalInformationById(personalInformation.getId()).getHealthInsurance(), personalInformation.getHealthInsurance());
 	
+		addedPersonalInformation.add(personalInformation);
 		addedHealthInsurance.add(healthInsurance);
 		addedHealthInsurance.add(newHealthInsurance);
 	}
