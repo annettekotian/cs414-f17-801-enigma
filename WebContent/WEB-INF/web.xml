@@ -9,13 +9,21 @@
     <filter-name>SessionFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-    <filter>
+  <filter>
     <filter-name>ManagerFilter</filter-name>
     <filter-class>edu.colostate.cs.cs414.enigma.filter.ManagerFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>ManagerFilter</filter-name>
     <url-pattern>/manager/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>TrainerFilter</filter-name>
+    <filter-class>edu.colostate.cs.cs414.enigma.filter.TrainerFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>TrainerFilter</filter-name>
+    <url-pattern>/trainer/*</url-pattern>
   </filter-mapping>
   <listener>
     <listener-class>edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener</listener-class>
