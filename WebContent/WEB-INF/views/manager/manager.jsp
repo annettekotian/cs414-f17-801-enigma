@@ -6,7 +6,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Enigma</title>
 <link rel="stylesheet" type="text/css" href="../css/gymSystem.css">
+<link rel="stylesheet" type="text/css" href="../css/jquery.modal.min.css">
 <script src="../js/jquery-3.2.1.min.js"></script>
+<script src="../js/jquery.modal.min.js"></script>
+
 
 </head>
 <body>
@@ -26,10 +29,10 @@
 	</ul>
 	</div>
 	
-	<button id="addManager">Add Manager</button>
-	<button id="addTrainer">Add Trainer</button>
-	<button id="addCustomer">Add Customer</button>
-	<button id="addMachine">Add Equipment</button>
+	<button id="addManager" class="addButtons"><a href="#addManagerModal" rel="modal:open">Add Manager</a></button>
+	<button id="addTrainer" class="addButtons">Add Trainer</button>
+	<button id="addCustomer" class="addButtons">Add Customer</button>
+	<button id="addMachine" class="addButtons">Add Equipment</button>
 	<div id="managerResults">
 		<table>
 			<tr>
@@ -124,7 +127,6 @@
 		</table>
 	</div>
 
-
 	<div id="customerResults">
 		<table>
 			<tr>
@@ -218,6 +220,60 @@
 	</div>
 
 
+	<div id="addManagerModal" class="modal">
+		<h3>Add a Manager</h3>
+		<div id="inputFormDiv">
+			<div id="managerFirstNameDiv" class="managerInputDiv">
+				<label>First Name</label> <br/>
+				<input class="managerInput" type="text" placeholder=" Enter first name"/> 
+			</div>
+			
+			<div id="managerLastNameDiv" class="managerInputDiv">
+				<label>Last Name</label><br/>
+				<input class="managerInput" type="text" placeholder=" Enter last name"/> <br/>
+			</div>
+			<div id="managerEmailDiv" class="managerInputDiv">
+				<label>Email id</label><br/>
+				<input class="managerInput" type="text" placeholder=" Enter email id"/> <br/>
+			</div>
+			<div id="managerPhoneDiv" class="managerInputDiv">
+				<label>Phone no. </label><br/>
+				<input class="managerInput" type="number" placeholder=" Enter phone no"/>
+			</div>
+			<div id="managerStreetDiv" class="managerInputDiv">
+				<label>Street</label><br/>
+				<input class="managerInput" type="text" placeholder=" Enter street name, apt no. "/> <br/>
+			</div>
+			<div id="managerCityDiv" class="managerInputDiv">
+				<label>City</label><br/>
+				<input class="managerInput" type="number" placeholder=" Enter city"/>
+			</div>
+			<div id="managerStateDiv" class="managerInputDiv">
+				<label>State</label><br/>
+				<input class="managerInput" type="text" placeholder=" Enter state "/> <br/>
+			</div>
+			<div id="managerZipDiv" class="managerInputDiv">
+				<label>Zip code</label><br/>
+				<input class="managerInput" type="number" placeholder=" Enter zip"/>
+			</div>
+			<div id="managerUserNameDiv" class="managerInputDiv">
+				<label>User name</label><br/>
+				<input class="managerInput" type="text" placeholder=" Enter user name "/> <br/>
+			</div>
+			<div id="managerPasswordDiv" class="managerInputDiv">
+				<label>Password</label><br/>
+				<input class="managerInput" type="text" placeholder=" Enter password"/>
+			</div>
+			<button id="createManagerButton"><a href="#" rel="modal:close"> Create</a></button>
+		</div>
+	
+	
+	
+	
+	
+	</div>
+
+</body>
 <script src="../js/manager.js"></script>
 <script type="text/javascript">
 var level = "<%=request.getAttribute("level")%>"
@@ -234,5 +290,4 @@ var level = "<%=request.getAttribute("level")%>"
 	
 
 </script>
-</body>
 </html>

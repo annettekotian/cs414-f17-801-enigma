@@ -87,3 +87,8 @@ function showInventoryData() {
 }
 
 
+/**
+ get all manager data when add manager modal is closed
+ * 
+ */
+

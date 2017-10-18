@@ -61,11 +61,19 @@ margin-top:3%;
 	color:black;
 }
 
-#addTrainer, #addManager, #addCustomer, #addMachine {
+.addButtons {
 		margin-left: 300px;
+		display:none;
 	
 }
 
+.addButtons a{
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+}
+
+/*********************** all results tables *********************/
 #trainerResults {
 	margin-left:300px;
 	margin-top: 20px;
@@ -158,3 +166,28 @@ margin-top:3%;
 	height: 45px;
 }
 
+
+/**************add manager modal ****/
+#managerFirstNameDiv, #managerEmailDiv, #managerStreetDiv, #managerStateDiv, #managerUserNameDiv {
+	float:left;
+	
+}
+
+.managerInputDiv {
+	padding: 10px;
+}
+
+.managerInput {
+	width: 198px;
+}
+
+.modal a {
+	text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+}
+
+#createManagerButton {
+	margin: 10px;
+	
+}
