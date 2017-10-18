@@ -28,6 +28,8 @@
 	
 	<button id="addManager">Add Manager</button>
 	<button id="addTrainer">Add Trainer</button>
+	<button id="addCustomer">Add Customer</button>
+	<button id="addMachine">Add Equipment</button>
 	<div id="managerResults">
 		<table>
 			<tr>
@@ -123,9 +125,103 @@
 	</div>
 
 
+	<div id="customerResults">
+		<table>
+			<tr>
+				<th>
+					
+				</th>
+				<th>
+					Name
+				</th>
+				<th>
+					Address
+				</th>
+				<th>
+					Email
+				</th>
+				<th>
+					Health Insurance Provider
+				</th>
+				
+			</tr>
+			<tr>
+				<td><a href="">Edit</a></td>
+				<td>Customer 1</td>
+				<td>Street 1, Fort Collins, CO-80521</td>
+				<td>customer1@email.com</td>
+				<td>Insurance 1</td>
+				
+			</tr>
+			<tr>
+				<td><a href="">Edit</a></td>
+				<td>Customer 2</td>
+				<td>Street 1, Fort Collins, CO-80521</td>
+				<td>customer1@email.com</</td>
+				<td>Insurance 2</td>
+				
+			</tr>
+			<tr>
+				<td><a href="">Edit</a></td>
+				<td>Customer 3</td>
+				<td>Street 1, Fort Collins, CO-80521</td>
+				<td>customer1@email.com</</td>
+				<td>Insurance 3</td>
+				
+			</tr>
+		</table>
+	</div>
+
+	<div id="inventoryResults">
+		<table>
+			<tr>
+				<th>
+					
+				</th>
+				<th>
+					Name
+				</th>
+				<th>
+					Picture
+				</th>
+				<th>
+					Quantity
+				</th>
+			
+				
+			</tr>
+			<tr>
+				<td><a href="">Edit</a></td>
+				<td>Machine 1</td>
+				<td><img src="../images/treadmill.jpg"></img></td>
+				<td>1</td>
+				
+				
+			</tr>
+			<tr>
+				<td><a href="">Edit</a></td>
+				<td>Machine 2</td>
+				<td><img src="../images/treadmill.jpg"></img></td>
+				<td>2</</td>
+				
+				
+			</tr>
+			<tr>
+				<td><a href="">Edit</a></td>
+				<td>Machine 3</td>
+				<td><img src="../images/treadmill.jpg"></img></td>
+				<td>3</</td>
+				
+				
+			</tr>
+		</table>
+	</div>
+
+
 <script src="../js/manager.js"></script>
 <script type="text/javascript">
 var level = "<%=request.getAttribute("level")%>"
+/* var level = "MANAGER"; */	
 
 	switch(level) {
 	case "ADMIN": 

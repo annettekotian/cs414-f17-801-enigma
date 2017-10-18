@@ -1,16 +1,12 @@
 function showAdminUI() {
 	$("#managerLi").css("background", "darkgrey");
-	$("#addTrainer").hide();
-	$("#trainerResults").hide();
-	$("#managerResults").show();
+	showManagerData();
 }
 
 function showManagerUI() {
 	$("#trainerLi").css("background", "darkgrey");
 	$("#managerLi").hide();
-	$("#addManager").hide();
-	$("#trainerResults").show();
-	$("#managerResults").hide();
+	showTrainerData();
 }
 
 $("#trainerLi, #managerLi, #customersLi, #inventoryLi ").on("mouseenter", function(){
@@ -36,17 +32,58 @@ $("#managerLi").on("click", function(){
 	showManagerData();
 })
 
+$("#customersLi").on("click", function(){
+	showCustomerData();
+})
+
+$("#inventoryLi").on("click", function(){
+	showInventoryData();
+})
+
+
+
 function showTrainerData() {
 	$("#addManager").hide();
+	$("#addCustomer").hide();
+	$("#addMachine").hide();
 	$("#managerResults").hide();
+	$("#customerResults").hide();
+	$("#inventoryResults").hide();
 	$("#addTrainer").show();
 	$("#trainerResults").show();
 }
 
 function showManagerData() {
 	$("#addTrainer").hide();
+	$("#addCustomer").hide();
+	$("#addMachine").hide();
 	$("#trainerResults").hide();
+	$("#customerResults").hide();
+	$("#inventoryResults").hide();
 	$("#addManager").show();
 	$("#managerResults").show();
 	
 }
+
+function showCustomerData() {
+	$("#addManager").hide();
+	$("#addTrainer").hide();
+	$("#addMachine").hide();
+	$("#addCustomer").show();
+	$("#managerResults").hide();
+	$("#trainerResults").hide();
+	$("#customerResults").show();
+}
+
+function showInventoryData() {
+	$("#addManager").hide();
+	$("#addTrainer").hide();
+	$("#addCustomer").hide();
+	$("#addMachine").show();
+	$("#managerResults").hide();
+	$("#trainerResults").hide();
+	$("#customerResults").hide();
+	$("#inventoryResults").show();
+}
+
+

@@ -64,8 +64,10 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("userid", loginHandler.getUserId(userName));
 			
 			values.put("rc", "0");
+			values.put("level", level);
 			if(level.equals("ADMIN") || level.equals("MANAGER")) {
 				values.put("url", "manager/ui");
+				
 			}
 		}
 		else{

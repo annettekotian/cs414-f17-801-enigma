@@ -61,7 +61,7 @@ margin-top:3%;
 	color:black;
 }
 
-#addTrainer, #addManager {
+#addTrainer, #addManager, #addCustomer, #addMachine {
 		margin-left: 300px;
 	
 }
@@ -111,3 +111,50 @@ margin-top:3%;
 #managerResults tr {
 	height: 45px;
 }
+
+#customerResults {
+	margin-left:300px;
+	margin-top: 20px;
+	display:none;
+	
+}
+
+#customerResults table {
+	font-size:13px;
+	text-align:center;
+	border:1px solid black;
+}
+
+ #customerResults th, #customerResults td {
+	width: 150px;
+	border:1px solid black;
+	
+}
+
+#customerResults tr {
+	height: 45px;
+}
+
+#inventoryResults {
+	margin-left:300px;
+	margin-top: 20px;
+	display:none;
+	
+}
+
+#inventoryResults table {
+	font-size:13px;
+	text-align:center;
+	border:1px solid black;
+}
+
+ #inventoryResults th, #inventoryResults td {
+	width: 150px;
+	border:1px solid black;
+	
+}
+
+#inventoryResults tr {
+	height: 45px;
+}
+
