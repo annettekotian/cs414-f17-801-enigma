@@ -6,8 +6,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="../css/gymSystem.css">
 <link rel="stylesheet" type="text/css" href="../css/trainer.css">
-<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
-<title>Insert title here</title>
+<script src="../js/jquery-3.2.1.min.js" type="text/javascript"></script>
+<title>Trainer UI</title>
 </head>
 <body>
 <div style="width:100%; height:40px; color:white;background:lightskyblue; text-align:center">
@@ -20,7 +20,7 @@
 
 <div class="menuBar">
 	<a class="active" href="#home" onclick="focusHome()">Home</a>
-	<a href="#customers" onclick="focusCustomers()">Customers</a>
+	<a href="#customers" onclick="populateCustomers()">Customers</a>
 	<a href="#workouts">Workouts</a>
 	<a href="#exercises">Exercises</a>
 </div>
@@ -54,40 +54,16 @@
 </div>
 
 <div id="customers">
-	<table>
-		<tr>
-			<td>
-				
-			</td>
-			<td>
-				<table>
-					<tr><td>Customers</td></tr>
-					<tr>
-						<td>
-							<select id="customerList" size=10>
-								<option>Jane</option>
-								<option>John</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><input type="button" value="New Customer" onclick="displayForm()"/></td>
-						<td><input type="button" value="Modify Customer"/></td>
-						<td><input type="button" value="Delete Customer"/></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
+	<div id="dynamicCustomersTable">
+	</div>
+	<input type="button" value="New Customer" onclick="displayNewCustomerForm()" />
 	
-	<!-- Popup new customer form -->
-	<div id="newCustomerFormBackground">
-		<div id="newCustomerForm">
-			<form method="post">
-				<input id="username" name="username" type="text" />
-				<input id="firstName" name="firstName" type="text" />
-			</form>
-		
+	<!-- Popup Customer Form -->
+	<div id="customerFormBackground">
+		<div id="customerForm">
+			<p>Hello new customer</p>
+			<input type="button" value="Submit" />
+			<input type="button" value="Close" onclick="closeNewCustomerForm()" />
 		</div>
 	</div>
 </div>
@@ -102,6 +78,56 @@ function focusCustomers() {
 	document.getElementById("home").style.display = "none";
 	document.getElementById("customers").style.display = "block";
 }
+
+function populateCustomers() {
+	var currentUrl = window.location.pathname
+	$.ajax({
+		url: "/gym-system/trainer/ui",
+		method: "POST",
+		data: {
+			type: "getCustomers"
+		},
+		success: function(data, textStatus, jqXHR) {
+			if(data.rc == 0) {
+				generateCustomersDisplay(data.customers);
+			}
+			else {
+				alert(data.msg);
+			}
+		},
+		error: function(exception) {
+			alert("Exception" + exception);
+		},
+		async: false
+	});
+}
+
+function generateCustomersDisplay(customers) {
+	if(document.getElementById("customersTable")) {
+		document.getElementById("customersTable").remove();
+	}
+	
+	var customerTable = document.createElement("table");
+	customerTable.setAttribute("id", "customersTable");
+	var tr = document.createElement("tr")
+	tr.appendChild(document.createElement("td").appendChild(document.createTextNode("Customer ID")));
+	tr.appendChild(document.createElement("td").appendChild(document.createTextNode("First Name")));
+	tr.appendChild(document.createElement("td").appendChild(document.createTextNode("Last Name")));
+	
+	customerTable.appendChild(tr);
+	document.getElementById("dynamicCustomersTable").appendChild(customerTable);
+	
+	focusCustomers();
+}
+
+function displayNewCustomerForm() {
+	document.getElementById("customerFormBackground").style.display = "block";
+}
+
+function closeNewCustomerForm() {
+	document.getElementById("customerFormBackground").style.display = "none";
+}
+
 
 </script>
 
