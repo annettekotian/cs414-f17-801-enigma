@@ -17,6 +17,7 @@ public class LoginHandler {
 
 	public boolean authenticate(String username, String password) {
 		User user = userDao.findUserByUserName(username);
+		
 		if(user == null) {
 			return false;
 		}

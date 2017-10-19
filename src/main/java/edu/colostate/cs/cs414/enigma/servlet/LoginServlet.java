@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 
 		// Build a hashmap used to return information to 
-		Map<String, String> values = new HashMap<String, String>();
+		//Map<String, String> values = new HashMap<String, String>();
 		
 		LoginHandler loginHandler = new LoginHandler();
 		
@@ -62,23 +62,16 @@ public class LoginServlet extends HttpServlet {
 			String level = loginHandler.getUserLevel(userName);
 			session.setAttribute("level", level);
 			session.setAttribute("userid", loginHandler.getUserId(userName));
-			
-			values.put("rc", "0");
-			values.put("level", level);
-			if(level.equals("ADMIN") || level.equals("MANAGER")) {
-				values.put("url", "manager/ui");
-				
-			}
+			loginHandler.close();
+			request.setAttribute("level", level);
+			request.getRequestDispatcher("/WEB-INF/views/manager/manager.jsp").forward(request, response);
 		}
 		else{
-			values.put("rc", "1");
-			values.put("msg", "Invalid Username/Password");
+			loginHandler.close();
+			request.getRequestDispatcher("/WEB-INF/views/trainer/trainer.jsp").forward(request, response);
 		}
 		
-		loginHandler.close();
 		
-		response.setContentType("application/json");
-		response.getWriter().write(new Gson().toJson(values));
 	}
 
 }

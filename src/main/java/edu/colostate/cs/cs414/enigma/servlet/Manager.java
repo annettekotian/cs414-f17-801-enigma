@@ -33,9 +33,7 @@ public class Manager extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String level = request.getParameter("level");
-		request.setAttribute("level", level);
-		request.getRequestDispatcher("/WEB-INF/views/manager/manager.jsp").forward(request, response);
+		
 	}
 
 	/**
