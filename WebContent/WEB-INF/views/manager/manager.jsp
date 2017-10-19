@@ -232,6 +232,14 @@
 				<label>Last Name</label><br/>
 				<input class="managerInput" type="text" placeholder=" Enter last name"/> <br/>
 			</div>
+			<div id="managerUserNameDiv" class="managerInputDiv">
+				<label>User name</label><br/>
+				<input class="managerInput" type="text" placeholder=" Enter user name "/> <br/>
+			</div>
+			<div id="managerPasswordDiv" class="managerInputDiv">
+				<label>Password</label><br/>
+				<input class="managerInput" type="text" placeholder=" Enter password"/>
+			</div>
 			<div id="managerEmailDiv" class="managerInputDiv">
 				<label>Email id</label><br/>
 				<input class="managerInput" type="text" placeholder=" Enter email id"/> <br/>
@@ -256,14 +264,13 @@
 				<label>Zip code</label><br/>
 				<input class="managerInput" type="number" placeholder=" Enter zip"/>
 			</div>
-			<div id="managerUserNameDiv" class="managerInputDiv">
-				<label>User name</label><br/>
-				<input class="managerInput" type="text" placeholder=" Enter user name "/> <br/>
+			<div id="managerHealthInuranceDiv" class="managerInputDiv" > 	
+				<label>Health Insurance</label><br/>
+				<select id="addManagerHIList" >
+				</select>
 			</div>
-			<div id="managerPasswordDiv" class="managerInputDiv">
-				<label>Password</label><br/>
-				<input class="managerInput" type="text" placeholder=" Enter password"/>
-			</div>
+			
+			
 			<button id="createManagerButton"><a href="#" rel="modal:close"> Create</a></button>
 		</div>
 	

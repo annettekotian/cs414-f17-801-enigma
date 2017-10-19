@@ -88,6 +88,33 @@ function showInventoryData() {
 
 
 /**
+ * send ajax call to get Health insurance detaiils before opening modal
+
+ */
+$("#addManagerModal").on($.modal.BEFORE_OPEN, function beforeOpeningAddManagerModal () {
+	$.ajax({
+		url: "/gym-system/manager/ui",
+		method: "POST",
+		data: {
+			type: "getHealthInsurances"
+		},
+		success: function(data, textStatus, jqXHR) {
+			hiData = JSON.parse(data.healthInsurances);
+			var select = $("#addManagerHIList");
+			for (var i = 0; i< hiData.length; i++) {
+				select.append("<option data-id='" + hiData[i].id + "'>" + hiData[i].description +  "</option>")
+			}
+
+		},
+		error: function(exception) {
+			alert("Error: " + exception);
+		}
+	});
+})
+
+
+
+/**
  get all manager data when add manager modal is closed
  * 
  */
