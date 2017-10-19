@@ -7,7 +7,7 @@ import javax.persistence.Query;
 
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 
-public class TrainerDao extends EntityManagerDao<Trainer> {
+public class TrainerDao extends EntityManagerDaoOld<Trainer> {
 
 	/**
 	 * Get a trainer by the unique primary ID key from the GymSystem database

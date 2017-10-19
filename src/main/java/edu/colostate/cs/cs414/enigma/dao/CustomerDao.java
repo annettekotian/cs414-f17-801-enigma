@@ -8,7 +8,7 @@ import javax.persistence.Query;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 
-public class CustomerDao extends EntityManagerDao<Customer> {
+public class CustomerDao extends EntityManagerDaoOld<Customer> {
 	
 	/**
 	 * Get a customer by the unique primary ID key from the GymSystem database

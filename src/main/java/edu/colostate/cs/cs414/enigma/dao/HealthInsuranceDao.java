@@ -14,10 +14,10 @@ import edu.colostate.cs.cs414.enigma.entity.UserLevel;
 /**
  * Data access object for the HealthInsurance entity.
  * @author Ian Ziemba
- * @see EntityManagerDao
+ * @see EntityManagerDaoOld
  * @see HealthInsurance
  * */
-public class HealthInsuranceDao extends EntityManagerDao<HealthInsurance> {
+public class HealthInsuranceDao extends EntityManagerDaoOld<HealthInsurance> {
 
 	/**
 	 * Get health insurance by the unique primary ID key from the GymSystem database

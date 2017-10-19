@@ -1,89 +1,71 @@
 package edu.colostate.cs.cs414.enigma.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 
 import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
-/**
- * Data access object for an entity class manager by a JPA entity manager.
- * @author Ian Ziemba
- *
- * @param <T> Entity object type.
- * @see JpaDao
- */
-public abstract class EntityManagerDao<T> implements JpaDao<T> {
-	
+public class EntityManagerDao implements GymSystemDao {
+
 	private EntityManager em;
 	
-	/**
-	 * Initialize the entity manager.
-	 */
 	public EntityManagerDao() {
 		em = EntityManagerFactoryListener.createEntityManager();
+	}
+	
+	@Override
+	public void persist(Object object) {
 		em.getTransaction().begin();
-	}
-	
-	/**
-	 * Commit all transactions to the database and close the entity manager.
-	 */
-	public void close() throws IllegalStateException {
-		this.em.getTransaction().commit();
-		this.em.close();
-	}
-	
-	/**
-	 * Commit all current transactions to the database and start new transactions.
-	 */
-	public void commit() {
-		this.em.getTransaction().commit();
-		this.em.getTransaction().begin();
+		em.persist(object);
+		em.getTransaction().commit();
 	}
 
-	/**
-	 * Persist an entity with the entity manager. In the case where the entity cannot be persisted
-	 * (a PersistenceException occurs), the current transaction with the entity manager will be
-	 * rolled back, and a new transaction started. Note that the entity will not be written to the
-	 * database until close() or commit() is called.
-	 * @param entity
-	 */
 	@Override
-	public void persist(T entity) throws PersistenceException {
-		try {
-			this.em.persist(entity);
-			this.em.flush();	
-		} catch(PersistenceException e) {
-			this.em.getTransaction().rollback();
-			this.em.getTransaction().begin();
-			throw e;
+	public void remove(Object object) {
+		em.getTransaction().begin();
+		Object removedObject = object;
+		if(!em.contains(object)) {
+			removedObject = em.merge(object);
 		}
+		em.remove(removedObject);
+		em.getTransaction().commit();
+	}
+	
+	@Override
+	public void update(Object object){
+		em.getTransaction().begin();
+		em.merge(object);
+		em.getTransaction().commit();
 	}
 
-	/**
-	 * Remove an entity from the database. If entity is not attached, the entity will be attached
-	 * before removed. Note that the entity will not be removed from the database until close()
-	 * or commit() is called.
-	 * @param entity
-	 */
 	@Override
-	public void remove(T entity) {
-		T removeEntity = entity;
-		if(!this.em.contains(entity)) {
-			removeEntity = this.attach(entity);
+	public void close() {
+		em.close();
+	}
+
+	@Override
+	public List query(String query, Map<String, Object> parameters) {
+		Query emQuery = em.createNamedQuery(query);
+		if(parameters != null) {
+			for(String key: parameters.keySet()) {
+				emQuery.setParameter(key, parameters.get(key));
+			}
 		}
-		this.em.remove(removeEntity);
+		return emQuery.getResultList();
 	}
-	
-	/**
-	 * Attach a UserLevel entity with the underlying entity manager.
-	 * @param entity
-	 */
+
 	@Override
-	public T attach(T entity) {
-		return this.em.merge(entity);
-	}
-	
-	public EntityManager getEntityManager() {
-		return this.em;
+	public Object querySingle(String query, Map<String, Object> parameters)
+	{
+		List rawResults = query(query, parameters);
+		if(rawResults == null) {
+			return null;
+		}
+		else {
+			return rawResults.get(0);
+		}
 	}
 }

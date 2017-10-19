@@ -7,7 +7,7 @@ import javax.persistence.Query;
 
 import edu.colostate.cs.cs414.enigma.entity.Manager;
 
-public class ManagerDao extends EntityManagerDao<Manager> {
+public class ManagerDao extends EntityManagerDaoOld<Manager> {
 	
 	/**
 	 * Get a manager by the unique primary ID key from the GymSystem database

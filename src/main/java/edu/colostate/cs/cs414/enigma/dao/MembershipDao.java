@@ -12,10 +12,10 @@ import edu.colostate.cs.cs414.enigma.entity.User;
 /**
  * Data access object for the Membership entity.
  * @author Ian Ziemba
- * @see EntityManagerDao
+ * @see EntityManagerDaoOld
  * @see Membership
  * */
-public class MembershipDao extends EntityManagerDao<Membership> {
+public class MembershipDao extends EntityManagerDaoOld<Membership> {
 	
 	/**
 	 * Get membership by the unique primary ID key from the GymSystem database

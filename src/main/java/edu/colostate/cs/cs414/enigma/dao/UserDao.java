@@ -7,10 +7,10 @@ import edu.colostate.cs.cs414.enigma.entity.User;
 /**
  * Data access object for the User entity.
  * @author Ian Ziemba
- * @see EntityManagerDao
+ * @see EntityManagerDaoOld
  * @see User
  */
-public class UserDao extends EntityManagerDao<User> {
+public class UserDao extends EntityManagerDaoOld<User> {
 	
 	/**
 	 * Get a user by the unique primary ID key from the GymSystem database user table.

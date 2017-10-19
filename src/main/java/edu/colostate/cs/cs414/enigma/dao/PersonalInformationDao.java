@@ -7,7 +7,7 @@ import javax.persistence.Query;
 
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 
-public class PersonalInformationDao extends EntityManagerDao<PersonalInformation> {
+public class PersonalInformationDao extends EntityManagerDaoOld<PersonalInformation> {
 
 	/**
 	 * Get a personal information by the unique primary ID key from the GymSystem database

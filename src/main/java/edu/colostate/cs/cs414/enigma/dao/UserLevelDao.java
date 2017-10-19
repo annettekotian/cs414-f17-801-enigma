@@ -10,10 +10,10 @@ import edu.colostate.cs.cs414.enigma.entity.UserLevel;
 /**
  * Data access object for the UserLevel entity.
  * @author Ian Ziemba
- * @see EntityManagerDao
+ * @see EntityManagerDaoOld
  * @see UserLevel
  */
-public class UserLevelDao extends EntityManagerDao<UserLevel> {
+public class UserLevelDao extends EntityManagerDaoOld<UserLevel> {
 	
 	/**
 	 * Get a user level by the unique primary ID key from the GymSystem database user_level table.
