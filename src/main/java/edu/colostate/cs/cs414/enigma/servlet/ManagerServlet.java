@@ -40,14 +40,24 @@ public class ManagerServlet extends HttpServlet {
 		// Check what the URI is for the request
 		String uri = request.getRequestURI().toString();
 		
-		
-		if(uri.contains("/manager/ui")) {
+		switch(uri) {
+		case "/gym-system/manager/ui":
 			request.getRequestDispatcher("/WEB-INF/views/manager/manager.jsp").forward(request, response);
-		}
-		else if(uri.contains("/manager/trainers/all")) {
-			List<Trainer> customers = ManagerHandler.getAllTrainers();
-			response.setContentType("application/json");
-			response.getWriter().write(new Gson().toJson(customers));
+			break;
+			
+		case "/gym-system/manager/trainers/all":
+			try {
+				List<Trainer> trainers = ManagerHandler.getAllTrainers();
+				response.setContentType("application/json");
+				response.getWriter().write(new Gson().toJson(trainers));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			break;
+			
+		default:
+			response.sendError(404);
+			break;
 		}
 	}
 

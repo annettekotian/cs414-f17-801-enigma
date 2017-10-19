@@ -81,50 +81,7 @@
 	</div>
 	
 	<div id="trainerResults">
-		<table>
-			<tr>
-				<th>
-					
-				</th>
-				<th>
-					Name
-				</th>
-				<th>
-					Address
-				</th>
-				<th>
-					Qualifications
-				</th>
-				<th>
-					Health Insurance Provider
-				</th>
-				
-			</tr>
-			<tr>
-				<td><a href="">Edit</a></td>
-				<td>Trainer 1</td>
-				<td>Street 1, Fort Collins, CO-80521</td>
-				<td>Qualification 1</td>
-				<td>Insurance 1</td>
-				
-			</tr>
-			<tr>
-				<td><a href="">Edit</a></td>
-				<td>Trainer 2</td>
-				<td>Street 1, Fort Collins, CO-80521</td>
-				<td>Qualification 1</td>
-				<td>Insurance 2</td>
-				
-			</tr>
-			<tr>
-				<td><a href="">Edit</a></td>
-				<td>Trainer 3</td>
-				<td>Street 1, Fort Collins, CO-80521</td>
-				<td>Qualification 1</td>
-				<td>Insurance 3</td>
-				
-			</tr>
-		</table>
+		<table id="trainerTable"></table>
 	</div>
 
 	<div id="customerResults">

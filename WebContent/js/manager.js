@@ -40,9 +40,9 @@ $("#inventoryLi").on("click", function(){
 	showInventoryData();
 })
 
-
-
 function showTrainerData() {
+	populateTrainerTable();
+	
 	$("#addManager").hide();
 	$("#addCustomer").hide();
 	$("#addMachine").hide();
@@ -51,6 +51,93 @@ function showTrainerData() {
 	$("#inventoryResults").hide();
 	$("#addTrainer").show();
 	$("#trainerResults").show();
+}
+
+function populateTrainerTable() {
+	var trainers = null;
+	$.ajax({
+		url: "/gym-system/manager/trainers/all",
+		method: "GET",
+		success: function(data, textStatus, jqXHR) {
+			trainers = data
+		},
+		error: function(exception) {
+			alert("Exception" + exception);
+		},
+		async: false
+	});
+	
+
+	var trainerTable = document.getElementById("trainerTable");
+	while(trainerTable.rows.length > 0) {
+		trainerTable.deleteRow(0);
+	}
+	
+	var trainerTableRow = document.createElement("tr")
+	
+	var trainerTableColumn = document.createElement("td");
+	trainerTableColumn.appendChild(document.createTextNode("Trainer ID"));
+	trainerTableRow.appendChild(trainerTableColumn)
+	
+	trainerTableColumn = document.createElement("td");
+	trainerTableColumn.appendChild(document.createTextNode("First Name"));
+	trainerTableRow.appendChild(trainerTableColumn)
+	
+	trainerTableColumn = document.createElement("td");
+	trainerTableColumn.appendChild(document.createTextNode("Last Name"));
+	trainerTableRow.appendChild(trainerTableColumn)
+	
+	trainerTableColumn = document.createElement("td");
+	trainerTableColumn.appendChild(document.createTextNode("Address"));
+	trainerTableRow.appendChild(trainerTableColumn)
+	
+	trainerTableColumn = document.createElement("td");
+	trainerTableColumn.appendChild(document.createTextNode("Email"));
+	trainerTableRow.appendChild(trainerTableColumn);
+	
+	trainerTableColumn = document.createElement("td");
+	trainerTableColumn.appendChild(document.createTextNode("Phone"));
+	trainerTableRow.appendChild(trainerTableColumn)
+	
+	trainerTableColumn = document.createElement("td");
+	trainerTableColumn.appendChild(document.createTextNode("Health Insurance"));
+	trainerTableRow.appendChild(trainerTableColumn)
+
+	trainerTable.appendChild(trainerTableRow);
+	
+	for(var i=0; i<trainers.length; i++) {
+		trainerTableRow = document.createElement("tr")
+		
+		trainerTableColumn = document.createElement("td");
+		trainerTableColumn.appendChild(document.createTextNode(trainers[i].id));
+		trainerTableRow.appendChild(trainerTableColumn)
+		
+		trainerTableColumn = document.createElement("td");
+		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.firstName));
+		trainerTableRow.appendChild(trainerTableColumn)
+		
+		trainerTableColumn = document.createElement("td");
+		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.lastName));
+		trainerTableRow.appendChild(trainerTableColumn)
+		
+		trainerTableColumn = document.createElement("td");
+		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.address));
+		trainerTableRow.appendChild(trainerTableColumn)
+		
+		trainerTableColumn = document.createElement("td");
+		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.email));
+		trainerTableRow.appendChild(trainerTableColumn);
+		
+		trainerTableColumn = document.createElement("td");
+		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.phoneNumber));
+		trainerTableRow.appendChild(trainerTableColumn)
+		
+		trainerTableColumn = document.createElement("td");
+		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.healthInsurance.description));
+		trainerTableRow.appendChild(trainerTableColumn)
+
+		trainerTable.appendChild(trainerTableRow);
+	}
 }
 
 function showManagerData() {
