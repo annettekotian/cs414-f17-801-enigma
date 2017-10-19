@@ -14,6 +14,8 @@ import com.google.gson.Gson;
 
 import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
 import edu.colostate.cs.cs414.enigma.handler.HealthInsuranceHandler;
+import edu.colostate.cs.cs414.enigma.handler.MembershipHandler;
+import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
 
 /**
  * Servlet implementation class TrainerServlet
@@ -54,15 +56,14 @@ public class TrainerServlet extends HttpServlet {
 		switch(type) {
 		case "getCustomers":
 			try {
-				CustomerHandler trainerHandler = new CustomerHandler();
-				values.put("customers", new Gson().toJson(trainerHandler.getCustomers()));
+				values.put("customers", new Gson().toJson(TrainerHandler.getAllCustomers()));
 				values.put("rc", "0");
-				trainerHandler.close();
 			} catch(Exception e) {
 				values.put("rc", "1");
 				values.put("msg", e.toString());
 			}
 			break;
+			
 		case "getHealthInsurances":
 			try {
 				HealthInsuranceHandler healthInsuranceHandler = new HealthInsuranceHandler();
@@ -74,6 +75,35 @@ public class TrainerServlet extends HttpServlet {
 				values.put("msg", e.toString());
 			}
 			break;
+			
+		case "getMembershipStatus":
+			try {
+				MembershipHandler membershipHandler = new MembershipHandler();
+				values.put("membershipStatus", new Gson().toJson(membershipHandler.getMembershipStatus()));
+				values.put("rc", "0");
+				membershipHandler.close();
+			} catch(Exception e) {
+				values.put("rc", "1");
+				values.put("msg", e.toString());
+			}
+			break;
+			
+		case "createNewCustomer":
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
+			String phoneNumber = request.getParameter("phoneNumber");
+			String email = request.getParameter("email");
+			String healthInsurance = request.getParameter("healthInsurance");
+			String membershipStatus = request.getParameter("membershipStatus");
+			
+			try {
+				TrainerHandler.createNewCustomer(firstName, lastName, phoneNumber, email, healthInsurance, membershipStatus);
+			} catch(Exception e) {
+				values.put("rc", "1");
+				values.put("msg", e.toString());
+			}
+			break;
+			
 		default:
 			values.put("rc", "1");
 			values.put("msg", "Unknown request");

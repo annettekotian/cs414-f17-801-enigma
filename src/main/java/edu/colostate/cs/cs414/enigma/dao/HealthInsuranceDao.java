@@ -49,4 +49,12 @@ public class HealthInsuranceDao extends EntityManagerDao<HealthInsurance> {
 		}
 		return healthInsurances;
 	}
+	
+	public HealthInsurance getHealthInsuranceByDescription(String description) {
+		
+		// Issue a NamedQuery found in UserLevel.class
+		Query query = this.getEntityManager().createNamedQuery("HealthInsurance.findDescription");
+		query.setParameter("description", description);
+		return (HealthInsurance) query.getSingleResult();
+	}
 }
