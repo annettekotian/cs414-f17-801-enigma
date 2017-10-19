@@ -61,9 +61,37 @@
 	<!-- Popup Customer Form -->
 	<div id="customerFormBackground">
 		<div id="customerForm">
-			<p>Hello new customer</p>
-			<input type="button" value="Submit" />
-			<input type="button" value="Close" onclick="closeNewCustomerForm()" />
+			<form method="post" action="Login">
+				<table>
+					<tr><td><b>Customer Form</b></td></tr>
+					<tr>
+						<td>First Name</td>
+						<td><input id="firstname" name="firstname" type="text"/></td>
+					</tr>
+					<tr>
+						<td>Last Name</td>
+						<td><input id="lastname" name="lastname" type="text"/></td>
+					</tr>
+					<tr>
+						<td>Phone Number</td>
+						<td><input id="email" name="email" type="text"/></td>
+					</tr>
+					<tr>
+						<td>Email Address</td>
+						<td><input id="email" name="email" type="text"/></td>
+					</tr>
+					<tr>
+						<td>Health Insurace</td>
+						<td>
+							<select id="healthInsurances" size="5"></select>
+						</td>
+					</tr>
+					<tr>
+						<td><input type="button" value="Submit" /></td>
+						<td><input type="button" value="Close" onclick="closeNewCustomerForm()" /></td>
+					</tr>
+				</table>
+			</form>
 		</div>
 	</div>
 </div>
@@ -121,6 +149,39 @@ function generateCustomersDisplay(customers) {
 }
 
 function displayNewCustomerForm() {
+	
+	var healthInsurances = null;
+	$.ajax({
+		url: "/gym-system/trainer/ui",
+		method: "POST",
+		data: {
+			type: "getHealthInsurances"
+		},
+		success: function(data, textStatus, jqXHR) {
+			if(data.rc == 0) {
+				healthInsurances = JSON.parse(data.healthInsurances);
+			}
+			else {
+				alert(data.msg);
+			}
+		},
+		error: function(exception) {
+			alert("Exception" + exception);
+		},
+		async: false
+	});
+	
+	var healthInsuraceList = document.getElementById("healthInsurances");
+	while(healthInsuraceList.firstChild) {
+		healthInsuraceList.removeChild(healthInsuraceList.firstChild);
+	}
+	for(var i=0; i < healthInsurances.length; i++) {
+		healthInsurance = healthInsurances[i].description;
+		option = document.createElement("option");
+		option.value = option.textContent = healthInsurance;
+		healthInsuraceList.appendChild(option);
+	}
+	
 	document.getElementById("customerFormBackground").style.display = "block";
 }
 

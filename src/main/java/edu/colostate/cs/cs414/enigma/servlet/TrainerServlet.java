@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
+import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
+import edu.colostate.cs.cs414.enigma.handler.HealthInsuranceHandler;
 
 /**
  * Servlet implementation class TrainerServlet
@@ -53,10 +54,21 @@ public class TrainerServlet extends HttpServlet {
 		switch(type) {
 		case "getCustomers":
 			try {
-				TrainerHandler trainerHandler = new TrainerHandler();
+				CustomerHandler trainerHandler = new CustomerHandler();
 				values.put("customers", new Gson().toJson(trainerHandler.getCustomers()));
 				values.put("rc", "0");
 				trainerHandler.close();
+			} catch(Exception e) {
+				values.put("rc", "1");
+				values.put("msg", e.toString());
+			}
+			break;
+		case "getHealthInsurances":
+			try {
+				HealthInsuranceHandler healthInsuranceHandler = new HealthInsuranceHandler();
+				values.put("healthInsurances", new Gson().toJson(healthInsuranceHandler.getHealthInsurances()));
+				values.put("rc", "0");
+				healthInsuranceHandler.close();
 			} catch(Exception e) {
 				values.put("rc", "1");
 				values.put("msg", e.toString());

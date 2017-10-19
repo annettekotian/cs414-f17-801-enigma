@@ -5,11 +5,11 @@ import java.util.List;
 import edu.colostate.cs.cs414.enigma.dao.CustomerDao;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
 
-public class TrainerHandler {
+public class CustomerHandler {
 
-	CustomerDao customerDao;
+	private CustomerDao customerDao;
 	
-	public TrainerHandler() {
+	public CustomerHandler() {
 		customerDao = new CustomerDao();
 	}
 	
