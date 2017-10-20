@@ -37,33 +37,46 @@ public class ManagerServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
+	/*
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// Check what the URI is for the request
-		String uri = request.getRequestURI().toString();
 		
-		switch(uri) {
-		case "/manager/ui":
-			request.getRequestDispatcher("/WEB-INF/views/manager/manager.jsp").forward(request, response);
-			break;
-			
-		case "/manager/trainers/all":
-			try {
-				List<Trainer> trainers = ManagerHandler.getAllTrainers();
-				response.setContentType("application/json");
-				response.getWriter().write(new Gson().toJson(trainers));
+		String type = request.getParameter("type");
+		Map<String, String> values = new HashMap<String, String>();
+		PrintWriter out = response.getWriter();
+		switch(type) {
+		
+		case "getAddManagerData":
+						try {
+				HealthInsuranceHandler healthInsuranceHandler = new HealthInsuranceHandler();
+				values.put("healthInsurances", new Gson().toJson(healthInsuranceHandler.getHealthInsurances()));
+				values.put("rc", "0");
+				healthInsuranceHandler.close();
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
 			}
-			break;
+			response.setContentType("application/json");
+			out.write(new Gson().toJson(values));;
+			return;
 			
+		case "getAllTrainers" :
+			try {
+				List<Trainer> trainers = ManagerHandler.getAllTrainers();
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(trainers));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			
+		return;
 		default:
 			response.sendError(404);
 			break;
+		
 		}
+		
 	}
 
 	/**
@@ -77,18 +90,7 @@ public class ManagerServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		switch (type) {
 		case "getHealthInsurances":
-			try {
-				HealthInsuranceHandler healthInsuranceHandler = new HealthInsuranceHandler();
-				values.put("healthInsurances", new Gson().toJson(healthInsuranceHandler.getHealthInsurances()));
-				values.put("rc", "0");
-				healthInsuranceHandler.close();
-			} catch(Exception e) {
-				values.put("rc", "1");
-				values.put("msg", e.toString());
-			}
-			response.setContentType("application/json");
-			out.write(new Gson().toJson(values));;
-			return;
+			
 		
 		case "createManager" :
 			

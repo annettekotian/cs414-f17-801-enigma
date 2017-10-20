@@ -56,7 +56,10 @@ function showTrainerData() {
 function populateTrainerTable() {
 	var trainers = null;
 	$.ajax({
-		url: "/manager/trainers/all",
+		url: "/manager/ui",
+		data: {
+			type: "getAllTrainers"
+		},
 		method: "GET",
 		success: function(data, textStatus, jqXHR) {
 			trainers = data
@@ -180,17 +183,17 @@ function showInventoryData() {
  */
 $("#addManagerModal").on($.modal.BEFORE_OPEN, function beforeOpeningAddManagerModal () {
 	$.ajax({
-		url: "/gym-system/manager/ui",
-		method: "POST",
+		url: "/manager/ui",
+		method: "GET",
 		data: {
-			type: "getHealthInsurances"
+			type: "getAddManagerData"
 		},
 		success: function(data) {
 			hiData = JSON.parse(data.healthInsurances);
 			var select = $("#managerHIList");
 			select.empty();
 			for (var i = 0; i< hiData.length; i++) {
-				select.append("<option data-id='" + hiData[i].id + "'>" + hiData[i].description +  "</option>")
+				select.append("<option data-id='" + hiData[i].id + "'>" + hiData[i].name +  "</option>")
 			}
 
 		},
