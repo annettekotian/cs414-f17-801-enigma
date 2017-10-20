@@ -26,43 +26,15 @@
 				<td><input id="password" name="password" type="password"/></td>
 			</tr>
 			<tr>
-				<td><input type="button" onclick="sumbitLoginForm()" value="Login" /></td>
+				<td><input type="submit" value="Login" /></td>
 			</tr>
 		</table>
 	</form>
 </div>
 
-<script>
-function sumbitLoginForm() {
-	var userName = $("input#username").val();
-	var password = $("input#password").val();
-	$.ajax({
-		url: "Login",
-		method: "POST",
-		data: {
-			type: "loginUser",
-			userName: userName,
-			password: password	
-		},
-		success: function(data, textStatus, jqXHR) {
-			if(data.rc == 0) {
-				window.location.href = data.url + "?level=" + data.level;
-			}
-			else {
-				$("input#username").val("");
-				$("input#password").val("");
-				$("input#username").focus();
-				alert(data.msg);
-			}
-		}
-	});
-}
 
-$(document).keypress(function(e) {
-	if(e.which == 13) {
-		sumbitLoginForm()
-	}
-});
+
+
 </script>
 
 </body>

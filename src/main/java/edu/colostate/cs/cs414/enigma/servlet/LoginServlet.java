@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// Get username and password from the AJAX post
+		// Get username and password from the post
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
 
@@ -63,18 +63,16 @@ public class LoginServlet extends HttpServlet {
 			
 			values.put("rc", "0");
 			values.put("level", level);
-			if(level.equals("ADMIN") || level.equals("MANAGER")) {
-				values.put("url", "manager/ui");
-				
-			}
+			
+			request.setAttribute("level", level);
+			request.getRequestDispatcher("/WEB-INF/views/manager/manager.jsp").forward(request, response);
 		}
 		else{
-			values.put("rc", "1");
-			values.put("msg", "Invalid Username/Password");
+			
+			request.getRequestDispatcher("/WEB-INF/views/trainer/trainer.jsp").forward(request, response);
 		}
 		
-		response.setContentType("application/json");
-		response.getWriter().write(new Gson().toJson(values));
+		
 	}
 
 }
