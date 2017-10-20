@@ -7,7 +7,6 @@ import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.User;
 
 public class LoginHandler {
-
 	private static User getUserByUsername(String username) {
 		// Connect to the database
 		EntityManagerDao dao = new EntityManagerDao();

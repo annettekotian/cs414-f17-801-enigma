@@ -12,7 +12,8 @@ import javax.persistence.*;
 @Table(name="health_insurance")
 @NamedQueries({
 	@NamedQuery(name="HealthInsurance.findAll", query="SELECT h FROM HealthInsurance h"),
-	@NamedQuery(name="HealthInsurance.findDescription", query="SELECT h FROM HealthInsurance h WHERE h.description = :description")
+	@NamedQuery(name="HealthInsurance.findDescription", query="SELECT h FROM HealthInsurance h WHERE h.description = :description"),
+	@NamedQuery(name="HealthInsurance.findId", query="SELECT h FROM HealthInsurance h WHERE h.id = :id")
 })
 public class HealthInsurance implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -185,9 +185,10 @@ $("#addManagerModal").on($.modal.BEFORE_OPEN, function beforeOpeningAddManagerMo
 		data: {
 			type: "getHealthInsurances"
 		},
-		success: function(data, textStatus, jqXHR) {
+		success: function(data) {
 			hiData = JSON.parse(data.healthInsurances);
-			var select = $("#addManagerHIList");
+			var select = $("#managerHIList");
+			select.empty();
 			for (var i = 0; i< hiData.length; i++) {
 				select.append("<option data-id='" + hiData[i].id + "'>" + hiData[i].description +  "</option>")
 			}
@@ -199,6 +200,50 @@ $("#addManagerModal").on($.modal.BEFORE_OPEN, function beforeOpeningAddManagerMo
 	});
 })
 
+
+/** add manager when create button is clicked**/
+
+$("#createManagerButton").on("click", function (){
+	var postParams = {};
+	postParams.fName = $("#managerFName").val();
+	postParams.lName = $("#managerLName").val();
+	postParams.uName = $("#managerUName").val();
+	postParams.password = $("#managerPassword").val();
+	postParams.email = $("#managerEmail").val();
+	postParams.phone = $("#managerPhone").val();
+	postParams.street = $("#managerStreet").val();
+	postParams.city = $("#managerCity").val();
+	postParams.state = $("#managerState").val();
+	postParams.zip = $("#managerZip").val();
+	postParams.hiId = $("#managerHIList").find(":selected").data("id");
+	postParams.type = "createManager";
+	
+	
+	if(!postParams.fName || !postParams.lName || !postParams.uName || !postParams.password || !postParams.email || !postParams.phone 
+			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip) {
+		alert("incomplete input!");
+		return;
+	}
+	
+	$.modal.close();
+	
+	$.ajax({
+		url: "/gym-system/manager/ui",
+		method: "POST",
+		data: postParams,
+		
+		success: function(data) {
+			//alert("success")
+
+		},
+		error: function(exception) {
+			alert("Error: " + exception);
+		}
+	});
+	
+	
+	
+});
 
 
 /**
