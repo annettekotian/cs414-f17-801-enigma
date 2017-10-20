@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
+import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.GymSystemUser;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
+import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
@@ -53,7 +55,14 @@ public class ManagerHandler {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("id", Integer.parseInt(hiId));
 		HealthInsurance hiDB = (HealthInsurance) dao.querySingle("HealthInsurance.findId", parameters);
-		PersonalInformation p = new PersonalInformation(email, firstName, lastName, phoneNumber, hiDB);
+		
+		// TODO: Remove hardcoded address
+		Map<String, Object> stateParams = new HashMap<String, Object>();
+		stateParams.put("state", "Colorado");
+		State state = (State) dao.querySingle("State.findState", stateParams);
+		Address address = new Address("12345 Ave", "Denver", "55555", state);
+		
+		PersonalInformation p = new PersonalInformation(email, firstName, lastName, phoneNumber, hiDB, address);
 		Map<String, Object> userLevelParams = new HashMap<String, Object>(); 
 		userLevelParams.put("level", "MANAGER");
 		UserLevel ul = (UserLevel) dao.querySingle("UserLevel.findLevel", userLevelParams);
