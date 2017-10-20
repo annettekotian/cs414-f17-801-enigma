@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
-import edu.colostate.cs.cs414.enigma.handler.HealthInsuranceHandler;
 import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
 
 /**
@@ -67,7 +66,7 @@ public class ManagerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
-		String type = request.getParameter("type");
+		/*String type = request.getParameter("type");
 		Map<String, String> values = new HashMap<String, String>();
 		switch (type) {
 		case "getHealthInsurances":
@@ -83,7 +82,7 @@ public class ManagerServlet extends HttpServlet {
 			break;
 		}
 		response.setContentType("application/json");
-		response.getWriter().write(new Gson().toJson(values));
+		response.getWriter().write(new Gson().toJson(values));*/
 	}
 
 }

@@ -15,6 +15,8 @@ public class TrainerHandler {
 	
 	public static void createNewCustomer(String first, String last, String phone, String email, String insurance, String status) {
 		
+		// TODO: Test function does not work. PersonalInformation needs to be updated
+		
 		// Establish a connection to the database
 		EntityManagerDao dao = new EntityManagerDao();
 		
@@ -32,7 +34,7 @@ public class TrainerHandler {
 		Membership membership = (Membership) dao.querySingle("Membership.findType", parameters);
 	
 		// Create a new personal information for the customer
-		PersonalInformation personalInformation = new PersonalInformation(first, last, phone, email, healthInsurance);
+		PersonalInformation personalInformation = new PersonalInformation(first, last, phone, email, healthInsurance, null);
 		Customer customer = new Customer(personalInformation, membership);
 		
 		// Persist the customer with the database

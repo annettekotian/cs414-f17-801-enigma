@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
@@ -17,10 +18,15 @@ public class EntityManagerDao implements GymSystemDao {
 	}
 	
 	@Override
-	public void persist(Object object) {
+	public void persist(Object object) throws PersistenceException {
 		em.getTransaction().begin();
-		em.persist(object);
-		em.getTransaction().commit();
+		try {
+			em.persist(object);
+			em.getTransaction().commit();
+		} catch(Exception e) {
+			em.getTransaction().rollback();
+			throw e;
+		}
 	}
 
 	@Override
