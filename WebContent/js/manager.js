@@ -56,7 +56,7 @@ function showTrainerData() {
 function populateTrainerTable() {
 	var trainers = null;
 	$.ajax({
-		url: "/gym-system/manager/trainers/all",
+		url: "/manager/trainers/all",
 		method: "GET",
 		success: function(data, textStatus, jqXHR) {
 			trainers = data
