@@ -29,8 +29,8 @@ public class Address implements Serializable {
 	@Column(name="street", nullable=false, updatable=true, length=255)
 	private String street;
 	
-	@Column(name="town", nullable=false, updatable=true, length=255)
-	private String town;
+	@Column(name="city", nullable=false, updatable=true, length=255)
+	private String city;
 	
 	@Column(name="zipcode", nullable=false, updatable=true, length=12)
 	private String zipcode;
@@ -42,10 +42,10 @@ public class Address implements Serializable {
 	
 	protected Address() {}
 
-	public Address(String street, String town, String zipcode, State state) {
+	public Address(String street, String city, String zipcode, State state) {
 		super();
 		this.street = street;
-		this.town = town;
+		this.city = city;
 		this.zipcode = zipcode;
 		this.state = state;
 	}
@@ -66,12 +66,12 @@ public class Address implements Serializable {
 		this.street = street;
 	}
 
-	public String getTown() {
-		return town;
+	public String getCity() {
+		return city;
 	}
 
-	public void setTown(String town) {
-		this.town = town;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public String getZipcode() {
@@ -97,7 +97,7 @@ public class Address implements Serializable {
 		result = prime * result + id;
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
 		result = prime * result + ((street == null) ? 0 : street.hashCode());
-		result = prime * result + ((town == null) ? 0 : town.hashCode());
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + ((zipcode == null) ? 0 : zipcode.hashCode());
 		return result;
 	}
@@ -123,10 +123,10 @@ public class Address implements Serializable {
 				return false;
 		} else if (!street.equals(other.street))
 			return false;
-		if (town == null) {
-			if (other.town != null)
+		if (city == null) {
+			if (other.city != null)
 				return false;
-		} else if (!town.equals(other.town))
+		} else if (!city.equals(other.city))
 			return false;
 		if (zipcode == null) {
 			if (other.zipcode != null)
@@ -138,7 +138,7 @@ public class Address implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Address [id=" + id + ", street=" + street + ", town=" + town + ", zipcode=" + zipcode + ", state="
+		return "Address [id=" + id + ", street=" + street + ", town=" + city + ", zipcode=" + zipcode + ", state="
 				+ state + "]";
 	}
 }
