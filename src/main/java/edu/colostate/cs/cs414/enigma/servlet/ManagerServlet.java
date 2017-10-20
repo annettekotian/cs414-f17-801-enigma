@@ -46,11 +46,11 @@ public class ManagerServlet extends HttpServlet {
 		String uri = request.getRequestURI().toString();
 		
 		switch(uri) {
-		case "/gym-system/manager/ui":
+		case "/manager/ui":
 			request.getRequestDispatcher("/WEB-INF/views/manager/manager.jsp").forward(request, response);
 			break;
 			
-		case "/gym-system/manager/trainers/all":
+		case "/manager/trainers/all":
 			try {
 				List<Trainer> trainers = ManagerHandler.getAllTrainers();
 				response.setContentType("application/json");
