@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
-import edu.colostate.cs.cs414.enigma.handler.HealthInsuranceHandler;
 import edu.colostate.cs.cs414.enigma.handler.MembershipHandler;
 import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
 
@@ -52,7 +51,7 @@ public class TrainerServlet extends HttpServlet {
 		Map<String, String> values = new HashMap<String, String>();
 		
 		// Get the trainer post message type
-		String type = request.getParameter("type");
+		/*String type = request.getParameter("type");
 		switch(type) {
 		case "getCustomers":
 			try {
@@ -110,7 +109,7 @@ public class TrainerServlet extends HttpServlet {
 		}
 		
 		response.setContentType("application/json");
-		response.getWriter().write(new Gson().toJson(values));
+		response.getWriter().write(new Gson().toJson(values));*/
 	}
 
 }

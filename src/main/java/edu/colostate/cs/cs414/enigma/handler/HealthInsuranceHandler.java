@@ -1,23 +1,30 @@
 package edu.colostate.cs.cs414.enigma.handler;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import edu.colostate.cs.cs414.enigma.dao.HealthInsuranceDao;
+import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
+import edu.colostate.cs.cs414.enigma.entity.Membership;
 
 public class HealthInsuranceHandler {
 	
-	private HealthInsuranceDao healthInsuranceDao;
+	private EntityManagerDao dao;
 	
 	public HealthInsuranceHandler() {
-		healthInsuranceDao = new HealthInsuranceDao();
+		dao = new EntityManagerDao();
 	}
 
 	public void close() {
-		healthInsuranceDao.close();
+		dao.close();
 	}
 	
 	public List<HealthInsurance> getHealthInsurances() {
-		return healthInsuranceDao.getHealthInsurances();
+		List rawHealthInsurance = dao.query("HealthInsurance.findAll", null);
+		List<HealthInsurance> insurances = new ArrayList<HealthInsurance>();
+		for(int i=0; i<rawHealthInsurance.size(); i++) {
+			insurances.add((HealthInsurance) rawHealthInsurance.get(i));
+		}
+		return insurances;
 	}
 }

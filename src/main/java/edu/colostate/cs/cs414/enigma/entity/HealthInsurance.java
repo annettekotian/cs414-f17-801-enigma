@@ -12,7 +12,11 @@ import javax.persistence.*;
 @Table(name="health_insurance")
 @NamedQueries({
 	@NamedQuery(name="HealthInsurance.findAll", query="SELECT h FROM HealthInsurance h"),
-	@NamedQuery(name="HealthInsurance.findDescription", query="SELECT h FROM HealthInsurance h WHERE h.description = :description"),
+	
+	// TODO: Remove HealthInsurance.findDescription
+	@NamedQuery(name="HealthInsurance.findDescription", query="SELECT h FROM HealthInsurance h WHERE h.name = :description"),
+	
+	@NamedQuery(name="HealthInsurance.findByName", query="SELECT h FROM HealthInsurance h WHERE h.name = :name"),
 	@NamedQuery(name="HealthInsurance.findId", query="SELECT h FROM HealthInsurance h WHERE h.id = :id")
 })
 public class HealthInsurance implements Serializable {
@@ -25,11 +29,11 @@ public class HealthInsurance implements Serializable {
 	private int id;
 
 	/* Description cannot be updated once set. Also, it must be unique. */
-	@Column(name="description", nullable=false, updatable=false, unique=true, length=255)
-	private String description;
+	@Column(name="name", nullable=false, updatable=false, unique=true, length=255)
+	private String name;
 
-	public HealthInsurance(String description) {
-		this.description = description;
+	public HealthInsurance(String name) {
+		this.name = name;
 	}
 	
 	protected HealthInsurance() {
@@ -43,19 +47,19 @@ public class HealthInsurance implements Serializable {
 		this.id = id;
 	}
 
-	public String getDescription() {
-		return this.description;
+	public String getName() {
+		return this.name;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + id;
 		return result;
 	}
@@ -69,10 +73,10 @@ public class HealthInsurance implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		HealthInsurance other = (HealthInsurance) obj;
-		if (description == null) {
-			if (other.description != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!description.equals(other.description))
+		} else if (!name.equals(other.name))
 			return false;
 		if (id != other.id)
 			return false;
@@ -81,6 +85,6 @@ public class HealthInsurance implements Serializable {
 
 	@Override
 	public String toString() {
-		return "HealthInsurance [id=" + id + ", description=" + description + "]";
+		return "HealthInsurance [id=" + id + ", description=" + name + "]";
 	}
 }

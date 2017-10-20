@@ -1,11 +1,18 @@
 package edu.colostate.cs.cs414.enigma.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.*;
-
-import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 
 /**
@@ -41,17 +48,23 @@ public class PersonalInformation implements Serializable {
 	@ManyToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name="health_insurance_id", nullable=false, insertable=true, updatable=true)
 	private HealthInsurance healthInsurance;
+	
+	//uni-directional ono-to-one association to Address
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="address_id", nullable=false, insertable=true, updatable=true)
+	private Address address;
 
-	protected PersonalInformation() {
-	}
+	protected PersonalInformation() {}
 
 	public PersonalInformation(String email, String firstName, String lastName, String phoneNumber,
-			HealthInsurance healthInsurance) {
+			HealthInsurance healthInsurance, Address address) {
+		super();
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
 		this.healthInsurance = healthInsurance;
+		this.address = address;
 	}
 
 	public int getId() {
@@ -94,7 +107,7 @@ public class PersonalInformation implements Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public final HealthInsurance getHealthInsurance() {
+	public HealthInsurance getHealthInsurance() {
 		return healthInsurance;
 	}
 
@@ -102,10 +115,19 @@ public class PersonalInformation implements Serializable {
 		this.healthInsurance = healthInsurance;
 	}
 
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((healthInsurance == null) ? 0 : healthInsurance.hashCode());
@@ -124,6 +146,11 @@ public class PersonalInformation implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		PersonalInformation other = (PersonalInformation) obj;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.equals(other.address))
+			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
@@ -157,6 +184,7 @@ public class PersonalInformation implements Serializable {
 	@Override
 	public String toString() {
 		return "PersonalInformation [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", phoneNumber=" + phoneNumber + ", healthInsurance=" + healthInsurance + "]";
+				+ lastName + ", phoneNumber=" + phoneNumber + ", healthInsurance=" + healthInsurance + ", address="
+				+ address + "]";
 	}
 }

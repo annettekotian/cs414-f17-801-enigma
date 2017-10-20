@@ -106,7 +106,7 @@ public class ManagerServlet extends HttpServlet {
 			
 			
 			ManagerHandler mh = new ManagerHandler();
-			mh.createManager(email, fName, lName, phone, hiId, uName, password);
+			//mh.createManager(email, fName, lName, phone, hiId, uName, password);
 			/*Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("description", insurance);
 			HealthInsurance healthInsurance = (HealthInsurance) dao.querySingle("HealthInsurance.findDescription", parameters);
@@ -132,5 +132,4 @@ public class ManagerServlet extends HttpServlet {
 			break;
 		}
 	}
-
 }

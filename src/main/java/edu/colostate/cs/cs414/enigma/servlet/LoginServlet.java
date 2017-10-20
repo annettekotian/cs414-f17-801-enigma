@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
-import edu.colostate.cs.cs414.enigma.dao.UserDao;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.handler.LoginHandler;
 
@@ -54,14 +53,13 @@ public class LoginServlet extends HttpServlet {
 
 		// Build a hashmap used to return information to 
 		Map<String, String> values = new HashMap<String, String>();
+
 		
-		LoginHandler loginHandler = new LoginHandler();
-		
-		if(loginHandler.authenticate(userName, password)) {
+		if(LoginHandler.authenticate(userName, password)) {
 			HttpSession session = request.getSession(true);
-			String level = loginHandler.getUserLevel(userName);
+			String level = LoginHandler.getUserLevel(userName);
 			session.setAttribute("level", level);
-			session.setAttribute("userid", loginHandler.getUserId(userName));
+			session.setAttribute("userid", LoginHandler.getUserId(userName));
 			
 			values.put("rc", "0");
 			values.put("level", level);
@@ -74,8 +72,6 @@ public class LoginServlet extends HttpServlet {
 			values.put("rc", "1");
 			values.put("msg", "Invalid Username/Password");
 		}
-		
-		loginHandler.close();
 		
 		response.setContentType("application/json");
 		response.getWriter().write(new Gson().toJson(values));
