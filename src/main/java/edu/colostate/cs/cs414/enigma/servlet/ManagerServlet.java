@@ -19,6 +19,7 @@ import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
 import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
+import edu.colostate.cs.cs414.enigma.handler.AddressHandler;
 import edu.colostate.cs.cs414.enigma.handler.HealthInsuranceHandler;
 import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
 
@@ -52,13 +53,15 @@ public class ManagerServlet extends HttpServlet {
 						try {
 				HealthInsuranceHandler healthInsuranceHandler = new HealthInsuranceHandler();
 				values.put("healthInsurances", new Gson().toJson(healthInsuranceHandler.getHealthInsurances()));
-				values.put("rc", "0");
-				healthInsuranceHandler.close();
+				
+				AddressHandler addHandler = new AddressHandler();
+				values.put("states", new Gson().toJson(addHandler.getAllStates()));
+
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
 			}
 			response.setContentType("application/json");
-			out.write(new Gson().toJson(values));;
+			out.write(new Gson().toJson(values));
 			return;
 			
 		case "getAllTrainers" :
@@ -108,29 +111,9 @@ public class ManagerServlet extends HttpServlet {
 			
 			
 			ManagerHandler mh = new ManagerHandler();
-			//mh.createManager(email, fName, lName, phone, hiId, uName, password);
-			/*Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("description", insurance);
-			HealthInsurance healthInsurance = (HealthInsurance) dao.querySingle("HealthInsurance.findDescription", parameters);
-			if(healthInsurance == null) {
-				healthInsurance = new HealthInsurance(insurance);
-			}
-			
-			// Get the membership object based on type
-			parameters = new HashMap<String, Object>();
-			parameters.put("type", status);
-			Membership membership = (Membership) dao.querySingle("Membership.findType", parameters);
-		
-			// Create a new personal information for the customer
-			PersonalInformation personalInformation = new PersonalInformation(first, last, phone, email, healthInsurance);
-			Customer customer = new Customer(personalInformation, membership);
-			
-			// Persist the customer with the database
-			dao.persist(customer);
-			
-			// Shutdown connection to database
-			dao.close();*/
-			out.write("create manager");
+			mh.createManager(email, fName, lName, phone, hiId, uName, password, street, city, zip,state);
+
+			out.write("success");
 			break;
 		}
 	}

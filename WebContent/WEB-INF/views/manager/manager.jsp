@@ -35,7 +35,7 @@
 	<button id="addMachine" class="addButtons">Add Equipment</button>
 	<div id="managerResults">
 		<table>
-			<tr>
+			<tr class = "tableHeader">
 				<th>
 					
 				</th>
@@ -53,7 +53,7 @@
 				</th>
 				
 			</tr>
-			<tr>
+			<tr class = "tableData">
 				<td><a href="">Edit</a></td>
 				<td>Manager 1</td>
 				<td>Street 1, Fort Collins, CO-80521</td>
@@ -61,7 +61,7 @@
 				<td>Insurance 1</td>
 				
 			</tr>
-			<tr>
+			<tr class = "tableData">
 				<td><a href="">Edit</a></td>
 				<td>Manager 2</td>
 				<td>Street 1, Fort Collins, CO-80521</td>
@@ -69,7 +69,7 @@
 				<td>Insurance 2</td>
 				
 			</tr>
-			<tr>
+			<tr class = "tableData">
 				<td><a href="">Edit</a></td>
 				<td>Manager 3</td>
 				<td>Street 1, Fort Collins, CO-80521</td>
@@ -215,7 +215,7 @@
 			</div>
 			<div id="managerStateDiv" class="managerInputDiv">
 				<label>State</label><br/>
-				<input id="managerState" class="managerInput" type="text" placeholder=" Enter state "/> <br/>
+				<select id="managerState" class="managerInput" type="text" placeholder=" Enter state "></select> <br/>
 			</div>
 			<div id="managerZipDiv" class="managerInputDiv">
 				<label>Zip code</label><br/>

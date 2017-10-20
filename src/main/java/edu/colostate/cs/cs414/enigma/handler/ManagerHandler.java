@@ -48,7 +48,8 @@ public class ManagerHandler {
 	 * @param userPass: password for the username
 	 * @return
 	 */
-	public boolean createManager(String email, String firstName, String lastName, String phoneNumber, String hiId, String userName, String userPass) {
+	public boolean createManager(String email, String firstName, String lastName, String phoneNumber, String hiId, String userName, String userPass,
+			String street, String city, String zip, String state) {
 		
 		// Establish a connection to the database
 		EntityManagerDao dao = new EntityManagerDao();
@@ -56,11 +57,11 @@ public class ManagerHandler {
 		parameters.put("id", Integer.parseInt(hiId));
 		HealthInsurance hiDB = (HealthInsurance) dao.querySingle("HealthInsurance.findId", parameters);
 		
-		// TODO: Remove hardcoded address
+		
 		Map<String, Object> stateParams = new HashMap<String, Object>();
-		stateParams.put("state", "Colorado");
-		State state = (State) dao.querySingle("State.findState", stateParams);
-		Address address = new Address("12345 Ave", "Denver", "55555", state);
+		stateParams.put("state", state);
+		State stateDB = (State) dao.querySingle("State.findState", stateParams);
+		Address address = new Address(street, city, zip, stateDB);
 		
 		PersonalInformation p = new PersonalInformation(email, firstName, lastName, phoneNumber, hiDB, address);
 		Map<String, Object> userLevelParams = new HashMap<String, Object>(); 

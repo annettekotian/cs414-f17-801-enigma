@@ -25,6 +25,8 @@ public class HealthInsuranceHandler {
 		for(int i=0; i<rawHealthInsurance.size(); i++) {
 			insurances.add((HealthInsurance) rawHealthInsurance.get(i));
 		}
+		
+		close();
 		return insurances;
 	}
 }

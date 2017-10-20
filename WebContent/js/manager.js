@@ -189,11 +189,17 @@ $("#addManagerModal").on($.modal.BEFORE_OPEN, function beforeOpeningAddManagerMo
 			type: "getAddManagerData"
 		},
 		success: function(data) {
-			hiData = JSON.parse(data.healthInsurances);
-			var select = $("#managerHIList");
-			select.empty();
+			var hiData = JSON.parse(data.healthInsurances);
+			var states = JSON.parse(data.states);
+			var hiSelect = $("#managerHIList");
+			hiSelect.empty();
 			for (var i = 0; i< hiData.length; i++) {
-				select.append("<option data-id='" + hiData[i].id + "'>" + hiData[i].name +  "</option>")
+				hiSelect.append("<option data-id='" + hiData[i].id + "'>" + hiData[i].name +  "</option>")
+			}
+			
+			var statesSelect = $("#managerState");
+			for (var i = 0; i< states.length; i++) {
+				statesSelect.append("<option data-id='" + states[i].id + "'>" + states[i].state +  "</option>");
 			}
 
 		},
@@ -231,7 +237,7 @@ $("#createManagerButton").on("click", function (){
 	$.modal.close();
 	
 	$.ajax({
-		url: "/gym-system/manager/ui",
+		url: "/manager/ui",
 		method: "POST",
 		data: postParams,
 		
