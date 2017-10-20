@@ -27,4 +27,9 @@ public class Manager extends GymSystemUser implements Serializable {
 		super(personalInformation, user);
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	public void addManager (PersonalInformation p, User u) {
+		
+	}
 }

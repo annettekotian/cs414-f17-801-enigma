@@ -6,6 +6,7 @@ import edu.colostate.cs.cs414.enigma.entity.User;
 public class LoginHandler {
 	
 	private UserDao userDao;
+	private User user;
 	
 	public LoginHandler() {
 		userDao = new UserDao();
@@ -16,7 +17,7 @@ public class LoginHandler {
 	}
 
 	public boolean authenticate(String username, String password) {
-		User user = userDao.findUserByUserName(username);
+		user = userDao.findUserByUserName(username);
 		if(user == null) {
 			return false;
 		}
@@ -24,7 +25,7 @@ public class LoginHandler {
 	}
 	
 	public String getUserLevel(String username) {
-		return userDao.findUserByUserName(username).getUserLevel().getDescription();
+		return user.getUserLevel().getDescription();
 	}
 
 	public int getUserId(String username) {
