@@ -14,7 +14,8 @@ import javax.persistence.Table;
 @Table(name="manager")
 @NamedQueries({
 	@NamedQuery(name="Manager.findAll", query="SELECT m FROM Manager m"),
-	@NamedQuery(name="Manager.findByName", query = "SELECT m FROM Manager m, PersonalInformation p where p.firstName = :name")
+	@NamedQuery(name="Manager.findByName", query = "SELECT m FROM Manager m WHERE m.personalInformation.firstName = :firstName "
+			+ "AND m.personalInformation.lastName = :lastName")
 })
 public class Manager extends GymSystemUser implements Serializable {
 	private static final long serialVersionUID = 1L;

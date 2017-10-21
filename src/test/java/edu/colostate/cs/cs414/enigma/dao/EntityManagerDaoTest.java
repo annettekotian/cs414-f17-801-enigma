@@ -254,4 +254,15 @@ public class EntityManagerDaoTest {
 		persistedObjects.add(managaer);
 		persistedObjects.add(insurance);
 	}
+	
+	@Test
+	public void getManagerByFirstLastName() {
+		persistManager();
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("firstName", "John");
+		parameters.put("lastName", "Doe");
+		Manager manager = (Manager) dao.querySingle("Manager.findByName", parameters);
+		assertTrue("Failed to retrieve manager by name", manager.getPersonalInformation().getFirstName().equals("John")
+				&& manager.getPersonalInformation().getLastName().equals("Doe"));
+	}
 }
