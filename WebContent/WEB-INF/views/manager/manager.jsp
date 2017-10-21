@@ -31,7 +31,7 @@
 	
 	<button id="addManager" class="addButtons"><a href="#addManagerModal" rel="modal:open">Add Manager</a></button>
 	<button id="addTrainer" class="addButtons">Add Trainer</button>
-	<button id="addCustomer" class="addButtons">Add Customer</button>
+	<button id="addCustomer" class="addButtons"><a href="#addCustomerModal" rel="modal:open">Add Customer</a></button>
 	<button id="addMachine" class="addButtons">Add Equipment</button>
 	<div id="managerResults">
 		<table>
@@ -206,12 +206,66 @@
 			</div>
 			<div id="managerHealthInuranceDiv" class="managerInputDiv" > 	
 				<label>Health Insurance</label><br/>
-				<select id="managerHIList" >
+				<select id="managerHIList" class="managerInput" >
 				</select>
 			</div>
 			
 			
 			<button id="createManagerButton"><a href="#"> Create</a></button>
+		</div>	
+	</div>
+
+
+<div id="addCustomerModal" class="modal">
+		<h3>Add a Manager</h3>
+		<div id="inputFormDiv">
+			<div id="customerFirstNameDiv" class="customerInputDiv">
+				<label>First Name</label> <br/>
+				<input id="customerFName" class="customerInput" type="text" placeholder=" Enter first name"/> 
+			</div>
+			
+			<div id="customerLastNameDiv" class="customerInputDiv">
+				<label>Last Name</label><br/>
+				<input id="customerLName" class="customerInput" type="text" placeholder=" Enter last name"/> <br/>
+			</div>
+			<div id="customerEmailDiv" class="customerInputDiv">
+				<label>Email id</label><br/>
+				<input id="customerEmail" class="customerInput" type="text" placeholder=" Enter email id"/> <br/>
+			</div>
+			<div id="customerPhoneDiv" class="customerInputDiv">
+				<label>Phone no. </label><br/>
+				<input id="customerPhone" class="customerInput" type="number" placeholder=" Enter phone no"/>
+			</div>
+			<div id="customerStreetDiv" class="customerInputDiv">
+				<label>Street</label><br/>
+				<input id="customerStreet" class="customerInput" type="text" placeholder=" Enter street name, apt no. "/> <br/>
+			</div>
+			<div id="customerCityDiv" class="customerInputDiv">
+				<label>City</label><br/>
+				<input id="customerCity" class="customerInput" type="text" placeholder=" Enter city"/>
+			</div>
+			<div id="customerStateDiv" class="customerInputDiv">
+				<label>State</label><br/>
+				<select id="customerState" class="customerInput" type="text" placeholder=" Enter state "></select> <br/>
+			</div>
+			<div id="customerZipDiv" class="customerInputDiv">
+				<label>Zip code</label><br/>
+				<input id="customerZip" class="customerInput" type="number" placeholder=" Enter zip"/>
+			</div>
+			<div id="customerHealthInuranceDiv" class="customerInputDiv" > 	
+				<label>Health Insurance</label><br/>
+				<select id="customerHIList"  class="customerInput">
+				</select>
+			</div>
+			
+			<div id="customerHealthInuranceDiv" class="customerInputDiv" > 	
+				<label>Membership Status</label><br/>
+				<select id="customerMembership"  class="customerInput">
+				</select>
+			</div>
+			
+			
+			<button id="createCustomerButton"><a href="#"> Create</a></button>
 		</div>
 	
 	
@@ -219,7 +273,6 @@
 	
 	
 	</div>
-
 </body>
 <script src="../js/manager.js"></script>
 <script type="text/javascript">

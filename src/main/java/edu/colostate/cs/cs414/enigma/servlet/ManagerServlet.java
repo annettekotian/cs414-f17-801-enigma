@@ -24,6 +24,7 @@ import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.handler.AddressHandler;
 import edu.colostate.cs.cs414.enigma.handler.HealthInsuranceHandler;
 import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
+import edu.colostate.cs.cs414.enigma.handler.MembershipHandler;
 
 /**
  * Servlet implementation class Manager
@@ -87,6 +88,21 @@ public class ManagerServlet extends HttpServlet {
 			}
 			
 		return;
+		
+		case "getAddCustomerData":
+			HealthInsuranceHandler healthInsuranceHandler = new HealthInsuranceHandler();
+			values.put("healthInsurances", new Gson().toJson(healthInsuranceHandler.getHealthInsurances()));
+			
+			AddressHandler addHandler = new AddressHandler();
+			values.put("states", new Gson().toJson(addHandler.getAllStates()));
+			
+			MembershipHandler membershipHandler = new MembershipHandler();
+			values.put("membershipType", new Gson().toJson(membershipHandler.getMembershipStatus()));
+			
+			response.setContentType("application/json");
+			out.write(new Gson().toJson(values));
+			
+			return; 
 		default:
 			response.sendError(404);
 			break;

@@ -25,6 +25,7 @@ public class MembershipHandler {
 		for(int i=0; i<rawMemberships.size(); i++) {
 			memberships.add((Membership) rawMemberships.get(i));
 		}
+		close();
 		return memberships;
 	}
 }

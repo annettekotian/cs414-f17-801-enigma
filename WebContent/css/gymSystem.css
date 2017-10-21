@@ -167,17 +167,18 @@ margin-top:3%;
 }
 
 
-/**************add manager modal ****/
-#managerFirstNameDiv, #managerEmailDiv, #managerStreetDiv, #managerStateDiv, #managerUserNameDiv {
+/**************add manager, customer modal ****/
+#managerFirstNameDiv, #managerEmailDiv, #managerStreetDiv, #managerStateDiv, #managerUserNameDiv,
+#customerFirstNameDiv, #customerEmailDiv, #customerStreetDiv , #customerStateDiv, #customerHealthInuranceDiv{
 	float:left;
 	
 }
 
-.managerInputDiv {
+.managerInputDiv, .customerInputDiv{
 	padding: 10px;
 }
 
-.managerInput {
+.managerInput, .customerInput {
 	width: 198px;
 }
 

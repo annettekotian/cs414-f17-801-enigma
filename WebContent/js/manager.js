@@ -239,7 +239,7 @@ function showInventoryData() {
 
 
 /**
- * send ajax call to get Health insurance detaiils before opening modal
+ * send ajax call to get Health insurance details and state list before opening modal
 
  */
 $("#addManagerModal").on($.modal.BEFORE_OPEN, function beforeOpeningAddManagerModal () {
@@ -331,7 +331,40 @@ $("#createManagerButton").on("click", function (){
 
 
 /**
- get all manager data when add manager modal is closed
- * 
+ * send ajax call to get Health insurance list, state list and membeship list, before opening modal
+
  */
+$("#addCustomerModal").on($.modal.BEFORE_OPEN, function beforeOpeningAddManagerModal () {
+	$.ajax({
+		url: "/manager/ui",
+		method: "GET",
+		data: {
+			type: "getAddCustomerData"
+		},
+		success: function(data) {
+			var hiData = JSON.parse(data.healthInsurances);
+			var states = JSON.parse(data.states);
+			var membership = JSON.parse (data.membershipType);
+			var hiSelect = $("#customerHIList");
+			hiSelect.empty();
+			for (var i = 0; i< hiData.length; i++) {
+				hiSelect.append("<option data-id='" + hiData[i].id + "'>" + hiData[i].name +  "</option>")
+			}
+			
+			var statesSelect = $("#customerState");
+			for (var i = 0; i< states.length; i++) {
+				statesSelect.append("<option data-id='" + states[i].id + "'>" + states[i].state +  "</option>");
+			}
+			
+			var membershipSelect = $("#customerMembership");
+			for (var i = 0; i< membership.length; i++) {
+				membershipSelect.append("<option data-id='" + membership[i].id + "'>" + membership[i].type +  "</option>");
+			}
+		},
+		error: function(exception) {
+			alert("Error: " + exception);
+		}
+	});
+})
+
 
