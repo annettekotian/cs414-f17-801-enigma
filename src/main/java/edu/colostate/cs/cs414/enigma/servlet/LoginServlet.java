@@ -12,8 +12,10 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.handler.LoginHandler;
+import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
 
 /**
  * Servlet implementation class Login
@@ -58,13 +60,16 @@ public class LoginServlet extends HttpServlet {
 		if(LoginHandler.authenticate(userName, password)) {
 			HttpSession session = request.getSession(true);
 			String level = LoginHandler.getUserLevel(userName);
+			// set level and user id in the session
 			session.setAttribute("level", level);
 			session.setAttribute("userid", LoginHandler.getUserId(userName));
 			
-			values.put("rc", "0");
-			values.put("level", level);
+			// get all manager data to display in the ui
+			List<Manager> managers = ManagerHandler.getAllManagers();
 			
+					
 			request.setAttribute("level", level);
+			request.setAttribute("managerData", new Gson().toJson(managers));
 			request.getRequestDispatcher("/WEB-INF/views/manager/manager.jsp").forward(request, response);
 		}
 		else{

@@ -80,5 +80,24 @@ public class ManagerHandler {
 		return true;		
 		
 	}
+	
+	public static List<Manager> getAllManagers() {
+		// Open up a connection to the db
+			EntityManagerDao dao = new EntityManagerDao();
+			
+			// Issue a query to get all the customers
+			List<Manager> managers = new ArrayList<Manager>();
+			List<?> results = dao.query("Manager.findAll", null);
+			for(int i=0; i<results.size(); i++) {
+				managers.add((Manager) results.get(i));
+			}
+
+			// Shutdown connection to database
+			dao.close();
+			
+			return managers;
+	}
+	
+	
 
 }

@@ -37,46 +37,29 @@
 		<table>
 			<tr class = "tableHeader">
 				<th>
-					
+					Id
 				</th>
 				<th>
-					Name
+					First Name
+				</th>
+				<th>
+					Last Name
 				</th>
 				<th>
 					Address
 				</th>
 				<th>
-					Qualifications
+					Email
 				</th>
 				<th>
-					Health Insurance Provider
+					Phone No
+				</th>
+				<th>
+					Health Insurance
 				</th>
 				
 			</tr>
-			<tr class = "tableData">
-				<td><a href="">Edit</a></td>
-				<td>Manager 1</td>
-				<td>Street 1, Fort Collins, CO-80521</td>
-				<td>Qualification 1</td>
-				<td>Insurance 1</td>
-				
-			</tr>
-			<tr class = "tableData">
-				<td><a href="">Edit</a></td>
-				<td>Manager 2</td>
-				<td>Street 1, Fort Collins, CO-80521</td>
-				<td>Qualification 1</td>
-				<td>Insurance 2</td>
-				
-			</tr>
-			<tr class = "tableData">
-				<td><a href="">Edit</a></td>
-				<td>Manager 3</td>
-				<td>Street 1, Fort Collins, CO-80521</td>
-				<td>Qualification 1</td>
-				<td>Insurance 3</td>
-				
-			</tr>
+			
 		</table>
 	</div>
 	
@@ -241,11 +224,12 @@
 <script src="../js/manager.js"></script>
 <script type="text/javascript">
 var level = "<%=request.getAttribute("level")%>"
+var managerData = <%=request.getAttribute("managerData")%>
 /* var level = "MANAGER"; */	
 
 	switch(level) {
 	case "ADMIN": 
-		showAdminUI();
+		showAdminUI(managerData);
 		break;
 	case "MANAGER":
 			

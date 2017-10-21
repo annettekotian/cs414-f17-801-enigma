@@ -1,5 +1,19 @@
-function showAdminUI() {
+function showAdminUI(managerData) {
 	$("#managerLi").css("background", "darkgrey");
+	$("#managerResults").find(".tableData").remove();
+	for (var i = 0; i<managerData.length; i++) {
+		var manager = managerData[i];
+		$("#managerResults table").append("<tr> " +
+				"<td>" +  manager.id+"</td> " + 
+				"<td> " + manager.personalInformation.firstName+ "</td> " + 
+				" <td> " + manager.personalInformation.lastName +"</td> " +
+				" <td> " + manager.personalInformation.address.street + " "+ manager.personalInformation.address.city+ " " 
+				+ manager.personalInformation.address.state.state + " " + manager.personalInformation.address.zipcode +" </td> " +
+						"<td> "+ manager.personalInformation.email+ "</td> " + "" +
+								"<td>" + manager.personalInformation.phoneNumber + "</td> " +
+								" <td>" + manager.personalInformation.healthInsurance.name + "</td></tr>");
+	}
+	
 	showManagerData();
 }
 

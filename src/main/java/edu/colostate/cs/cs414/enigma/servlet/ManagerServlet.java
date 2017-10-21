@@ -112,7 +112,7 @@ public class ManagerServlet extends HttpServlet {
 			
 			ManagerHandler mh = new ManagerHandler();
 			mh.createManager(email, fName, lName, phone, hiId, uName, password, street, city, zip,state);
-
+			
 			out.write("success");
 			break;
 		}
