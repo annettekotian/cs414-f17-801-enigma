@@ -69,12 +69,15 @@
 
 	<div id="customerResults">
 		<table>
-			<tr>
+			<tr class = "tableHeader">
 				<th>
-					
+					Id
 				</th>
 				<th>
-					Name
+					First Name
+				</th>
+				<th>
+					Last Name
 				</th>
 				<th>
 					Address
@@ -83,34 +86,14 @@
 					Email
 				</th>
 				<th>
-					Health Insurance Provider
+					Phone No
+				</th>
+				<th>
+					Health Insurance
 				</th>
 				
-			</tr>
-			<tr>
-				<td><a href="">Edit</a></td>
-				<td>Customer 1</td>
-				<td>Street 1, Fort Collins, CO-80521</td>
-				<td>customer1@email.com</td>
-				<td>Insurance 1</td>
-				
-			</tr>
-			<tr>
-				<td><a href="">Edit</a></td>
-				<td>Customer 2</td>
-				<td>Street 1, Fort Collins, CO-80521</td>
-				<td>customer1@email.com</</td>
-				<td>Insurance 2</td>
-				
-			</tr>
-			<tr>
-				<td><a href="">Edit</a></td>
-				<td>Customer 3</td>
-				<td>Street 1, Fort Collins, CO-80521</td>
-				<td>customer1@email.com</</td>
-				<td>Insurance 3</td>
-				
-			</tr>
+			</tr>			
+			
 		</table>
 	</div>
 

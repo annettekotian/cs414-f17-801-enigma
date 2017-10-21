@@ -13,37 +13,6 @@ import edu.colostate.cs.cs414.enigma.entity.Customer;
 
 public class TrainerHandler {
 	
-	public static void createNewCustomer(String first, String last, String phone, String email, String insurance, String status) {
-		
-		// TODO: Test function does not work. PersonalInformation needs to be updated
-		
-		// Establish a connection to the database
-		EntityManagerDao dao = new EntityManagerDao();
-		
-		// Get/generate the health insurance object
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("description", insurance);
-		HealthInsurance healthInsurance = (HealthInsurance) dao.querySingle("HealthInsurance.findDescription", parameters);
-		if(healthInsurance == null) {
-			healthInsurance = new HealthInsurance(insurance);
-		}
-		
-		// Get the membership object based on type
-		parameters = new HashMap<String, Object>();
-		parameters.put("type", status);
-		Membership membership = (Membership) dao.querySingle("Membership.findType", parameters);
-	
-		// Create a new personal information for the customer
-		PersonalInformation personalInformation = new PersonalInformation(first, last, phone, email, healthInsurance, null);
-		Customer customer = new Customer(personalInformation, membership);
-		
-		// Persist the customer with the database
-		dao.persist(customer);
-		
-		// Shutdown connection to database
-		dao.close();
-	}
-
 	public static List<Customer> getAllCustomers() {
 		
 		// Establish a connection to the database

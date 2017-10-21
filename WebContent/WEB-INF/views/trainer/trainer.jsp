@@ -164,80 +164,6 @@ function generateCustomersDisplay(customers) {
 	focusCustomers();
 }
 
-function displayNewCustomerForm() {
-	
-	var healthInsurances = null;
-	$.ajax({
-		url: "/gym-system/trainer/ui",
-		method: "POST",
-		data: {
-			type: "getHealthInsurances"
-		},
-		success: function(data, textStatus, jqXHR) {
-			if(data.rc == 0) {
-				healthInsurances = JSON.parse(data.healthInsurances);
-			}
-			else {
-				alert(data.msg);
-			}
-		},
-		error: function(exception) {
-			alert("Exception" + exception);
-		},
-		async: false
-	});
-	
-	var healthInsuraceList = document.getElementById("healthInsurances");
-	while(healthInsuraceList.firstChild) {
-		healthInsuraceList.removeChild(healthInsuraceList.firstChild);
-	}
-	
-	var option = document.createElement("option");
-	option.value = option.textContent = "--Other--";
-	healthInsuraceList.appendChild(option);
-	
-	for(var i=0; i < healthInsurances.length; i++) {
-		var healthInsurance = healthInsurances[i].description;
-		option = document.createElement("option");
-		option.value = option.textContent = healthInsurance;
-		healthInsuraceList.appendChild(option);
-	}
-	
-	var membershipStatus = null;
-	$.ajax({
-		url: "/gym-system/trainer/ui",
-		method: "POST",
-		data: {
-			type: "getMembershipStatus"
-		},
-		success: function(data, textStatus, jqXHR) {
-			if(data.rc == 0) {
-				membershipStatus = JSON.parse(data.membershipStatus);
-			}
-			else {
-				alert(data.msg);
-			}
-		},
-		error: function(exception) {
-			alert("Exception" + exception);
-		},
-		async: false
-	});
-	
-	var membershipList = document.getElementById("membershipStatus");
-	while(membershipList.firstChild) {
-		membershipList.removeChild(membershipList.firstChild);
-	}
-	
-	for(var i=0; i < membershipStatus.length; i++) {
-		var membership = membershipStatus[i].type;
-		option = document.createElement("option");
-		option.value = option.textContent = membership;
-		membershipList.appendChild(option);
-	}
-	
-	document.getElementById("customerFormBackground").style.display = "block";
-}
 
 function inputNewHealthInsurance() {
 	var option = document.getElementById("healthInsurances");
@@ -250,9 +176,7 @@ function inputNewHealthInsurance() {
 	}
 }
 
-function closeNewCustomerForm() {
-	document.getElementById("customerFormBackground").style.display = "none";
-}
+
 
 function submitNewCustomerForm() {
 	var firstName = document.getElementById("firstname").value;

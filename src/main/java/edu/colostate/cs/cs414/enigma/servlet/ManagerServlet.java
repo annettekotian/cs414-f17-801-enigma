@@ -22,6 +22,7 @@ import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.handler.AddressHandler;
+import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
 import edu.colostate.cs.cs414.enigma.handler.HealthInsuranceHandler;
 import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
 import edu.colostate.cs.cs414.enigma.handler.MembershipHandler;
@@ -103,6 +104,15 @@ public class ManagerServlet extends HttpServlet {
 			out.write(new Gson().toJson(values));
 			
 			return; 
+			
+		case "getAllCustomers": 
+			try {
+				List<Customer> customers = new CustomerHandler().getCustomers();
+				out.write(new Gson().toJson(customers));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			return;
 		default:
 			response.sendError(404);
 			break;
@@ -114,18 +124,17 @@ public class ManagerServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
+		// doGet(request, response);
 		String type = request.getParameter("type");
-		Map<String, Manager> values = new HashMap<String, Manager>();
+		Map<String, Object> values = new HashMap<String, Object>();
 		PrintWriter out = response.getWriter();
 		switch (type) {
-		
-			
-		
-		case "createManager" :
-			
+
+		case "createManager":
+
 			String fName = request.getParameter("fName");
 			String lName = request.getParameter("lName");
 			String uName = request.getParameter("uName");
@@ -137,18 +146,45 @@ public class ManagerServlet extends HttpServlet {
 			String state = request.getParameter("state");
 			String zip = request.getParameter("zip");
 			String hiId = request.getParameter("hiId");
-			
-			
+
 			ManagerHandler mh = new ManagerHandler();
 			try {
-				Manager m = mh.createManager(email, fName, lName, phone, hiId, uName, password, street, city, zip,state);
+				Manager m = mh.createManager(email, fName, lName, phone, hiId, uName, password, street, city, zip,
+						state);
 				values.put("manager", m);
 				out.write(new Gson().toJson(values));
 			} catch (PersistenceException e) {
 				response.sendError(500, e.toString());
 			}
-			
+
 			break;
+			
+		case "createCustomer":
+			String firstName = request.getParameter("fName");
+			String lastName = request.getParameter("lName");
+			String phoneNumber = request.getParameter("phone");
+			String emailCustomer = request.getParameter("email");
+			String streetCustomer = request.getParameter("street");
+			String cityCustomer = request.getParameter("city");
+			String stateCustomer = request.getParameter("state");
+			String zipCustomer = request.getParameter("zip");
+			String healthInsurance = request.getParameter("healthInsurance");
+			String membershipStatus = request.getParameter("membershipStatus");
+			
+			try {
+				Customer c = new ManagerHandler().createNewCustomer(emailCustomer, firstName, lastName, phoneNumber, healthInsurance, streetCustomer, 
+						cityCustomer, zipCustomer, stateCustomer, membershipStatus);
+				
+				values.put("customer", c);
+				out.write(new Gson().toJson(values));
+			}catch(PersistenceException e) {
+				
+			}
+			
+			return;
 		}
+		
+		
+		
 	}
 }

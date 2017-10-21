@@ -53,28 +53,7 @@ public class TrainerServlet extends HttpServlet {
 		// Get the trainer post message type
 		/*String type = request.getParameter("type");
 		switch(type) {
-		case "getCustomers":
-			try {
-				values.put("customers", new Gson().toJson(TrainerHandler.getAllCustomers()));
-				values.put("rc", "0");
-			} catch(Exception e) {
-				values.put("rc", "1");
-				values.put("msg", e.toString());
-			}
-			break;
-			
-		case "getHealthInsurances":
-			try {
-				HealthInsuranceHandler healthInsuranceHandler = new HealthInsuranceHandler();
-				values.put("healthInsurances", new Gson().toJson(healthInsuranceHandler.getHealthInsurances()));
-				values.put("rc", "0");
-				healthInsuranceHandler.close();
-			} catch(Exception e) {
-				values.put("rc", "1");
-				values.put("msg", e.toString());
-			}
-			break;
-			
+				
 		case "getMembershipStatus":
 			try {
 				MembershipHandler membershipHandler = new MembershipHandler();

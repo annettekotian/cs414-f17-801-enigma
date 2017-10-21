@@ -172,20 +172,6 @@ function showManagerData() {
 
 function populateManagerTable(){
 	$("#managerResults").find(".tableData").remove();
-	/*$.ajax({
-		url: "/manager/ui",
-		data: {
-			type: "getAllManagers"
-		},
-		method: "GET",
-		success: function(data, textStatus, jqXHR) {
-			trainers = data
-		},
-		error: function(exception) {
-			alert("Exception" + exception);
-		},
-		async: false
-	});*/
 	$.ajax({
 		url: "/manager/ui",
 		method: "GET",
@@ -217,6 +203,7 @@ function populateManagerTable(){
 }
 
 function showCustomerData() {
+	populateCustomerTable();
 	$("#addManager").hide();
 	$("#addTrainer").hide();
 	$("#addMachine").hide();
@@ -225,6 +212,38 @@ function showCustomerData() {
 	$("#trainerResults").hide();
 	$("#customerResults").show();
 }
+
+function populateCustomerTable() {
+	$("#customerResults").find(".tableData").remove();
+	$.ajax({
+		url: "/manager/ui",
+		method: "GET",
+		data: {
+			type: "getAllCustomers"
+		},
+		success: function(customerData) {
+			customerData = JSON.parse(customerData)
+			for (var i = 0; i < customerData.length; i++) {
+				var customer = customerData[i];
+				$("#customerResults table").append("<tr class='tableData'> " +
+						"<td>" +  customer.id+"</td> " + 
+						"<td> " + customer.personalInformation.firstName+ "</td> " + 
+						" <td> " + customer.personalInformation.lastName +"</td> " +
+						" <td> " + customer.personalInformation.address.street + " "+ customer.personalInformation.address.city+ " " 
+						+ customer.personalInformation.address.state.state + " " + customer.personalInformation.address.zipcode +" </td> " +
+								"<td> "+ customer.personalInformation.email+ "</td> " + "" +
+										"<td>" + customer.personalInformation.phoneNumber + "</td> " +
+										" <td>" + customer.personalInformation.healthInsurance.name + "</td></tr>");
+			}
+			
+		},
+		error: function(exception) {
+			alert("Error: " + exception);
+		}
+	
+	});
+}
+	
 
 function showInventoryData() {
 	$("#addManager").hide();
@@ -242,7 +261,7 @@ function showInventoryData() {
  * send ajax call to get Health insurance details and state list before opening modal
 
  */
-$("#addManagerModal").on($.modal.BEFORE_OPEN, function beforeOpeningAddManagerModal () {
+$("#addManagerModal").on($.modal.BEFORE_OPEN, function () {
 	$.ajax({
 		url: "/manager/ui",
 		method: "GET",
@@ -334,7 +353,7 @@ $("#createManagerButton").on("click", function (){
  * send ajax call to get Health insurance list, state list and membeship list, before opening modal
 
  */
-$("#addCustomerModal").on($.modal.BEFORE_OPEN, function beforeOpeningAddManagerModal () {
+$("#addCustomerModal").on($.modal.BEFORE_OPEN, function () {
 	$.ajax({
 		url: "/manager/ui",
 		method: "GET",
@@ -365,6 +384,62 @@ $("#addCustomerModal").on($.modal.BEFORE_OPEN, function beforeOpeningAddManagerM
 			alert("Error: " + exception);
 		}
 	});
-})
+});
+
+
+$("#createCustomerButton").on("click", function (){
+	var postParams = {};
+	postParams.fName = $("#customerFName").val();
+	postParams.lName = $("#customerLName").val();
+	postParams.email = $("#customerEmail").val();
+	postParams.phone = $("#customerPhone").val();
+	postParams.street = $("#customerStreet").val();
+	postParams.city = $("#customerCity").val();
+	postParams.state = $("#customerState").val();
+	postParams.zip = $("#customerZip").val();
+	postParams.healthInsurance = $("#customerHIList").val();
+	postParams.membershipStatus = $("#customerMembership").val();
+	postParams.type = "createCustomer";
+	
+	
+	if(!postParams.fName || !postParams.lName || !postParams.email || !postParams.phone || !postParams.healthInsurance || !postParams.membershipStatus
+			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip) {
+		alert("incomplete input!");
+		return;
+	}
+	
+	$.modal.close();
+	
+	$.ajax({
+		url: "/manager/ui",
+		method: "POST",
+		data: postParams,
+		
+		success: function(data) {
+			var data = JSON.parse(data);
+			var customer = data.customer;
+			
+			$("#customerResults table").append("<tr class='tableData'> " +
+					"<td>" +  customer.id+"</td> " + 
+					"<td> " + customer.personalInformation.firstName+ "</td> " + 
+					" <td> " + customer.personalInformation.lastName +"</td> " +
+					" <td> " + customer.personalInformation.address.street + " "+ customer.personalInformation.address.city+ " " 
+					+ customer.personalInformation.address.state.state + " " + customer.personalInformation.address.zipcode +" </td> " +
+							"<td> "+ customer.personalInformation.email+ "</td> " + "" +
+									"<td>" + customer.personalInformation.phoneNumber + "</td> " +
+									" <td>" + customer.personalInformation.healthInsurance.name + "</td></tr>");
+
+		},
+		error: function(exception) {
+			if(exception.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0) {
+				alert("Username already exists");
+				return;
+			}
+			alert("Error: " + exception);
+		}
+	
+	});
+
+});
 
 
