@@ -2,6 +2,7 @@ package edu.colostate.cs.cs414.enigma.handler;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,13 +16,14 @@ import org.junit.Test;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
 
+
 public class ManagerHandlerTest {
 	
 	private EntityManagerDao dao;
-	private Object persistedObject;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		
 	}
 
 	@AfterClass
@@ -30,6 +32,8 @@ public class ManagerHandlerTest {
 
 	@Before
 	public void setUp() throws Exception {
+		
+		
 	}
 
 	@After
@@ -52,11 +56,12 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		boolean isSuccessful = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
-		assertFalse(isSuccessful);
+		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		assertNull(m);
 		
 	}
 	
+	@Test
 	public void testCreateManagerWithNoFirstName() {
 		//String fName = "Annette";
 		String fName = "";
@@ -72,9 +77,10 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		boolean isSuccessful = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
-		assertFalse(isSuccessful);	
+		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		assertNull(m);
 	}
+	
 	
 	public void testCreateManagerWithNoLastName() {
 		String fName = "Annette";
@@ -90,11 +96,12 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		boolean isSuccessful = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
-		assertFalse(isSuccessful);
+		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		assertNull(m);
 			
 	}
 	
+	@Test
 	public void testCreateManagerWithNoPhone() {
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -109,11 +116,12 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		boolean isSuccessful = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
-		assertFalse(isSuccessful);
+		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		assertNull(m);
 			
 	}
 	
+	@Test
 	public void testCreateManagerWithNoHI() {
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -128,11 +136,12 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		boolean isSuccessful = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
-		assertFalse(isSuccessful);
+		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		assertNull(m);
 			
 	}
 	
+	@Test
 	public void testCreateManagerWithNoUserName() {
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -147,11 +156,12 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		boolean isSuccessful = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
-		assertFalse(isSuccessful);
+		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		assertNull(m);
 			
 	}
 	
+	@Test
 	public void testCreateManagerWithNoPass() {
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -166,11 +176,12 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		boolean isSuccessful = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
-		assertFalse(isSuccessful);
+		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		assertNull(m);
 			
 	}
 	
+	@Test
 	public void testCreateManagerWithNoStreet() {
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -185,11 +196,12 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		boolean isSuccessful = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
-		assertFalse(isSuccessful);
+		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		assertNull(m);
 			
 	}
 	
+	@Test
 	public void testCreateManagerWithNoCity() {
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -204,10 +216,11 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		boolean isSuccessful = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
-		assertFalse(isSuccessful);
+		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		assertNull(m);
 	}
 	
+	@Test
 	public void testCreateManagerWithNoZip() {
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -222,10 +235,11 @@ public class ManagerHandlerTest {
 		String zip = "";
 		
 		ManagerHandler mh = new ManagerHandler();
-		boolean isSuccessful = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
-		assertFalse(isSuccessful);
+		Manager m = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		assertNull(m);
 	}
 	
+	@Test
 	public void testCreateManagerWithNoState() {
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -240,11 +254,37 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		boolean isSuccessful = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
-		assertFalse(isSuccessful);
+		Manager m = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		assertNull(m);
 	}
 	
+	
 	public void testCreateManager() {
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99999999";
+		String hiId = "2";
+		String userName = "annKot1";
+		String userPass = "123456";
+		String street = "720 City Park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Manager m = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		
+		//EntityManagerDao dao = new EntityManagerDao();
+		/*Map<String, Object> managerParams = new HashMap<String, Object>();
+		managerParams.put("name", fName);*/
+		
+		
+		//assertTrue(m.getPersonalInformation().getFirstName().equals(fName));
+	}
+	
+	
+	public void testCreateDuplicateManager() {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
@@ -258,15 +298,14 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		boolean isSuccessful = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
 		
-		EntityManagerDao dao = new EntityManagerDao();
 		Map<String, Object> managerParams = new HashMap<String, Object>();
 		managerParams.put("name", fName);
 		Manager m = (Manager) dao.querySingle("Manager.findByName", managerParams);
-		System.out.println(m.getPersonalInformation().getFirstName());
 		
-		assertTrue(m.getPersonalInformation().getFirstName().equals(fName) && isSuccessful == true);
+		
+		assertTrue(m.getPersonalInformation().getFirstName().equals(fName));
 	}
 	
 	

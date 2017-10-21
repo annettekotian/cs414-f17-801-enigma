@@ -3,7 +3,7 @@ function showAdminUI(managerData) {
 	$("#managerResults").find(".tableData").remove();
 	for (var i = 0; i<managerData.length; i++) {
 		var manager = managerData[i];
-		$("#managerResults table").append("<tr> " +
+		$("#managerResults table").append("<tr class = 'tableData'> " +
 				"<td>" +  manager.id+"</td> " + 
 				"<td> " + manager.personalInformation.firstName+ "</td> " + 
 				" <td> " + manager.personalInformation.lastName +"</td> " +
@@ -43,6 +43,7 @@ $("#trainerLi").on("click", function(){
 });
 
 $("#managerLi").on("click", function(){
+	populateManagerTable();
 	showManagerData();
 })
 
@@ -92,31 +93,31 @@ function populateTrainerTable() {
 	
 	var trainerTableRow = document.createElement("tr")
 	
-	var trainerTableColumn = document.createElement("td");
+	var trainerTableColumn = document.createElement("th");
 	trainerTableColumn.appendChild(document.createTextNode("Trainer ID"));
 	trainerTableRow.appendChild(trainerTableColumn)
 	
-	trainerTableColumn = document.createElement("td");
+	trainerTableColumn = document.createElement("th");
 	trainerTableColumn.appendChild(document.createTextNode("First Name"));
 	trainerTableRow.appendChild(trainerTableColumn)
 	
-	trainerTableColumn = document.createElement("td");
+	trainerTableColumn = document.createElement("th");
 	trainerTableColumn.appendChild(document.createTextNode("Last Name"));
 	trainerTableRow.appendChild(trainerTableColumn)
 	
-	trainerTableColumn = document.createElement("td");
+	trainerTableColumn = document.createElement("th");
 	trainerTableColumn.appendChild(document.createTextNode("Address"));
 	trainerTableRow.appendChild(trainerTableColumn)
 	
-	trainerTableColumn = document.createElement("td");
+	trainerTableColumn = document.createElement("th");
 	trainerTableColumn.appendChild(document.createTextNode("Email"));
 	trainerTableRow.appendChild(trainerTableColumn);
 	
-	trainerTableColumn = document.createElement("td");
+	trainerTableColumn = document.createElement("th");
 	trainerTableColumn.appendChild(document.createTextNode("Phone"));
 	trainerTableRow.appendChild(trainerTableColumn)
 	
-	trainerTableColumn = document.createElement("td");
+	trainerTableColumn = document.createElement("th");
 	trainerTableColumn.appendChild(document.createTextNode("Health Insurance"));
 	trainerTableRow.appendChild(trainerTableColumn)
 
@@ -166,6 +167,52 @@ function showManagerData() {
 	$("#inventoryResults").hide();
 	$("#addManager").show();
 	$("#managerResults").show();
+	
+}
+
+function populateManagerTable(){
+	$("#managerResults").find(".tableData").remove();
+	/*$.ajax({
+		url: "/manager/ui",
+		data: {
+			type: "getAllManagers"
+		},
+		method: "GET",
+		success: function(data, textStatus, jqXHR) {
+			trainers = data
+		},
+		error: function(exception) {
+			alert("Exception" + exception);
+		},
+		async: false
+	});*/
+	$.ajax({
+		url: "/manager/ui",
+		method: "GET",
+		data: {
+			type: "getAllManagers"
+		},
+		success: function(managerData) {
+			managerData = JSON.parse(managerData)
+			for (var i = 0; i < managerData.length; i++) {
+				var manager = managerData[i];
+				$("#managerResults table").append("<tr class='tableData'> " +
+						"<td>" +  manager.id+"</td> " + 
+						"<td> " + manager.personalInformation.firstName+ "</td> " + 
+						" <td> " + manager.personalInformation.lastName +"</td> " +
+						" <td> " + manager.personalInformation.address.street + " "+ manager.personalInformation.address.city+ " " 
+						+ manager.personalInformation.address.state.state + " " + manager.personalInformation.address.zipcode +" </td> " +
+								"<td> "+ manager.personalInformation.email+ "</td> " + "" +
+										"<td>" + manager.personalInformation.phoneNumber + "</td> " +
+										" <td>" + manager.personalInformation.healthInsurance.name + "</td></tr>");
+			}
+			
+		},
+		error: function(exception) {
+			alert("Error: " + exception);
+		}
+	});
+	
 	
 }
 
@@ -256,10 +303,24 @@ $("#createManagerButton").on("click", function (){
 		data: postParams,
 		
 		success: function(data) {
-			//alert("success")
+			var data = JSON.parse(data);
+			var manager = data.manager;
+			$("#managerResults table").append("<tr class='tableData'> " +
+					"<td>" +  manager.id+"</td> " + 
+					"<td> " + manager.personalInformation.firstName+ "</td> " + 
+					" <td> " + manager.personalInformation.lastName +"</td> " +
+					" <td> " + manager.personalInformation.address.street + " "+ manager.personalInformation.address.city+ " " 
+					+ manager.personalInformation.address.state.state + " " + manager.personalInformation.address.zipcode +" </td> " +
+							"<td> "+ manager.personalInformation.email+ "</td> " + "" +
+									"<td>" + manager.personalInformation.phoneNumber + "</td> " +
+									" <td>" + manager.personalInformation.healthInsurance.name + "</td></tr>");
 
 		},
 		error: function(exception) {
+			if(exception.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0) {
+				alert("Username already exists");
+				return;
+			}
 			alert("Error: " + exception);
 		}
 	});

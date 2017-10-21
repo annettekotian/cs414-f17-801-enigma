@@ -64,19 +64,19 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("level", level);
 			session.setAttribute("userid", LoginHandler.getUserId(userName));
 			
-			// get all manager data to display in the ui
-			List<Manager> managers = new ManagerHandler().getAllManagers();
-			
-					
-			request.setAttribute("level", level);
-			request.setAttribute("managerData", new Gson().toJson(managers));
-			request.getRequestDispatcher("/WEB-INF/views/manager/manager.jsp").forward(request, response);
+			// redirect based on level
+			if(level.equals("TRAINER")) {
+				request.getRequestDispatcher("/WEB-INF/views/trainer/trainer.jsp").forward(request, response);
+			} else {
+
+				// get all manager data to display in the ui
+				
+				List<Manager> managers = new ManagerHandler().getAllManagers();			
+				request.setAttribute("level", level);
+				request.setAttribute("managerData", new Gson().toJson(managers));
+				request.getRequestDispatcher("/WEB-INF/views/manager/manager.jsp").forward(request, response);
+			}	
 		}
-		else{
-			
-			request.getRequestDispatcher("/WEB-INF/views/trainer/trainer.jsp").forward(request, response);
-		}
-		
 		
 	}
 

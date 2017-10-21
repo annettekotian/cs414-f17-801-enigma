@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.PersistenceException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 
 import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
+import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
@@ -50,7 +52,7 @@ public class ManagerServlet extends HttpServlet {
 		switch(type) {
 		
 		case "getAddManagerData":
-						try {
+			try {
 				HealthInsuranceHandler healthInsuranceHandler = new HealthInsuranceHandler();
 				values.put("healthInsurances", new Gson().toJson(healthInsuranceHandler.getHealthInsurances()));
 				
@@ -74,6 +76,17 @@ public class ManagerServlet extends HttpServlet {
 			}
 			
 		return;
+		
+		case "getAllManagers" :
+			
+			try {
+				List<Manager> managers = new ManagerHandler().getAllManagers();
+				out.write(new Gson().toJson(managers));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			
+		return;
 		default:
 			response.sendError(404);
 			break;
@@ -89,10 +102,10 @@ public class ManagerServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		String type = request.getParameter("type");
-		Map<String, String> values = new HashMap<String, String>();
+		Map<String, Manager> values = new HashMap<String, Manager>();
 		PrintWriter out = response.getWriter();
 		switch (type) {
-		case "getHealthInsurances":
+		
 			
 		
 		case "createManager" :
@@ -111,9 +124,14 @@ public class ManagerServlet extends HttpServlet {
 			
 			
 			ManagerHandler mh = new ManagerHandler();
-			mh.createManager(email, fName, lName, phone, hiId, uName, password, street, city, zip,state);
+			try {
+				Manager m = mh.createManager(email, fName, lName, phone, hiId, uName, password, street, city, zip,state);
+				values.put("manager", m);
+				out.write(new Gson().toJson(values));
+			} catch (PersistenceException e) {
+				response.sendError(500, e.toString());
+			}
 			
-			out.write("success");
 			break;
 		}
 	}

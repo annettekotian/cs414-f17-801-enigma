@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.PersistenceException;
+
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
@@ -52,15 +54,15 @@ public class ManagerHandler {
 	 * @param state: String state
 	 * @return
 	 */
-	public boolean createManager(String email, String firstName, String lastName, String phoneNumber, String hiId, String userName, String userPass,
-			String street, String city, String zip, String state) {
+	public Manager createManager(String email, String firstName, String lastName, String phoneNumber, String hiId, String userName, String userPass,
+			String street, String city, String zip, String state)  {
 		
 				
 		// validations
 		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || hiId.isEmpty() || userName.isEmpty()
 				|| userPass.isEmpty() || street.isEmpty() || city.isEmpty() || zip.isEmpty() || state.isEmpty()) {
 			
-			return false;
+			return null;
 		}
 		
 		// Establish a connection to the database
@@ -83,13 +85,14 @@ public class ManagerHandler {
 		Manager manager= new Manager(p, user);
 		
 		// Persist the customer with the database
-		dao.persist(manager);
 		
+		dao.persist(manager);
+		System.out.println(manager.getId());
 		// Shutdown connection to database
 		dao.close();
 		
 		
-		return true;		
+		return manager;		
 		
 	}
 	
