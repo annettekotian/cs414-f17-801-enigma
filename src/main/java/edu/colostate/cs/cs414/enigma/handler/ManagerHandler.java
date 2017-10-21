@@ -43,13 +43,25 @@ public class ManagerHandler {
 	 * @param firstName: String:
 	 * @param lastName: String
 	 * @param phoneNumber: String
-	 * @param hiId: health insruance id
-	 * @param userName: username of the manager using which he will log in
-	 * @param userPass: password for the username
+	 * @param hiId: String health insruance id
+	 * @param userName: String username of the manager using which he will log in
+	 * @param userPass: String password for the username
+	 * @param street: String password for the username
+	 * @param city: String city
+	 * @param zip: String zipcode
+	 * @param state: String state
 	 * @return
 	 */
 	public boolean createManager(String email, String firstName, String lastName, String phoneNumber, String hiId, String userName, String userPass,
 			String street, String city, String zip, String state) {
+		
+				
+		// validations
+		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || hiId.isEmpty() || userName.isEmpty()
+				|| userPass.isEmpty() || street.isEmpty() || city.isEmpty() || zip.isEmpty() || state.isEmpty()) {
+			
+			return false;
+		}
 		
 		// Establish a connection to the database
 		EntityManagerDao dao = new EntityManagerDao();
@@ -81,7 +93,7 @@ public class ManagerHandler {
 		
 	}
 	
-	public static List<Manager> getAllManagers() {
+	public List<Manager> getAllManagers() {
 		// Open up a connection to the db
 			EntityManagerDao dao = new EntityManagerDao();
 			

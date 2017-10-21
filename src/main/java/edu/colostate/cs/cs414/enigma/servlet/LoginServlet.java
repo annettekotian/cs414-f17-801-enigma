@@ -65,7 +65,7 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("userid", LoginHandler.getUserId(userName));
 			
 			// get all manager data to display in the ui
-			List<Manager> managers = ManagerHandler.getAllManagers();
+			List<Manager> managers = new ManagerHandler().getAllManagers();
 			
 					
 			request.setAttribute("level", level);
