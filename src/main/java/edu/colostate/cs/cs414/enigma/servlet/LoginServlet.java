@@ -65,6 +65,7 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("userid", LoginHandler.getUserId(userName));
 			
 			// redirect based on level
+			// TODO: Login should not return trainer/manager jsp. A redirect to the servlet should occur.
 			if(level.equals("TRAINER")) {
 				request.getRequestDispatcher("/WEB-INF/views/trainer/trainer.jsp").forward(request, response);
 			} else {
