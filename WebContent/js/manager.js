@@ -452,11 +452,12 @@ $("#createCustomerButton").on("click", function (){
 var formType = "";
 
 function displayNewTrainerForm() {
-	formType = "trainer";
+	formType = "Trainer";
 	displayEmployeeForm();
 }
 
 function clearForms() {
+	// Reset all the input fields
 	document.getElementById("contactInformationForm").reset();
 	document.getElementById("addressInformationForm").reset();
 	document.getElementById("healthInsuranceForm").reset();
@@ -465,19 +466,62 @@ function clearForms() {
 
 function displayEmployeeForm() {
 	clearForms();
+	
+	$.ajax({
+		url: "/manager/ui",
+		method: "GET",
+		data: {
+			type: "getAddManagerData"
+		},
+		success: function(data) {
+			var hiData = JSON.parse(data.healthInsurances);
+			var states = JSON.parse(data.states);
+			var hiSelect = $("#healthInsurance");
+			hiSelect.empty();
+			hiSelect.append("<option data-id='0'>--Other--</option>");
+			for (var i = 0; i< hiData.length; i++) {
+				hiSelect.append("<option data-id='" + hiData[i].id + "'>" + hiData[i].name +  "</option>")
+			}
+			
+			var statesSelect = $("#state");
+			statesSelect.empty();
+			for (var i = 0; i< states.length; i++) {
+				statesSelect.append("<option data-id='" + states[i].id + "'>" + states[i].state +  "</option>");
+			}
+
+		},
+		error: function(exception) {
+			alert("Error: " + exception);
+		},
+		async: false
+	});
+	
 	displayContactInformation();
 }
 
 function displayContactInformation() {
+	document.getElementById("contactInformationHeader").innerText = formType + " Contact Information";
 	$("#addContactInformation").modal();
 }
 
 function displayAddressForm() {	
+	document.getElementById("addressInformationHeader").innerText = formType + " Address Information";
 	$("#addAddressInformation").modal();
 }
 
 function displayHealthInsuranceForm() {
+	document.getElementById("healthInsuranceHeader").innerText = formType + " Health Insurance Information";
 	$("#addHealthInsurance").modal();
+}
+
+function checkNewHealthInsurance() {
+	if(document.getElementById("healthInsurance").selectedIndex == 0) {
+		document.getElementById("otherHealthInsurance").value = "";
+		document.getElementById("otherHealthInsurance").disabled = false;
+	}
+	else {
+		document.getElementById("otherHealthInsurance").disabled = true;
+	}
 }
 
 function disaplyNextForm() {
@@ -487,6 +531,7 @@ function disaplyNextForm() {
 }
 
 function displayUserCredentialForm() {
+	document.getElementById("userCredentials").innerText = formType + " User Credentials";
 	document.getElementById("password").value = "";
 	$("#addUserCredentials").modal();
 }

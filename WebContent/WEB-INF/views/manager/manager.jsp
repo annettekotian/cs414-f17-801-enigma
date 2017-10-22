@@ -145,7 +145,7 @@
 	</div>
 
 <div id="addContactInformation" class="modal">
-	<h3>Contact Information</h3>
+	<h3 id="contactInformationHeader"></h3>
 	<form id="contactInformationForm">
 		<label>First Name</label><br>
 		<input id="firstName" type="text"><br>
@@ -161,7 +161,7 @@
 </div>
 
 <div id="addAddressInformation" class="modal">
-	<h3>Address Information</h3>
+	<h3 id="addressInformationHeader"></h3>
 	<form id="addressInformationForm">
 		<label>Street 1</label><br>
 		<input id="street1" type="text"><br>
@@ -171,7 +171,6 @@
 		<input id="city" type="text"><br>
 		<label>State</label><br>
 		<select id="state" size="1">
-			<option>MN</option>
 		</select><br>
 		<label>Zipcode</label><br>
 		<input id="zipcode" type="text"><br>
@@ -182,11 +181,10 @@
 </div>
 
 <div id="addHealthInsurance" class="modal">
-	<h3>Health Information</h3>
+	<h3 id="healthInsuranceHeader"></h3>
 	<form id="healthInsuranceForm">
 		<label>Health Insurance</label><br>
-		<select id="healthInsurance" size="1">
-			<option>Cigna</option>
+		<select id="healthInsurance" size="1" onchange="checkNewHealthInsurance()">
 		</select><br>
 		<label>Other</label><br>
 		<input id="otherHealthInsurance" type="text"><br>
@@ -197,7 +195,7 @@
 </div>
 
 <div id="addUserCredentials" class="modal">
-	<h3>User Credentials</h3>
+	<h3 id="userCredentials"></h3>
 	<form id="userCredentialsForm">
 		<label>User Name</label><br>
 		<input id="userName" type="text"><br>

@@ -40,6 +40,24 @@ public class ManagerHandler {
 		return trainers;
 	}
 	
+	public static List<State> getAllStates() {
+		
+		// Open up a connection to the db
+		EntityManagerDao dao = new EntityManagerDao();
+		
+		// Issue a query to get all the customers
+		List<State> states = new ArrayList<State>();
+		List<?> results = dao.query("State.findAll", null);
+		for(int i=0; i<results.size(); i++) {
+			states.add((State) results.get(i));
+		}
+
+		// Shutdown connection to database
+		dao.close();
+		
+		return states;
+	}
+	
 	/**
 	 * 
 	 * @param email: String
