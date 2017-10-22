@@ -163,10 +163,8 @@
 <div id="addAddressInformation" class="modal">
 	<h3 id="addressInformationHeader"></h3>
 	<form id="addressInformationForm">
-		<label>Street 1</label><br>
-		<input id="street1" type="text"><br>
-		<label>Street 2</label><br>
-		<input id="street 2" type="text"><br>
+		<label>Street</label><br>
+		<input id="street" type="text"><br>
 		<label>City</label><br>
 		<input id="city" type="text"><br>
 		<label>State</label><br>

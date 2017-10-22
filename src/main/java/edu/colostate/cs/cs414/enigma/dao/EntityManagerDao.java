@@ -67,7 +67,7 @@ public class EntityManagerDao implements GymSystemDao {
 	public Object querySingle(String query, Map<String, Object> parameters)
 	{
 		List rawResults = query(query, parameters);
-		if(rawResults == null) {
+		if(rawResults.size() == 0) {
 			return null;
 		}
 		else {
