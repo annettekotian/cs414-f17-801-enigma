@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.PersistenceException;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,31 +16,44 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
+import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
+import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 
 public class ManagerHandlerTest {
 	
 	private EntityManagerDao dao;
+	private static EntityManagerFactoryListener emfl;
+	private List<Object> persistedObjects = new ArrayList<Object>();	
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		
+		emfl = new EntityManagerFactoryListener();
+		emfl.contextInitialized(null);
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		emfl.contextDestroyed(null);
+		emfl = null;
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		
+		dao = new EntityManagerDao();
 		
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		for(int i=0; i<persistedObjects.size(); i++) {
+			dao.remove(persistedObjects.get(i));
+		}
+		dao.close();
 	}
+	
+	/********** Test for Create Manager ************/
 
 	@Test
 	public void testCreateManagerWithNoEmail() {
@@ -60,7 +75,8 @@ public class ManagerHandlerTest {
 		assertNull(m);
 		
 	}
-	
+
+		
 	@Test
 	public void testCreateManagerWithNoFirstName() {
 		//String fName = "Annette";
@@ -80,7 +96,6 @@ public class ManagerHandlerTest {
 		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
 		assertNull(m);
 	}
-	
 	
 	public void testCreateManagerWithNoLastName() {
 		String fName = "Annette";
@@ -258,14 +273,41 @@ public class ManagerHandlerTest {
 		assertNull(m);
 	}
 	
-	
+	@Test
 	public void testCreateManager() {
-		String fName = "Annette";
+		String fName = "AnnetteRachel1";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
 		String phone = "99999999";
 		String hiId = "2";
-		String userName = "annKot1";
+		String userName = "annKotRac1";
+		String userPass = "123456";
+		String street = "720 City Park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Manager persistedM = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		persistedObjects.add(persistedM);
+		
+		Map<String, Object> managerParams = new HashMap<String, Object>();
+		managerParams.put("firstName", fName);
+		managerParams.put("lastName", lName);
+		Manager m = (Manager) dao.querySingle("Manager.findByName", managerParams);
+		assertTrue(m.getId() == persistedM.getId());
+		
+		
+		}
+	
+	@Test(expected = PersistenceException.class)
+	public void testCreateDuplicateManager() {
+		String fName = "AnnetteRachel";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99999999";
+		String hiId = "2";
+		String userName = "annKotRac";
 		String userPass = "123456";
 		String street = "720 City Park";
 		String city = "Fort Collins";
@@ -274,40 +316,262 @@ public class ManagerHandlerTest {
 		
 		ManagerHandler mh = new ManagerHandler();
 		Manager m = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		persistedObjects.add(m);
+		mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+			
 		
-		//EntityManagerDao dao = new EntityManagerDao();
-		/*Map<String, Object> managerParams = new HashMap<String, Object>();
-		managerParams.put("name", fName);*/
 		
-		
-		//assertTrue(m.getPersonalInformation().getFirstName().equals(fName));
 	}
 	
+	/************************* Test for create customer *******************/
 	
-	public void testCreateDuplicateManager() {
+	@Test
+	public void testCreateCustomer() {
+		
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
-		String phone = "99999999";
-		String hiId = "2";
-		String userName = "annKot1";
-		String userPass = "123456";
-		String street = "720 City Park";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
 		String city = "Fort Collins";
-		String state = "";
+		String state = "Colorado";
 		String zip = "80521";
+		String membershipStatus = "ACTIVE";
 		
 		ManagerHandler mh = new ManagerHandler();
-		mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		Customer persistedC  = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		persistedObjects.add(persistedC);
 		
-		Map<String, Object> managerParams = new HashMap<String, Object>();
-		managerParams.put("name", fName);
-		Manager m = (Manager) dao.querySingle("Manager.findByName", managerParams);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", persistedC.getId());
+		
+		Customer c = (Customer) dao.querySingle("Customer.findById", params);
+		assertTrue(c.getId() == persistedC.getId());
+	}
+	
+	@Test
+	public void testCreateDuplicateCustomer() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Customer persistedC1  = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		persistedObjects.add(persistedC1);
+		Customer persistedC2  = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		persistedObjects.add(persistedC2);
+		assertTrue(persistedC1.getId() != persistedC2.getId());
 		
 		
-		assertTrue(m.getPersonalInformation().getFirstName().equals(fName));
 	}
 	
 	
+	@Test
+	public void testCreateCustomerWithNoEmail() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Customer persistedC1  = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
+	@Test
+	public void testCreateCustomerWithNoFirstName() {
+		
+		String fName = "";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Customer persistedC1  = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+	}
+	
+	@Test
+	public void testCreateCustomerWithNoLastName() {
+		
+		String fName = "Annette";
+		String lName = "";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Customer persistedC1  = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
+	@Test
+	public void testCreateCustomerWithNoPhone() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Customer persistedC1  = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
+	@Test
+	public void testCreateCustomerWithNoInsurance() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Customer persistedC1  = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
+	@Test
+	public void testCreateCustomerWithNoStreet() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Customer persistedC1  = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
+	@Test
+	public void testCreateCustomerWithNoCity() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Customer persistedC1  = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
+	@Test
+	public void testCreateCustomerWithNoState() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Customer persistedC1  = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
+	@Test
+	public void testCreateCustomerWithNoZip() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "";
+		String membershipStatus = "ACTIVE";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Customer persistedC1  = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+	}
+
+	@Test
+	public void testCreateCustomerWithNoMembership() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Customer persistedC1  = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+
 
 }

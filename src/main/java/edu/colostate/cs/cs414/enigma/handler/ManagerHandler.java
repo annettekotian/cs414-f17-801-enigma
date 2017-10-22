@@ -88,7 +88,7 @@ public class ManagerHandler {
 		// Persist the customer with the database
 		
 		dao.persist(manager);
-		System.out.println(manager.getId());
+		
 		// Shutdown connection to database
 		dao.close();
 		
@@ -133,8 +133,13 @@ public class ManagerHandler {
 	public Customer createNewCustomer(String email, String firstName, String lastName, String phoneNumber,
 			String insurance, String street, String city, String zip, String state, String membershipStatus) {
 
-		// TODO: Test function does not work. PersonalInformation needs to be updated
-
+		
+		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || insurance.isEmpty() || 
+				street.isEmpty() || city.isEmpty() || zip.isEmpty() || state.isEmpty() || membershipStatus.isEmpty()) {
+			
+			return null;
+		}
+		
 		// Establish a connection to the database
 		EntityManagerDao dao = new EntityManagerDao();
 
