@@ -50,7 +50,7 @@ public class ManagerServlet extends HttpServlet {
 		
 		
 		String type = request.getParameter("type");
-		Map<String, String> values = new HashMap<String, String>();
+		Map<String, Object> values = new HashMap<String, Object>();
 		PrintWriter out = response.getWriter();
 		switch(type) {
 		
@@ -113,6 +113,29 @@ public class ManagerServlet extends HttpServlet {
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
 			}
+			return;
+			
+		case "getEditManagerData":
+			
+			
+			try {
+				Manager m = new ManagerHandler().getMangerById(request.getParameter("id"));
+				System.out.println("here");
+				values.put("manager", m);
+				
+				HealthInsuranceHandler hiHandler = new HealthInsuranceHandler();
+				values.put("healthInsurances", hiHandler.getHealthInsurances());
+				
+				AddressHandler aHandler = new AddressHandler();
+				values.put("states", aHandler.getAllStates());
+				
+				out.write(new Gson().toJson(values));
+				System.out.println("here2	");
+			}catch(Exception ex) {
+				response.sendError(500, ex.toString());
+				System.out.println("Some error" + ex.getMessage());
+			}
+			
 			return;
 		default:
 			response.sendError(404);

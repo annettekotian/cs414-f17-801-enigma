@@ -169,7 +169,8 @@ margin-top:3%;
 
 /**************add manager, customer modal ****/
 #managerFirstNameDiv, #managerEmailDiv, #managerStreetDiv, #managerStateDiv, #managerUserNameDiv,
-#customerFirstNameDiv, #customerEmailDiv, #customerStreetDiv , #customerStateDiv, #customerHealthInuranceDiv{
+#customerFirstNameDiv, #customerEmailDiv, #customerStreetDiv , #customerStateDiv, #customerHealthInuranceDiv,
+#editManagerFirstNameDiv, #editManagerUserNameDiv, #editManagerEmailDiv, #editManagerStreetDiv, #editManagerStateDiv{
 	float:left;
 	
 }
@@ -188,7 +189,7 @@ margin-top:3%;
     cursor: auto;
 }
 
-#createManagerButton {
+#createManagerButton, #editManagerButton {
 	margin: 10px;
 	
 }

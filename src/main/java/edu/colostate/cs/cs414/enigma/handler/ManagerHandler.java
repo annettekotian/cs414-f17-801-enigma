@@ -193,5 +193,23 @@ public class ManagerHandler {
 		return customer;
 	}
 	
+	/**
+	 * this method returns the manager object by its id
+	 * @param id: String the db id of the Manager
+	 * @return Manager
+	 */
+	public Manager getMangerById(String id) {
+		
+		// Establish a connection to the database
+		
+		EntityManagerDao dao = new EntityManagerDao();
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("id", Integer.parseInt(id));
+		Manager m = (Manager) dao.querySingle("Manager.findById", parameters);
+		
+		dao.close();
+		return m;
+	}
+	
 
 }

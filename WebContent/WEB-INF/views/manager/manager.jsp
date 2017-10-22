@@ -261,6 +261,65 @@
 			<button id="createManagerButton"> Create</button>
 		</div>	
 	</div>
+	
+	
+	<div id="editManagerModal" class="modal">
+		<h3>Modify a Manager</h3>
+		<div >
+			<div id="editManagerFirstNameDiv" class="managerInputDiv">
+				<label>First Name</label> <br/>
+				<input id="editManagerFName" class="managerInput" type="text"/> 
+			</div>
+			
+			<div id="editManagerLastNameDiv" class="managerInputDiv">
+				<label>Last Name</label><br/>
+				<input id="editManagerLName" class="managerInput" type="text"/> <br/>
+			</div>
+			<div id="editManagerUserNameDiv" class="managerInputDiv">
+				<label>User name</label><br/>
+				<input id="editManagerUName" class="managerInput" type="text" disabled /> <br/>
+			</div>
+			<div id="editManagerPasswordDiv" class="managerInputDiv">
+				<label>Password</label><br/>
+				<input id="editManagerPassword" class="managerInput" type="password" disabled/>
+			</div>
+			<div id="editManagerEmailDiv" class="managerInputDiv">
+				<label>Email id</label><br/>
+				<input id="editManagerEmail" class="managerInput" type="text"/> <br/>
+			</div>
+			<div id="editManagerPhoneDiv" class="managerInputDiv">
+				<label>Phone no. </label><br/>
+				<input id="editManagerPhone" class="managerInput" type="number"/>
+			</div>
+			<div id="editManagerStreetDiv" class="managerInputDiv">
+				<label>Street</label><br/>
+				<input id="editManagerStreet" class="managerInput" type="text"/> <br/>
+			</div>
+			<div id="editManagerCityDiv" class="managerInputDiv">
+				<label>City</label><br/>
+				<input id="editManagerCity" class="managerInput" type="text" />
+			</div>
+			<div id="editManagerStateDiv" class="managerInputDiv">
+				<label>State</label><br/>
+				<select id="editManagerState" class="managerInput" type="text" ></select> <br/>
+			</div>
+			<div id="editManagerZipDiv" class="managerInputDiv">
+				<label>Zip code</label><br/>
+				<input id="editManagerZip" class="managerInput" type="number"/>
+			</div>
+			<div id="editManagerHealthInuranceDiv" class="managerInputDiv" > 	
+				<label>Health Insurance</label><br/>
+				<select id="editManagerHIList" class="managerInput" >
+				</select>
+			</div>
+			
+			
+			<button id="editManagerButton"> Confirm</button> 
+			<button id="cancelManagerChanges"> Cancel</button> 
+		</div>	
+	</div>
+	
+	
 
 
 <div id="addCustomerModal" class="modal">
