@@ -18,6 +18,7 @@ import org.junit.Test;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
+import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 
@@ -573,5 +574,52 @@ public class ManagerHandlerTest {
 		
 	}
 
-
+	@Test
+	public void presistNewTrainer() {
+		String firstName = "John";
+		String lastName = "Doe";
+		String email = "johndoe@email.com";
+		String phone = "5555555555";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String userName = "johndoe";
+		String password = "password";
+		ManagerHandler mh = new ManagerHandler();
+		Trainer newTrainer = mh.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password);
+		persistedObjects.add(newTrainer);
+	}
+	
+	@Test(expected = PersistenceException.class)
+	public void presistNewTrainerDuplicateUsername() {
+		String firstName = "John";
+		String lastName = "Doe";
+		String email = "johndoe@email.com";
+		String phone = "5555555555";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String userName = "johndoe";
+		String password = "password";
+		ManagerHandler mh = new ManagerHandler();
+		Trainer newTrainer = mh.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password);
+		persistedObjects.add(newTrainer);
+		
+		firstName = "John";
+		lastName = "Doe";
+		email = "johndoe@email.com";
+		phone = "5555555555";
+		insurance = "Cigna";
+		street = "720 City park";
+		city = "Fort Collins";
+		state = "Colorado";
+		zip = "80521";
+		userName = "johndoe";
+		password = "password";
+		newTrainer = mh.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password);
+	}
 }

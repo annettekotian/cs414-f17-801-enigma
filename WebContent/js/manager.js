@@ -617,16 +617,17 @@ function submitEmployeeForm() {
 		data: postParams,
 		
 		success: function(data) {
-			if(formType == "Trainer") {
-				populateTrainerTable();
+			if(data.rc == 0) {
+				if(formType == "Trainer") {
+					populateTrainerTable();
+				}
+			}
+			else {
+				alert("Error: " + data.msg);
 			}
 		},
-		error: function(exception) {
-			if(exception.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0) {
-				alert("Username already exists");
-				return;
-			}
-			alert("Error: " + exception);
+		error: function(jqXHR, textStatus, errorThrown){
+			$(document.body).html(jqXHR.responseText);
 		}
 	});
 }

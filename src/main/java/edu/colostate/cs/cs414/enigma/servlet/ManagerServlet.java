@@ -220,11 +220,22 @@ public class ManagerServlet extends HttpServlet {
 			String userName = request.getParameter("userName");
 			password = request.getParameter("password");
 			
+			Map<String, Object> returnValues = new HashMap<String, Object>();
 			try {
-				ManagerHandler.createNewTrainer(firstName, lastName, phoneNumber, email, street, city, state, zipcode, healthInsurance, userName, password);
-			} catch(Exception e) {
-				response.sendError(500, e.toString());
+				Trainer newTrainer = new ManagerHandler().createNewTrainer(firstName, lastName, phoneNumber, email,
+						street, city, state, zipcode, healthInsurance, userName, password);	
+				returnValues.put("rc", "0");
+			} catch(PersistenceException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getCause().getCause().toString());
 			}
+			catch(Exception e) {
+				response.sendError(500, e.toString());
+				return;
+			}
+			
+			response.setContentType("application/json");
+			out.write(new Gson().toJson(returnValues));
 			break;
 		}
 	}

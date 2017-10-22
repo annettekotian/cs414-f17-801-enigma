@@ -40,25 +40,7 @@ public class ManagerHandler {
 		return trainers;
 	}
 	
-	public static List<State> getAllStates() {
-		
-		// Open up a connection to the db
-		EntityManagerDao dao = new EntityManagerDao();
-		
-		// Issue a query to get all the customers
-		List<State> states = new ArrayList<State>();
-		List<?> results = dao.query("State.findAll", null);
-		for(int i=0; i<results.size(); i++) {
-			states.add((State) results.get(i));
-		}
-
-		// Shutdown connection to database
-		dao.close();
-		
-		return states;
-	}
-	
-	public static void createNewTrainer(String firstName, String lastName, String phoneNumber, String email, String street,
+	public Trainer createNewTrainer(String firstName, String lastName, String phoneNumber, String email, String street,
 			String city, String state, String zipcode, String healthInsurance, String userName, String password) {
 		
 		// Open up a connection to the db
@@ -100,6 +82,8 @@ public class ManagerHandler {
 		
 		// Shutdown connection to database
 		dao.close();
+		
+		return trainer;
 	}
 	
 	/**
