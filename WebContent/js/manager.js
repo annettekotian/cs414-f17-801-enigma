@@ -3,7 +3,7 @@ function showAdminUI(managerData) {
 	$("#managerResults").find(".tableData").remove();
 	for (var i = 0; i<managerData.length; i++) {
 		var manager = managerData[i];
-		$("#managerResults table").append("<tr class = 'tableData'> <td><a href=''>Edit</a></td>" +
+		$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> <td><a href=''>Edit</a></td>" +
 				"<td>" +  manager.id+"</td> " + 
 				"<td> " + manager.personalInformation.firstName+ "</td> " + 
 				" <td> " + manager.personalInformation.lastName +"</td> " +
@@ -182,7 +182,7 @@ function populateManagerTable(){
 			managerData = JSON.parse(managerData)
 			for (var i = 0; i < managerData.length; i++) {
 				var manager = managerData[i];
-				$("#managerResults table").append("<tr class='tableData'> " +
+				$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> " +
 						"<td>" +  manager.id+"</td> " + 
 						"<td> " + manager.personalInformation.firstName+ "</td> " + 
 						" <td> " + manager.personalInformation.lastName +"</td> " +
@@ -327,7 +327,7 @@ $("#createManagerButton").on("click", function (){
 		success: function(data) {
 			var data = JSON.parse(data);
 			var manager = data.manager;
-			$("#managerResults table").append("<tr class='tableData'> <td><a href=''>Edit</a></td>" +
+			$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> <td><a href=''>Edit</a></td>"  +
 					"<td>" +  manager.id+"</td> " + 
 					"<td> " + manager.personalInformation.firstName+ "</td> " + 
 					" <td> " + manager.personalInformation.lastName +"</td> " +
