@@ -77,6 +77,8 @@ public class LoginServlet extends HttpServlet {
 				request.setAttribute("managerData", new Gson().toJson(managers));
 				request.getRequestDispatcher("/WEB-INF/views/manager/manager.jsp").forward(request, response);
 			}	
+		} else {
+			response.sendRedirect("/index.jsp");
 		}
 		
 	}
