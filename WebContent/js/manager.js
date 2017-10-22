@@ -449,4 +449,44 @@ $("#createCustomerButton").on("click", function (){
 
 });
 
+var formType = "";
 
+function displayNewTrainerForm() {
+	formType = "trainer";
+	displayEmployeeForm();
+}
+
+function clearForms() {
+	document.getElementById("contactInformationForm").reset();
+	document.getElementById("addressInformationForm").reset();
+	document.getElementById("healthInsuranceForm").reset();
+	document.getElementById("userCredentialsForm").reset();
+}
+
+function displayEmployeeForm() {
+	clearForms();
+	displayContactInformation();
+}
+
+function displayContactInformation() {
+	$("#addContactInformation").modal();
+}
+
+function displayAddressForm() {	
+	$("#addAddressInformation").modal();
+}
+
+function displayHealthInsuranceForm() {
+	$("#addHealthInsurance").modal();
+}
+
+function disaplyNextForm() {
+	if(formType != "customer") {
+		displayUserCredentialForm();
+	}
+}
+
+function displayUserCredentialForm() {
+	document.getElementById("password").value = "";
+	$("#addUserCredentials").modal();
+}

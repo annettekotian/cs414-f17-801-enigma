@@ -30,7 +30,7 @@
 	</div>
 	
 	<button id="addManager" class="addButtons">Add Manager</button>
-	<button id="addTrainer" class="addButtons">Add Trainer</button>
+	<button id="addTrainer" class="addButtons" onclick="displayNewTrainerForm()">Add Trainer</button>
 	<button id="addCustomer" class="addButtons">Add Customer</button>
 	<button id="addMachine" class="addButtons">Add Equipment</button>
 	<div id="managerResults">
@@ -144,6 +144,70 @@
 		</table>
 	</div>
 
+<div id="addContactInformation" class="modal">
+	<h3>Contact Information</h3>
+	<form id="contactInformationForm">
+		<label>First Name</label><br>
+		<input id="firstName" type="text"><br>
+		<label>Last Name</label><br>
+		<input id="lastName" type="text"><br>
+		<label>Phone Number</label><br>
+		<input id="phoneNumber" type="text"><br>
+		<label>Email Address</label><br>
+		<input id="email" type="text"><br>
+	</form>
+	<button onclick="displayAddressForm()">Next</button>
+	<button onclick="displayEmployeeForm()">Restart</button>
+</div>
+
+<div id="addAddressInformation" class="modal">
+	<h3>Address Information</h3>
+	<form id="addressInformationForm">
+		<label>Street 1</label><br>
+		<input id="street1" type="text"><br>
+		<label>Street 2</label><br>
+		<input id="street 2" type="text"><br>
+		<label>City</label><br>
+		<input id="city" type="text"><br>
+		<label>State</label><br>
+		<select id="state" size="1">
+			<option>MN</option>
+		</select><br>
+		<label>Zipcode</label><br>
+		<input id="zipcode" type="text"><br>
+	</form>
+	<button onclick="displayHealthInsuranceForm()">Next</button>
+	<button onclick="displayContactInformation()">Back</button>
+	<button onclick="displayEmployeeForm()">Restart</button>
+</div>
+
+<div id="addHealthInsurance" class="modal">
+	<h3>Health Information</h3>
+	<form id="healthInsuranceForm">
+		<label>Health Insurance</label><br>
+		<select id="healthInsurance" size="1">
+			<option>Cigna</option>
+		</select><br>
+		<label>Other</label><br>
+		<input id="otherHealthInsurance" type="text"><br>
+	</form>
+	<button onclick="disaplyNextForm()">Next</button>
+	<button onclick="displayAddressForm()">Back</button>
+	<button onclick="displayEmployeeForm()">Restart</button>
+</div>
+
+<div id="addUserCredentials" class="modal">
+	<h3>User Credentials</h3>
+	<form id="userCredentialsForm">
+		<label>User Name</label><br>
+		<input id="userName" type="text"><br>
+		<label>Password</label><br>
+		<input id="password" type="password"><br>
+	</form>
+	<button>Submit</button>
+	<button onclick="displayHealthInsuranceForm()">Back</button>
+	<button onclick="displayEmployeeForm()">Restart</button>
+</div>
 
 	<div id="addManagerModal" class="modal">
 		<h3>Add a Manager</h3>
