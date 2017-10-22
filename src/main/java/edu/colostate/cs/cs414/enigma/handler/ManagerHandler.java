@@ -58,6 +58,50 @@ public class ManagerHandler {
 		return states;
 	}
 	
+	public static void createNewTrainer(String firstName, String lastName, String phoneNumber, String email, String street,
+			String city, String state, String zipcode, String healthInsurance, String userName, String password) {
+		
+		// Open up a connection to the db
+		EntityManagerDao dao = new EntityManagerDao();
+		
+		// Get a state entity/object
+		Map<String, Object> stateParams = new HashMap<String, Object>();
+		stateParams.put("state", state);
+		State stateEntity = (State) dao.querySingle("State.findState", stateParams);
+		
+		// Create an address for the new trainer
+		Address addressEntity = new Address(street, city, zipcode, stateEntity);
+		
+		// Attempt to get a healthInsurance object
+		Map<String, Object> healthInsuranceParams = new HashMap<String, Object>();
+		healthInsuranceParams.put("name", healthInsurance);
+		HealthInsurance healthInsuranceEntity = (HealthInsurance) dao.querySingle("HealthInsurance.findByName", healthInsuranceParams);
+		if(healthInsuranceEntity == null) {
+			healthInsuranceEntity = new HealthInsurance(healthInsurance);
+		}
+		
+		// Create a personalInformation for the new trainer
+		PersonalInformation personalInformationEntity = new PersonalInformation(email, firstName, lastName, phoneNumber,
+				healthInsuranceEntity, addressEntity);
+		
+		// Get the trainer userLevel object for the new trainer
+		Map<String, Object> userLevelParams = new HashMap<String, Object>();
+		userLevelParams.put("level", "TRAINER");
+		UserLevel userLevelEntity = (UserLevel) dao.querySingle("UserLevel.findLevel", userLevelParams);
+		
+		// Create a user for the new trainer
+		User userEntity = new User(userName, password, userLevelEntity);
+		
+		// Create the new trainer
+		Trainer trainer = new Trainer(personalInformationEntity, userEntity);
+		
+		// Persist the new trainers information with the db
+		dao.persist(trainer);
+		
+		// Shutdown connection to database
+		dao.close();
+	}
+	
 	/**
 	 * 
 	 * @param email: String

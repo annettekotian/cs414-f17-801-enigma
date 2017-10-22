@@ -212,13 +212,20 @@ public class ManagerServlet extends HttpServlet {
 			lastName = request.getParameter("lastName");
 			phoneNumber = request.getParameter("phone");
 			email = request.getParameter("email");
-			street = request.getParameter("street1");
+			street = request.getParameter("street");
 			city = request.getParameter("city");
 			state = request.getParameter("state");
 			zipcode = request.getParameter("zip");
 			healthInsurance = request.getParameter("healthInsurance");
 			String userName = request.getParameter("userName");
 			password = request.getParameter("password");
+			
+			try {
+				ManagerHandler.createNewTrainer(firstName, lastName, phoneNumber, email, street, city, state, zipcode, healthInsurance, userName, password);
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			break;
 		}
 	}
 }

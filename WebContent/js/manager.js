@@ -139,7 +139,8 @@ function populateTrainerTable() {
 		trainerTableRow.appendChild(trainerTableColumn)
 		
 		trainerTableColumn = document.createElement("td");
-		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.address));
+		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.address.street + " " + trainers[i].personalInformation.address.city + ", " 
+				+ trainers[i].personalInformation.address.state.stateAbbrev + " " + trainers[i].personalInformation.address.zipcode));
 		trainerTableRow.appendChild(trainerTableColumn)
 		
 		trainerTableColumn = document.createElement("td");
@@ -151,7 +152,7 @@ function populateTrainerTable() {
 		trainerTableRow.appendChild(trainerTableColumn)
 		
 		trainerTableColumn = document.createElement("td");
-		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.healthInsurance.description));
+		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.healthInsurance.name));
 		trainerTableRow.appendChild(trainerTableColumn)
 
 		trainerTable.appendChild(trainerTableRow);
@@ -591,8 +592,7 @@ function submitEmployeeForm() {
 	postParams.password = $("#password").val();
 	postParams.email = $("#email").val();
 	postParams.phone = $("#phoneNumber").val();
-	postParams.street1 = $("#street1").val();
-	postParams.street2 = $("#street2").val();
+	postParams.street = $("#street").val();
 	postParams.city = $("#city").val();
 	postParams.state = $("#state").val();
 	postParams.zip = $("#zipcode").val();
@@ -616,7 +616,11 @@ function submitEmployeeForm() {
 		method: "POST",
 		data: postParams,
 		
-		success: function(data) {},
+		success: function(data) {
+			if(formType == "Trainer") {
+				populateTrainerTable();
+			}
+		},
 		error: function(exception) {
 			if(exception.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0) {
 				alert("Username already exists");
