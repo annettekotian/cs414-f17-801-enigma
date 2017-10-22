@@ -535,3 +535,47 @@ function displayUserCredentialForm() {
 	document.getElementById("password").value = "";
 	$("#addUserCredentials").modal();
 }
+
+function submitEmployeeForm() {
+	var postParams = {};
+	postParams.firstName = $("#firstName").val();
+	postParams.lastName = $("#lastName").val();
+	postParams.userName = $("#userName").val();
+	postParams.password = $("#password").val();
+	postParams.email = $("#email").val();
+	postParams.phone = $("#phoneNumber").val();
+	postParams.street1 = $("#street1").val();
+	postParams.street2 = $("#street2").val();
+	postParams.city = $("#city").val();
+	postParams.state = $("#state").val();
+	postParams.zip = $("#zipcode").val();
+	
+	if(document.getElementById("healthInsurance").selectedIndex == 0) {
+		postParams.healthInsurance = $("#otherHealthInsurance").val();
+	}
+	else {
+		postParams.healthInsurance = $("#healthInsurance").val();
+	}
+	
+	if(formType == "Trainer") {
+		postParams.type = "createTrainer";
+	}
+	
+	
+	$.modal.close();
+	
+	$.ajax({
+		url: "/manager/ui",
+		method: "POST",
+		data: postParams,
+		
+		success: function(data) {},
+		error: function(exception) {
+			if(exception.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0) {
+				alert("Username already exists");
+				return;
+			}
+			alert("Error: " + exception);
+		}
+	});
+}

@@ -202,7 +202,7 @@
 		<label>Password</label><br>
 		<input id="password" type="password"><br>
 	</form>
-	<button>Submit</button>
+	<button onclick="submitEmployeeForm()">Submit</button>
 	<button onclick="displayHealthInsuranceForm()">Back</button>
 	<button onclick="displayEmployeeForm()">Restart</button>
 </div>

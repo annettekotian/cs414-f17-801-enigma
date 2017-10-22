@@ -164,17 +164,17 @@ public class ManagerServlet extends HttpServlet {
 			String firstName = request.getParameter("fName");
 			String lastName = request.getParameter("lName");
 			String phoneNumber = request.getParameter("phone");
-			String emailCustomer = request.getParameter("email");
+			email = request.getParameter("email");
 			String streetCustomer = request.getParameter("street");
 			String cityCustomer = request.getParameter("city");
-			String stateCustomer = request.getParameter("state");
-			String zipCustomer = request.getParameter("zip");
+			state = request.getParameter("state");
+			String zipcode = request.getParameter("zip");
 			String healthInsurance = request.getParameter("healthInsurance");
 			String membershipStatus = request.getParameter("membershipStatus");
 			
 			try {
-				Customer c = new ManagerHandler().createNewCustomer(emailCustomer, firstName, lastName, phoneNumber, healthInsurance, streetCustomer, 
-						cityCustomer, zipCustomer, stateCustomer, membershipStatus);
+				Customer c = new ManagerHandler().createNewCustomer(email, firstName, lastName, phoneNumber, healthInsurance, streetCustomer, 
+						cityCustomer, zipcode, state, membershipStatus);
 				
 				values.put("customer", c);
 				out.write(new Gson().toJson(values));
@@ -182,10 +182,20 @@ public class ManagerServlet extends HttpServlet {
 				
 			}
 			
-			return;
+			break;
+		
+		case "createTrainer":
+			firstName = request.getParameter("firstName");
+			lastName = request.getParameter("lastName");
+			phoneNumber = request.getParameter("phone");
+			email = request.getParameter("email");
+			street = request.getParameter("street1");
+			city = request.getParameter("city");
+			state = request.getParameter("state");
+			zipcode = request.getParameter("zip");
+			healthInsurance = request.getParameter("healthInsurance");
+			String userName = request.getParameter("userName");
+			password = request.getParameter("password");
 		}
-		
-		
-		
 	}
 }
