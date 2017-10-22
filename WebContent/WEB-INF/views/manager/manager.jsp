@@ -29,13 +29,15 @@
 	</ul>
 	</div>
 	
-	<button id="addManager" class="addButtons"><a href="#addManagerModal" rel="modal:open">Add Manager</a></button>
+	<button id="addManager" class="addButtons">Add Manager</button>
 	<button id="addTrainer" class="addButtons">Add Trainer</button>
-	<button id="addCustomer" class="addButtons"><a href="#addCustomerModal" rel="modal:open">Add Customer</a></button>
+	<button id="addCustomer" class="addButtons">Add Customer</button>
 	<button id="addMachine" class="addButtons">Add Equipment</button>
 	<div id="managerResults">
 		<table>
 			<tr class = "tableHeader">
+				<th>
+				</th>
 				<th>
 					Id
 				</th>
@@ -194,7 +196,7 @@
 			</div>
 			
 			
-			<button id="createManagerButton"><a href="#"> Create</a></button>
+			<button id="createManagerButton"> Create</button>
 		</div>	
 	</div>
 
@@ -248,7 +250,7 @@
 			</div>
 			
 			
-			<button id="createCustomerButton"><a href="#"> Create</a></button>
+			<button id="createCustomerButton">Create</button>
 		</div>
 	
 	

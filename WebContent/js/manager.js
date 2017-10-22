@@ -3,7 +3,7 @@ function showAdminUI(managerData) {
 	$("#managerResults").find(".tableData").remove();
 	for (var i = 0; i<managerData.length; i++) {
 		var manager = managerData[i];
-		$("#managerResults table").append("<tr class = 'tableData'> " +
+		$("#managerResults table").append("<tr class = 'tableData'> <td><a href=''>Edit</a></td>" +
 				"<td>" +  manager.id+"</td> " + 
 				"<td> " + manager.personalInformation.firstName+ "</td> " + 
 				" <td> " + manager.personalInformation.lastName +"</td> " +
@@ -261,6 +261,9 @@ function showInventoryData() {
  * send ajax call to get Health insurance details and state list before opening modal
 
  */
+$("#addManager").on("click", function(){
+	$("#addManagerModal").modal();
+});
 $("#addManagerModal").on($.modal.BEFORE_OPEN, function () {
 	$.ajax({
 		url: "/manager/ui",
@@ -324,7 +327,7 @@ $("#createManagerButton").on("click", function (){
 		success: function(data) {
 			var data = JSON.parse(data);
 			var manager = data.manager;
-			$("#managerResults table").append("<tr class='tableData'> " +
+			$("#managerResults table").append("<tr class='tableData'> <td><a href=''>Edit</a></td>" +
 					"<td>" +  manager.id+"</td> " + 
 					"<td> " + manager.personalInformation.firstName+ "</td> " + 
 					" <td> " + manager.personalInformation.lastName +"</td> " +
@@ -348,11 +351,15 @@ $("#createManagerButton").on("click", function (){
 	
 });
 
+$("#addCustomer").on("click", function() {
+	$("#addCustomerModal").modal();
+})
 
 /**
  * send ajax call to get Health insurance list, state list and membeship list, before opening modal
 
  */
+
 $("#addCustomerModal").on($.modal.BEFORE_OPEN, function () {
 	$.ajax({
 		url: "/manager/ui",
