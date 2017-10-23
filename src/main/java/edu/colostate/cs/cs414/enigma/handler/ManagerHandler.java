@@ -239,5 +239,22 @@ public class ManagerHandler {
 		return m;
 	}
 	
+	
+	public List<Manager> searchManager(String keywords) {
+		EntityManagerDao dao = new EntityManagerDao();
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("keyword", "%" + keywords + "%");
+		System.out.println("1");
+		List<?> results = dao.query("Manager.findByKeywords", parameters);
+		System.out.println("2");
+		List<Manager> managers= new ArrayList<Manager>();
+		
+			for(int i=0; i<results.size(); i++) {
+				managers.add((Manager) results.get(i));
+			}
+		dao.close();
+		return managers;
+	}
+	
 
 }

@@ -73,6 +73,10 @@ margin-top:3%;
     cursor: auto;
 }
 
+#searchManagerInput {
+	margin-left: 50%
+}
+
 /*********************** all results tables *********************/
 #trainerResults {
 	margin-left:165px;

@@ -574,6 +574,7 @@ public class ManagerHandlerTest {
 		
 	}
 
+	/********* Test for new trainer **************/ 
 	@Test
 	public void presistNewTrainer() {
 		String firstName = "John";
@@ -622,4 +623,55 @@ public class ManagerHandlerTest {
 		password = "password";
 		newTrainer = mh.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password);
 	}
+	
+	/*********** test for search Manager *****************/ 
+	
+	public void testSearchManagerByKeyword() {
+		
+		String fName = "AnnetteRachel123456yeyeteyety";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99999999";
+		String hiId = "2";
+		String userName = "annKotRac1";
+		String userPass = "123456";
+		String street = "720 City Park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Manager persistedM = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		persistedObjects.add(persistedM);
+		
+		List<Manager> list = mh.searchManager(fName);
+		assertTrue(list.size() == 1 && list.get(0).getPersonalInformation().getFirstName().equals(fName));
+	}
+	
+	
+	public void testSearchManagerEmptyKeyword() {
+		
+		String fName = "AnnetteRachel123456yeyeteyety";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99999999";
+		String hiId = "2";
+		String userName = "annKotRac1";
+		String userPass = "123456";
+		String street = "720 City Park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Manager m1 = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		persistedObjects.add(m1);
+		Manager m2 = mh.createManager(email, fName , lName, phone, hiId, userName + "12334", userPass, street, city, zip, state);
+		persistedObjects.add(m2);
+		
+		
+		List<Manager> list = mh.searchManager("");
+		assertTrue(list.size() >=2);
+	}
+	
 }

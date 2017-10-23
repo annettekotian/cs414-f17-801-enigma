@@ -30,14 +30,14 @@
 	</div>
 	
 	<button id="addManager" class="addButtons">Add Manager</button>
+	<input id = "searchManagerInput" type="text" placeholder="search by name, address etc" /> <button id="searchManagerButton">Search</button>
 	<button id="addTrainer" class="addButtons" onclick="displayNewTrainerForm()">Add Trainer</button>
 	<button id="addCustomer" class="addButtons">Add Customer</button>
 	<button id="addMachine" class="addButtons">Add Equipment</button>
 	<div id="managerResults">
 		<table>
 			<tr class = "tableHeader">
-				<th>
-				</th>
+				
 				<th>
 					Id
 				</th>
@@ -261,7 +261,7 @@
 	</div>
 	
 	
-	<div id="editManagerModal" class="modal">
+	<!-- <div id="editManagerModal" class="modal"> 
 		<h3>Modify a Manager</h3>
 		<div >
 			<div id="editManagerFirstNameDiv" class="managerInputDiv">
@@ -318,7 +318,7 @@
 	</div>
 	
 	
-
+-->
 
 <div id="addCustomerModal" class="modal">
 		<h3>Add a Manager</h3>
@@ -378,6 +378,7 @@
 	
 	</div>
 </body>
+<script src="../js/globalVariables.js"></script>
 <script src="../js/manager.js"></script>
 <script type="text/javascript">
 var level = "<%=request.getAttribute("level")%>"

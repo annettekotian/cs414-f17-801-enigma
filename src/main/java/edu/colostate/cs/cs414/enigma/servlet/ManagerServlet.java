@@ -2,6 +2,7 @@ package edu.colostate.cs.cs414.enigma.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,7 +121,7 @@ public class ManagerServlet extends HttpServlet {
 			
 			try {
 				Manager m = new ManagerHandler().getMangerById(request.getParameter("id"));
-				System.out.println("here");
+				
 				values.put("manager", m);
 				
 				HealthInsuranceHandler hiHandler = new HealthInsuranceHandler();
@@ -130,12 +131,30 @@ public class ManagerServlet extends HttpServlet {
 				values.put("states", aHandler.getAllStates());
 				
 				out.write(new Gson().toJson(values));
-				System.out.println("here2	");
+			
 			}catch(Exception ex) {
 				response.sendError(500, ex.toString());
-				System.out.println("Some error" + ex.getMessage());
+				
 			}
 			
+			return;
+			
+		case "getSearchManagerResults":
+			try {
+				String searchText = request.getParameter("searchText");
+				List<Manager> managers = new ArrayList<Manager>();
+				ManagerHandler mh = new ManagerHandler();
+				if(searchText.isEmpty()) {
+					managers = mh.getAllManagers();
+				} else {
+					managers = mh.searchManager(request.getParameter("searchText"));
+				}
+				
+				values.put("results", managers);
+				out.write(new Gson().toJson(values));
+			}catch (Exception ex) {
+				response.sendError(500, ex.toString());
+			}
 			return;
 		default:
 			response.sendError(404);

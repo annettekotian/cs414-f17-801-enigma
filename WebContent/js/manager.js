@@ -3,7 +3,7 @@ function showAdminUI(managerData) {
 	$("#managerResults").find(".tableData").remove();
 	for (var i = 0; i<managerData.length; i++) {
 		var manager = managerData[i];
-		$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> <td><a class='editManager' href='#'>Edit</a></td>" +
+		$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> " +
 				"<td>" +  manager.id+"</td> " + 
 				"<td> " + manager.personalInformation.firstName+ "</td> " + 
 				" <td> " + manager.personalInformation.lastName +"</td> " +
@@ -183,7 +183,7 @@ function populateManagerTable(){
 			managerData = JSON.parse(managerData)
 			for (var i = 0; i < managerData.length; i++) {
 				var manager = managerData[i];
-				$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> > <td><a class='editManager' href='#' >Edit</a></td>" +
+				$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> " +
 						"<td>" +  manager.id+"</td> " + 
 						"<td> " + manager.personalInformation.firstName+ "</td> " + 
 						" <td> " + manager.personalInformation.lastName +"</td> " +
@@ -328,7 +328,7 @@ $("#createManagerButton").on("click", function (){
 		success: function(data) {
 			var data = JSON.parse(data);
 			var manager = data.manager;
-			$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> <td><a class='editManager' href='#'>Edit</a></td>"  +
+			$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'>"  +
 					"<td>" +  manager.id+"</td> " + 
 					"<td> " + manager.personalInformation.firstName+ "</td> " + 
 					" <td> " + manager.personalInformation.lastName +"</td> " +
@@ -350,8 +350,43 @@ $("#createManagerButton").on("click", function (){
 		
 });
 
+$("#searchManagerButton").on("click", function(){
+	var params = {};
+	params.type = "getSearchManagerResults";
+	params.searchText = $("#searchManagerInput").val();
+	$.ajax({
+		url: "/manager/ui",
+		method: "GET",
+		data: params,
+		
+		success: function(data) {
+			var data = JSON.parse(data);
+			var managerData = data.results;
+			$("#managerResults").find(".tableData").remove();
+			for (var i = 0; i < managerData.length; i++) {
+				var manager = managerData[i];
+				$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> " +
+						"<td>" +  manager.id+"</td> " + 
+						"<td> " + manager.personalInformation.firstName+ "</td> " + 
+						" <td> " + manager.personalInformation.lastName +"</td> " +
+						" <td> " + manager.personalInformation.address.street + " "+ manager.personalInformation.address.city+ " " 
+						+ manager.personalInformation.address.state.state + " " + manager.personalInformation.address.zipcode +" </td> " +
+								"<td> "+ manager.personalInformation.email+ "</td> " + "" +
+										"<td>" + manager.personalInformation.phoneNumber + "</td> " +
+										" <td>" + manager.personalInformation.healthInsurance.name + "</td></tr>");
+			}
+			
+
+		},
+		error: function(exception) {
+			
+			alert("Error: " + exception);
+		}
+	});
+});
+
 /************ send ajax call to get the clicked manager details*************/
-$(document.body).on("click", '.editManager', function () {
+/*$(document.body).on("click", '.editManager', function () {
 	$.ajax({
 		url: "/manager/ui",
 		method: "GET",
@@ -362,6 +397,7 @@ $(document.body).on("click", '.editManager', function () {
 		success: function(data) {
 			data = JSON.parse(data);
 			var manager = data.manager;
+			MANAGER_CURRENTLY_EDITED = manager;
 			var hiData = data.healthInsurances
 			var states = data.states;
 			var hiSelect = $("#editManagerHIList");
@@ -395,9 +431,66 @@ $(document.body).on("click", '.editManager', function () {
 	});
 })
 
-$("#editManagerButton, #cancelManagerChanges").on("click", function() {
+$("#cancelManagerChanges").on("click", function() {
 	$.modal.close()
 })
+
+$("#editManagerButton").on("click", function() {
+	var params = {};
+	params.id = MANAGER_CURRENTLY_EDITED.id;
+	params.fName = $("#editManagerFName").val();
+	params.lName = $("#editManagerLName").val();
+	params.uName = MANAGER_CURRENTLY_EDITED.user.username;
+	params.password = MANAGER_CURRENTLY_EDITED.user.password;
+	params.email = $("#editManagerEmail").val();
+	params.phoneNumber = $("#editManagerPhone").val();
+	params.street = $("#editManagerStreet").val();
+	params.city = $("#editManagerCity").val();
+	params.state = $("#editManagerState").val();
+	params.zipcode = $("#editManagerZip").val();
+	params.insurance = $("#editManagerHIList").val();
+	params.type = "modifyManager";
+	
+	if(!postParams.fName || !postParams.lName || !postParams.email || !postParams.phone || !params.insurance
+			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip) {
+		alert("incomplete input!");
+		return;
+	}
+	
+	$.modal.close();
+	
+	$.ajax({
+		url: "/manager/ui",
+		method: "POST",
+		data: postParams,
+		
+		success: function(data) {
+			var data = JSON.parse(data);
+			var manager = data.manager;
+			$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> <td><a class='editManager' href='#'>Edit</a></td>"  +
+					"<td>" +  manager.id+"</td> " + 
+					"<td> " + manager.personalInformation.firstName+ "</td> " + 
+					" <td> " + manager.personalInformation.lastName +"</td> " +
+					" <td> " + manager.personalInformation.address.street + " "+ manager.personalInformation.address.city+ " " 
+					+ manager.personalInformation.address.state.state + " " + manager.personalInformation.address.zipcode +" </td> " +
+							"<td> "+ manager.personalInformation.email+ "</td> " + "" +
+									"<td>" + manager.personalInformation.phoneNumber + "</td> " +
+									" <td>" + manager.personalInformation.healthInsurance.name + "</td></tr>");
+
+		},
+		error: function(exception) {
+			if(exception.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0) {
+				alert("Username already exists");
+				return;
+			}
+			alert("Error: " + exception);
+		}
+	});
+	
+});*/
+
+
+
 
 $("#addCustomer").on("click", function() {
 	$("#addCustomerModal").modal();
