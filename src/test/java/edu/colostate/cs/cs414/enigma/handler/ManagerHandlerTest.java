@@ -648,7 +648,7 @@ public class ManagerHandlerTest {
 		assertTrue(list.size() == 1 && list.get(0).getPersonalInformation().getFirstName().equals(fName));
 	}
 	
-	
+	@Test
 	public void testSearchManagerEmptyKeyword() {
 		
 		String fName = "AnnetteRachel123456yeyeteyety";
