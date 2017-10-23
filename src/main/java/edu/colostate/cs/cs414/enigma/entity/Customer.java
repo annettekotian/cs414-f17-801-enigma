@@ -23,6 +23,13 @@ import javax.persistence.Table;
 @NamedQueries({
 	@NamedQuery(name="Customer.findAll", query="SELECT c FROM Customer c"),
 	@NamedQuery(name="Customer.findById", query="SELECT c FROM Customer c where c.id = :id"),
+	@NamedQuery(name="Customer.findByKeywords", query = "SELECT c FROM Customer c where c.personalInformation.firstName LIKE :keyword" 
+			+ " OR c.personalInformation.lastName LIKE :keyword OR c.personalInformation.email LIKE :keyword"
+			+ " OR c.personalInformation.phoneNumber LIKE :keyword  OR c.personalInformation.lastName LIKE :keyword" 
+			+ " OR c.personalInformation.healthInsurance.name LIKE :keyword OR c.personalInformation.address.city LIKE :keyword"
+			+ " OR c.personalInformation.address.street LIKE :keyword OR c.personalInformation.address.zipcode LIKE :keyword"
+			+ " OR c.personalInformation.address.state.state LIKE :keyword OR c.id LIKE :keyword"
+			+ " OR c.membership.type LIKE :keyword") 
 	
 })
 public class Customer implements Serializable {

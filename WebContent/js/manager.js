@@ -49,7 +49,8 @@ function showTrainerData() {
 	
 	$("#addManager").hide();
 	$(".searchManager").hide();
-	$("#addCustomer").hide();
+	$("#addCustomer").hide()
+	$(".searchCustomer").hide();
 	$("#addMachine").hide();
 	$("#managerResults").hide();
 	$("#customerResults").hide();
@@ -159,6 +160,7 @@ function showManagerData() {
 	$("#modifyTrainer").hide();
 	$("#addCustomer").hide();
 	$("#addMachine").hide();
+	$(".searchCustomer").hide();
 	$(".searchManager").show();
 	$("#trainerResults").hide();
 	$("#customerResults").hide();
@@ -213,11 +215,13 @@ function showCustomerData() {
 	$("#addCustomer").show();
 	$("#managerResults").hide();
 	$("#trainerResults").hide();
+	$("#inventoryResults").hide();
 	$("#customerResults").show();
+	$(".searchCustomer").show();
 }
 
 function getAllCustomers() {
-	$("#customerResults").find(".tableData").remove();
+	
 	$.ajax({
 		url: "/manager/ui",
 		method: "GET",
@@ -242,6 +246,7 @@ function getAllCustomers() {
  * @returns
  */
 function populateCustomerTable(customerData){
+	$("#customerResults").find(".tableData").remove();
 	for (var i = 0; i < customerData.length; i++) {
 		var customer = customerData[i];
 		$("#customerResults table").append("<tr class='tableData'> " +
@@ -251,8 +256,9 @@ function populateCustomerTable(customerData){
 				" <td> " + customer.personalInformation.address.street + " "+ customer.personalInformation.address.city+ " " 
 				+ customer.personalInformation.address.state.state + " " + customer.personalInformation.address.zipcode +" </td> " +
 						"<td> "+ customer.personalInformation.email+ "</td> " + "" +
-								"<td>" + customer.personalInformation.phoneNumber + "</td> " +
-								" <td>" + customer.personalInformation.healthInsurance.name + "</td></tr>");
+						"<td>" + customer.personalInformation.phoneNumber + "</td> " +
+						" <td>" + customer.personalInformation.healthInsurance.name + "</td>"+
+						" <td>" + customer.membership.type+ "</td></tr>");
 	}
 	
 } 
@@ -261,6 +267,7 @@ function populateCustomerTable(customerData){
 function showInventoryData() {
 	$("#addManager").hide();
 	$(".searchManager").hide();
+	$(".searchCustomer").hide();
 	$("#addTrainer").hide();
 	$("#addCustomer").hide();
 	$("#addMachine").show();
@@ -581,16 +588,36 @@ $("#createCustomerButton").on("click", function (){
 
 		},
 		error: function(exception) {
-			if(exception.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0) {
-				alert("Username already exists");
-				return;
-			}
 			alert("Error: " + exception);
 		}
 	
 	});
 
 });
+
+$("#searchCustomerButton").on("click", function(){
+	var params = {};
+	params.type = "getSearchCustomerResults";
+	params.searchText = $("#searchCustomerInput").val();
+	$.ajax({
+		url: "/manager/ui",
+		method: "GET",
+		data: params,
+		
+		success: function(data) {
+			var data = JSON.parse(data);
+			var customerData = data.results;
+			
+			populateCustomerTable(customerData);
+			
+
+		},
+		error: function(exception) {
+			
+			alert("Error: " + exception);
+		}
+	});
+})
 
 var formType = "";
 

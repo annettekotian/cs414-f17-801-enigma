@@ -77,7 +77,11 @@ margin-top:3%;
 	margin-left: 50%
 }
 
-.searchManager {
+#searchCustomerInput {
+	margin-left: 49.5%;
+}
+
+.searchManager, .searchCustomer {
 	display: none;
 }
 

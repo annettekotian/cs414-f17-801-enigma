@@ -127,6 +127,24 @@ public class ManagerServlet extends HttpServlet {
 			}
 			return;
 			
+		case "getSearchCustomerResults" :
+			
+			try {
+				String searchText = request.getParameter("searchText");
+				CustomerHandler ch = new CustomerHandler();
+				List<Customer> customers = new ArrayList<Customer>();
+				if(searchText.isEmpty() ) {
+					customers = ch.getCustomers();
+				} else  {
+					customers = ch.getCustomerByKeyword(searchText);
+				}
+				values.put("results", customers);
+				out.write(new Gson().toJson(values));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			return; 
+			
 		case "getEditManagerData":
 			
 			
