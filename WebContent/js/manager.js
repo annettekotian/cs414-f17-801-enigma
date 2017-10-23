@@ -59,6 +59,7 @@ function showTrainerData() {
 	populateTrainerTable();
 	
 	$("#addManager").hide();
+	$(".searchManager").hide();
 	$("#addCustomer").hide();
 	$("#addMachine").hide();
 	$("#managerResults").hide();
@@ -169,6 +170,7 @@ function showManagerData() {
 	$("#modifyTrainer").hide();
 	$("#addCustomer").hide();
 	$("#addMachine").hide();
+	$(".searchManager").show();
 	$("#trainerResults").hide();
 	$("#customerResults").hide();
 	$("#inventoryResults").hide();
@@ -212,6 +214,7 @@ function populateManagerTable(){
 function showCustomerData() {
 	populateCustomerTable();
 	$("#addManager").hide();
+	$(".searchManager").hide();
 	$("#addTrainer").hide();
 	$("#modifyTrainer").hide();
 	$("#addMachine").hide();
@@ -255,6 +258,7 @@ function populateCustomerTable() {
 
 function showInventoryData() {
 	$("#addManager").hide();
+	$(".searchManager").hide();
 	$("#addTrainer").hide();
 	$("#addCustomer").hide();
 	$("#addMachine").show();

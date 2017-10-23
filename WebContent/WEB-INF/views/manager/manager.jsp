@@ -30,7 +30,8 @@
 	</div>
 	
 	<button id="addManager" class="addButtons">Add Manager</button>
-	<input id = "searchManagerInput" type="text" placeholder="search by name, address etc" /> <button id="searchManagerButton">Search</button>
+	<input id = "searchManagerInput" class="searchManager" type="text" placeholder="search by name, address etc" /> 
+	<button id="searchManagerButton" class="searchManager">Search</button>
 	<button id="addTrainer" class="addButtons" onclick="displayNewTrainerForm()">Add Trainer</button>
 	<button id="modifyTrainer" class="addButtons" onclick="modifyTrainerForm()">Modify Trainer</button>
 	<button id="addCustomer" class="addButtons">Add Customer</button>
@@ -363,7 +364,7 @@
 -->
 
 <div id="addCustomerModal" class="modal">
-		<h3>Add a Manager</h3>
+		<h3>Add a Customer</h3>
 		<div id="inputFormDiv">
 			<div id="customerFirstNameDiv" class="customerInputDiv">
 				<label>First Name</label> <br/>

@@ -77,6 +77,10 @@ margin-top:3%;
 	margin-left: 50%
 }
 
+.searchManager {
+	display: none;
+}
+
 /*********************** all results tables *********************/
 #trainerResults {
 	margin-left:165px;
