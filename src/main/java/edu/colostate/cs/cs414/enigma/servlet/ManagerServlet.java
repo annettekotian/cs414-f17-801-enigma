@@ -154,11 +154,11 @@ public class ManagerServlet extends HttpServlet {
 			try {
 				String searchText = request.getParameter("searchText");
 				List<Manager> managers = new ArrayList<Manager>();
-				ManagerHandler mh = new ManagerHandler();
+				ManagerHandler mh1 = new ManagerHandler();
 				if(searchText.isEmpty()) {
-					managers = mh.getAllManagers();
+					managers = mh1.getAllManagers();
 				} else {
-					managers = mh.searchManager(request.getParameter("searchText"));
+					managers = mh1.searchManager(request.getParameter("searchText"));
 				}
 				
 				values.put("results", managers);
