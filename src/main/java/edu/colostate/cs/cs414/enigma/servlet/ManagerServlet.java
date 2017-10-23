@@ -77,8 +77,19 @@ public class ManagerServlet extends HttpServlet {
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
 			}
+			return;
 			
-		return;
+		case "getTrainerById":
+			ManagerHandler mh = new ManagerHandler();
+			Integer trainerId = Integer.parseInt(request.getParameter("trainerId"));
+			try {
+				Trainer trainer = mh.getTrainerById(trainerId);
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(trainer));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			return;
 		
 		case "getAllManagers" :
 			
@@ -236,6 +247,18 @@ public class ManagerServlet extends HttpServlet {
 			
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
+			break;
+		
+		case "updateTrainer":
+			String trainerJson = request.getParameter("trainer");
+			Trainer trainer = new Gson().fromJson(trainerJson, Trainer.class);
+			
+			try {
+				new ManagerHandler().modifyTrainer(trainer);
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+				return;
+			}
 			break;
 		}
 	}

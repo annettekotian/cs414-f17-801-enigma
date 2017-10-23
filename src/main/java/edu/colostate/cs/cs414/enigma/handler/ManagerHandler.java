@@ -10,7 +10,6 @@ import javax.persistence.PersistenceException;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
-import edu.colostate.cs.cs414.enigma.entity.GymSystemUser;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.Membership;
@@ -40,8 +39,25 @@ public class ManagerHandler {
 		return trainers;
 	}
 	
+	public Trainer getTrainerById(int trainerId) {
+		// Open up a connection to the db
+		EntityManagerDao dao = new EntityManagerDao();
+		
+		// Get a state entity/object
+		Map<String, Object> trainerParams = new HashMap<String, Object>();
+		trainerParams.put("id", trainerId);
+		
+		// Get the trainer
+		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", trainerParams);
+		
+		// Shutdown connection to database
+		dao.close();
+				
+		return trainer;		
+	}
+	
 	public Trainer createNewTrainer(String firstName, String lastName, String phoneNumber, String email, String street,
-			String city, String state, String zipcode, String healthInsurance, String userName, String password) {
+			String city, String state, String zipcode, String healthInsurance, String userName, String password) throws PersistenceException {
 		
 		// Open up a connection to the db
 		EntityManagerDao dao = new EntityManagerDao();
@@ -84,6 +100,12 @@ public class ManagerHandler {
 		dao.close();
 		
 		return trainer;
+	}
+	
+	public void modifyTrainer(Trainer trainer) {
+		EntityManagerDao dao = new EntityManagerDao();
+		dao.update(trainer);
+		dao.close();
 	}
 	
 	/**
