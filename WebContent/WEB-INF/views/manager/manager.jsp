@@ -32,6 +32,7 @@
 	<button id="addManager" class="addButtons">Add Manager</button>
 	<input id = "searchManagerInput" type="text" placeholder="search by name, address etc" /> <button id="searchManagerButton">Search</button>
 	<button id="addTrainer" class="addButtons" onclick="displayNewTrainerForm()">Add Trainer</button>
+	<button id="modifyTrainer" class="addButtons" onclick="modifyTrainerForm()">Modify Trainer</button>
 	<button id="addCustomer" class="addButtons">Add Customer</button>
 	<button id="addMachine" class="addButtons">Add Equipment</button>
 	<div id="managerResults">
@@ -204,6 +205,47 @@
 	<button onclick="displayHealthInsuranceForm()">Back</button>
 	<button onclick="displayEmployeeForm()">Restart</button>
 </div>
+
+<div id="modifyTrainerSelectForm" class="modal">
+	<h3>Modify Trainer</h3>
+	<form>
+		<label>Select Trainer</label>
+		<select id="modifyTrainerList" size="1"></select>
+	</form>
+	<button onclick="modifyTrainerInformation()">Next</button>
+</div>
+
+<div id="modifyTrainerForm" class="modal">
+	<h3>Modify Trainer</h3>
+	<form>
+		<label>First Name</label><br>
+		<input id="modifyFirstName" type="text"><br>
+		<label>Last Name</label><br>
+		<input id="modifyLastName" type="text"><br>
+		<label>Phone Number</label><br>
+		<input id="modifyPhoneNumber" type="text"><br>
+		<label>Email Address</label><br>
+		<input id="modifyEmail" type="text"><br>
+		<label>Street</label><br>
+		<input id="modifyStreet" type="text"><br>
+		<label>City</label><br>
+		<input id="modifyCity" type="text"><br>
+		<label>State</label><br>
+		<input id="modifyState" type="text" disabled><br>
+		<label>Zipcode</label><br>
+		<input id="modifyZipcode" type="text"><br>
+		<label>Health Insurance</label><br>
+		<input id="modifyHealthInsurance" type="text" disabled><br>
+		<label>User Name</label><br>
+		<input id="modifyUserName" type="text" disabled><br>
+		<label>Password</label><br>
+		<input id="modifyPassword" type="password" disabled><br>
+	</form>
+	<button onclick="updateTrainerInformation()">Submit</button>
+	<button onclick="modifyTrainerForm()">Back</button>
+</div>
+
+
 
 	<div id="addManagerModal" class="modal">
 		<h3>Add a Manager</h3>

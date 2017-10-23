@@ -65,10 +65,11 @@ function showTrainerData() {
 	$("#customerResults").hide();
 	$("#inventoryResults").hide();
 	$("#addTrainer").show();
+	$("#modifyTrainer").show();
 	$("#trainerResults").show();
 }
 
-function populateTrainerTable() {
+function getAllTrainers() {
 	var trainers = null;
 	$.ajax({
 		url: "/manager/ui",
@@ -84,7 +85,11 @@ function populateTrainerTable() {
 		},
 		async: false
 	});
-	
+	return trainers;
+}
+
+function populateTrainerTable() {
+	var trainers = getAllTrainers();	
 
 	var trainerTable = document.getElementById("trainerTable");
 	while(trainerTable.rows.length > 0) {
@@ -161,6 +166,7 @@ function populateTrainerTable() {
 
 function showManagerData() {
 	$("#addTrainer").hide();
+	$("#modifyTrainer").hide();
 	$("#addCustomer").hide();
 	$("#addMachine").hide();
 	$("#trainerResults").hide();
@@ -207,6 +213,7 @@ function showCustomerData() {
 	populateCustomerTable();
 	$("#addManager").hide();
 	$("#addTrainer").hide();
+	$("#modifyTrainer").hide();
 	$("#addMachine").hide();
 	$("#addCustomer").show();
 	$("#managerResults").hide();
@@ -701,9 +708,6 @@ function submitEmployeeForm() {
 		postParams.type = "createTrainer";
 	}
 	
-	
-	$.modal.close();
-	
 	$.ajax({
 		url: "/manager/ui",
 		method: "POST",
@@ -713,6 +717,7 @@ function submitEmployeeForm() {
 			if(data.rc == 0) {
 				if(formType == "Trainer") {
 					populateTrainerTable();
+					$.modal.close();
 				}
 			}
 			else {
@@ -723,4 +728,71 @@ function submitEmployeeForm() {
 			$(document.body).html(jqXHR.responseText);
 		}
 	});
+}
+
+var trainers = null;
+function modifyTrainerForm() {
+	trainers = getAllTrainers();
+	
+	var trainerList = $("#modifyTrainerList");
+	trainerList.empty();
+	for (var i = 0; i< trainers.length; i++) {
+		trainerList.append("<option data-id='" + trainers[i].id + "'>" + trainers[i].personalInformation.firstName 
+				+ " " + trainers[i].personalInformation.lastName + "</option>");
+	}
+	
+	$("#modifyTrainerSelectForm").modal();
+}
+
+function modifyTrainerInformation() {
+	var trainer = trainers[document.getElementById("modifyTrainerList").selectedIndex];
+	
+	document.getElementById("modifyFirstName").value = trainer.personalInformation.firstName;
+	document.getElementById("modifyLastName").value = trainer.personalInformation.lastName;
+	document.getElementById("modifyPhoneNumber").value = trainer.personalInformation.phoneNumber;
+	document.getElementById("modifyEmail").value = trainer.personalInformation.email;
+	document.getElementById("modifyStreet").value = trainer.personalInformation.address.street;
+	document.getElementById("modifyCity").value = trainer.personalInformation.address.city;
+	document.getElementById("modifyState").value = trainer.personalInformation.address.state.state;
+	document.getElementById("modifyZipcode").value = trainer.personalInformation.address.zipcode;
+	document.getElementById("modifyHealthInsurance").value = trainer.personalInformation.healthInsurance.name;
+	document.getElementById("modifyUserName").value = trainer.user.username;
+	document.getElementById("modifyPassword").value = trainer.user.password;
+	
+	$("#modifyTrainerForm").modal();
+}
+
+function updateTrainerInformation() {
+	var trainer = trainers[document.getElementById("modifyTrainerList").selectedIndex];
+	
+	trainer.personalInformation.firstName = document.getElementById("modifyFirstName").value;
+	trainer.personalInformation.lastName = document.getElementById("modifyLastName").value;
+	trainer.personalInformation.phoneNumber = document.getElementById("modifyPhoneNumber").value;
+	trainer.personalInformation.email = document.getElementById("modifyEmail").value;
+	trainer.personalInformation.address.street = document.getElementById("modifyStreet").value;
+	trainer.personalInformation.address.city = document.getElementById("modifyCity").value;
+	trainer.personalInformation.address.state.state = document.getElementById("modifyState").value;
+	trainer.personalInformation.address.zipcode = document.getElementById("modifyZipcode").value;
+	trainer.personalInformation.healthInsurance.name = document.getElementById("modifyHealthInsurance").value;
+	trainer.user.username = document.getElementById("modifyUserName").value;
+	trainer.user.password = document.getElementById("modifyPassword").value;
+	
+	$.ajax({
+		url: "/manager/ui",
+		method: "POST",
+		data: {
+			type: "updateTrainer",
+			trainer: JSON.stringify(trainer)
+		},
+		
+		success: function(data) {
+			populateTrainerTable();
+			$.modal.close();
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			$(document.body).html(jqXHR.responseText);
+		}
+	});
+	
+	
 }

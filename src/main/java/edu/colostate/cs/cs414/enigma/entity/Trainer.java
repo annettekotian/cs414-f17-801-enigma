@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Table(name="trainer")
 @NamedQueries({
 	@NamedQuery(name="Trainer.findAll", query="SELECT t FROM Trainer t"),
-	
+	@NamedQuery(name="Trainer.findById", query="SELECT t FROM Trainer t WHERE t.id = :id")
 })
 public class Trainer extends GymSystemUser implements Serializable {
 	private static final long serialVersionUID = 1L;
