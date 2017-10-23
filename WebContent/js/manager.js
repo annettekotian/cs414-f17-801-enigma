@@ -1,18 +1,7 @@
 function showAdminUI(managerData) {
 	$("#managerLi").css("background", "darkgrey");
 	$("#managerResults").find(".tableData").remove();
-	for (var i = 0; i<managerData.length; i++) {
-		var manager = managerData[i];
-		$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> " +
-				"<td>" +  manager.id+"</td> " + 
-				"<td> " + manager.personalInformation.firstName+ "</td> " + 
-				" <td> " + manager.personalInformation.lastName +"</td> " +
-				" <td> " + manager.personalInformation.address.street + " "+ manager.personalInformation.address.city+ " " 
-				+ manager.personalInformation.address.state.state + " " + manager.personalInformation.address.zipcode +" </td> " +
-						"<td> "+ manager.personalInformation.email+ "</td> " + "" +
-								"<td>" + manager.personalInformation.phoneNumber + "</td> " +
-								" <td>" + manager.personalInformation.healthInsurance.name + "</td></tr>");
-	}
+	populateManagerTable(managerData);
 	
 	showManagerData();
 }
@@ -43,7 +32,7 @@ $("#trainerLi").on("click", function(){
 });
 
 $("#managerLi").on("click", function(){
-	populateManagerTable();
+	getAllManagers();
 	showManagerData();
 })
 
@@ -179,7 +168,7 @@ function showManagerData() {
 	
 }
 
-function populateManagerTable(){
+function getAllManagers(){
 	$("#managerResults").find(".tableData").remove();
 	$.ajax({
 		url: "/manager/ui",
@@ -189,18 +178,7 @@ function populateManagerTable(){
 		},
 		success: function(managerData) {
 			managerData = JSON.parse(managerData)
-			for (var i = 0; i < managerData.length; i++) {
-				var manager = managerData[i];
-				$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> " +
-						"<td>" +  manager.id+"</td> " + 
-						"<td> " + manager.personalInformation.firstName+ "</td> " + 
-						" <td> " + manager.personalInformation.lastName +"</td> " +
-						" <td> " + manager.personalInformation.address.street + " "+ manager.personalInformation.address.city+ " " 
-						+ manager.personalInformation.address.state.state + " " + manager.personalInformation.address.zipcode +" </td> " +
-								"<td> "+ manager.personalInformation.email+ "</td> " + "" +
-										"<td>" + manager.personalInformation.phoneNumber + "</td> " +
-										" <td>" + manager.personalInformation.healthInsurance.name + "</td></tr>");
-			}
+			populateManagerTable(managerData);
 			
 		},
 		error: function(exception) {
@@ -208,11 +186,25 @@ function populateManagerTable(){
 		}
 	});
 	
-	
+}
+
+function populateManagerTable(managerData) {
+	for (var i = 0; i < managerData.length; i++) {
+		var manager = managerData[i];
+		$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> " +
+				"<td>" +  manager.id+"</td> " + 
+				"<td> " + manager.personalInformation.firstName+ "</td> " + 
+				" <td> " + manager.personalInformation.lastName +"</td> " +
+				" <td> " + manager.personalInformation.address.street + " "+ manager.personalInformation.address.city+ " " 
+				+ manager.personalInformation.address.state.state + " " + manager.personalInformation.address.zipcode +" </td> " +
+						"<td> "+ manager.personalInformation.email+ "</td> " + "" +
+								"<td>" + manager.personalInformation.phoneNumber + "</td> " +
+								" <td>" + manager.personalInformation.healthInsurance.name + "</td></tr>");
+	}
 }
 
 function showCustomerData() {
-	populateCustomerTable();
+	getAllCustomers();
 	$("#addManager").hide();
 	$(".searchManager").hide();
 	$("#addTrainer").hide();
@@ -224,7 +216,7 @@ function showCustomerData() {
 	$("#customerResults").show();
 }
 
-function populateCustomerTable() {
+function getAllCustomers() {
 	$("#customerResults").find(".tableData").remove();
 	$.ajax({
 		url: "/manager/ui",
@@ -233,19 +225,8 @@ function populateCustomerTable() {
 			type: "getAllCustomers"
 		},
 		success: function(customerData) {
-			customerData = JSON.parse(customerData)
-			for (var i = 0; i < customerData.length; i++) {
-				var customer = customerData[i];
-				$("#customerResults table").append("<tr class='tableData'> " +
-						"<td>" +  customer.id+"</td> " + 
-						"<td> " + customer.personalInformation.firstName+ "</td> " + 
-						" <td> " + customer.personalInformation.lastName +"</td> " +
-						" <td> " + customer.personalInformation.address.street + " "+ customer.personalInformation.address.city+ " " 
-						+ customer.personalInformation.address.state.state + " " + customer.personalInformation.address.zipcode +" </td> " +
-								"<td> "+ customer.personalInformation.email+ "</td> " + "" +
-										"<td>" + customer.personalInformation.phoneNumber + "</td> " +
-										" <td>" + customer.personalInformation.healthInsurance.name + "</td></tr>");
-			}
+			customerData = JSON.parse(customerData);
+			populateCustomerTable(customerData);
 			
 		},
 		error: function(exception) {
@@ -254,6 +235,27 @@ function populateCustomerTable() {
 	
 	});
 }
+
+/**
+ * this methods loads the customer table data
+ * @param customerData: JSON array of customer data
+ * @returns
+ */
+function populateCustomerTable(customerData){
+	for (var i = 0; i < customerData.length; i++) {
+		var customer = customerData[i];
+		$("#customerResults table").append("<tr class='tableData'> " +
+				"<td>" +  customer.id+"</td> " + 
+				"<td> " + customer.personalInformation.firstName+ "</td> " + 
+				" <td> " + customer.personalInformation.lastName +"</td> " +
+				" <td> " + customer.personalInformation.address.street + " "+ customer.personalInformation.address.city+ " " 
+				+ customer.personalInformation.address.state.state + " " + customer.personalInformation.address.zipcode +" </td> " +
+						"<td> "+ customer.personalInformation.email+ "</td> " + "" +
+								"<td>" + customer.personalInformation.phoneNumber + "</td> " +
+								" <td>" + customer.personalInformation.healthInsurance.name + "</td></tr>");
+	}
+	
+} 
 	
 
 function showInventoryData() {
@@ -374,18 +376,7 @@ $("#searchManagerButton").on("click", function(){
 			var data = JSON.parse(data);
 			var managerData = data.results;
 			$("#managerResults").find(".tableData").remove();
-			for (var i = 0; i < managerData.length; i++) {
-				var manager = managerData[i];
-				$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> " +
-						"<td>" +  manager.id+"</td> " + 
-						"<td> " + manager.personalInformation.firstName+ "</td> " + 
-						" <td> " + manager.personalInformation.lastName +"</td> " +
-						" <td> " + manager.personalInformation.address.street + " "+ manager.personalInformation.address.city+ " " 
-						+ manager.personalInformation.address.state.state + " " + manager.personalInformation.address.zipcode +" </td> " +
-								"<td> "+ manager.personalInformation.email+ "</td> " + "" +
-										"<td>" + manager.personalInformation.phoneNumber + "</td> " +
-										" <td>" + manager.personalInformation.healthInsurance.name + "</td></tr>");
-			}
+			populateManagerTable(managerData);
 			
 
 		},

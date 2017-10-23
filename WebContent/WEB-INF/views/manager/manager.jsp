@@ -421,7 +421,7 @@
 	
 	</div>
 </body>
-<script src="../js/globalVariables.js"></script>
+
 <script src="../js/manager.js"></script>
 <script type="text/javascript">
 var level = "<%=request.getAttribute("level")%>"
