@@ -32,8 +32,9 @@
 	<button id="addManager" class="addButtons">Add Manager</button>
 	<input id = "searchManagerInput" class="searchManager" type="text" placeholder="enter name, address etc" /> 
 	<button id="searchManagerButton" class="searchManager">Search</button>
-	<button id="addTrainer" class="addButtons" onclick="displayNewTrainerForm()">Add Trainer</button>
+	<button id="addTrainer" class="addButtons" onclick="createTrainerForm()">Add Trainer</button>
 	<button id="modifyTrainer" class="addButtons" onclick="modifyTrainerForm()">Modify Trainer</button>
+	<button id="deleteTrainer" class="addButtons" onclick="deleteTrainerForm()">Delete Trainer</button>
 	<button id="addCustomer" class="addButtons">Add Customer</button>
 	<input id = "searchCustomerInput" class="searchCustomer" type="text" placeholder="enter name, address etc" /> 
 	<button id="searchCustomerButton" class="searchCustomer">Search</button>
@@ -157,7 +158,8 @@
 		<label>Select Trainer</label>
 		<select id="modifyTrainerList" size="1"></select>
 	</form>
-	<button onclick="modifyTrainerInformation()">Next</button>
+	<button id="modifyTrainerSelectFormButton" onclick="modifyTrainerInformation()">Next</button>
+	<button id="deleteTrainerSelectFormButton" onclick="deleteTrainer()">Delete</button>
 </div>
 
 <div id="modifyTrainerForm" class="modal">

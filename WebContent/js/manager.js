@@ -58,6 +58,7 @@ function showTrainerData() {
 	$("#addTrainer").show();
 	$("#modifyTrainer").show();
 	$("#trainerResults").show();
+	$("#deleteTrainer").show();
 }
 
 function getAllTrainers() {
@@ -158,6 +159,7 @@ function populateTrainerTable() {
 function showManagerData() {
 	$("#addTrainer").hide();
 	$("#modifyTrainer").hide();
+	$("#deleteTrainer").hide();
 	$("#addCustomer").hide();
 	$("#addMachine").hide();
 	$(".searchCustomer").hide();
@@ -211,6 +213,7 @@ function showCustomerData() {
 	$(".searchManager").hide();
 	$("#addTrainer").hide();
 	$("#modifyTrainer").hide();
+	$("#deleteTrainer").hide();
 	$("#addMachine").hide();
 	$("#addCustomer").show();
 	$("#managerResults").hide();
@@ -269,6 +272,7 @@ function showInventoryData() {
 	$(".searchManager").hide();
 	$(".searchCustomer").hide();
 	$("#addTrainer").hide();
+	$("#modifyTrainer").hide();
 	$("#addCustomer").hide();
 	$("#addMachine").show();
 	$("#managerResults").hide();
@@ -693,16 +697,29 @@ function getHealthInsurances() {
 	return healthInsurances;
 }
 
-function modifyTrainerForm() {
+function populateTrainerSelectList() {
 	trainers = getAllTrainers();
 	
 	var trainerList = $("#modifyTrainerList");
 	trainerList.empty();
+	trainerList.append("<option disabled selected value>--Select Trainer--</option>")
 	for (var i = 0; i< trainers.length; i++) {
 		trainerList.append("<option data-id='" + trainers[i].id + "'>" + trainers[i].personalInformation.firstName 
 				+ " " + trainers[i].personalInformation.lastName + "</option>");
 	}
-	
+}
+
+function modifyTrainerForm() {
+	populateTrainerSelectList();
+	$("#deleteTrainerSelectFormButton").hide();
+	$("#modifyTrainerSelectFormButton").show();
+	$("#modifyTrainerSelectForm").modal();
+}
+
+function deleteTrainerForm() {
+	populateTrainerSelectList();
+	$("#deleteTrainerSelectFormButton").show();
+	$("#modifyTrainerSelectFormButton").hide();
 	$("#modifyTrainerSelectForm").modal();
 }
 
@@ -760,9 +777,11 @@ function modifyTrainerInformation() {
 	document.getElementById("trainerForm").reset();
 	
 	// Get the specific trainer
-	var trainer = trainers[document.getElementById("modifyTrainerList").selectedIndex];
-	
-	// Set the trainer ID
+	var trainerIndex = document.getElementById("modifyTrainerList").selectedIndex -1;
+	if(trainerIndex < 0) {
+		return;
+	}
+	var trainer = trainers[trainerIndex];
 	trainerId = trainer.id;
 	
 	// Populate the state select list
@@ -855,6 +874,39 @@ function submitTrainerForm() {
 	else {
 		postParams.type = "updateTrainer";
 	}
+	
+	$.ajax({
+		url: "/manager/ui",
+		method: "POST",
+		data: postParams,
+		
+		success: function(data) {
+			if(data.rc == 0) {
+				populateTrainerTable();
+				$.modal.close();
+			}
+			else {
+				alert("Error: " + data.msg);
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			$(document.body).html(jqXHR.responseText);
+		}
+	});
+}
+
+function deleteTrainer() {
+	
+	// Get the specific trainer
+	var trainerIndex = document.getElementById("modifyTrainerList").selectedIndex -1;
+	if(trainerIndex < 0) {
+		return;
+	}
+	var trainer = trainers[trainerIndex];
+	
+	var postParams = {};
+	postParams.id = trainer.id;
+	postParams.type = "deleteTrainer";
 	
 	$.ajax({
 		url: "/manager/ui",

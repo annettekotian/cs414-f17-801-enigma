@@ -335,11 +335,11 @@ public class ManagerServlet extends HttpServlet {
 			String healthInsurance = request.getParameter("healthInsurance");
 			String userName = request.getParameter("userName");
 			String password = request.getParameter("password");
-			String trainerId = request.getParameter("id");
+			int trainerId = Integer.parseInt(request.getParameter("id"));
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			try {
-				Trainer newTrainer = new ManagerHandler().modifyTrainer(Integer.parseInt(trainerId), firstName, lastName, phoneNumber,
+				Trainer newTrainer = new ManagerHandler().modifyTrainer(trainerId, firstName, lastName, phoneNumber,
 						email, street, city, state, zipcode, healthInsurance, userName, password);	
 				returnValues.put("rc", "0");
 			}
@@ -352,6 +352,24 @@ public class ManagerServlet extends HttpServlet {
 				return;
 			}
 			
+			response.setContentType("application/json");
+			out.write(new Gson().toJson(returnValues));
+		}
+		else if(type.equals("deleteTrainer")) {
+			int trainerId = Integer.parseInt(request.getParameter("id"));
+			
+			Map<String, Object> returnValues = new HashMap<String, Object>();
+			try {
+				new ManagerHandler().deleteTrainer(trainerId);
+				returnValues.put("rc", "0");
+			}
+			catch(PersistenceException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getCause().getCause().toString());
+			}
+			catch(Exception e) {
+				response.sendError(500, e.toString());
+			}	
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
 		}
