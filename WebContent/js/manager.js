@@ -619,140 +619,51 @@ $("#searchCustomerButton").on("click", function(){
 	});
 })
 
-var formType = "";
 
-function displayNewTrainerForm() {
-	formType = "Trainer";
-	displayEmployeeForm();
-}
+/* Functions used to create/modify trainers */
 
-function clearForms() {
-	// Reset all the input fields
-	document.getElementById("contactInformationForm").reset();
-	document.getElementById("addressInformationForm").reset();
-	document.getElementById("healthInsuranceForm").reset();
-	document.getElementById("userCredentialsForm").reset();
-}
+var trainers = null;
+var trainerId = null;
+var trainerFormType = null;
 
-function displayEmployeeForm() {
-	clearForms();
-	
+function getStates() {
+	var states = null;
 	$.ajax({
 		url: "/manager/ui",
-		method: "GET",
 		data: {
-			type: "getAddManagerData"
+			type: "getStates"
 		},
-		success: function(data) {
-			var hiData = JSON.parse(data.healthInsurances);
-			var states = JSON.parse(data.states);
-			var hiSelect = $("#healthInsurance");
-			hiSelect.empty();
-			hiSelect.append("<option data-id='0'>--Other--</option>");
-			for (var i = 0; i< hiData.length; i++) {
-				hiSelect.append("<option data-id='" + hiData[i].id + "'>" + hiData[i].name +  "</option>")
-			}
-			
-			var statesSelect = $("#state");
-			statesSelect.empty();
-			for (var i = 0; i< states.length; i++) {
-				statesSelect.append("<option data-id='" + states[i].id + "'>" + states[i].state +  "</option>");
-			}
-
+		method: "GET",
+		success: function(data, textStatus, jqXHR) {
+			states = JSON.parse(data.states);
 		},
 		error: function(exception) {
-			alert("Error: " + exception);
+			alert("Exception" + exception);
 		},
 		async: false
 	});
-	
-	displayContactInformation();
+	return states;
 }
 
-function displayContactInformation() {
-	document.getElementById("contactInformationHeader").innerText = formType + " Contact Information";
-	$("#addContactInformation").modal();
-}
-
-function displayAddressForm() {	
-	document.getElementById("addressInformationHeader").innerText = formType + " Address Information";
-	$("#addAddressInformation").modal();
-}
-
-function displayHealthInsuranceForm() {
-	document.getElementById("healthInsuranceHeader").innerText = formType + " Health Insurance Information";
-	$("#addHealthInsurance").modal();
-}
-
-function checkNewHealthInsurance() {
-	if(document.getElementById("healthInsurance").selectedIndex == 0) {
-		document.getElementById("otherHealthInsurance").value = "";
-		document.getElementById("otherHealthInsurance").disabled = false;
-	}
-	else {
-		document.getElementById("otherHealthInsurance").disabled = true;
-	}
-}
-
-function disaplyNextForm() {
-	if(formType != "customer") {
-		displayUserCredentialForm();
-	}
-}
-
-function displayUserCredentialForm() {
-	document.getElementById("userCredentials").innerText = formType + " User Credentials";
-	document.getElementById("password").value = "";
-	$("#addUserCredentials").modal();
-}
-
-function submitEmployeeForm() {
-	var postParams = {};
-	postParams.firstName = $("#firstName").val();
-	postParams.lastName = $("#lastName").val();
-	postParams.userName = $("#userName").val();
-	postParams.password = $("#password").val();
-	postParams.email = $("#email").val();
-	postParams.phone = $("#phoneNumber").val();
-	postParams.street = $("#street").val();
-	postParams.city = $("#city").val();
-	postParams.state = $("#state").val();
-	postParams.zip = $("#zipcode").val();
-	
-	if(document.getElementById("healthInsurance").selectedIndex == 0) {
-		postParams.healthInsurance = $("#otherHealthInsurance").val();
-	}
-	else {
-		postParams.healthInsurance = $("#healthInsurance").val();
-	}
-	
-	if(formType == "Trainer") {
-		postParams.type = "createTrainer";
-	}
-	
+function getHealthInsurances() {
+	var healthInsurances = null;
 	$.ajax({
 		url: "/manager/ui",
-		method: "POST",
-		data: postParams,
-		
-		success: function(data) {
-			if(data.rc == 0) {
-				if(formType == "Trainer") {
-					populateTrainerTable();
-					$.modal.close();
-				}
-			}
-			else {
-				alert("Error: " + data.msg);
-			}
+		data: {
+			type: "getHealthInsurances"
 		},
-		error: function(jqXHR, textStatus, errorThrown){
-			$(document.body).html(jqXHR.responseText);
-		}
+		method: "GET",
+		success: function(data, textStatus, jqXHR) {
+			healthInsurances = JSON.parse(data.healthInsurances);
+		},
+		error: function(exception) {
+			alert("Exception" + exception);
+		},
+		async: false
 	});
+	return healthInsurances;
 }
 
-var trainers = null;
 function modifyTrainerForm() {
 	trainers = getAllTrainers();
 	
@@ -766,8 +677,93 @@ function modifyTrainerForm() {
 	$("#modifyTrainerSelectForm").modal();
 }
 
+function checkNewHealthInsurance() {
+	if(document.getElementById("modifyHealthInsurance").selectedIndex == 0) {
+		document.getElementById("modifyOtherHealthInsurance").value = "";
+		document.getElementById("modifyOtherHealthInsurance").disabled = false;
+	}
+	else {
+		document.getElementById("modifyOtherHealthInsurance").disabled = true;
+	}
+}
+
+function createTrainerForm() {
+	
+	// Set the form type
+	trainerFormType = "create";
+	
+	// Set the trainer ID to zero since there is not ID yet
+	trainerId = 0;
+	
+	// Clear the form
+	document.getElementById("trainerForm").reset();
+	
+	// Populate the state select list
+	var states = getStates();
+	var stateList = $("#modifyState");
+	stateList.empty();
+	for (var i = 0; i< states.length; i++) {
+		stateList.append("<option>" + states[i].state + "</option>");
+	}
+	
+	// Populate the health insurance list
+	var healthInsurances = getHealthInsurances();
+	var healthInsuranceList = $("#modifyHealthInsurance");
+	healthInsuranceList.empty();
+	healthInsuranceList.append("<option>--Other--</option>")
+	for (var i = 0; i< healthInsurances.length; i++) {
+		healthInsuranceList.append("<option>" + healthInsurances[i].name + "</option>");
+	}
+	document.getElementById("modifyOtherHealthInsurance").disabled = false;
+	
+	document.getElementById("modifyTrainerHeader").style.display = "none";
+	document.getElementById("newTrainerHeader").style.display = "block";
+	
+	$("#modifyTrainerForm").modal();
+}
+
 function modifyTrainerInformation() {
+	
+	// Set the form type
+	trainerFormType = "update";
+	
+	// Clear the form
+	document.getElementById("trainerForm").reset();
+	
+	// Get the specific trainer
 	var trainer = trainers[document.getElementById("modifyTrainerList").selectedIndex];
+	
+	// Set the trainer ID
+	trainerId = trainer.id;
+	
+	// Populate the state select list
+	var states = getStates();
+	var stateList = $("#modifyState");
+	stateList.empty();
+	var selectIndex = 0;
+	for (var i = 0; i< states.length; i++) {
+		stateList.append("<option>" + states[i].state + "</option>");
+		if(states[i].state == trainer.personalInformation.address.state.state) {
+			selectIndex = i;
+		}
+	}
+	document.getElementById("modifyState").options[selectIndex].selected = true;
+	
+	// Populate the health insurance list
+	var healthInsurances = getHealthInsurances();
+	var healthInsuranceList = $("#modifyHealthInsurance");
+	healthInsuranceList.empty();
+	selectIndex = 0;
+	healthInsuranceList.append("<option>--Other--</option>")
+	for (var i = 0; i< healthInsurances.length; i++) {
+		healthInsuranceList.append("<option>" + healthInsurances[i].name + "</option>");
+		if(healthInsurances[i].name == trainer.personalInformation.healthInsurance.name) {
+			selectIndex = (i+1);
+		}
+	}
+	document.getElementById("modifyHealthInsurance").options[selectIndex].selected = true;
+	
+	document.getElementById("modifyOtherHealthInsurance").disabled = true;
 	
 	document.getElementById("modifyFirstName").value = trainer.personalInformation.firstName;
 	document.getElementById("modifyLastName").value = trainer.personalInformation.lastName;
@@ -775,46 +771,78 @@ function modifyTrainerInformation() {
 	document.getElementById("modifyEmail").value = trainer.personalInformation.email;
 	document.getElementById("modifyStreet").value = trainer.personalInformation.address.street;
 	document.getElementById("modifyCity").value = trainer.personalInformation.address.city;
-	document.getElementById("modifyState").value = trainer.personalInformation.address.state.state;
 	document.getElementById("modifyZipcode").value = trainer.personalInformation.address.zipcode;
-	document.getElementById("modifyHealthInsurance").value = trainer.personalInformation.healthInsurance.name;
 	document.getElementById("modifyUserName").value = trainer.user.username;
 	document.getElementById("modifyPassword").value = trainer.user.password;
+	document.getElementById("modifyConfirmPassword").value = trainer.user.password;
+	
+	document.getElementById("modifyTrainerHeader").style.display = "block";
+	document.getElementById("newTrainerHeader").style.display = "none";
 	
 	$("#modifyTrainerForm").modal();
 }
 
-function updateTrainerInformation() {
-	var trainer = trainers[document.getElementById("modifyTrainerList").selectedIndex];
+function verifyTrainerForm() {
+	if(document.getElementById("modifyPassword").value != document.getElementById("modifyConfirmPassword").value) {
+		alert("Passwords are not the same");
+		return false;
+	}
+	if(document.getElementById("modifyPassword").value.length < 8) {
+		alert("Passwords must be at least 8 characters");
+		return false;
+	}
+		
+	return true;
+}
+
+function submitTrainerForm() {
+	if(!verifyTrainerForm()) {
+		return;
+	}
 	
-	trainer.personalInformation.firstName = document.getElementById("modifyFirstName").value;
-	trainer.personalInformation.lastName = document.getElementById("modifyLastName").value;
-	trainer.personalInformation.phoneNumber = document.getElementById("modifyPhoneNumber").value;
-	trainer.personalInformation.email = document.getElementById("modifyEmail").value;
-	trainer.personalInformation.address.street = document.getElementById("modifyStreet").value;
-	trainer.personalInformation.address.city = document.getElementById("modifyCity").value;
-	trainer.personalInformation.address.state.state = document.getElementById("modifyState").value;
-	trainer.personalInformation.address.zipcode = document.getElementById("modifyZipcode").value;
-	trainer.personalInformation.healthInsurance.name = document.getElementById("modifyHealthInsurance").value;
-	trainer.user.username = document.getElementById("modifyUserName").value;
-	trainer.user.password = document.getElementById("modifyPassword").value;
+	var postParams = {};
+	postParams.id = trainerId;
+	postParams.firstName = $("#modifyFirstName").val();
+	postParams.lastName = $("#modifyLastName").val();
+	postParams.userName = $("#modifyUserName").val();
+	postParams.password = $("#modifyPassword").val();
+	postParams.email = $("#modifyEmail").val();
+	postParams.phone = $("#modifyPhoneNumber").val();
+	postParams.street = $("#modifyStreet").val();
+	postParams.city = $("#modifyCity").val();
+	postParams.state = $("#modifyState").val();
+	postParams.zip = $("#modifyZipcode").val();
+	
+	if(document.getElementById("modifyHealthInsurance").selectedIndex == 0) {
+		postParams.healthInsurance = $("#modifyOtherHealthInsurance").val();
+	}
+	else {
+		postParams.healthInsurance = $("#modifyHealthInsurance").val();
+	}
+	
+	if(trainerFormType == "create") {
+		postParams.type = "createTrainer";
+	}
+	else {
+		postParams.type = "updateTrainer";
+	}
 	
 	$.ajax({
 		url: "/manager/ui",
 		method: "POST",
-		data: {
-			type: "updateTrainer",
-			trainer: JSON.stringify(trainer)
-		},
+		data: postParams,
 		
 		success: function(data) {
-			populateTrainerTable();
-			$.modal.close();
+			if(data.rc == 0) {
+				populateTrainerTable();
+				$.modal.close();
+			}
+			else {
+				alert("Error: " + data.msg);
+			}
 		},
 		error: function(jqXHR, textStatus, errorThrown){
 			$(document.body).html(jqXHR.responseText);
 		}
 	});
-	
-	
 }

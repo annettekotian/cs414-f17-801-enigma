@@ -69,6 +69,34 @@ public class ManagerServlet extends HttpServlet {
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(values));
 			return;
+		
+		case "getHealthInsurances":
+			try {
+				HealthInsuranceHandler healthInsuranceHandler = new HealthInsuranceHandler();
+				List<HealthInsurance> healthInsurances = healthInsuranceHandler.getHealthInsurances();
+				Gson gson = new Gson();
+				String healthInsurancesJson = gson.toJson(healthInsurances);
+				values.put("healthInsurances", healthInsurancesJson);
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			response.setContentType("application/json");
+			out.write(new Gson().toJson(values));
+			return;
+			
+		case "getStates":
+			try {	
+				AddressHandler addHandler = new AddressHandler();
+				List<State> states = addHandler.getAllStates();
+				Gson gson = new Gson();
+				String statesJson = gson.toJson(states);
+				values.put("states", statesJson);
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			response.setContentType("application/json");
+			out.write(new Gson().toJson(values));
+			return;
 			
 		case "getAllTrainers" :
 			try {
@@ -254,26 +282,28 @@ public class ManagerServlet extends HttpServlet {
 			}
 			
 			break;
+		}
 		
-		case "createTrainer":
-			firstName = request.getParameter("firstName");
-			lastName = request.getParameter("lastName");
-			phoneNumber = request.getParameter("phone");
-			email = request.getParameter("email");
-			street = request.getParameter("street");
-			city = request.getParameter("city");
-			state = request.getParameter("state");
-			zipcode = request.getParameter("zip");
-			healthInsurance = request.getParameter("healthInsurance");
+		if(type.equals("createTrainer")) {
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
+			String phoneNumber = request.getParameter("phone");
+			String email = request.getParameter("email");
+			String street = request.getParameter("street");
+			String city = request.getParameter("city");
+			String state = request.getParameter("state");
+			String zipcode = request.getParameter("zip");
+			String healthInsurance = request.getParameter("healthInsurance");
 			String userName = request.getParameter("userName");
-			password = request.getParameter("password");
+			String password = request.getParameter("password");
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			try {
 				Trainer newTrainer = new ManagerHandler().createNewTrainer(firstName, lastName, phoneNumber, email,
 						street, city, state, zipcode, healthInsurance, userName, password);	
 				returnValues.put("rc", "0");
-			} catch(PersistenceException e) {
+			}
+			catch(PersistenceException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getCause().getCause().toString());
 			}
@@ -284,19 +314,38 @@ public class ManagerServlet extends HttpServlet {
 			
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
-			break;
-		
-		case "updateTrainer":
-			String trainerJson = request.getParameter("trainer");
-			Trainer trainer = new Gson().fromJson(trainerJson, Trainer.class);
+		}
+		else if(type.equals("updateTrainer")) {
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
+			String phoneNumber = request.getParameter("phone");
+			String email = request.getParameter("email");
+			String street = request.getParameter("street");
+			String city = request.getParameter("city");
+			String state = request.getParameter("state");
+			String zipcode = request.getParameter("zip");
+			String healthInsurance = request.getParameter("healthInsurance");
+			String userName = request.getParameter("userName");
+			String password = request.getParameter("password");
+			String trainerId = request.getParameter("id");
 			
+			Map<String, Object> returnValues = new HashMap<String, Object>();
 			try {
-				new ManagerHandler().modifyTrainer(trainer);
-			} catch(Exception e) {
+				Trainer newTrainer = new ManagerHandler().modifyTrainer(Integer.parseInt(trainerId), firstName, lastName, phoneNumber,
+						email, street, city, state, zipcode, healthInsurance, userName, password);	
+				returnValues.put("rc", "0");
+			}
+			catch(PersistenceException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getCause().getCause().toString());
+			}
+			catch(Exception e) {
 				response.sendError(500, e.toString());
 				return;
 			}
-			break;
+			
+			response.setContentType("application/json");
+			out.write(new Gson().toJson(returnValues));
 		}
 	}
 }

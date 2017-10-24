@@ -102,10 +102,57 @@ public class ManagerHandler {
 		return trainer;
 	}
 	
-	public void modifyTrainer(Trainer trainer) {
+	public Trainer modifyTrainer(int id, String firstName, String lastName, String phoneNumber, String email, String street,
+			String city, String state, String zipcode, String healthInsurance, String userName, String password) throws PersistenceException {
+	
+		// Open up a connection to the db
 		EntityManagerDao dao = new EntityManagerDao();
+		
+		// Get the trainer entity to be updated
+		Map<String, Object> trainerParams = new HashMap<String, Object>();
+		trainerParams.put("id", id);
+		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", trainerParams);
+		
+		// Update the trainers information that does not require a new object
+		PersonalInformation personalInformation = trainer.getPersonalInformation();
+		personalInformation.setFirstName(firstName);
+		personalInformation.setLastName(lastName);
+		personalInformation.setEmail(email);
+		personalInformation.setPhoneNumber(phoneNumber);
+		if(!personalInformation.getHealthInsurance().getName().equals(healthInsurance)) {
+			Map<String, Object> healthInsuranceParams = new HashMap<String, Object>();
+			healthInsuranceParams.put("name", healthInsurance);
+			HealthInsurance healthInsuranceEntity = (HealthInsurance) dao.querySingle("HealthInsurance.findByName", healthInsuranceParams);
+			if(healthInsuranceEntity == null) {
+				healthInsuranceEntity = new HealthInsurance(healthInsurance);
+				dao.persist(healthInsuranceEntity);
+			}
+			personalInformation.setHealthInsurance(healthInsuranceEntity);
+		}
+		
+		Address address = personalInformation.getAddress();
+		address.setCity(city);
+		address.setStreet(street);
+		address.setZipcode(zipcode);
+		if(!address.getState().getState().equals(state)) {
+			Map<String, Object> stateParams = new HashMap<String, Object>();
+			stateParams.put("state", state);
+			State stateEntity = (State) dao.querySingle("State.findState", stateParams);
+			address.setState(stateEntity);
+		}
+		
+		User user = trainer.getUser();
+		user.setUsername(userName);
+		user.setPassword(password);
+		
+		
+		// Modify/update the trainers information with the db
 		dao.update(trainer);
+				
+		// Shutdown connection to database
 		dao.close();
+		
+		return trainer;
 	}
 	
 	/**
