@@ -285,6 +285,7 @@ function showInventoryData() {
 $("#addManager").on("click", function(){
 	$("#addManagerModal").modal();
 });
+
 $("#addManagerModal").on($.modal.BEFORE_OPEN, function () {
 	$.ajax({
 		url: "/manager/ui",
@@ -302,6 +303,7 @@ $("#addManagerModal").on($.modal.BEFORE_OPEN, function () {
 			}
 			
 			var statesSelect = $("#managerState");
+			statesSelect.empty();
 			for (var i = 0; i< states.length; i++) {
 				statesSelect.append("<option data-id='" + states[i].id + "'>" + states[i].state +  "</option>");
 			}
@@ -313,6 +315,10 @@ $("#addManagerModal").on($.modal.BEFORE_OPEN, function () {
 	});
 })
 
+$("#addManagerModal").on($.modal.AFTER_CLOSE, function() {
+	$("#addManagerModal input").val("");
+	$("#addManagerModal select").val($("#addManagerModal select option:first").val())
+});
 
 /** add manager when create button is clicked**/
 
@@ -533,11 +539,13 @@ $("#addCustomerModal").on($.modal.BEFORE_OPEN, function () {
 			}
 			
 			var statesSelect = $("#customerState");
+			statesSelect.empty();
 			for (var i = 0; i< states.length; i++) {
 				statesSelect.append("<option data-id='" + states[i].id + "'>" + states[i].state +  "</option>");
 			}
 			
 			var membershipSelect = $("#customerMembership");
+			membershipSelect.empty();
 			for (var i = 0; i< membership.length; i++) {
 				membershipSelect.append("<option data-id='" + membership[i].id + "'>" + membership[i].type +  "</option>");
 			}
@@ -549,6 +557,10 @@ $("#addCustomerModal").on($.modal.BEFORE_OPEN, function () {
 });
 
 
+/**
+ * creates a new customer
+ * @returns
+ */
 $("#createCustomerButton").on("click", function (){
 	var postParams = {};
 	postParams.fName = $("#customerFName").val();
@@ -604,6 +616,13 @@ $("#createCustomerButton").on("click", function (){
 	});
 
 });
+
+
+$("#addCustomerModal").on($.modal.AFTER_CLOSE, function() {
+	$("#addCustomerModal input").val("");
+	$("#addCustomerModal select").val($("#addCustomerModal select option:first").val())
+});
+
 
 $("#searchCustomerButton").on("click", function(){
 	var params = {};
