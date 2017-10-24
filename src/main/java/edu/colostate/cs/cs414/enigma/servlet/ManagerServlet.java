@@ -284,7 +284,36 @@ public class ManagerServlet extends HttpServlet {
 			}
 			
 			break;
+		case "updateCustomer": 
+			firstName = request.getParameter("fName");
+			lastName = request.getParameter("lName");
+			phoneNumber = request.getParameter("phone");
+			email = request.getParameter("email");
+			streetCustomer = request.getParameter("street");
+			cityCustomer = request.getParameter("city");
+			state = request.getParameter("state");
+			zipcode = request.getParameter("zip");
+			healthInsurance = request.getParameter("healthInsurance");
+			membershipStatus = request.getParameter("membershipStatus");
+			int id = Integer.parseInt(request.getParameter("id"));
+			
+			try {
+				Customer c = new CustomerHandler().updateCustomer(id, email, firstName, lastName, phoneNumber, healthInsurance, streetCustomer, 
+						cityCustomer, zipcode, state, membershipStatus);
+				
+				values.put("customer", c);
+				values.put("status", "success");
+				if(c == null) {
+					values.put("status", "failure");
+				}
+				out.write(new Gson().toJson(values));
+			}catch(PersistenceException e) {
+				
+			}
+			
+			break;
 		}
+		
 		
 		if(type.equals("createTrainer")) {
 			String firstName = request.getParameter("firstName");

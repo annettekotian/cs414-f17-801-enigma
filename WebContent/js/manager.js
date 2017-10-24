@@ -401,6 +401,11 @@ $("#searchManagerButton").on("click", function(){
 
 
 $("#addCustomer").on("click", function() {
+	$("#createCustomerButton").show();
+	$("#createCustomerHeader").show();
+	$("#editCustomerButton").hide();
+	$("#editCustomerHeader").hide();
+	getCustomerModalData();
 	$("#customerModal").modal();
 })
 
@@ -409,13 +414,14 @@ $("#addCustomer").on("click", function() {
 
  */
 
-$("#customerModal").on($.modal.BEFORE_OPEN, function () {
+function getCustomerModalData() {
 	$.ajax({
 		url: "/manager/ui",
 		method: "GET",
 		data: {
 			type: "getAddCustomerData"
 		},
+		async: false,
 		success: function(data) {
 			var hiData = JSON.parse(data.healthInsurances);
 			var states = JSON.parse(data.states);
@@ -442,14 +448,14 @@ $("#customerModal").on($.modal.BEFORE_OPEN, function () {
 			alert("Error: " + exception);
 		}
 	});
-});
+}
 
 
 /**
  * creates a new customer
  * @returns
  */
-$("#confirmCustomerButton").on("click", function (){
+$("#createCustomerButton").on("click", function (){
 	var postParams = {};
 	postParams.fName = $("#customerFName").val();
 	postParams.lName = $("#customerLName").val();
@@ -512,6 +518,11 @@ $("#cancelCustomerButton").on('click', function() {
 
 $(document).on('click', '.editCustomer', function() {
 	CURRENTLY_EDITED_CUSTOMER_ID = $(this).parents('tr').data('id');
+	$("#createCustomerButton").hide();
+	$("#createCustomerHeader").hide();
+	$("#editCustomerButton").show();
+	$("#editCustomerHeader").show();
+	getCustomerModalData();
 	
 	$.ajax({
 		url: "/manager/ui",
@@ -547,8 +558,75 @@ $(document).on('click', '.editCustomer', function() {
 		}
 	});
 	
-	
+	/**
+	 * edits a customer
+	 * @returns
+	 */
+	$("#editCustomerButton").unbind('click').on("click", function (){
+		//console.log("editCustomerButton called");
+		var postParams = {};
+		postParams.id = CURRENTLY_EDITED_CUSTOMER_ID;
+		postParams.fName = $("#customerFName").val();
+		postParams.lName = $("#customerLName").val();
+		postParams.email = $("#customerEmail").val();
+		postParams.phone = $("#customerPhone").val();
+		postParams.street = $("#customerStreet").val();
+		postParams.city = $("#customerCity").val();
+		postParams.state = $("#customerState").val();
+		postParams.zip = $("#customerZip").val();
+		postParams.healthInsurance = $("#customerHIList").val();
+		postParams.membershipStatus = $("#customerMembership").val();
+		postParams.type = "updateCustomer";
+		
+		
+		if(!postParams.fName || !postParams.lName || !postParams.email || !postParams.phone || !postParams.healthInsurance || !postParams.membershipStatus
+				|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip) {
+			alert("Could not edit customer! Some input fields were missing");
+			return;
+		}
+		
+		$.modal.close();
+		
+		$.ajax({
+			url: "/manager/ui",
+			method: "POST",
+			data: postParams,
+			
+			success: function(data) {
+				var data = JSON.parse(data);
+				var customer = data.customer;
+				var status = data.status;
+				if(status == "failure") {
+					alert("Could not create customer! Some input fields were missing");
+					return;
+				}
+				
+				var tr = $("#customerResults table").find("tr[data-id='" + customer.id+"']");
+				tr.empty();
+				tr.append("<td><a class='editCustomer' href='#'>Edit</a></td>" +
+						"<td>" +  customer.id+"</td> " + 
+						"<td> " + customer.personalInformation.firstName+ "</td> " + 
+						" <td> " + customer.personalInformation.lastName +"</td> " +
+						" <td> " + customer.personalInformation.address.street + " "+ customer.personalInformation.address.city+ " " 
+						+ customer.personalInformation.address.state.state + " " + customer.personalInformation.address.zipcode +" </td> " +
+								"<td> "+ customer.personalInformation.email+ "</td> " + "" +
+										"<td>" + customer.personalInformation.phoneNumber + "</td> " +
+										" <td>" + customer.personalInformation.healthInsurance.name + "</td>"+
+										" <td>" + customer.membership.type + "</td>");
+				
+				
+
+			},
+			error: function(exception) {
+				alert("Error: " + exception);
+			}
+		
+		});
+
+	});
 });
+
+
 
 $("#customerModal").on($.modal.AFTER_CLOSE, function() {
 	$("#customerModal input").val("");

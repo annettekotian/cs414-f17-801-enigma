@@ -201,7 +201,11 @@ margin-top:3%;
     cursor: auto;
 }
 
-#createManagerButton, #confirmCustomerButton {
+#createManagerButton, #createCustomerButton, #editCustomerButton {
 	margin: 10px;
 	
+}
+
+#createCustomerHeader, #editCustomerHeader, #createCustomerButton, #editCustomerButton {
+	display:none
 }

@@ -257,7 +257,8 @@
 
 
 <div id="customerModal" class="modal">
-		<h3>Add/Modify a Customer</h3>
+		<h3 id="createCustomerHeader">Add a Customer</h3>
+		<h3 id="editCustomerHeader">Modify a Customer</h3>
 		<div id="inputFormDiv">
 			<div id="customerFirstNameDiv" class="customerInputDiv">
 				<label>First Name</label> <br/>
@@ -305,7 +306,8 @@
 			</div>
 			
 			
-			<button id="confirmCustomerButton">Confirm</button>
+			<button id="createCustomerButton">Create</button>
+			<button id="editCustomerButton">Submit changes</button>
 			<button id="cancelCustomerButton">Cancel</button>
 		</div>
 	
