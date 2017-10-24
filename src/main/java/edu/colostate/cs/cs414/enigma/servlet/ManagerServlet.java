@@ -224,6 +224,10 @@ public class ManagerServlet extends HttpServlet {
 				Manager m = mh.createManager(email, fName, lName, phone, hiId, uName, password, street, city, zip,
 						state);
 				values.put("manager", m);
+				values.put("status", "success");
+				if(m == null) {
+					values.put("status", "failure");
+				}
 				out.write(new Gson().toJson(values));
 			} catch (PersistenceException e) {
 				response.sendError(500, e.toString());
@@ -248,6 +252,10 @@ public class ManagerServlet extends HttpServlet {
 						cityCustomer, zipcode, state, membershipStatus);
 				
 				values.put("customer", c);
+				values.put("status", "success");
+				if(c == null) {
+					values.put("status", "failure");
+				}
 				out.write(new Gson().toJson(values));
 			}catch(PersistenceException e) {
 				

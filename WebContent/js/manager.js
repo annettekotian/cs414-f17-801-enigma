@@ -334,7 +334,7 @@ $("#createManagerButton").on("click", function (){
 	
 	if(!postParams.fName || !postParams.lName || !postParams.uName || !postParams.password || !postParams.email || !postParams.phone 
 			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip) {
-		alert("incomplete input!");
+		alert("Could not create manager! Some input fields were missing");
 		return;
 	}
 	
@@ -348,6 +348,11 @@ $("#createManagerButton").on("click", function (){
 		success: function(data) {
 			var data = JSON.parse(data);
 			var manager = data.manager;
+			var status = data.status;
+			if(status == "failure") {
+				alert("Could not create manager! Some input fields were missing");
+				return;
+			}
 			$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'>"  +
 					"<td>" +  manager.id+"</td> " + 
 					"<td> " + manager.personalInformation.firstName+ "</td> " + 
@@ -561,7 +566,7 @@ $("#createCustomerButton").on("click", function (){
 	
 	if(!postParams.fName || !postParams.lName || !postParams.email || !postParams.phone || !postParams.healthInsurance || !postParams.membershipStatus
 			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip) {
-		alert("incomplete input!");
+		alert("Could not create customer! Some input fields were missing");
 		return;
 	}
 	
@@ -575,6 +580,11 @@ $("#createCustomerButton").on("click", function (){
 		success: function(data) {
 			var data = JSON.parse(data);
 			var customer = data.customer;
+			var status = data.status;
+			if(status == "failure") {
+				alert("Could not create customer! Some input fields were missing");
+				return;
+			}
 			
 			$("#customerResults table").append("<tr class='tableData'> " +
 					"<td>" +  customer.id+"</td> " + 
