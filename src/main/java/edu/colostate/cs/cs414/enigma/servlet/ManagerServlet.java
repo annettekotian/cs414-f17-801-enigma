@@ -53,6 +53,21 @@ public class ManagerServlet extends HttpServlet {
 		String type = request.getParameter("type");
 		Map<String, Object> values = new HashMap<String, Object>();
 		PrintWriter out = response.getWriter();
+		
+		
+		if(type.equals("searchTrainers")) {
+			String value = request.getParameter("value");
+			try {
+				List<Trainer> trainers = new ManagerHandler().searchTrainers(value);
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(trainers));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			return;
+		}
+		
+		
 		switch(type) {		
 		case "getHealthInsurances":
 			try {
@@ -207,12 +222,12 @@ public class ManagerServlet extends HttpServlet {
 				response.sendError(500, ex.toString());
 			}
 			return;
+			
 		default:
 			response.sendError(404);
 			break;
 		
-		}
-		
+		}		
 	}
 
 	/**

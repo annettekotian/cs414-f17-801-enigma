@@ -21,6 +21,26 @@ import edu.colostate.cs.cs414.enigma.entity.UserLevel;
 
 public class ManagerHandler extends GymSystemEmployeeHandler {
 	
+
+	/**
+	 * Return a list of trainers matching a specific search value.
+	 * @param value Value each trainer must have.
+	 * @return List of trianers.
+	 */
+	public List<Trainer> searchTrainers(String value) {
+		
+		// Check to see if the toString() of each trainer contains the desired value
+		List<Trainer> trainers = getAllTrainers();
+		List<Trainer> matchedTrainers = new ArrayList<Trainer>();
+		for(int i=0; i<trainers.size(); i++) {
+			Trainer trainer = trainers.get(i);
+			if(trainer.toString().contains(value)) {
+				matchedTrainers.add(trainer);
+			}
+		}
+		return matchedTrainers;
+	}
+	
 	/**
 	 * Manager specific function to create a new trainer.
 	 * @param firstName First name of trainer.

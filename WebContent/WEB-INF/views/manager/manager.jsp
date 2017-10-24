@@ -33,9 +33,14 @@
 	<button id="addManager" class="addButtons">Add Manager</button>
 	<input id = "searchManagerInput" class="searchManager" type="text" placeholder="enter name, address etc" /> 
 	<button id="searchManagerButton" class="searchManager">Search</button>
+	
 	<button id="addTrainer" class="addButtons" onclick="createTrainerForm()">Add Trainer</button>
 	<button id="modifyTrainer" class="addButtons" onclick="modifyTrainerForm()">Modify Trainer</button>
 	<button id="deleteTrainer" class="addButtons" onclick="deleteTrainerForm()">Delete Trainer</button>
+	<input id ="searchTrainerInput" class="searchTrainer" type="text" placeholder="Search"/> 
+	<button id="searchTrainerButton" class="searchTrainer" onclick="populateSearchTrainers()">Search</button>
+	<button id="searchTrainerButton" class="searchTrainer" onclick="resetSearchTrainers()">Reset</button>
+	
 	<button id="addCustomer" class="addButtons">Add Customer</button>
 	<input id = "searchCustomerInput" class="searchCustomer" type="text" placeholder="enter name, address etc" /> 
 	<button id="searchCustomerButton" class="searchCustomer">Search</button>

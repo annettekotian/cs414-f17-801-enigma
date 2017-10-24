@@ -45,10 +45,11 @@ $("#inventoryLi").on("click", function(){
 })
 
 function showTrainerData() {
-	populateTrainerTable();
+	populateAllTrainers();
 	
 	$("#addManager").hide();
 	$(".searchManager").hide();
+	$(".searchTrainer").show();
 	$("#addCustomer").hide()
 	$(".searchCustomer").hide();
 	$("#addMachine").hide();
@@ -70,7 +71,7 @@ function getAllTrainers() {
 		},
 		method: "GET",
 		success: function(data, textStatus, jqXHR) {
-			trainers = data
+			trainers = data;
 		},
 		error: function(exception) {
 			alert("Exception" + exception);
@@ -80,8 +81,43 @@ function getAllTrainers() {
 	return trainers;
 }
 
-function populateTrainerTable() {
-	var trainers = getAllTrainers();	
+function searchTrainers(searchValue) {
+	var trainers = null;
+	$.ajax({
+		url: "/manager/ui",
+		data: {
+			type: "searchTrainers",
+			value: searchValue
+		},
+		method: "GET",
+		success: function(data, textStatus, jqXHR) {
+			trainers = data;
+		},
+		error: function(exception) {
+			alert("Exception" + exception);
+		},
+		async: false
+	});
+	return trainers;
+}
+
+function resetSearchTrainers() {
+	$("#searchTrainerInput").val("");
+	populateAllTrainers();
+}
+
+function populateSearchTrainers() {
+	var searchValue = $("#searchTrainerInput").val();
+	var trainers = searchTrainers(searchValue);
+	populateTrainerTable(trainers);
+}
+
+function populateAllTrainers() {
+	var trainers = getAllTrainers();
+	populateTrainerTable(trainers);
+}
+
+function populateTrainerTable(trainers) {	
 
 	var trainerTable = document.getElementById("trainerTable");
 	while(trainerTable.rows.length > 0) {
@@ -164,6 +200,7 @@ function showManagerData() {
 	$("#addMachine").hide();
 	$(".searchCustomer").hide();
 	$(".searchManager").show();
+	$(".searchTrainer").hide();
 	$("#trainerResults").hide();
 	$("#customerResults").hide();
 	$("#inventoryResults").hide();
@@ -211,6 +248,7 @@ function showCustomerData() {
 	getAllCustomers();
 	$("#addManager").hide();
 	$(".searchManager").hide();
+	$(".searchTrainer").hide();
 	$("#addTrainer").hide();
 	$("#modifyTrainer").hide();
 	$("#deleteTrainer").hide();
@@ -270,6 +308,7 @@ function populateCustomerTable(customerData){
 function showInventoryData() {
 	$("#addManager").hide();
 	$(".searchManager").hide();
+	$(".searchTrainer").hide();
 	$(".searchCustomer").hide();
 	$("#addTrainer").hide();
 	$("#modifyTrainer").hide();
@@ -888,7 +927,7 @@ function submitTrainerForm() {
 		
 		success: function(data) {
 			if(data.rc == 0) {
-				populateTrainerTable();
+				populateAllTrainers();
 				$.modal.close();
 			}
 			else {
@@ -921,7 +960,7 @@ function deleteTrainer() {
 		
 		success: function(data) {
 			if(data.rc == 0) {
-				populateTrainerTable();
+				populateAllTrainers();
 				$.modal.close();
 			}
 			else {
