@@ -151,67 +151,6 @@
 		</table>
 	</div>
 
-<div id="addContactInformation" class="modal">
-	<h3 id="contactInformationHeader"></h3>
-	<form id="contactInformationForm">
-		<label>First Name</label><br>
-		<input id="firstName" type="text"><br>
-		<label>Last Name</label><br>
-		<input id="lastName" type="text"><br>
-		<label>Phone Number</label><br>
-		<input id="phoneNumber" type="text"><br>
-		<label>Email Address</label><br>
-		<input id="email" type="text"><br>
-	</form>
-	<button onclick="displayAddressForm()">Next</button>
-	<button onclick="displayEmployeeForm()">Restart</button>
-</div>
-
-<div id="addAddressInformation" class="modal">
-	<h3 id="addressInformationHeader"></h3>
-	<form id="addressInformationForm">
-		<label>Street</label><br>
-		<input id="street" type="text"><br>
-		<label>City</label><br>
-		<input id="city" type="text"><br>
-		<label>State</label><br>
-		<select id="state" size="1">
-		</select><br>
-		<label>Zipcode</label><br>
-		<input id="zipcode" type="text"><br>
-	</form>
-	<button onclick="displayHealthInsuranceForm()">Next</button>
-	<button onclick="displayContactInformation()">Back</button>
-	<button onclick="displayEmployeeForm()">Restart</button>
-</div>
-
-<div id="addHealthInsurance" class="modal">
-	<h3 id="healthInsuranceHeader"></h3>
-	<form id="healthInsuranceForm">
-		<label>Health Insurance</label><br>
-		<select id="healthInsurance" size="1" onchange="checkNewHealthInsurance()">
-		</select><br>
-		<label>Other</label><br>
-		<input id="otherHealthInsurance" type="text"><br>
-	</form>
-	<button onclick="disaplyNextForm()">Next</button>
-	<button onclick="displayAddressForm()">Back</button>
-	<button onclick="displayEmployeeForm()">Restart</button>
-</div>
-
-<div id="addUserCredentials" class="modal">
-	<h3 id="userCredentials"></h3>
-	<form id="userCredentialsForm">
-		<label>User Name</label><br>
-		<input id="userName" type="text"><br>
-		<label>Password</label><br>
-		<input id="password" type="password"><br>
-	</form>
-	<button onclick="submitEmployeeForm()">Submit</button>
-	<button onclick="displayHealthInsuranceForm()">Back</button>
-	<button onclick="displayEmployeeForm()">Restart</button>
-</div>
-
 <div id="modifyTrainerSelectForm" class="modal">
 	<h3>Modify Trainer</h3>
 	<form>
@@ -222,8 +161,9 @@
 </div>
 
 <div id="modifyTrainerForm" class="modal">
-	<h3>Modify Trainer</h3>
-	<form>
+	<h3 id="modifyTrainerHeader">Modify Trainer</h3>
+	<h3 id="newTrainerHeader">New Trainer</h3>
+	<form id="trainerForm">
 		<label>First Name</label><br>
 		<input id="modifyFirstName" type="text"><br>
 		<label>Last Name</label><br>
@@ -237,21 +177,22 @@
 		<label>City</label><br>
 		<input id="modifyCity" type="text"><br>
 		<label>State</label><br>
-		<input id="modifyState" type="text" disabled><br>
+		<select id="modifyState" size="1"></select><br>
 		<label>Zipcode</label><br>
 		<input id="modifyZipcode" type="text"><br>
 		<label>Health Insurance</label><br>
-		<input id="modifyHealthInsurance" type="text" disabled><br>
+		<select id="modifyHealthInsurance" size="1" onchange="checkNewHealthInsurance()"></select><br>
+		<label>Other Health Insurance</label><br>
+		<input id="modifyOtherHealthInsurance" type="text" disabled><br>
 		<label>User Name</label><br>
-		<input id="modifyUserName" type="text" disabled><br>
+		<input id="modifyUserName" type="text"><br>
 		<label>Password</label><br>
-		<input id="modifyPassword" type="password" disabled><br>
+		<input id="modifyPassword" type="password"><br>
+		<label>Confirm Password</label><br>
+		<input id="modifyConfirmPassword" type="password"><br>
 	</form>
-	<button onclick="updateTrainerInformation()">Submit</button>
-	<button onclick="modifyTrainerForm()">Back</button>
+	<button onclick="submitTrainerForm()">Submit</button>
 </div>
-
-
 
 	<div id="addManagerModal" class="modal">
 		<h3>Add a Manager</h3>
