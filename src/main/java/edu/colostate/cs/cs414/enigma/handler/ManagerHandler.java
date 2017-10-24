@@ -155,6 +155,22 @@ public class ManagerHandler {
 		return trainer;
 	}
 	
+	public void deleteTrainer(int id) {
+		// Open up a connection to the db
+		EntityManagerDao dao = new EntityManagerDao();
+		
+		// Get the trainer entity to be updated
+		Map<String, Object> trainerParams = new HashMap<String, Object>();
+		trainerParams.put("id", id);
+		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", trainerParams);
+		
+		// Delete the trainer
+		dao.remove(trainer);
+		
+		// Shutdown connection to database
+		dao.close();
+	}
+	
 	/**
 	 * 
 	 * @param email: String
