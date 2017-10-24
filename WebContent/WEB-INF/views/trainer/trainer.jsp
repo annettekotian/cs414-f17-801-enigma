@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="../css/gymSystem.css">
-<link rel="stylesheet" type="text/css" href="../css/trainer.css">
-<script src="../js/jquery-3.2.1.min.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="/css/gymSystem.css">
+<link rel="stylesheet" type="text/css" href="/css/trainer.css">
+<script src="/js/jquery-3.2.1.min.js" type="text/javascript"></script>
 <title>Trainer UI</title>
 </head>
 <body>

@@ -5,10 +5,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Enigma</title>
-<link rel="stylesheet" type="text/css" href="../css/gymSystem.css">
-<link rel="stylesheet" type="text/css" href="../css/jquery.modal.min.css">
-<script src="../js/jquery-3.2.1.min.js"></script>
-<script src="../js/jquery.modal.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/gymSystem.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.modal.min.css">
+<script src="/js/jquery-3.2.1.min.js"></script>
+<script src="/js/jquery.modal.min.js"></script>
 
 
 </head>
@@ -370,7 +370,7 @@
 	</div>
 </body>
 
-<script src="../js/manager.js"></script>
+<script src="/js/manager.js"></script>
 <script type="text/javascript">
 var level = "<%=request.getAttribute("level")%>"
 var managerData = <%=request.getAttribute("managerData")%>
