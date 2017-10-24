@@ -45,4 +45,10 @@ public class CustomerHandler {
 		dao.close();
 		return customers;
 	}
+	
+	public Customer getCustomerById(int id) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		return (Customer) dao.querySingle("Customer.findById", params);
+	}
 }

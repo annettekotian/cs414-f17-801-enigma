@@ -146,13 +146,13 @@ margin-top:3%;
 }
 
  #customerResults th, #customerResults td {
-	width: 150px;
+	width: 130px;
 	border:1px solid black;
 	
 }
 
 #customerResults tr {
-	height: 45px;
+	height: 50px;
 }
 
 #inventoryResults {
@@ -201,7 +201,7 @@ margin-top:3%;
     cursor: auto;
 }
 
-#createManagerButton, #editManagerButton {
+#createManagerButton, #confirmCustomerButton {
 	margin: 10px;
 	
 }

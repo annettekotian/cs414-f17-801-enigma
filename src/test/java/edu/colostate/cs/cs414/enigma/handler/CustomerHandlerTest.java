@@ -49,7 +49,7 @@ public class CustomerHandlerTest {
 	}
 	
 	@Test
-	public void testSearchManagerByKeyword() {
+	public void testSearchCustomerByKeyword() {
 
 		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
 		String lName = "Kotian";
@@ -72,7 +72,7 @@ public class CustomerHandlerTest {
 	}
 	
 	@Test
-	public void testSearchManagerEmptyKeyword() {
+	public void testSearchCustomerEmptyKeyword() {
 		
 		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
 		String lName = "Kotian";
@@ -95,6 +95,29 @@ public class CustomerHandlerTest {
 		
 		List<Customer> list = new CustomerHandler().getCustomerByKeyword("");
 		assertTrue(list.size() >=2);
+	}
+	
+	@Test
+	public void testGetCustomerById() {
+		
+		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
+		String lName = "Kotian";
+		String email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+
+		ManagerHandler mh = new ManagerHandler();
+		Customer c1 = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
+				membershipStatus);
+		persistedObjects.add(c1);
+		
+		Customer c2 = new CustomerHandler().getCustomerById(c1.getId());
+		assertTrue(c1.getId() == c2.getId());
 	}
 
 }

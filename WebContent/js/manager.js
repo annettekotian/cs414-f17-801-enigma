@@ -252,7 +252,7 @@ function populateCustomerTable(customerData){
 	$("#customerResults").find(".tableData").remove();
 	for (var i = 0; i < customerData.length; i++) {
 		var customer = customerData[i];
-		$("#customerResults table").append("<tr class='tableData'> " +
+		$("#customerResults table").append("<tr data-id='" + customer.id + "' class='tableData'> <td><a class='editCustomer' href='#'>Edit</a></td>" +
 				"<td>" +  customer.id+"</td> " + 
 				"<td> " + customer.personalInformation.firstName+ "</td> " + 
 				" <td> " + customer.personalInformation.lastName +"</td> " +
@@ -396,115 +396,12 @@ $("#searchManagerButton").on("click", function(){
 	});
 });
 
-/************ send ajax call to get the clicked manager details*************/
-/*$(document.body).on("click", '.editManager', function () {
-	$.ajax({
-		url: "/manager/ui",
-		method: "GET",
-		data: {
-			type: "getEditManagerData",
-			id: $(this).parents("tr").data("id"),
-		},
-		success: function(data) {
-			data = JSON.parse(data);
-			var manager = data.manager;
-			MANAGER_CURRENTLY_EDITED = manager;
-			var hiData = data.healthInsurances
-			var states = data.states;
-			var hiSelect = $("#editManagerHIList");
-			for (var i = 0; i< hiData.length; i++) {
-				hiSelect.append("<option data-id='" + hiData[i].id + "'>" + hiData[i].name +  "</option>")
-			}
-
-			var statesSelect = $("#editManagerState");
-			for (var i = 0; i< states.length; i++) {
-				statesSelect.append("<option data-id='" + states[i].id + "'>" + states[i].state +  "</option>");
-			}
-			
-			$("#editManagerFName").val(manager.personalInformation.firstName);
-			$("#editManagerLName").val(manager.personalInformation.lastName);
-			$("#editManagerUName").val(manager.user.username);
-			$("#editManagerPassword").val(manager.user.password);
-			$("#editManagerEmail").val(manager.personalInformation.email);
-			$("#editManagerPhone").val(manager.personalInformation.phoneNumber);
-			$("#editManagerStreet").val(manager.personalInformation.address.street);
-			$("#editManagerCity").val(manager.personalInformation.address.city);
-			$("#editManagerState").val(manager.personalInformation.address.state.state);
-			$("#editManagerZip").val(manager.personalInformation.address.zipcode);
-			$("#editManagerHIList").val(manager.personalInformation.healthInsurance.name);
-			
-			$("#editManagerModal").modal();
-
-		},
-		error: function(exception) {
-			alert("Error: " + exception);
-		}
-	});
-})
-
-$("#cancelManagerChanges").on("click", function() {
-	$.modal.close()
-})
-
-$("#editManagerButton").on("click", function() {
-	var params = {};
-	params.id = MANAGER_CURRENTLY_EDITED.id;
-	params.fName = $("#editManagerFName").val();
-	params.lName = $("#editManagerLName").val();
-	params.uName = MANAGER_CURRENTLY_EDITED.user.username;
-	params.password = MANAGER_CURRENTLY_EDITED.user.password;
-	params.email = $("#editManagerEmail").val();
-	params.phoneNumber = $("#editManagerPhone").val();
-	params.street = $("#editManagerStreet").val();
-	params.city = $("#editManagerCity").val();
-	params.state = $("#editManagerState").val();
-	params.zipcode = $("#editManagerZip").val();
-	params.insurance = $("#editManagerHIList").val();
-	params.type = "modifyManager";
-	
-	if(!postParams.fName || !postParams.lName || !postParams.email || !postParams.phone || !params.insurance
-			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip) {
-		alert("incomplete input!");
-		return;
-	}
-	
-	$.modal.close();
-	
-	$.ajax({
-		url: "/manager/ui",
-		method: "POST",
-		data: postParams,
-		
-		success: function(data) {
-			var data = JSON.parse(data);
-			var manager = data.manager;
-			$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'> <td><a class='editManager' href='#'>Edit</a></td>"  +
-					"<td>" +  manager.id+"</td> " + 
-					"<td> " + manager.personalInformation.firstName+ "</td> " + 
-					" <td> " + manager.personalInformation.lastName +"</td> " +
-					" <td> " + manager.personalInformation.address.street + " "+ manager.personalInformation.address.city+ " " 
-					+ manager.personalInformation.address.state.state + " " + manager.personalInformation.address.zipcode +" </td> " +
-							"<td> "+ manager.personalInformation.email+ "</td> " + "" +
-									"<td>" + manager.personalInformation.phoneNumber + "</td> " +
-									" <td>" + manager.personalInformation.healthInsurance.name + "</td></tr>");
-
-		},
-		error: function(exception) {
-			if(exception.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0) {
-				alert("Username already exists");
-				return;
-			}
-			alert("Error: " + exception);
-		}
-	});
-	
-});*/
 
 
 
 
 $("#addCustomer").on("click", function() {
-	$("#addCustomerModal").modal();
+	$("#customerModal").modal();
 })
 
 /**
@@ -512,7 +409,7 @@ $("#addCustomer").on("click", function() {
 
  */
 
-$("#addCustomerModal").on($.modal.BEFORE_OPEN, function () {
+$("#customerModal").on($.modal.BEFORE_OPEN, function () {
 	$.ajax({
 		url: "/manager/ui",
 		method: "GET",
@@ -552,7 +449,7 @@ $("#addCustomerModal").on($.modal.BEFORE_OPEN, function () {
  * creates a new customer
  * @returns
  */
-$("#createCustomerButton").on("click", function (){
+$("#confirmCustomerButton").on("click", function (){
 	var postParams = {};
 	postParams.fName = $("#customerFName").val();
 	postParams.lName = $("#customerLName").val();
@@ -589,7 +486,7 @@ $("#createCustomerButton").on("click", function (){
 				return;
 			}
 			
-			$("#customerResults table").append("<tr class='tableData'> " +
+			$("#customerResults table").append("<tr data-id='" + customer.id + "' class='tableData'> <td><a class='editCustomer' href='#'>Edit</a></td>" +
 					"<td>" +  customer.id+"</td> " + 
 					"<td> " + customer.personalInformation.firstName+ "</td> " + 
 					" <td> " + customer.personalInformation.lastName +"</td> " +
@@ -597,7 +494,8 @@ $("#createCustomerButton").on("click", function (){
 					+ customer.personalInformation.address.state.state + " " + customer.personalInformation.address.zipcode +" </td> " +
 							"<td> "+ customer.personalInformation.email+ "</td> " + "" +
 									"<td>" + customer.personalInformation.phoneNumber + "</td> " +
-									" <td>" + customer.personalInformation.healthInsurance.name + "</td></tr>");
+									" <td>" + customer.personalInformation.healthInsurance.name + "</td>"+
+									" <td>" + customer.membership.type + "</td></tr>");
 
 		},
 		error: function(exception) {
@@ -608,10 +506,53 @@ $("#createCustomerButton").on("click", function (){
 
 });
 
+$("#cancelCustomerButton").on('click', function() {
+	$.modal.close();
+})
 
-$("#addCustomerModal").on($.modal.AFTER_CLOSE, function() {
-	$("#addCustomerModal input").val("");
-	$("#addCustomerModal select").val($("#addCustomerModal select option:first").val())
+$(document).on('click', '.editCustomer', function() {
+	CURRENTLY_EDITED_CUSTOMER_ID = $(this).parents('tr').data('id');
+	
+	$.ajax({
+		url: "/manager/ui",
+		method: "GET",
+		data: {
+			type: "getCustomerById",
+			id: CURRENTLY_EDITED_CUSTOMER_ID
+				
+		},
+		success: function(data) {
+			data = JSON.parse(data);
+			if(data.status == "success") {
+				customer = data.customer;
+				$("#customerFName").val(customer.personalInformation.firstName);
+				$("#customerLName").val(customer.personalInformation.lastName);
+				
+				$("#customerEmail").val(customer.personalInformation.email);
+				$("#customerPhone").val(customer.personalInformation.phoneNumber);
+				$("#customerStreet").val(customer.personalInformation.address.street);
+				$("#customerCity").val(customer.personalInformation.address.city);
+				$("#customerState").val(customer.personalInformation.address.state.state);
+				$("#customerZip").val(customer.personalInformation.address.zipcode);
+				$("#customerHIList").val(customer.personalInformation.healthInsurance.name);
+				$("#customerMembership").val(customer.membership.type);
+				$("#customerModal").modal();
+				
+			} else {
+				alert("An error has occured. Could not load customer details.");
+			}
+		},
+		error: function(exception) {
+			alert("Error: " + exception);
+		}
+	});
+	
+	
+});
+
+$("#customerModal").on($.modal.AFTER_CLOSE, function() {
+	$("#customerModal input").val("");
+	$("#customerModal select").val($("#customerModal select option:first").val())
 });
 
 

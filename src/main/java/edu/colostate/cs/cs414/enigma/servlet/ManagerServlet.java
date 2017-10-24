@@ -139,6 +139,16 @@ public class ManagerServlet extends HttpServlet {
 			}
 			return;
 			
+		case "getCustomerById": 
+			try {
+				Customer c  = new CustomerHandler().getCustomerById(Integer.parseInt(request.getParameter("id")));
+				values.put("status", "success");
+				values.put("customer", c);
+				out.write(new Gson().toJson(values));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			return;
 		case "getSearchCustomerResults" :
 			
 			try {
