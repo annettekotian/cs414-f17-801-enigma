@@ -763,6 +763,7 @@ function modifyTrainerInformation() {
 		return;
 	}
 	var trainer = trainers[trainerIndex];
+	trainerId = trainer.id;
 	
 	// Populate the state select list
 	var states = getStates();
