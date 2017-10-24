@@ -25,6 +25,8 @@
 	<a href="#exercises">Exercises</a>
 </div>
 
+<button id="trainerSearchCustomerButton" class="trainerSearchCustomers">Search</button>
+<input id = "trainerSearchCustomerInput" class="trainerSearchCustomers" type="text" placeholder = "enter name, address etc."/>
 <div id="home">
 	<table>
 		<tr>

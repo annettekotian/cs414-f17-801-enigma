@@ -2,6 +2,7 @@ package edu.colostate.cs.cs414.enigma.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,16 +48,35 @@ public class TrainerServlet extends HttpServlet {
 		
 		String type = request.getParameter("type");
 		PrintWriter out = response.getWriter();
+		Map<String, Object> values = new HashMap<String, Object>();
 		switch(type) {
 		case "getCustomers": 
 			try {
-				Map<String, Object> values = new HashMap<String, Object>();
+				
 				CustomerHandler ch = new CustomerHandler();
 				List<Customer> list = ch.getCustomers();
 				values.put("customers", list);
 				values.put("status", "success");
 				out.write(new Gson().toJson(values));
 			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			return;
+			
+		case "getSearchCustomerResults":
+
+			try {
+				String searchText = request.getParameter("searchText");
+				CustomerHandler ch = new CustomerHandler();
+				List<Customer> customers = new ArrayList<Customer>();
+				if (searchText.isEmpty()) {
+					customers = ch.getCustomers();
+				} else {
+					customers = ch.getCustomerByKeyword(searchText);
+				}
+				values.put("results", customers);
+				out.write(new Gson().toJson(values));
+			} catch (Exception e) {
 				response.sendError(500, e.toString());
 			}
 			return;

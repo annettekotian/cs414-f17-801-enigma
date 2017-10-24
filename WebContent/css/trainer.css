@@ -4,7 +4,7 @@
 	display: block;
 }
 
-#customers {
+#customerTable {
 	display: none;
 }
 
@@ -22,4 +22,8 @@
 
 #customerTable tr {
 	height: 45px;
+}
+
+.trainerSearchCustomers {
+	display:none
 }

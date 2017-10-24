@@ -1,11 +1,13 @@
 function focusHome() {
 	document.getElementById("home").style.display = "block";
 	document.getElementById("customerTable").style.display = "none";
+	$(".trainerSearchCustomers").hide();
 }
 
 function focusCustomers() {
 	document.getElementById("home").style.display = "none";
 	document.getElementById("customerTable").style.display = "block";
+	$(".trainerSearchCustomers").show();
 }
 
 function populateCustomers() {
@@ -56,15 +58,28 @@ function generateCustomersDisplay(customerData){
 	focusCustomers();
 }
 
-function inputNewHealthInsurance() {
-	var option = document.getElementById("healthInsurances");
-	if(option.selectedIndex == 0) {
-		document.getElementById("newHealthInsurances").disabled = false;
-	}
-	else {
-		document.getElementById("newHealthInsurances").disabled = true;
-		document.getElementById("newHealthInsurances").value = "";
-	}
-}
+$("#trainerSearchCustomerButton").on("click", function(){
+	var params = {};
+	params.type = "getSearchCustomerResults";
+	params.searchText = $("#trainerSearchCustomerInput").val();
+	$.ajax({
+		url: "/trainer/ui",
+		method: "GET",
+		data: params,
+		
+		success: function(data) {
+			var data = JSON.parse(data);
+			var customerData = data.results;
+			
+			generateCustomersDisplay(customerData);
+			
+
+		},
+		error: function(exception) {
+			
+			alert("Error: " + exception);
+		}
+	});
+})
 
 
