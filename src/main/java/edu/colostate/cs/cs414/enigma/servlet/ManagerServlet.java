@@ -53,23 +53,7 @@ public class ManagerServlet extends HttpServlet {
 		String type = request.getParameter("type");
 		Map<String, Object> values = new HashMap<String, Object>();
 		PrintWriter out = response.getWriter();
-		switch(type) {
-		
-		case "getAddManagerData":
-			try {
-				HealthInsuranceHandler healthInsuranceHandler = new HealthInsuranceHandler();
-				values.put("healthInsurances", new Gson().toJson(healthInsuranceHandler.getHealthInsurances()));
-				
-				AddressHandler addHandler = new AddressHandler();
-				values.put("states", new Gson().toJson(addHandler.getAllStates()));
-
-			} catch(Exception e) {
-				response.sendError(500, e.toString());
-			}
-			response.setContentType("application/json");
-			out.write(new Gson().toJson(values));
-			return;
-		
+		switch(type) {		
 		case "getHealthInsurances":
 			try {
 				HealthInsuranceHandler healthInsuranceHandler = new HealthInsuranceHandler();

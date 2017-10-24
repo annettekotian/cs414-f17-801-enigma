@@ -291,32 +291,19 @@ $("#addManager").on("click", function(){
 });
 
 $("#addManagerModal").on($.modal.BEFORE_OPEN, function () {
-	$.ajax({
-		url: "/manager/ui",
-		method: "GET",
-		data: {
-			type: "getAddManagerData"
-		},
-		success: function(data) {
-			var hiData = JSON.parse(data.healthInsurances);
-			var states = JSON.parse(data.states);
-			var hiSelect = $("#managerHIList");
-			hiSelect.empty();
-			for (var i = 0; i< hiData.length; i++) {
-				hiSelect.append("<option data-id='" + hiData[i].id + "'>" + hiData[i].name +  "</option>")
-			}
-			
-			var statesSelect = $("#managerState");
-			statesSelect.empty();
-			for (var i = 0; i< states.length; i++) {
-				statesSelect.append("<option data-id='" + states[i].id + "'>" + states[i].state +  "</option>");
-			}
-
-		},
-		error: function(exception) {
-			alert("Error: " + exception);
-		}
-	});
+	var hiData = getHealthInsurances();
+	var states = getStates();
+	var hiSelect = $("#managerHIList");
+	hiSelect.empty();
+	for (var i = 0; i< hiData.length; i++) {
+		hiSelect.append("<option data-id='" + hiData[i].id + "'>" + hiData[i].name +  "</option>")
+	}
+	
+	var statesSelect = $("#managerState");
+	statesSelect.empty();
+	for (var i = 0; i< states.length; i++) {
+		statesSelect.append("<option data-id='" + states[i].id + "'>" + states[i].state +  "</option>");
+	}
 })
 
 $("#addManagerModal").on($.modal.AFTER_CLOSE, function() {
