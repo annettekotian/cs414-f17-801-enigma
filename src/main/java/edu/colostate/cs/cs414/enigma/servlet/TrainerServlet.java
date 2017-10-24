@@ -1,7 +1,9 @@
 package edu.colostate.cs.cs414.enigma.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
 import edu.colostate.cs.cs414.enigma.handler.MembershipHandler;
 import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
@@ -40,55 +43,33 @@ public class TrainerServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/views/trainer/trainer.jsp").forward(request, response);
+		
+		
+		String type = request.getParameter("type");
+		PrintWriter out = response.getWriter();
+		switch(type) {
+		case "getCustomers": 
+			try {
+				Map<String, Object> values = new HashMap<String, Object>();
+				CustomerHandler ch = new CustomerHandler();
+				List<Customer> list = ch.getCustomers();
+				values.put("customers", list);
+				values.put("status", "success");
+				out.write(new Gson().toJson(values));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			return;
+		}
+		
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		Map<String, String> values = new HashMap<String, String>();
-		
-		// Get the trainer post message type
-		/*String type = request.getParameter("type");
-		switch(type) {
-				
-		case "getMembershipStatus":
-			try {
-				MembershipHandler membershipHandler = new MembershipHandler();
-				values.put("membershipStatus", new Gson().toJson(membershipHandler.getMembershipStatus()));
-				values.put("rc", "0");
-				membershipHandler.close();
-			} catch(Exception e) {
-				values.put("rc", "1");
-				values.put("msg", e.toString());
-			}
-			break;
-			
-		case "createNewCustomer":
-			String firstName = request.getParameter("firstName");
-			String lastName = request.getParameter("lastName");
-			String phoneNumber = request.getParameter("phoneNumber");
-			String email = request.getParameter("email");
-			String healthInsurance = request.getParameter("healthInsurance");
-			String membershipStatus = request.getParameter("membershipStatus");
-			
-			try {
-				TrainerHandler.createNewCustomer(firstName, lastName, phoneNumber, email, healthInsurance, membershipStatus);
-			} catch(Exception e) {
-				values.put("rc", "1");
-				values.put("msg", e.toString());
-			}
-			break;
-			
-		default:
-			values.put("rc", "1");
-			values.put("msg", "Unknown request");
-		}
-		
-		response.setContentType("application/json");
-		response.getWriter().write(new Gson().toJson(values));*/
+	
 	}
 
 }
