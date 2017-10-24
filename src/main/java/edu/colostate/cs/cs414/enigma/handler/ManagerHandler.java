@@ -19,43 +19,24 @@ import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
 
-public class ManagerHandler {
+public class ManagerHandler extends GymSystemEmployeeHandler {
 	
-	public static List<Trainer> getAllTrainers() {
-		
-		// Open up a connection to the db
-		EntityManagerDao dao = new EntityManagerDao();
-		
-		// Issue a query to get all the customers
-		List<Trainer> trainers = new ArrayList<Trainer>();
-		List<?> results = dao.query("Trainer.findAll", null);
-		for(int i=0; i<results.size(); i++) {
-			trainers.add((Trainer) results.get(i));
-		}
-
-		// Shutdown connection to database
-		dao.close();
-		
-		return trainers;
-	}
-	
-	public Trainer getTrainerById(int trainerId) {
-		// Open up a connection to the db
-		EntityManagerDao dao = new EntityManagerDao();
-		
-		// Get a state entity/object
-		Map<String, Object> trainerParams = new HashMap<String, Object>();
-		trainerParams.put("id", trainerId);
-		
-		// Get the trainer
-		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", trainerParams);
-		
-		// Shutdown connection to database
-		dao.close();
-				
-		return trainer;		
-	}
-	
+	/**
+	 * Manager specific function to create a new trainer.
+	 * @param firstName First name of trainer.
+	 * @param lastName Last name of the trainer.
+	 * @param phoneNumber Phone number of trainer.
+	 * @param email Email of trainer.
+	 * @param street Street of the trainer.
+	 * @param city City of the trainer.
+	 * @param state State of the trainer.
+	 * @param zipcode Zipcode of the trainer.
+	 * @param healthInsurance Health insurance of the trainer.
+	 * @param userName Unique user name of the trainer.
+	 * @param password Password of the trainer.
+	 * @return Trainer
+	 * @throws PersistenceException
+	 */
 	public Trainer createNewTrainer(String firstName, String lastName, String phoneNumber, String email, String street,
 			String city, String state, String zipcode, String healthInsurance, String userName, String password) throws PersistenceException {
 		
@@ -102,6 +83,23 @@ public class ManagerHandler {
 		return trainer;
 	}
 	
+	/**
+	 * Modify a trainer based of a specific trainer ID.
+	 * @param id ID of trainer to be modified.
+	 * @param firstName Modified first name of trainer.
+	 * @param lastName Modified last name of the trainer.
+	 * @param phoneNumber Modified phone number of trainer.
+	 * @param email Modified email of trainer.
+	 * @param street Modified street of the trainer.
+	 * @param city Modified city of the trainer.
+	 * @param state Modified state of the trainer.
+	 * @param zipcode Modified zipcode of the trainer.
+	 * @param healthInsurance Modified health insurance of the trainer.
+	 * @param userName Modified unique user name of the trainer.
+	 * @param password Modified password of the trainer.
+	 * @return Trainer
+	 * @throws PersistenceException
+	 */
 	public Trainer modifyTrainer(int id, String firstName, String lastName, String phoneNumber, String email, String street,
 			String city, String state, String zipcode, String healthInsurance, String userName, String password) throws PersistenceException {
 	
@@ -155,6 +153,10 @@ public class ManagerHandler {
 		return trainer;
 	}
 	
+	/**
+	 * Delete a trainer based on a specific trainer ID.
+	 * @param id ID of trainer to be deleted.
+	 */
 	public void deleteTrainer(int id) {
 		// Open up a connection to the db
 		EntityManagerDao dao = new EntityManagerDao();

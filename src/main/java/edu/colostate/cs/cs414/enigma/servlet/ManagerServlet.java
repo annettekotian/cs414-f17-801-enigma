@@ -100,7 +100,7 @@ public class ManagerServlet extends HttpServlet {
 			
 		case "getAllTrainers" :
 			try {
-				List<Trainer> trainers = ManagerHandler.getAllTrainers();
+				List<Trainer> trainers = new ManagerHandler().getAllTrainers();
 				response.setContentType("application/json");
 				out.write(new Gson().toJson(trainers));
 			} catch(Exception e) {
