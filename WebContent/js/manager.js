@@ -367,6 +367,7 @@ $("#createManagerButton").on("click", function (){
 	postParams.lName = $("#managerLName").val();
 	postParams.uName = $("#managerUName").val();
 	postParams.password = $("#managerPassword").val();
+	postParams.confirmPassword = $("#confirmManagerPassword").val();
 	postParams.email = $("#managerEmail").val();
 	postParams.phone = $("#managerPhone").val();
 	postParams.street = $("#managerStreet").val();
@@ -382,6 +383,15 @@ $("#createManagerButton").on("click", function (){
 		postParams.insurance = $("#managerHIList").val();
 	}
 	
+	if(postParams.password != postParams.confirmPassword) {
+		alert("Passwords entered are not the same!");
+		return;
+	}
+	
+	if(postParams.password.length < 8) {
+		alert("Password must be atleast 8 characters in length");
+		return;
+	}
 	
 	
 	if(!postParams.fName || !postParams.lName || !postParams.uName || !postParams.password || !postParams.email || !postParams.phone 
@@ -401,8 +411,8 @@ $("#createManagerButton").on("click", function (){
 			var data = JSON.parse(data);
 			var manager = data.manager;
 			var status = data.status;
-			if(status == "failure") {
-				alert("Could not create manager! Some input fields were missing");
+			if(status != "success") {
+				alert("Could not create manager! Some error occured");
 				return;
 			}
 			$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'>"  +
@@ -417,10 +427,24 @@ $("#createManagerButton").on("click", function (){
 
 		},
 		error: function(exception) {
+			if(exception.responseText.indexOf("Missing Input") >=0) {
+				alert("Could not create manager! Some input fields were missing");
+				return;
+			}
+			
+			if(exception.responseText.indexOf("Password error") >=0) {
+				alert("Passwords entered are not the same!");
+				return;
+			}
+			
+			if(exception.responseText.indexOf("Password short")>=0) {
+				alert("Password must be atleast 8 characters in length");
+				return;
+			}
 			if(exception.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0) {
 				alert("Username already exists");
 				return;
-			}
+			} 
 			alert("Error: " + exception);
 		}
 	});

@@ -251,6 +251,7 @@ public class ManagerServlet extends HttpServlet {
 			String lName = request.getParameter("lName");
 			String uName = request.getParameter("uName");
 			String password = request.getParameter("password");
+			String confirmPassword = request.getParameter("confirmPassword");
 			String email = request.getParameter("email");
 			String phone = request.getParameter("phone");
 			String street = request.getParameter("street");
@@ -261,17 +262,14 @@ public class ManagerServlet extends HttpServlet {
 
 			ManagerHandler mh = new ManagerHandler();
 			try {
-				Manager m = mh.createManager(email, fName, lName, phone, insurance, uName, password, street, city, zip,
+				Manager m = mh.createManager(email, fName, lName, phone, insurance, uName, password, confirmPassword, street, city, zip,
 						state);
 				values.put("manager", m);
 				values.put("status", "success");
-				if(m == null) {
-					values.put("status", "failure");
-				}
 				out.write(new Gson().toJson(values));
-			} catch (PersistenceException e) {
+			} catch (IllegalArgumentException e) {
 				response.sendError(500, e.toString());
-			}
+			} catch (PersistenceException e) {}
 
 			break;
 			

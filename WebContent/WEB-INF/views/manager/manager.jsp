@@ -228,7 +228,7 @@
 			</div>
 			<div id="managerEmailDiv" class="managerInputDiv">
 				<label>Email id</label><br/>
-				<input id="managerEmail" class="managerInput" type="text" placeholder=" Enter email id"/> <br/>
+				<input id="managerEmail" class="managerInput" type="email" placeholder=" Enter email id"/> <br/>
 			</div>
 			<div id="managerPhoneDiv" class="managerInputDiv">
 				<label>Phone no. </label><br/>
@@ -258,6 +258,10 @@
 			<div id="managerPasswordDiv" class="managerInputDiv">
 				<label>Password</label><br/>
 				<input id="managerPassword" class="managerInput" type="text" placeholder=" Enter password"/>
+			</div>
+			<div id="confirmManagerPasswordDiv" class="managerInputDiv">
+				<label>Confirm Password</label><br/>
+				<input id="confirmManagerPassword" class="managerInput" type="text" placeholder=" Enter password"/>
 			</div>
 			
 			<button id="createManagerButton"> Create</button>

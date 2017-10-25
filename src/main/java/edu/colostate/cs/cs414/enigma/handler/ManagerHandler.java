@@ -209,14 +209,23 @@ public class ManagerHandler extends GymSystemEmployeeHandler {
 	 * @return
 	 */
 	public Manager createManager(String email, String firstName, String lastName, String phoneNumber, String insurance, String userName, String userPass,
-			String street, String city, String zip, String state)  {
+			String confirmPassword, String street, String city, String zip, String state)  {
 		
-				
+			
+		
 		// validations
 		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || insurance.isEmpty() || userName.isEmpty()
 				|| userPass.isEmpty() || street.isEmpty() || city.isEmpty() || zip.isEmpty() || state.isEmpty()) {
 			
-			return null;
+			throw new IllegalArgumentException("Missing Input");
+		}
+		if(userPass.length()<8) {
+			throw new IllegalArgumentException("Password short");
+		}
+		
+		// password validations	
+		if(!userPass.equals(confirmPassword) || userPass.length() < 8) {
+			throw new IllegalArgumentException("Password error");
 		}
 		
 		// Establish a connection to the database
