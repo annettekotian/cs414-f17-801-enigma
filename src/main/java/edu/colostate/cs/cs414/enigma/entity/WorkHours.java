@@ -1,9 +1,11 @@
 package edu.colostate.cs.cs414.enigma.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +20,8 @@ import javax.persistence.Table;
 @NamedQueries({
 	@NamedQuery(name="WorkHours.findAll", query="SELECT w FROM WorkHours w")
 })
-public class WorkHours {
+public class WorkHours implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -30,8 +33,8 @@ public class WorkHours {
 	
 	@Column(name="end_date_time", nullable=false, updatable=false, unique=false)
 	private Date endDateTime;
-
-	@ManyToOne
+	
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="trainer_id")
 	private Trainer trainer;
 	
@@ -40,12 +43,6 @@ public class WorkHours {
 	public WorkHours(Date startDateTime, Date endDateTime) {
 		this.startDateTime = startDateTime;
 		this.endDateTime = endDateTime;
-	}
-	
-	public WorkHours(Date startDateTime, Date endDateTime, Trainer trainer) {
-		this.startDateTime = startDateTime;
-		this.endDateTime = endDateTime;
-		this.trainer = trainer;
 	}
 
 	public int getId() {

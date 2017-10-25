@@ -282,11 +282,10 @@ public class EntityManagerDaoTest {
 		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
 		User user = new User("trainer", "password", userLevel);
 		
-		List<Qualification> qualifications = new ArrayList<Qualification>();
 		Qualification qualification = new Qualification("Best Employee");
-		qualifications.add(qualification);
 		
-		Trainer trainer = new Trainer(personalInformation, user, qualifications);
+		Trainer trainer = new Trainer(personalInformation, user);
+		trainer.addQualification(qualification);
 		dao.persist(trainer);
 		persistedObjects.add(trainer);
 		persistedObjects.add(insurance);
@@ -311,15 +310,9 @@ public class EntityManagerDaoTest {
 		try {
 			Date startDateTime = new Date(117, 9, 1, 12, 30, 00);
 			Date endDateTime = new Date(117, 9, 1, 120, 30, 00);
-			WorkHours workHours = new WorkHours(startDateTime, endDateTime, trainer);
-			
-			List<WorkHours> workSchedule = new ArrayList<WorkHours>();
-			workSchedule.add(workHours);
-			
-			trainer.setWorkHours(workSchedule);
-			
-			dao.update(workHours);
-			persistedObjects.add(workHours);
+			WorkHours workHours = new WorkHours(startDateTime, endDateTime);
+			trainer.addWorkHours(workHours);
+			dao.update(trainer);
 		}
 		finally {
 			persistedObjects.add(trainer);

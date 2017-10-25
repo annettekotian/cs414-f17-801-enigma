@@ -31,23 +31,17 @@ public class Trainer extends GymSystemUser implements Serializable {
 	@JoinTable(name="trainer_qualification",
 			joinColumns=@JoinColumn(name="trainer_id", referencedColumnName="id"),
 			inverseJoinColumns=@JoinColumn(name="qualification_id", referencedColumnName="id"))
-	private List<Qualification> qualifications;
+	private List<Qualification> qualifications = new ArrayList<Qualification>();
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="trainer", orphanRemoval=true)	
-	private List<WorkHours> workHours;
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="trainer")
+	private List<WorkHours> workHours = new ArrayList<WorkHours>();
 	
 	protected Trainer() {
 		super();
-		workHours = new ArrayList<WorkHours>();
 	}
 
 	public Trainer(PersonalInformation personalInformation, User user) {
 		super(personalInformation, user);
-	}
-	
-	public Trainer(PersonalInformation personalInformation, User user, List<Qualification> qualifications) {
-		super(personalInformation, user);
-		this.qualifications = qualifications;
 	}
 
 	public List<Qualification> getQualifications() {
@@ -57,6 +51,10 @@ public class Trainer extends GymSystemUser implements Serializable {
 	public void setQualifications(List<Qualification> qualifications) {
 		this.qualifications = qualifications;
 	}
+	
+	public void addQualification(Qualification qualification) {
+		this.qualifications.add(qualification);
+	}
 
 	public List<WorkHours> getWorkHours() {
 		return workHours;
@@ -64,6 +62,11 @@ public class Trainer extends GymSystemUser implements Serializable {
 
 	public void setWorkHours(List<WorkHours> workHours) {
 		this.workHours = workHours;
+	}
+	
+	public void addWorkHours(WorkHours wh) {
+		this.workHours.add(wh);
+		wh.setTrainer(this);
 	}
 
 	@Override
