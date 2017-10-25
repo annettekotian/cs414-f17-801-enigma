@@ -117,18 +117,23 @@ function populateAllTrainers() {
 	populateTrainerTable(trainers);
 }
 
+var selectedTrainerRow = null;
 function populateTrainerTable(trainers) {	
 
+	selectedTrainerRow = null;
+	document.getElementById("modifyTrainer").disabled = true;
+	document.getElementById("deleteTrainer").disabled = true;
+	
 	var trainerTable = document.getElementById("trainerTable");
 	while(trainerTable.rows.length > 0) {
 		trainerTable.deleteRow(0);
 	}
 	
-	var trainerTableRow = document.createElement("tr")
+	var trainerTableRow = document.createElement("tr");
 	
 	var trainerTableColumn = document.createElement("th");
 	trainerTableColumn.appendChild(document.createTextNode("Trainer ID"));
-	trainerTableRow.appendChild(trainerTableColumn)
+	trainerTableRow.appendChild(trainerTableColumn);
 	
 	trainerTableColumn = document.createElement("th");
 	trainerTableColumn.appendChild(document.createTextNode("First Name"));
@@ -148,45 +153,64 @@ function populateTrainerTable(trainers) {
 	
 	trainerTableColumn = document.createElement("th");
 	trainerTableColumn.appendChild(document.createTextNode("Phone"));
-	trainerTableRow.appendChild(trainerTableColumn)
+	trainerTableRow.appendChild(trainerTableColumn);
 	
 	trainerTableColumn = document.createElement("th");
 	trainerTableColumn.appendChild(document.createTextNode("Health Insurance"));
-	trainerTableRow.appendChild(trainerTableColumn)
+	trainerTableRow.appendChild(trainerTableColumn);
 
 	trainerTable.appendChild(trainerTableRow);
 	
 	for(var i=0; i<trainers.length; i++) {
-		trainerTableRow = document.createElement("tr")
+		trainerTableRow = document.createElement("tr");
+		trainerTableRow.classList.add("trainerTableRow");
+		
+		trainerTableRow.addEventListener("click", function selectTrainerFow(event) {
+			if(selectedTrainerRow != null) {
+				selectedTrainerRow.id = "";
+			}
+			selectedTrainerRow = event.target;
+			selectedTrainerRow.id = "trainerTableRowSelected";
+			document.getElementById("modifyTrainer").disabled = false;
+			document.getElementById("deleteTrainer").disabled = false;
+		});
+		trainerTableRow.dataset.trainer = JSON.stringify(trainers[i]);
 		
 		trainerTableColumn = document.createElement("td");
 		trainerTableColumn.appendChild(document.createTextNode(trainers[i].id));
-		trainerTableRow.appendChild(trainerTableColumn)
+		trainerTableColumn.classList.add("trainerTableCol");
+		trainerTableRow.appendChild(trainerTableColumn);
 		
 		trainerTableColumn = document.createElement("td");
 		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.firstName));
-		trainerTableRow.appendChild(trainerTableColumn)
+		trainerTableColumn.classList.add("trainerTableCol");
+		trainerTableRow.appendChild(trainerTableColumn);
 		
 		trainerTableColumn = document.createElement("td");
 		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.lastName));
-		trainerTableRow.appendChild(trainerTableColumn)
+		trainerTableColumn.classList.add("trainerTableCol");
+		trainerTableRow.appendChild(trainerTableColumn);
 		
 		trainerTableColumn = document.createElement("td");
 		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.address.street + " " + trainers[i].personalInformation.address.city + ", " 
 				+ trainers[i].personalInformation.address.state.stateAbbrev + " " + trainers[i].personalInformation.address.zipcode));
-		trainerTableRow.appendChild(trainerTableColumn)
+		trainerTableColumn.classList.add("trainerTableCol");
+		trainerTableRow.appendChild(trainerTableColumn);
 		
 		trainerTableColumn = document.createElement("td");
 		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.email));
+		trainerTableColumn.classList.add("trainerTableCol");
 		trainerTableRow.appendChild(trainerTableColumn);
 		
 		trainerTableColumn = document.createElement("td");
 		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.phoneNumber));
-		trainerTableRow.appendChild(trainerTableColumn)
+		trainerTableColumn.classList.add("trainerTableCol");
+		trainerTableRow.appendChild(trainerTableColumn);
 		
 		trainerTableColumn = document.createElement("td");
 		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.healthInsurance.name));
-		trainerTableRow.appendChild(trainerTableColumn)
+		trainerTableColumn.classList.add("trainerTableCol");
+		trainerTableRow.appendChild(trainerTableColumn);
 
 		trainerTable.appendChild(trainerTableRow);
 	}
@@ -452,9 +476,6 @@ $("#searchManagerButton").on("click", function(){
 });
 
 
-
-
-
 $("#addCustomer").on("click", function() {
 	$("#createCustomerButton").show();
 	$("#createCustomerHeader").show();
@@ -715,10 +736,8 @@ $("#searchCustomerButton").on("click", function(){
 
 
 /* Functions used to create/modify trainers */
-
-var trainers = null;
-var trainerId = null;
 var trainerFormType = null;
+var trainerId = null;
 
 function getStates() {
 	var states = null;
@@ -758,31 +777,11 @@ function getHealthInsurances() {
 	return healthInsurances;
 }
 
-function populateTrainerSelectList() {
-	trainers = getAllTrainers();
-	
-	var trainerList = $("#modifyTrainerList");
-	trainerList.empty();
-	trainerList.append("<option disabled selected value>--Select Trainer--</option>")
-	for (var i = 0; i< trainers.length; i++) {
-		trainerList.append("<option data-id='" + trainers[i].id + "'>" + trainers[i].personalInformation.firstName 
-				+ " " + trainers[i].personalInformation.lastName + "</option>");
-	}
-}
-
 function modifyTrainerForm() {
 	populateTrainerSelectList();
-	$("#deleteTrainerSelectFormButton").hide();
-	$("#modifyTrainerSelectFormButton").show();
-	$("#modifyTrainerSelectForm").modal();
+	modifyTrainerInformation();
 }
 
-function deleteTrainerForm() {
-	populateTrainerSelectList();
-	$("#deleteTrainerSelectFormButton").show();
-	$("#modifyTrainerSelectFormButton").hide();
-	$("#modifyTrainerSelectForm").modal();
-}
 
 function checkNewHealthInsurance() {
 	if(document.getElementById("modifyHealthInsurance").selectedIndex == 0) {
@@ -838,11 +837,7 @@ function modifyTrainerInformation() {
 	document.getElementById("trainerForm").reset();
 	
 	// Get the specific trainer
-	var trainerIndex = document.getElementById("modifyTrainerList").selectedIndex -1;
-	if(trainerIndex < 0) {
-		return;
-	}
-	var trainer = trainers[trainerIndex];
+	var trainer = JSON.parse(selectedTrainerRow.dataset.trainer);
 	trainerId = trainer.id;
 	
 	// Populate the state select list
@@ -957,13 +952,8 @@ function submitTrainerForm() {
 }
 
 function deleteTrainer() {
-	
-	// Get the specific trainer
-	var trainerIndex = document.getElementById("modifyTrainerList").selectedIndex -1;
-	if(trainerIndex < 0) {
-		return;
-	}
-	var trainer = trainers[trainerIndex];
+
+	var trainer = JSON.parse(selectedTrainerRow.dataset.trainer);
 	
 	var postParams = {};
 	postParams.id = trainer.id;
