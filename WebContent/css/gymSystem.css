@@ -180,9 +180,8 @@ margin-top:3%;
 
 
 /**************add manager, customer modal ****/
-#managerFirstNameDiv, #managerEmailDiv, #managerStreetDiv, #managerStateDiv, #managerUserNameDiv,
-#customerFirstNameDiv, #customerEmailDiv, #customerStreetDiv , #customerStateDiv, #customerHealthInuranceDiv,
-#editManagerFirstNameDiv, #editManagerUserNameDiv, #editManagerEmailDiv, #editManagerStreetDiv, #editManagerStateDiv{
+#managerFirstNameDiv, #managerEmailDiv, #managerStreetDiv, #managerStateDiv, #managerUserNameDiv, #managerHealthInuranceDiv,
+#customerFirstNameDiv, #customerEmailDiv, #customerStreetDiv , #customerStateDiv, #customerHealthInuranceDiv{
 	float:left;
 	
 }

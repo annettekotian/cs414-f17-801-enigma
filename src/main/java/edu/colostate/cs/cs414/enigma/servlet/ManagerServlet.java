@@ -254,11 +254,11 @@ public class ManagerServlet extends HttpServlet {
 			String city = request.getParameter("city");
 			String state = request.getParameter("state");
 			String zip = request.getParameter("zip");
-			String hiId = request.getParameter("hiId");
+			String insurance = request.getParameter("insurance");
 
 			ManagerHandler mh = new ManagerHandler();
 			try {
-				Manager m = mh.createManager(email, fName, lName, phone, hiId, uName, password, street, city, zip,
+				Manager m = mh.createManager(email, fName, lName, phone, insurance, uName, password, street, city, zip,
 						state);
 				values.put("manager", m);
 				values.put("status", "success");

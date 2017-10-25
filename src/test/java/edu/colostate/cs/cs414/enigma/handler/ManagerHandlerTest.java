@@ -63,7 +63,7 @@ public class ManagerHandlerTest {
 		//String  email = "ann@email.com";
 		String email = "";
 		String phone = "99889988834";
-		String hiId = "2";
+		String insurance = "Cigna";
 		String userName = "annKot";
 		String userPass = "123456";
 		String street = "720 City park";
@@ -72,7 +72,7 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, street, city, zip, state);
 		assertNull(m);
 		
 	}
@@ -85,7 +85,7 @@ public class ManagerHandlerTest {
 		String lName = "Kotian";
 		String  email = "ann@email.com";
 		String phone = "99889988834";
-		String hiId = "2";
+		String insurance = "Cigna";
 		String userName = "annKot";
 		String userPass = "123456";
 		String street = "720 City park";
@@ -94,7 +94,7 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, street, city, zip, state);
 		assertNull(m);
 	}
 	
@@ -103,7 +103,7 @@ public class ManagerHandlerTest {
 		String lName = "";
 		String  email = "ann@email.com";
 		String phone = "99889988834";
-		String hiId = "2";
+		String insurance = "Cigna";
 		String userName = "annKot";
 		String userPass = "123456";
 		String street = "720 City park";
@@ -112,7 +112,7 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, street, city, zip, state);
 		assertNull(m);
 			
 	}
@@ -123,7 +123,7 @@ public class ManagerHandlerTest {
 		String lName = "Kotian";
 		String  email = "ann@email.com";
 		String phone = "";
-		String hiId = "2";
+		String insurance = "Cigna";
 		String userName = "annKot";
 		String userPass = "123456";
 		String street = "720 City park";
@@ -132,7 +132,7 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, street, city, zip, state);
 		assertNull(m);
 			
 	}
@@ -143,7 +143,7 @@ public class ManagerHandlerTest {
 		String lName = "Kotian";
 		String  email = "ann@email.com";
 		String phone = "99999999";
-		String hiId = "";
+		String insurance = "";
 		String userName = "annKot";
 		String userPass = "123456";
 		String street = "720 City park";
@@ -152,7 +152,7 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, street, city, zip, state);
 		assertNull(m);
 			
 	}
@@ -163,7 +163,7 @@ public class ManagerHandlerTest {
 		String lName = "Kotian";
 		String  email = "ann@email.com";
 		String phone = "99999999";
-		String hiId = "2";
+		String insurance = "Cigna";
 		String userName = "";
 		String userPass = "123456";
 		String street = "720 City park";
@@ -172,7 +172,7 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, street, city, zip, state);
 		assertNull(m);
 			
 	}
@@ -183,7 +183,7 @@ public class ManagerHandlerTest {
 		String lName = "Kotian";
 		String  email = "ann@email.com";
 		String phone = "99999999";
-		String hiId = "2";
+		String insurance = "Cigna";
 		String userName = "annKot1";
 		String userPass = "";
 		String street = "720 City park";
@@ -192,7 +192,7 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, street, city, zip, state);
 		assertNull(m);
 			
 	}
@@ -203,7 +203,7 @@ public class ManagerHandlerTest {
 		String lName = "Kotian";
 		String  email = "ann@email.com";
 		String phone = "99999999";
-		String hiId = "2";
+		String insurance = "Cigna";
 		String userName = "annKot1";
 		String userPass = "123456";
 		String street = "";
@@ -212,7 +212,7 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, street, city, zip, state);
 		assertNull(m);
 			
 	}
@@ -223,7 +223,7 @@ public class ManagerHandlerTest {
 		String lName = "Kotian";
 		String  email = "ann@email.com";
 		String phone = "99999999";
-		String hiId = "2";
+		String insurance = "Cigna";
 		String userName = "annKot1";
 		String userPass = "123456";
 		String street = "720 City Park";
@@ -232,7 +232,7 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, street, city, zip, state);
 		assertNull(m);
 	}
 	
@@ -242,7 +242,7 @@ public class ManagerHandlerTest {
 		String lName = "Kotian";
 		String  email = "ann@email.com";
 		String phone = "99999999";
-		String hiId = "2";
+		String insurance = "Cigna";
 		String userName = "annKot1";
 		String userPass = "123456";
 		String street = "720 City Park";
@@ -251,7 +251,7 @@ public class ManagerHandlerTest {
 		String zip = "";
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager m = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		Manager m = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, street, city, zip, state);
 		assertNull(m);
 	}
 	
@@ -261,7 +261,7 @@ public class ManagerHandlerTest {
 		String lName = "Kotian";
 		String  email = "ann@email.com";
 		String phone = "99999999";
-		String hiId = "2";
+		String insurance = "Cigna";
 		String userName = "annKot1";
 		String userPass = "123456";
 		String street = "720 City Park";
@@ -270,7 +270,7 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager m = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		Manager m = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, street, city, zip, state);
 		assertNull(m);
 	}
 	
@@ -280,7 +280,7 @@ public class ManagerHandlerTest {
 		String lName = "Kotian";
 		String  email = "ann@email.com";
 		String phone = "99999999";
-		String hiId = "2";
+		String insurance = "Cigna";
 		String userName = "annKotRac1";
 		String userPass = "123456";
 		String street = "720 City Park";
@@ -289,7 +289,7 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager persistedM = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		Manager persistedM = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, street, city, zip, state);
 		persistedObjects.add(persistedM);
 		
 		Map<String, Object> managerParams = new HashMap<String, Object>();

@@ -215,13 +215,16 @@
 				<label>Last Name</label><br/>
 				<input id="managerLName" class="managerInput" type="text" placeholder=" Enter last name"/> <br/>
 			</div>
-			<div id="managerUserNameDiv" class="managerInputDiv">
-				<label>User name</label><br/>
-				<input id="managerUName" class="managerInput" type="text" placeholder=" Enter user name "/> <br/>
+			<div id="managerHealthInuranceDiv" class="managerInputDiv" > 	
+				<label>Health Insurance</label><br/>
+				<select id="managerHIList" class="managerInput" >
+					
+				</select>
 			</div>
-			<div id="managerPasswordDiv" class="managerInputDiv">
-				<label>Password</label><br/>
-				<input id="managerPassword" class="managerInput" type="text" placeholder=" Enter password"/>
+			<div id="managerOtherHealthInuranceDiv" class="managerInputDiv" > 	
+				<label>Other Health Insurance</label><br/>
+				<input id = "managerOtherHI" class="managerInput"/>
+				
 			</div>
 			<div id="managerEmailDiv" class="managerInputDiv">
 				<label>Email id</label><br/>
@@ -247,12 +250,15 @@
 				<label>Zip code</label><br/>
 				<input id="managerZip" class="managerInput" type="number" placeholder=" Enter zip"/>
 			</div>
-			<div id="managerHealthInuranceDiv" class="managerInputDiv" > 	
-				<label>Health Insurance</label><br/>
-				<select id="managerHIList" class="managerInput" >
-				</select>
-			</div>
 			
+			<div id="managerUserNameDiv" class="managerInputDiv">
+				<label>User name</label><br/>
+				<input id="managerUName" class="managerInput" type="text" placeholder=" Enter user name "/> <br/>
+			</div>
+			<div id="managerPasswordDiv" class="managerInputDiv">
+				<label>Password</label><br/>
+				<input id="managerPassword" class="managerInput" type="text" placeholder=" Enter password"/>
+			</div>
 			
 			<button id="createManagerButton"> Create</button>
 		</div>	

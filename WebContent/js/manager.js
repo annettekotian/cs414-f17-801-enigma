@@ -334,6 +334,7 @@ $("#addManagerModal").on($.modal.BEFORE_OPEN, function () {
 	var states = getStates();
 	var hiSelect = $("#managerHIList");
 	hiSelect.empty();
+	hiSelect.append("<option>--Other--</option>")
 	for (var i = 0; i< hiData.length; i++) {
 		hiSelect.append("<option data-id='" + hiData[i].id + "'>" + hiData[i].name +  "</option>")
 	}
@@ -350,6 +351,14 @@ $("#addManagerModal").on($.modal.AFTER_CLOSE, function() {
 	$("#addManagerModal select").val($("#addManagerModal select option:first").val())
 });
 
+
+$("#managerHIList").on("change", function() {
+	if($(this).find(":selected").index()>0 ) {
+		$("#managerOtherHI").attr("disabled", true);
+	} else if($(this).find(":selected").index() == 0) {
+		$("#managerOtherHI").attr("disabled", false);
+	}
+}), 
 /** add manager when create button is clicked**/
 
 $("#createManagerButton").on("click", function (){
@@ -364,12 +373,19 @@ $("#createManagerButton").on("click", function (){
 	postParams.city = $("#managerCity").val();
 	postParams.state = $("#managerState").val();
 	postParams.zip = $("#managerZip").val();
-	postParams.hiId = $("#managerHIList").find(":selected").data("id");
 	postParams.type = "createManager";
+	
+	var hiIndex = $("#managerHIList").find(":selected").index();
+	if(hiIndex == 0) {
+		postParams.insurance = $("#managerOtherHI").val();
+	} else {
+		postParams.insurance = $("#managerHIList").val();
+	}
+	
 	
 	
 	if(!postParams.fName || !postParams.lName || !postParams.uName || !postParams.password || !postParams.email || !postParams.phone 
-			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip) {
+			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip || !postParams.insurance) {
 		alert("Could not create manager! Some input fields were missing");
 		return;
 	}

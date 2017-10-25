@@ -208,12 +208,12 @@ public class ManagerHandler extends GymSystemEmployeeHandler {
 	 * @param state: String state
 	 * @return
 	 */
-	public Manager createManager(String email, String firstName, String lastName, String phoneNumber, String hiId, String userName, String userPass,
+	public Manager createManager(String email, String firstName, String lastName, String phoneNumber, String insurance, String userName, String userPass,
 			String street, String city, String zip, String state)  {
 		
 				
 		// validations
-		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || hiId.isEmpty() || userName.isEmpty()
+		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || insurance.isEmpty() || userName.isEmpty()
 				|| userPass.isEmpty() || street.isEmpty() || city.isEmpty() || zip.isEmpty() || state.isEmpty()) {
 			
 			return null;
@@ -222,9 +222,11 @@ public class ManagerHandler extends GymSystemEmployeeHandler {
 		// Establish a connection to the database
 		EntityManagerDao dao = new EntityManagerDao();
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("id", Integer.parseInt(hiId));
-		HealthInsurance hiDB = (HealthInsurance) dao.querySingle("HealthInsurance.findId", parameters);
-		
+		parameters.put("name", insurance);
+		HealthInsurance hiDB = (HealthInsurance) dao.querySingle("HealthInsurance.findByName", parameters);
+		if(hiDB == null) {
+			hiDB = new HealthInsurance(insurance);
+		}
 		
 		Map<String, Object> stateParams = new HashMap<String, Object>();
 		stateParams.put("state", state);
