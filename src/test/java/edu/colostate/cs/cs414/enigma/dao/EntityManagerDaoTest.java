@@ -3,6 +3,7 @@ package edu.colostate.cs.cs414.enigma.dao;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +22,12 @@ import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
+import edu.colostate.cs.cs414.enigma.entity.Qualification;
 import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
+import edu.colostate.cs.cs414.enigma.entity.WorkHours;
 import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 public class EntityManagerDaoTest {
@@ -264,5 +267,67 @@ public class EntityManagerDaoTest {
 		Manager manager = (Manager) dao.querySingle("Manager.findByName", parameters);
 		assertTrue("Failed to retrieve manager by name", manager.getPersonalInformation().getFirstName().equals("John")
 				&& manager.getPersonalInformation().getLastName().equals("Doe"));
+	}
+	
+	@Test
+	public void persistQualification() {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("state", "Colorado");
+		State colorado = (State) dao.querySingle("State.findState", parameters);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555-5555", colorado);
+		HealthInsurance insurance = new HealthInsurance("Free Insurance");
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		parameters = new HashMap<String, Object>();
+		parameters.put("level", "TRAINER");
+		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
+		User user = new User("trainer", "password", userLevel);
+		
+		List<Qualification> qualifications = new ArrayList<Qualification>();
+		Qualification qualification = new Qualification("Best Employee");
+		qualifications.add(qualification);
+		
+		Trainer trainer = new Trainer(personalInformation, user, qualifications);
+		dao.persist(trainer);
+		persistedObjects.add(trainer);
+		persistedObjects.add(insurance);
+		persistedObjects.add(qualification);		
+	}
+	
+	@Test
+	public void persistWorkHours() {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("state", "Colorado");
+		State colorado = (State) dao.querySingle("State.findState", parameters);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555-5555", colorado);
+		HealthInsurance insurance = new HealthInsurance("Free Insurance");
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		parameters = new HashMap<String, Object>();
+		parameters.put("level", "TRAINER");
+		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
+		User user = new User("trainer", "password", userLevel);
+		Trainer trainer = new Trainer(personalInformation, user);
+		dao.persist(trainer);
+		
+		try {
+			Date startDateTime = new Date(117, 9, 1, 12, 30, 00);
+			Date endDateTime = new Date(117, 9, 1, 120, 30, 00);
+			WorkHours workHours = new WorkHours(startDateTime, endDateTime, trainer);
+			
+			List<WorkHours> workSchedule = new ArrayList<WorkHours>();
+			workSchedule.add(workHours);
+			
+			trainer.setWorkHours(workSchedule);
+			
+			dao.update(workHours);
+			persistedObjects.add(workHours);
+		}
+		finally {
+			persistedObjects.add(trainer);
+			persistedObjects.add(insurance);
+		}
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", trainer.getId());
+		trainer = (Trainer) dao.querySingle("Trainer.findById", params);
 	}
 }
