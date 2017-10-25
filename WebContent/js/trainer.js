@@ -1,5 +1,6 @@
 function focusHome() {
 	$("#homeLi").css("background", "darkgrey");
+	$("#home").show();
 	$("#customerTable").hide();
 	$(".trainerSearchCustomers").hide();
 }
@@ -27,11 +28,9 @@ $("#homeLi, #customerLi, #workoutsLi, #exerciseLi").on("mouseleave", function(){
 	
 });
 
+$("#homeLi").on("click", focusHome)
 
-$("#customerLi").on("click", function() {
-	
-	focusCustomers();
-})
+$("#customerLi").on("click", focusCustomers)
 
 $("#workoutsLi, #exerciseLi").on("click", function() {
 	$("#customerTable").hide();
