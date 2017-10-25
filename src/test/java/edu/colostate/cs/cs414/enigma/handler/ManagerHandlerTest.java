@@ -307,7 +307,7 @@ public class ManagerHandlerTest {
 		String lName = "Kotian";
 		String  email = "ann@email.com";
 		String phone = "99999999";
-		String hiId = "2";
+		String insurance = "Cigna";
 		String userName = "annKotRac";
 		String userPass = "123456";
 		String street = "720 City Park";
@@ -316,9 +316,9 @@ public class ManagerHandlerTest {
 		String zip = "80521";
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager m = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		Manager m = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, street, city, zip, state);
 		persistedObjects.add(m);
-		mh.createManager(email, fName , lName, phone, hiId, userName, userPass, street, city, zip, state);
+		mh.createManager(email, fName , lName, phone, insurance, userName, userPass, street, city, zip, state);
 			
 		
 		
