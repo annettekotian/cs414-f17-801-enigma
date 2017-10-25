@@ -66,7 +66,7 @@ public class LoginServlet extends HttpServlet {
 			
 			// redirect based on level
 			if(level.equals("TRAINER")) {
-				response.sendRedirect("/trainer/ui");
+				request.getRequestDispatcher("/WEB-INF/views/trainer/trainer.jsp").forward(request, response);
 			} else {
 
 				// get all manager data to display in the ui

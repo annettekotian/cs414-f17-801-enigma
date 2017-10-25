@@ -1,14 +1,43 @@
 function focusHome() {
-	document.getElementById("home").style.display = "block";
-	document.getElementById("customerTable").style.display = "none";
+	$("#homeLi").css("background", "darkgrey");
+	$("#customerTable").hide();
 	$(".trainerSearchCustomers").hide();
 }
 
 function focusCustomers() {
-	document.getElementById("home").style.display = "none";
-	document.getElementById("customerTable").style.display = "block";
+	populateCustomers();
+	$("#home").hide();
+	$("#customerTable").show();
 	$(".trainerSearchCustomers").show();
 }
+
+$("#homeLi, #customerLi, #workoutsLi, #exerciseLi").on("click", function(){
+	$("#homeLi, #customerLi, #workoutsLi, #exerciseLi").css("background", "none");
+	$(this).css("background", "darkgrey");
+	
+});
+
+$("#homeLi, #customerLi, #workoutsLi, #exerciseLi").on("mouseenter", function(){
+	$("#trainerLi, #managerLi, #customersLi, #inventoryLi").css("color", "black")
+	$(this).css("color", "steelblue");
+});
+
+$("#homeLi, #customerLi, #workoutsLi, #exerciseLi").on("mouseleave", function(){
+	$("#homeLi, #customerLi, #workoutsLi, #exerciseLi").css("color", "black")
+	
+});
+
+
+$("#customerLi").on("click", function() {
+	
+	focusCustomers();
+})
+
+$("#workoutsLi, #exerciseLi").on("click", function() {
+	$("#customerTable").hide();
+	$("#home").hide();
+	$(".trainerSearchCustomers").hide();
+});
 
 function populateCustomers() {
 	var currentUrl = window.location.pathname
@@ -55,7 +84,7 @@ function generateCustomersDisplay(customerData){
 						" <td>" + customer.personalInformation.healthInsurance.name + "</td>"+
 						" <td>" + customer.membership.type+ "</td></tr>");
 	}
-	focusCustomers();
+	
 }
 
 $("#trainerSearchCustomerButton").on("click", function(){

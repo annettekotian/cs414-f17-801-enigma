@@ -18,12 +18,21 @@
 	</ul>
 </div>
 
-<div class="menuBar">
+<!-- <div class="menuBar">
 	<a class="active" href="#home" onclick="focusHome()">Home</a>
 	<a href="#customerTable" onclick="populateCustomers()">Customers</a>
 	<a href="#workouts">Workouts</a>
 	<a href="#exercises">Exercises</a>
-</div>
+</div> -->
+
+<div id="menuBarDiv">
+	<ul id="menuBar">
+		<li id="homeLi" class="menuLi">Home</li>
+		<li id="customerLi" class="menuLi">Customers</li>
+		<li id="workoutsLi">Workouts</li>
+		<li id="exerciseLi">Exercises</li>
+	</ul>
+	</div>
 
 <button id="trainerSearchCustomerButton" class="trainerSearchCustomers">Search</button>
 <input id = "trainerSearchCustomerInput" class="trainerSearchCustomers" type="text" placeholder = "enter name, address etc."/>
@@ -55,41 +64,28 @@
 	</table>
 </div>
 
-<div id="customerTable">
+	<div id="customerTable">
 		<table>
-			<tr class = "tableHeader">
-				<th>
-					Id
-				</th>
-				<th>
-					First Name
-				</th>
-				<th>
-					Last Name
-				</th>
-				<th>
-					Address
-				</th>
-				<th>
-					Email
-				</th>
-				<th>
-					Phone No
-				</th>
-				<th>
-					Health Insurance
-				</th>
-				<th>
-					Membership
-				</th>
-				
-			</tr>			
-			
+			<tr class="tableHeader">
+				<th>Id</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Address</th>
+				<th>Email</th>
+				<th>Phone No</th>
+				<th>Health Insurance</th>
+				<th>Membership</th>
+
+			</tr>
+
 		</table>
 	</div>
-
-<script src="../js/trainer.js">
+	
+	
+	<script src="../js/trainer.js">
 </script>
-
+<script>
+focusHome();
+</script>
 </body>
 </html>

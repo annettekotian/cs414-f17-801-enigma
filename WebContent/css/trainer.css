@@ -6,6 +6,9 @@
 
 #customerTable {
 	display: none;
+	margin-left:165px;
+	margin-top: 20px;
+
 }
 
 #customerTable table {
@@ -26,4 +29,9 @@
 
 .trainerSearchCustomers {
 	display:none
+}
+
+
+#trainerSearchCustomerButton {
+	margin-left: 166px
 }
