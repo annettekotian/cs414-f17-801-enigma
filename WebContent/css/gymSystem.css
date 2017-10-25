@@ -18,6 +18,18 @@ body{
 	line-height: 40px
 }
 
+.trainerTableRow:hover{
+	background-color:gray;
+	cursor:pointer;
+}
+.trainerTableCol{
+	pointer-events:none;
+}
+
+#trainerTableRowSelected{
+	background-color:yellow;
+}
+
 
  #logoutLink {
 	float:right;

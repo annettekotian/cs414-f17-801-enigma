@@ -35,8 +35,8 @@
 	<button id="searchManagerButton" class="searchManager">Search</button>
 	
 	<button id="addTrainer" class="addButtons" onclick="createTrainerForm()">Add Trainer</button>
-	<button id="modifyTrainer" class="addButtons" onclick="modifyTrainerForm()">Modify Trainer</button>
-	<button id="deleteTrainer" class="addButtons" onclick="deleteTrainerForm()">Delete Trainer</button>
+	<button id="modifyTrainer" class="addButtons" onclick="modifyTrainerInformation()" disabled>Modify Trainer</button>
+	<button id="deleteTrainer" class="addButtons" onclick="deleteTrainer()" disabled>Delete Trainer</button>
 	<input id ="searchTrainerInput" class="searchTrainer" type="text" placeholder="Search"/> 
 	<button id="searchTrainerButton" class="searchTrainer" onclick="populateSearchTrainers()">Search</button>
 	<button id="searchTrainerButton" class="searchTrainer" onclick="resetSearchTrainers()">Reset</button>
@@ -158,16 +158,6 @@
 			</tr>
 		</table>
 	</div>
-
-<div id="modifyTrainerSelectForm" class="modal">
-	<h3>Modify Trainer</h3>
-	<form>
-		<label>Select Trainer</label>
-		<select id="modifyTrainerList" size="1"></select>
-	</form>
-	<button id="modifyTrainerSelectFormButton" onclick="modifyTrainerInformation()">Next</button>
-	<button id="deleteTrainerSelectFormButton" onclick="deleteTrainer()">Delete</button>
-</div>
 
 <div id="modifyTrainerForm" class="modal">
 	<h3 id="modifyTrainerHeader">Modify Trainer</h3>
