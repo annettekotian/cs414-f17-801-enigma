@@ -14,7 +14,7 @@
 	<ul id="topHeader">
 	<li id="weclcomeLi">Welcome User!</li>
 	
-	<li id="logoutLink">Logout</li>
+	<li id="logoutLink"><a href="/logout">Logout</a></li>
 	</ul>
 </div>
 
