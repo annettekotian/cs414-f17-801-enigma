@@ -1,11 +1,12 @@
 package edu.colostate.cs.cs414.enigma.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,12 +32,12 @@ public class Qualification implements Serializable {
 	
 	@Column(name="name", nullable=false, updatable=false, unique=true)
 	private String name;
-	
-	@ManyToMany
+
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name="trainer_qualification",
 			joinColumns=@JoinColumn(name="qualification_id", referencedColumnName="id"),
 			inverseJoinColumns=@JoinColumn(name="trainer_id", referencedColumnName="id"))
-	private List<Trainer> trainers;
+	private List<Trainer> trainers = new ArrayList<Trainer>();
 	
 	protected Qualification() {}
 	

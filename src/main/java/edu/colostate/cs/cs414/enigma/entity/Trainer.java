@@ -27,13 +27,13 @@ import javax.persistence.Table;
 public class Trainer extends GymSystemUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@ManyToMany(cascade=CascadeType.PERSIST)
+	@ManyToMany(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JoinTable(name="trainer_qualification",
 			joinColumns=@JoinColumn(name="trainer_id", referencedColumnName="id"),
 			inverseJoinColumns=@JoinColumn(name="qualification_id", referencedColumnName="id"))
 	private List<Qualification> qualifications = new ArrayList<Qualification>();
 	
-	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="trainer")
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="trainer", fetch=FetchType.LAZY)
 	private List<WorkHours> workHours = new ArrayList<WorkHours>();
 	
 	protected Trainer() {
@@ -53,7 +53,9 @@ public class Trainer extends GymSystemUser implements Serializable {
 	}
 	
 	public void addQualification(Qualification qualification) {
-		this.qualifications.add(qualification);
+		if(!this.qualifications.contains(qualification)) {
+			this.qualifications.add(qualification);
+		}
 	}
 
 	public List<WorkHours> getWorkHours() {
@@ -65,8 +67,10 @@ public class Trainer extends GymSystemUser implements Serializable {
 	}
 	
 	public void addWorkHours(WorkHours wh) {
-		this.workHours.add(wh);
-		wh.setTrainer(this);
+		if(!this.workHours.contains(wh)) {
+			this.workHours.add(wh);
+			wh.setTrainer(this);
+		}
 	}
 
 	@Override

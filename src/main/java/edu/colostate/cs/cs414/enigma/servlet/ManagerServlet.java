@@ -65,7 +65,32 @@ public class ManagerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 			}
 			return;
+			
 		}
+		else if(type.equals("getAllTrainers")) {
+			try {
+				ManagerHandler mh = new ManagerHandler();
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(mh.getAllTrainers()));
+				mh.close();
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			return;
+			
+		}
+		else if(type.equals("getTrainerById")) {
+			Integer trainerId = Integer.parseInt(request.getParameter("trainerId"));
+			try {
+				ManagerHandler mh = new ManagerHandler();
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(mh.getTrainerById(trainerId)));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			return;
+			
+		}		
 		
 		
 		switch(type) {		
@@ -95,28 +120,6 @@ public class ManagerServlet extends HttpServlet {
 			}
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(values));
-			return;
-			
-		case "getAllTrainers" :
-			try {
-				List<Trainer> trainers = new ManagerHandler().getAllTrainers();
-				response.setContentType("application/json");
-				out.write(new Gson().toJson(trainers));
-			} catch(Exception e) {
-				response.sendError(500, e.toString());
-			}
-			return;
-			
-		case "getTrainerById":
-			ManagerHandler mh = new ManagerHandler();
-			Integer trainerId = Integer.parseInt(request.getParameter("trainerId"));
-			try {
-				Trainer trainer = mh.getTrainerById(trainerId);
-				response.setContentType("application/json");
-				out.write(new Gson().toJson(trainer));
-			} catch(Exception e) {
-				response.sendError(500, e.toString());
-			}
 			return;
 		
 		case "getAllManagers" :
