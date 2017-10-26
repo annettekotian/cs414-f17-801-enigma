@@ -538,7 +538,7 @@ function getCustomerModalData() {
 		url: "/manager/ui",
 		method: "GET",
 		data: {
-			type: "getAddCustomerData"
+			type: "getCustomerModalData"
 		},
 		async: false,
 		success: function(data) {

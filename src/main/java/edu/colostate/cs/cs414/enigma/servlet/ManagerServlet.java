@@ -23,7 +23,7 @@ import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
-import edu.colostate.cs.cs414.enigma.handler.AddressHandler;
+import edu.colostate.cs.cs414.enigma.handler.SystemHandler;
 import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
 import edu.colostate.cs.cs414.enigma.handler.HealthInsuranceHandler;
 import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
@@ -96,8 +96,8 @@ public class ManagerServlet extends HttpServlet {
 		switch(type) {		
 		case "getHealthInsurances":
 			try {
-				HealthInsuranceHandler healthInsuranceHandler = new HealthInsuranceHandler();
-				List<HealthInsurance> healthInsurances = healthInsuranceHandler.getHealthInsurances();
+				SystemHandler sh = new SystemHandler();
+				List<HealthInsurance> healthInsurances = sh.getHealthInsurances();
 				Gson gson = new Gson();
 				String healthInsurancesJson = gson.toJson(healthInsurances);
 				values.put("healthInsurances", healthInsurancesJson);
@@ -110,8 +110,8 @@ public class ManagerServlet extends HttpServlet {
 			
 		case "getStates":
 			try {	
-				AddressHandler addHandler = new AddressHandler();
-				List<State> states = addHandler.getAllStates();
+				SystemHandler sh = new SystemHandler();
+				List<State> states = sh.getAllStates();
 				Gson gson = new Gson();
 				String statesJson = gson.toJson(states);
 				values.put("states", statesJson);
@@ -133,15 +133,13 @@ public class ManagerServlet extends HttpServlet {
 			
 		return;
 		
-		case "getAddCustomerData":
-			HealthInsuranceHandler healthInsuranceHandler = new HealthInsuranceHandler();
-			values.put("healthInsurances", new Gson().toJson(healthInsuranceHandler.getHealthInsurances()));
+		case "getCustomerModalData":
+			SystemHandler sh = new SystemHandler();
+			values.put("healthInsurances", new Gson().toJson(sh.getHealthInsurances()));
+			values.put("states", new Gson().toJson(sh.getAllStates()));
 			
-			AddressHandler addHandler = new AddressHandler();
-			values.put("states", new Gson().toJson(addHandler.getAllStates()));
-			
-			MembershipHandler membershipHandler = new MembershipHandler();
-			values.put("membershipType", new Gson().toJson(membershipHandler.getMembershipStatus()));
+			SystemHandler sh1 = new SystemHandler();
+			values.put("membershipType", new Gson().toJson((sh1.getMembershipTypes())));
 			
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(values));
@@ -193,11 +191,9 @@ public class ManagerServlet extends HttpServlet {
 				
 				values.put("manager", m);
 				
-				HealthInsuranceHandler hiHandler = new HealthInsuranceHandler();
-				values.put("healthInsurances", hiHandler.getHealthInsurances());
-				
-				AddressHandler aHandler = new AddressHandler();
-				values.put("states", aHandler.getAllStates());
+				SystemHandler h = new SystemHandler();
+				values.put("healthInsurances", h.getHealthInsurances());
+				values.put("states", h.getAllStates());
 				
 				out.write(new Gson().toJson(values));
 			
