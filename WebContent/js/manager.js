@@ -60,6 +60,7 @@ function showTrainerData() {
 	$("#modifyTrainer").show();
 	$("#trainerResults").show();
 	$("#deleteTrainer").show();
+	$("#addQualification").show();
 }
 
 function getAllTrainers() {
@@ -123,6 +124,7 @@ function populateTrainerTable(trainers) {
 	selectedTrainerRow = null;
 	document.getElementById("modifyTrainer").disabled = true;
 	document.getElementById("deleteTrainer").disabled = true;
+	document.getElementById("addQualification").disabled = true;
 	
 	var trainerTable = document.getElementById("trainerTable");
 	while(trainerTable.rows.length > 0) {
@@ -158,6 +160,10 @@ function populateTrainerTable(trainers) {
 	trainerTableColumn = document.createElement("th");
 	trainerTableColumn.appendChild(document.createTextNode("Health Insurance"));
 	trainerTableRow.appendChild(trainerTableColumn);
+	
+	trainerTableColumn = document.createElement("th");
+	trainerTableColumn.appendChild(document.createTextNode("Qualifications"));
+	trainerTableRow.appendChild(trainerTableColumn);
 
 	trainerTable.appendChild(trainerTableRow);
 	
@@ -173,6 +179,7 @@ function populateTrainerTable(trainers) {
 			selectedTrainerRow.id = "trainerTableRowSelected";
 			document.getElementById("modifyTrainer").disabled = false;
 			document.getElementById("deleteTrainer").disabled = false;
+			document.getElementById("addQualification").disabled = false;
 		});
 		trainerTableRow.dataset.trainer = JSON.stringify(trainers[i]);
 		
@@ -211,6 +218,15 @@ function populateTrainerTable(trainers) {
 		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.healthInsurance.name));
 		trainerTableColumn.classList.add("trainerTableCol");
 		trainerTableRow.appendChild(trainerTableColumn);
+		
+		trainerTableColumn = document.createElement("td");
+		var qualifications = "";
+		for(var j=0; j<trainers[i].qualifications.length; j++) {
+			qualifications += trainers[i].qualifications[j].name + "\n";
+		}
+		trainerTableColumn.appendChild(document.createTextNode(qualifications));
+		trainerTableColumn.classList.add("trainerTableCol");
+		trainerTableRow.appendChild(trainerTableColumn);
 
 		trainerTable.appendChild(trainerTableRow);
 	}
@@ -220,6 +236,7 @@ function showManagerData() {
 	$("#addTrainer").hide();
 	$("#modifyTrainer").hide();
 	$("#deleteTrainer").hide();
+	$("#addQualification").hide();
 	$("#addCustomer").hide();
 	$("#addMachine").hide();
 	$(".searchCustomer").hide();
@@ -273,6 +290,7 @@ function showCustomerData() {
 	$("#addManager").hide();
 	$(".searchManager").hide();
 	$(".searchTrainer").hide();
+	$("#addQualification").hide();
 	$("#addTrainer").hide();
 	$("#modifyTrainer").hide();
 	$("#deleteTrainer").hide();
@@ -334,6 +352,7 @@ function showInventoryData() {
 	$(".searchManager").hide();
 	$(".searchTrainer").hide();
 	$(".searchCustomer").hide();
+	$("#addQualification").hide();
 	$("#addTrainer").hide();
 	$("#modifyTrainer").hide();
 	$("#addCustomer").hide();
@@ -840,7 +859,6 @@ function modifyTrainerForm() {
 	modifyTrainerInformation();
 }
 
-
 function checkNewHealthInsurance() {
 	if(document.getElementById("modifyHealthInsurance").selectedIndex == 0) {
 		document.getElementById("modifyOtherHealthInsurance").value = "";
@@ -1016,6 +1034,39 @@ function deleteTrainer() {
 	var postParams = {};
 	postParams.id = trainer.id;
 	postParams.type = "deleteTrainer";
+	
+	$.ajax({
+		url: "/manager/ui",
+		method: "POST",
+		data: postParams,
+		
+		success: function(data) {
+			if(data.rc == 0) {
+				populateAllTrainers();
+				$.modal.close();
+			}
+			else {
+				alert("Error: " + data.msg);
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			$(document.body).html(jqXHR.responseText);
+		}
+	});
+}
+
+function addTrainerQualification() {
+	document.getElementById("qualificationForm").reset();
+	$("#addQualificationForm").modal();
+}
+
+function submitTrainerQualification() {
+	var trainer = JSON.parse(selectedTrainerRow.dataset.trainer);
+	var qualification = $("#qualificationName").val()
+	var postParams = {};
+	postParams.id = trainer.id;
+	postParams.qualification = qualification;
+	postParams.type = "addQualification";
 	
 	$.ajax({
 		url: "/manager/ui",
