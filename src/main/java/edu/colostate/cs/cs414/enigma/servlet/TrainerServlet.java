@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 
 import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
-import edu.colostate.cs.cs414.enigma.handler.MembershipHandler;
+
 import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
 
 /**

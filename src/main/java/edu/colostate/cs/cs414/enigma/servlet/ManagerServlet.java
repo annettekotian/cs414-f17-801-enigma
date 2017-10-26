@@ -25,9 +25,9 @@ import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.handler.SystemHandler;
 import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
-import edu.colostate.cs.cs414.enigma.handler.HealthInsuranceHandler;
+
 import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
-import edu.colostate.cs.cs414.enigma.handler.MembershipHandler;
+
 import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
 
 /**
