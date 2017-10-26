@@ -249,7 +249,7 @@ public class ManagerHandler extends GymSystemEmployeeHandler {
 		User user = new User( userName, userPass, ul);
 		Manager manager= new Manager(p, user);
 		
-		// Persist the customer with the database
+		// Persist the manager with the database
 		
 		dao.persist(manager);
 		
@@ -301,7 +301,7 @@ public class ManagerHandler extends GymSystemEmployeeHandler {
 		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || insurance.isEmpty() || 
 				street.isEmpty() || city.isEmpty() || zip.isEmpty() || state.isEmpty() || membershipStatus.isEmpty()) {
 			
-			return null;
+			throw new IllegalArgumentException("Missing input");
 		}
 		
 		// Establish a connection to the database
@@ -312,6 +312,9 @@ public class ManagerHandler extends GymSystemEmployeeHandler {
 		parameters.put("description", insurance);
 		HealthInsurance healthInsurance = (HealthInsurance) dao.querySingle("HealthInsurance.findDescription",
 				parameters);
+		if(healthInsurance == null) {
+			healthInsurance = new HealthInsurance(insurance);
+		}
 		
 		// Get the membership object based on type
 		parameters = new HashMap<String, Object>();

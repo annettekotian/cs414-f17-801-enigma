@@ -411,7 +411,7 @@ public class ManagerHandlerTest {
 	}
 	
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoEmail() {
 		
 		String fName = "Annette";
@@ -431,7 +431,7 @@ public class ManagerHandlerTest {
 		
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoFirstName() {
 		
 		String fName = "";
@@ -450,7 +450,7 @@ public class ManagerHandlerTest {
 		assertNull(persistedC1);
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoLastName() {
 		
 		String fName = "Annette";
@@ -470,7 +470,7 @@ public class ManagerHandlerTest {
 		
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoPhone() {
 		
 		String fName = "Annette";
@@ -490,7 +490,7 @@ public class ManagerHandlerTest {
 		
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoInsurance() {
 		
 		String fName = "Annette";
@@ -510,7 +510,7 @@ public class ManagerHandlerTest {
 		
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoStreet() {
 		
 		String fName = "Annette";
@@ -530,7 +530,7 @@ public class ManagerHandlerTest {
 		
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoCity() {
 		
 		String fName = "Annette";
@@ -550,7 +550,7 @@ public class ManagerHandlerTest {
 		
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoState() {
 		
 		String fName = "Annette";
@@ -570,7 +570,7 @@ public class ManagerHandlerTest {
 		
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoZip() {
 		
 		String fName = "Annette";
@@ -589,7 +589,7 @@ public class ManagerHandlerTest {
 		assertNull(persistedC1);
 	}
 
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoMembership() {
 		
 		String fName = "Annette";

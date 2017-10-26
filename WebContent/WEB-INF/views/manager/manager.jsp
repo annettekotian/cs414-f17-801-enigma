@@ -247,11 +247,11 @@
 			</div>
 			<div id="managerPasswordDiv" class="managerInputDiv">
 				<label>Password</label><br/>
-				<input id="managerPassword" class="managerInput" type="text" placeholder=" Enter password"/>
+				<input id="managerPassword" class="managerInput" type="password" placeholder=" Enter password"/>
 			</div>
 			<div id="confirmManagerPasswordDiv" class="managerInputDiv">
 				<label>Confirm Password</label><br/>
-				<input id="confirmManagerPassword" class="managerInput" type="text" placeholder=" Enter password"/>
+				<input id="confirmManagerPassword" class="managerInput" type="password" placeholder=" Enter password"/>
 			</div>
 			
 			<button id="createManagerButton"> Create</button>
@@ -304,13 +304,18 @@
 				</select>
 			</div>
 			
-			<div id="customerHealthInuranceDiv" class="customerInputDiv" > 	
+			<div id="customerOtherHIDiv" class="customerInputDiv" > 	
+				<label>Other Health Insurance</label><br/>
+				<input id="customerOtherHI" class="customerInput" type="text"/>
+				
+			</div>
+			
+			<div id="customerMembershipDiv" class="customerInputDiv" > 	
 				<label>Membership Status</label><br/>
 				<select id="customerMembership"  class="customerInput">
 				</select>
 			</div>
-			
-			
+		
 			<button id="createCustomerButton">Create</button>
 			<button id="editCustomerButton">Submit changes</button>
 			<button id="cancelCustomerButton">Cancel</button>

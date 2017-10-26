@@ -80,7 +80,7 @@ public class CustomerHandler {
 		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || insurance.isEmpty() || 
 				street.isEmpty() || city.isEmpty() || zip.isEmpty() || state.isEmpty() || membershipStatus.isEmpty()) {
 			
-			return null;
+			throw new IllegalArgumentException("Missing input");
 		}
 		
 		// Establish a connection to the database
@@ -110,7 +110,9 @@ public class CustomerHandler {
 			Map<String, Object> healthInsuranceParams = new HashMap<String, Object>();
 			healthInsuranceParams.put("name", insurance);
 			HealthInsurance healthInsuranceEntity = (HealthInsurance) dao.querySingle("HealthInsurance.findByName", healthInsuranceParams);
-			
+			if(healthInsuranceEntity == null) {
+				healthInsuranceEntity = new HealthInsurance(insurance);
+			}
 			p.setHealthInsurance(healthInsuranceEntity);
 		}
 		State s = a.getState();

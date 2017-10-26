@@ -528,6 +528,7 @@ function getCustomerModalData() {
 			var membership = JSON.parse (data.membershipType);
 			var hiSelect = $("#customerHIList");
 			hiSelect.empty();
+			hiSelect.append("<option> --Other--</option>");
 			for (var i = 0; i< hiData.length; i++) {
 				hiSelect.append("<option data-id='" + hiData[i].id + "'>" + hiData[i].name +  "</option>")
 			}
@@ -550,6 +551,14 @@ function getCustomerModalData() {
 	});
 }
 
+$("#customerHIList").on("change", function() {
+	if($(this).find(":selected").index()>0 ) {
+		$("#customerOtherHI").attr("disabled", true);
+	} else if($(this).find(":selected").index() == 0) {
+		$("#customerOtherHI").attr("disabled", false);
+	}
+}), 
+
 
 /**
  * creates a new customer
@@ -565,8 +574,15 @@ $("#createCustomerButton").on("click", function (){
 	postParams.city = $("#customerCity").val();
 	postParams.state = $("#customerState").val();
 	postParams.zip = $("#customerZip").val();
-	postParams.healthInsurance = $("#customerHIList").val();
 	postParams.membershipStatus = $("#customerMembership").val();
+	var hiIndex = $("#customerHIList").find(":selected").index();
+	if(hiIndex == 0) {
+		postParams.healthInsurance = $("#customerOtherHI").val();
+	} else {
+		postParams.healthInsurance = $("#customerHIList").val();
+	}
+	
+	
 	postParams.type = "createCustomer";
 	
 	
@@ -605,7 +621,13 @@ $("#createCustomerButton").on("click", function (){
 
 		},
 		error: function(exception) {
-			alert("Error: " + exception);
+			if(exception.responseText.indexOf("Missing input") >= 0) {
+				alert("Could not create customer! Some input fields were missing");
+				return;
+			}
+			else {
+				alert("Error" + exception);
+			}
 		}
 	
 	});
@@ -646,6 +668,7 @@ $(document).on('click', '.editCustomer', function() {
 				$("#customerState").val(customer.personalInformation.address.state.state);
 				$("#customerZip").val(customer.personalInformation.address.zipcode);
 				$("#customerHIList").val(customer.personalInformation.healthInsurance.name);
+				$("#customerOtherHI").attr("disabled", true);
 				$("#customerMembership").val(customer.membership.type);
 				$("#customerModal").modal();
 				
@@ -674,7 +697,12 @@ $(document).on('click', '.editCustomer', function() {
 		postParams.city = $("#customerCity").val();
 		postParams.state = $("#customerState").val();
 		postParams.zip = $("#customerZip").val();
-		postParams.healthInsurance = $("#customerHIList").val();
+		var hiIndex = $("#customerHIList").find(":selected").index();
+		if(hiIndex == 0) {
+			postParams.healthInsurance = $("#customerOtherHI").val();
+		} else {
+			postParams.healthInsurance = $("#customerHIList").val();
+		}
 		postParams.membershipStatus = $("#customerMembership").val();
 		postParams.type = "updateCustomer";
 		
@@ -718,7 +746,13 @@ $(document).on('click', '.editCustomer', function() {
 
 			},
 			error: function(exception) {
-				alert("Error: " + exception);
+				if(exception.responseText.indexOf("Missing input") >= 0) {
+					alert("Could not create customer! Some input fields were missing");
+					return;
+				}
+				else {
+					alert("Error" + exception);
+				}
 			}
 		
 		});

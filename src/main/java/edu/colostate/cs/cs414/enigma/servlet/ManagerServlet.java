@@ -269,7 +269,11 @@ public class ManagerServlet extends HttpServlet {
 				out.write(new Gson().toJson(values));
 			} catch (IllegalArgumentException e) {
 				response.sendError(500, e.toString());
-			} catch (PersistenceException e) {}
+			} catch (PersistenceException e) {
+				response.sendError(500, e.toString());
+			}catch (Exception e) {
+				response.sendError(500, e.toString());
+			}
 
 			break;
 			
@@ -295,8 +299,13 @@ public class ManagerServlet extends HttpServlet {
 					values.put("status", "failure");
 				}
 				out.write(new Gson().toJson(values));
-			}catch(PersistenceException e) {
-				
+			}catch (IllegalArgumentException e) {
+				response.sendError(500, e.toString());
+			}
+			catch(PersistenceException e) {
+				response.sendError(500, e.toString());
+			} catch (Exception e) {
+				response.sendError(500, e.toString());
 			}
 			
 			break;

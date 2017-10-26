@@ -139,7 +139,7 @@ public class CustomerHandlerTest {
 		
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoEmail() {
 		
 		Customer c1 = createCustomer();
@@ -159,7 +159,7 @@ public class CustomerHandlerTest {
 		
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoFirstName() {
 		
 		Customer c1 = createCustomer();
@@ -178,7 +178,7 @@ public class CustomerHandlerTest {
 		assertNull(c2);
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoLastName() {
 		
 		Customer c1 = createCustomer();
@@ -198,7 +198,7 @@ public class CustomerHandlerTest {
 		
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoPhone() {
 		
 		Customer c1 = createCustomer();
@@ -219,7 +219,7 @@ public class CustomerHandlerTest {
 	}
 	
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoInsurance() {
 		
 		Customer c1 = createCustomer();
@@ -240,7 +240,7 @@ public class CustomerHandlerTest {
 		
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoStreet() {
 		
 		Customer c1 = createCustomer();
@@ -260,7 +260,7 @@ public class CustomerHandlerTest {
 		
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoCity() {
 		
 		Customer c1 = createCustomer();
@@ -280,7 +280,7 @@ public class CustomerHandlerTest {
 		
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoState() {
 		
 		Customer c1 = createCustomer();
@@ -300,7 +300,7 @@ public class CustomerHandlerTest {
 		
 	}
 	
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoZip() {
 		
 		Customer c1 = createCustomer();
@@ -319,7 +319,7 @@ public class CustomerHandlerTest {
 		assertNull(c2);;
 	}
 
-	@Test
+	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoMembership() {
 		
 		Customer c1 = createCustomer();
