@@ -279,69 +279,7 @@ public class ManagerHandler extends GymSystemEmployeeHandler {
 	}
 	
 	
-	/** This method creates a new customer in the db
-	 * 
-	 * @param email: String
-	 * @param firstName: String
-	 * @param lastName: String
-	 * @param phoneNumber: String
-	 * @param insurance: String
-	 * @param userName: String
-	 * @param userPass: String
-	 * @param street: String
-	 * @param city: String
-	 * @param zip: String
-	 * @param state: String
-	 * @return Customer: String
-	 */
-	public Customer createNewCustomer(String email, String firstName, String lastName, String phoneNumber,
-			String insurance, String street, String city, String zip, String state, String membershipStatus) {
 
-		
-		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || insurance.isEmpty() || 
-				street.isEmpty() || city.isEmpty() || zip.isEmpty() || state.isEmpty() || membershipStatus.isEmpty()) {
-			
-			throw new IllegalArgumentException("Missing input");
-		}
-		
-		// Establish a connection to the database
-		EntityManagerDao dao = new EntityManagerDao();
-
-		// Get/generate the health insurance object
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("description", insurance);
-		HealthInsurance healthInsurance = (HealthInsurance) dao.querySingle("HealthInsurance.findDescription",
-				parameters);
-		if(healthInsurance == null) {
-			healthInsurance = new HealthInsurance(insurance);
-		}
-		
-		// Get the membership object based on type
-		parameters = new HashMap<String, Object>();
-		parameters.put("type", membershipStatus);
-		Membership membership = (Membership) dao.querySingle("Membership.findType", parameters);
-		
-		// get the state based on the state name
-		Map<String, Object> stateParams = new HashMap<String, Object>();
-		stateParams.put("state", state);
-		State stateDB = (State) dao.querySingle("State.findState", stateParams);
-		Address address = new Address(street, city, zip, stateDB);
-		
-
-		// Create a new personal information for the customer
-		PersonalInformation personalInformation = new PersonalInformation(email, firstName, lastName,  phoneNumber, healthInsurance,
-				address);
-		Customer customer = new Customer(personalInformation, membership);
-
-		// Persist the customer with the database
-		dao.persist(customer);
-
-		// Shutdown connection to database
-		dao.close();
-		
-		return customer;
-	}
-	
 	/**
 	 * this method returns the manager object by its id
 	 * @param id: String the db id of the Manager

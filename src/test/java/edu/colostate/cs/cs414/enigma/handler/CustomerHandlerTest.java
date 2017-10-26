@@ -3,7 +3,9 @@ package edu.colostate.cs.cs414.enigma.handler;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -62,14 +64,266 @@ public class CustomerHandlerTest {
 		String zip = "80521";
 		String membershipStatus = "ACTIVE";
 
-		ManagerHandler mh = new ManagerHandler();
-		Customer c1 = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
+		CustomerHandler ch = new CustomerHandler();
+		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
 				membershipStatus);
 		persistedObjects.add(c1);
 
 		List<Customer> list = new CustomerHandler().getCustomerByKeyword(fName);
 		assertTrue(list.size() == 1 && list.get(0).getPersonalInformation().getFirstName().equals(fName));
 	}
+	
+	//****************** Tests for Create Customer *******************/
+	
+
+	@Test
+	public void testCreateCustomer() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		CustomerHandler ch = new CustomerHandler();
+		Customer persistedC  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		persistedObjects.add(persistedC);
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", persistedC.getId());
+		
+		Customer c = (Customer) dao.querySingle("Customer.findById", params);
+		assertTrue(c.getId() == persistedC.getId());
+	}
+	
+	@Test
+	public void testCreateDuplicateCustomer() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		CustomerHandler ch = new CustomerHandler();
+		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		persistedObjects.add(persistedC1);
+		Customer persistedC2  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		persistedObjects.add(persistedC2);
+		assertTrue(persistedC1.getId() != persistedC2.getId());
+		
+		
+	}
+	
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateCustomerWithNoEmail() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		CustomerHandler ch = new CustomerHandler();
+		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateCustomerWithNoFirstName() {
+		
+		String fName = "";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		CustomerHandler ch = new CustomerHandler();
+		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateCustomerWithNoLastName() {
+		
+		String fName = "Annette";
+		String lName = "";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		CustomerHandler ch = new CustomerHandler();
+		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateCustomerWithNoPhone() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		CustomerHandler ch = new CustomerHandler();
+		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateCustomerWithNoInsurance() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		CustomerHandler ch = new CustomerHandler();
+		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateCustomerWithNoStreet() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		CustomerHandler ch = new CustomerHandler();
+		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateCustomerWithNoCity() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		CustomerHandler ch = new CustomerHandler();
+		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateCustomerWithNoState() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		CustomerHandler ch = new CustomerHandler();
+		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateCustomerWithNoZip() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "";
+		String membershipStatus = "ACTIVE";
+		
+		CustomerHandler ch = new CustomerHandler();
+		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+	}
+
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateCustomerWithNoMembership() {
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "";
+		
+		CustomerHandler ch = new CustomerHandler();
+		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(persistedC1);
+		
+	}
+	
 	
 	@Test
 	public void testSearchCustomerEmptyKeyword() {
@@ -85,11 +339,11 @@ public class CustomerHandlerTest {
 		String zip = "80521";
 		String membershipStatus = "ACTIVE";
 
-		ManagerHandler mh = new ManagerHandler();
-		Customer c1 = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
+		CustomerHandler ch = new CustomerHandler();
+		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
 				membershipStatus);
 		persistedObjects.add(c1);
-		Customer c2 = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
+		Customer c2 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
 				membershipStatus);
 		persistedObjects.add(c2);
 		
@@ -111,12 +365,12 @@ public class CustomerHandlerTest {
 		String zip = "80521";
 		String membershipStatus = "ACTIVE";
 
-		ManagerHandler mh = new ManagerHandler();
-		Customer c1 = mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
+		CustomerHandler ch= new CustomerHandler();
+		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
 				membershipStatus);
 		persistedObjects.add(c1);
 		
-		Customer c2 = new CustomerHandler().getCustomerById(c1.getId());
+		Customer c2 = ch.getCustomerById(c1.getId());
 		assertTrue(c1.getId() == c2.getId());
 	}
 	
@@ -134,8 +388,8 @@ public class CustomerHandlerTest {
 		String zip = "80521";
 		String membershipStatus = "ACTIVE";
 		
-		ManagerHandler mh = new ManagerHandler();
-		return mh.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		CustomerHandler ch= new CustomerHandler();
+		return ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
 		
 	}
 	
@@ -301,7 +555,7 @@ public class CustomerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateCustomerWithNoZip() {
+	public void testUpdateCustomerWithNoZip() {
 		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);

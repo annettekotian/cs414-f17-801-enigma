@@ -290,7 +290,7 @@ public class ManagerServlet extends HttpServlet {
 			String membershipStatus = request.getParameter("membershipStatus");
 			
 			try {
-				Customer c = new ManagerHandler().createNewCustomer(email, firstName, lastName, phoneNumber, healthInsurance, streetCustomer, 
+				Customer c = new CustomerHandler().createNewCustomer(email, firstName, lastName, phoneNumber, healthInsurance, streetCustomer, 
 						cityCustomer, zipcode, state, membershipStatus);
 				
 				values.put("customer", c);
