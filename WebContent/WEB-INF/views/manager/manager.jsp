@@ -37,6 +37,7 @@
 	<button id="addTrainer" class="addButtons" onclick="createTrainerForm()">Add Trainer</button>
 	<button id="modifyTrainer" class="addButtons" onclick="modifyTrainerInformation()" disabled>Modify Trainer</button>
 	<button id="deleteTrainer" class="addButtons" onclick="deleteTrainer()" disabled>Delete Trainer</button>
+	<button id="addQualification" class="addButtons" onclick="addTrainerQualification()" disabled>Add Qualification</button>
 	<input id ="searchTrainerInput" class="searchTrainer" type="text" placeholder="Search"/> 
 	<button id="searchTrainerButton" class="searchTrainer" onclick="populateSearchTrainers()">Search</button>
 	<button id="searchTrainerButton" class="searchTrainer" onclick="resetSearchTrainers()">Reset</button>
@@ -191,6 +192,15 @@
 		<input id="modifyConfirmPassword" type="password"><br>
 	</form>
 	<button onclick="submitTrainerForm()">Submit</button>
+</div>
+
+<div id="addQualificationForm" class="modal">
+	<h3>Add Trainer Qualification</h3>
+	<form id="qualificationForm">
+		<label>Qualification Name</label><br>
+		<input id="qualificationName" type="text"><br>
+	</form>
+	<button onclick="submitTrainerQualification()">Submit</button>
 </div>
 
 	<div id="addManagerModal" class="modal">

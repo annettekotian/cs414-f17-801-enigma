@@ -28,6 +28,7 @@ import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
 import edu.colostate.cs.cs414.enigma.handler.HealthInsuranceHandler;
 import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
 import edu.colostate.cs.cs414.enigma.handler.MembershipHandler;
+import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
 
 /**
  * Servlet implementation class Manager
@@ -91,7 +92,6 @@ public class ManagerServlet extends HttpServlet {
 			return;
 			
 		}		
-		
 		
 		switch(type) {		
 		case "getHealthInsurances":
@@ -418,6 +418,29 @@ public class ManagerServlet extends HttpServlet {
 			catch(Exception e) {
 				response.sendError(500, e.toString());
 			}	
+			response.setContentType("application/json");
+			out.write(new Gson().toJson(returnValues));
+		}
+		else if(type.equals("addQualification")) {
+			Integer trainerId = Integer.parseInt(request.getParameter("id"));
+			String qualification = request.getParameter("qualification");
+			
+			Map<String, Object> returnValues = new HashMap<String, Object>();
+			TrainerHandler th = new TrainerHandler();
+			try {
+				th.addQualification(trainerId, qualification);
+				returnValues.put("rc", "0");
+			}
+			catch(PersistenceException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getCause().getCause().toString());
+			}
+			catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			finally {
+				th.close();
+			}
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
 		}

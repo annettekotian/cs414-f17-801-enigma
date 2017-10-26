@@ -20,7 +20,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="qualification")
 @NamedQueries({
-	@NamedQuery(name="Qualification.findAll", query="SELECT q FROM Qualification q")
+	@NamedQuery(name="Qualification.findAll", query="SELECT q FROM Qualification q"),
+	@NamedQuery(name="Qualification.findByName", query="SELECT q FROM Qualification q WHERE q.name = :name")
 })
 public class Qualification implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -33,11 +34,11 @@ public class Qualification implements Serializable {
 	@Column(name="name", nullable=false, updatable=false, unique=true)
 	private String name;
 
-	@ManyToMany(fetch=FetchType.LAZY)
+	/*@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name="trainer_qualification",
 			joinColumns=@JoinColumn(name="qualification_id", referencedColumnName="id"),
 			inverseJoinColumns=@JoinColumn(name="trainer_id", referencedColumnName="id"))
-	private List<Trainer> trainers = new ArrayList<Trainer>();
+	private List<Trainer> trainers = new ArrayList<Trainer>();*/
 	
 	protected Qualification() {}
 	
@@ -59,52 +60,5 @@ public class Qualification implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public List<Trainer> getTrainers() {
-		return trainers;
-	}
-
-	public void setTrainers(List<Trainer> trainers) {
-		this.trainers = trainers;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((trainers == null) ? 0 : trainers.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Qualification other = (Qualification) obj;
-		if (id != other.id)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (trainers == null) {
-			if (other.trainers != null)
-				return false;
-		} else if (!trainers.equals(other.trainers))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Qualification [id=" + id + ", name=" + name + ", trainers=" + trainers + "]";
 	}
 }
