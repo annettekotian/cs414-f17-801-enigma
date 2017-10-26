@@ -298,6 +298,12 @@ public class ManagerHandler extends GymSystemEmployeeHandler {
 		return m;
 	}
 	
+	/**
+	 * This method searches the customer table and returns a list of customers matching the keyword. It looks for matches in 
+	 * the firstName, last name, email, phone, city, state, zip, street, health insurance and membership. 
+	 * @param keywords
+	 * @return
+	 */
 	
 	public List<Manager> searchManager(String keywords) {
 		EntityManagerDao dao = new EntityManagerDao();

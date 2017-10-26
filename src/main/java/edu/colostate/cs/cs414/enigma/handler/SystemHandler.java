@@ -15,11 +15,18 @@ public class SystemHandler {
 		dao = new EntityManagerDao();
 	}
 	
+	/**this methods shuts down the connection to the database
+	 *  
+	 */
 	private void close() {
 		dao.close();
 	}
 
-
+	
+	/** this method returns all the states from the states table
+	 * 
+	 * @return List<State>
+	 */
 	public List getAllStates() {
 		// Open up a connection to the db
 		dao = new EntityManagerDao();
@@ -37,6 +44,10 @@ public class SystemHandler {
 		return states;
 	}
 
+	/** This method returns all the health insurances from the HealthInsurance table
+	 * 
+	 * @return
+	 */
 	public List<HealthInsurance> getHealthInsurances() {
 		List rawHealthInsurance = dao.query("HealthInsurance.findAll", null);
 		List<HealthInsurance> insurances = new ArrayList<HealthInsurance>();
@@ -48,7 +59,10 @@ public class SystemHandler {
 		return insurances;
 	}
 	
-	
+	/** This method gets all the memberships from the membership table
+	 * 
+	 * @return
+	 */
 	public List<Membership> getMembershipTypes() {
 		List rawMemberships = dao.query("Membership.findAll", null);
 		List<Membership> memberships = new ArrayList<Membership>();

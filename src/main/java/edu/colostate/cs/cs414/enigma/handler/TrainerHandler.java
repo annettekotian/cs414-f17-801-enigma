@@ -25,24 +25,7 @@ public class TrainerHandler {
 		this.dao.close();
 	}
 	
-	public List<Customer> getAllCustomers() {
-		
-		// Establish a connection to the database
-		EntityManagerDao dao = new EntityManagerDao();
-		
-		// Issue a query to get all the customers
-		List<Customer> customers = new ArrayList<Customer>();
-		List<?> results = dao.query("Customer.findAll", null);
-		for(int i=0; i<results.size(); i++) {
-			customers.add((Customer) results.get(i));
-		}
 
-		// Shutdown connection to database
-		dao.close();
-		
-		return customers;
-	}
-	
 	public void addQualification(int trainerId, String qualification) {
 		
 		// Attempt to get the Qualification entity from the DB
