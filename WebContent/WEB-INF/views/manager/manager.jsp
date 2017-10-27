@@ -33,6 +33,7 @@
 	<button id="addManager" class="addButtons">Add Manager</button>
 	<input id = "searchManagerInput" class="searchManager" type="text" placeholder="enter name, address etc" /> 
 	<button id="searchManagerButton" class="searchManager">Search</button>
+	<button id = "resetManagerSearch" class="searchManager">Reset</button>
 	
 	<button id="addTrainer" class="addButtons" onclick="createTrainerForm()">Add Trainer</button>
 	<button id="modifyTrainer" class="addButtons" onclick="modifyTrainerInformation()" disabled>Modify Trainer</button>
@@ -46,6 +47,7 @@
 	<button id="addCustomer" class="addButtons">Add Customer</button>
 	<input id = "searchCustomerInput" class="searchCustomer" type="text" placeholder="enter name, address etc" /> 
 	<button id="searchCustomerButton" class="searchCustomer">Search</button>
+	<button id = "resetCustomerSearch" class="searchCustomer">Reset</button>
 	<button id="addMachine" class="addButtons">Add Equipment</button>
 	<div id="managerResults">
 		<table>

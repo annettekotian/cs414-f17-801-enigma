@@ -39,7 +39,7 @@ public class CustomerHandler {
 	/**
 	 * this method closes the db connection
 	 */
-	public void close() {
+	private void close() {
 		dao.close();
 	}
 	

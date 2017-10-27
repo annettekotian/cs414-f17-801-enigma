@@ -74,7 +74,7 @@ margin-top:3%;
 }
 
 .addButtons {
-		margin-left: 11%;
+		margin-left: 10%;
 		display:none;
 	
 }
@@ -86,11 +86,11 @@ margin-top:3%;
 }
 
 #searchManagerInput {
-	margin-left: 50%
+	margin-left: 40%
 }
 
 #searchCustomerInput {
-	margin-left: 49.5%;
+	margin-left: 48%;
 }
 
 .searchManager, .searchCustomer {

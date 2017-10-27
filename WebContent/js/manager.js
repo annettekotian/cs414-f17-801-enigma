@@ -502,9 +502,18 @@ $("#createManagerButton").on("click", function (){
 });
 
 $("#searchManagerButton").on("click", function(){
+	getSearchManagerResults($("#searchManagerInput").val());
+});
+
+$("#resetManagerSearch").on("click", function(){
+	$("#searchManagerInput").val("");
+	getSearchManagerResults("");
+});
+
+function getSearchManagerResults(keywords) {
 	var params = {};
 	params.type = "getSearchManagerResults";
-	params.searchText = $("#searchManagerInput").val();
+	params.searchText = keywords;
 	$.ajax({
 		url: "/manager/ui",
 		method: "GET",
@@ -523,7 +532,7 @@ $("#searchManagerButton").on("click", function(){
 			alert("Error: " + exception);
 		}
 	});
-});
+}
 
 
 $("#addCustomer").on("click", function() {
@@ -832,9 +841,19 @@ $("#customerModal").on($.modal.AFTER_CLOSE, function() {
 
 
 $("#searchCustomerButton").on("click", function(){
+	
+	getSearchCustomerResults($("#searchCustomerInput").val());
+});
+
+$("#resetCustomerSearch").on("click", function(){
+	$("#searchCustomerInput").val("");
+	getSearchCustomerResults("");
+}) 
+
+function getSearchCustomerResults(keywords) {
 	var params = {};
 	params.type = "getSearchCustomerResults";
-	params.searchText = $("#searchCustomerInput").val();
+	params.searchText = keywords;
 	$.ajax({
 		url: "/manager/ui",
 		method: "GET",
@@ -853,7 +872,8 @@ $("#searchCustomerButton").on("click", function(){
 			alert("Error: " + exception);
 		}
 	});
-})
+}
+
 
 
 /* Functions used to create/modify trainers */
