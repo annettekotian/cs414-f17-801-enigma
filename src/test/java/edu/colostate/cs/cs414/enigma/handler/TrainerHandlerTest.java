@@ -3,6 +3,7 @@ package edu.colostate.cs.cs414.enigma.handler;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,5 +82,22 @@ public class TrainerHandlerTest {
 		
 		TrainerHandler th = new TrainerHandler();
 		th.addQualification(trainerId, qualification);
+		
+		th.close();
+	}
+	
+	@Test
+	public void addWorkHours() {
+		Trainer trainer = createArbitraryTrainer();
+		int trainerId = trainer.getId();
+		String qualification = "Iron Man";
+		
+		Date startDateTime = new Date(117, 9, 1, 12, 30, 00);
+		Date endDateTime = new Date(117, 9, 1, 120, 30, 00);
+		
+		TrainerHandler th = new TrainerHandler();
+		th.addWorkHours(trainerId, startDateTime, endDateTime);
+		
+		th.close();
 	}
 }

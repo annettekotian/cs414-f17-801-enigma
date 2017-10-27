@@ -27,7 +27,7 @@ import javax.persistence.Table;
 public class Trainer extends GymSystemUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@ManyToMany(cascade=CascadeType.PERSIST, fetch=FetchType.LAZY)
+	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinTable(name="trainer_qualification",
 			joinColumns=@JoinColumn(name="trainer_id", referencedColumnName="id"),
 			inverseJoinColumns=@JoinColumn(name="qualification_id", referencedColumnName="id"))
