@@ -22,6 +22,7 @@ import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
+import edu.colostate.cs.cs414.enigma.entity.WorkHoursException;
 import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 public class TrainerHandlerTest {
@@ -87,13 +88,13 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
-	public void addWorkHours() {
+	public void addWorkHours() throws WorkHoursException {
 		Trainer trainer = createArbitraryTrainer();
 		int trainerId = trainer.getId();
 		String qualification = "Iron Man";
 		
 		Date startDateTime = new Date(117, 9, 1, 12, 30, 00);
-		Date endDateTime = new Date(117, 9, 1, 120, 30, 00);
+		Date endDateTime = new Date(117, 9, 1, 20, 30, 00);
 		
 		TrainerHandler th = new TrainerHandler();
 		th.addWorkHours(trainerId, startDateTime, endDateTime);

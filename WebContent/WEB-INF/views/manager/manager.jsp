@@ -38,6 +38,7 @@
 	<button id="modifyTrainer" class="addButtons" onclick="modifyTrainerInformation()" disabled>Modify Trainer</button>
 	<button id="deleteTrainer" class="addButtons" onclick="deleteTrainer()" disabled>Delete Trainer</button>
 	<button id="addQualification" class="addButtons" onclick="addTrainerQualification()" disabled>Add Qualification</button>
+	<button id="addWorkHours" class="addButtons" onclick="addTrainerWorkHours()" disabled>Add Work Hours</button>
 	<input id ="searchTrainerInput" class="searchTrainer" type="text" placeholder="Search"/> 
 	<button id="searchTrainerButton" class="searchTrainer" onclick="populateSearchTrainers()">Search</button>
 	<button id="searchTrainerButton" class="searchTrainer" onclick="resetSearchTrainers()">Reset</button>
@@ -201,6 +202,65 @@
 		<input id="qualificationName" type="text"><br>
 	</form>
 	<button onclick="submitTrainerQualification()">Submit</button>
+</div>
+
+<div id="addWorkHoursForm" class="modal">
+	<h3>Add Trainer Work Hours</h3>
+	<form>
+		<label>Start Year</label><br>
+		<select id="startYear" onchange="populateStartDay()"></select><br>
+		<label>Start Month</label><br>
+		<select id="startMonth" onchange="populateStartDay()">
+			<option>January</option>
+			<option>February</option>
+			<option>March</option>
+			<option>April</option>
+			<option>May</option>
+			<option>June</option>
+			<option>July</option>
+			<option>August</option>
+			<option>September</optione>
+			<option>October</option>
+			<option>November</option>
+			<option>December</option>
+		</select><br>
+		<label>Start Day</label><br>
+		<select id="startDay"></select><br>
+		<label>Start Time</label><br>
+		<label>Hour</label><input id="startHour" type="number" value="1" min="1" max="12"><br>
+		<label>Minute</label><input id="startMinute" type="number" value="1" min="0" max="59"><br>
+		<select id="startPeriod">
+			<option>AM</option>
+			<option>PM</option>
+		</select><br>
+		
+		<label>End Year</label><br>
+		<select id="endYear" onchange="populateEndDay()"></select><br>
+		<label>End Month</label><br>
+		<select id="endMonth" onchange="populateEndDay()">
+			<option>January</option>
+			<option>February</option>
+			<option>March</option>
+			<option>April</option>
+			<option>May</option>
+			<option>June</option>
+			<option>July</option>
+			<option>August</option>
+			<option>September</optione>
+			<option>October</option>
+			<option>November</option>
+			<option>December</option>
+		</select><br>
+		<label>End Day</label><br>
+		<select id="endtDay"></select><br>
+		<label>End Time</label><br>
+		<label>Hour</label><input id="endHour" type="number" value="1" min="1" max="12"><br>
+		<label>Minute</label><input id="endMinute" type="number" value="1" min="0" max="59"><br>
+		<select id="endPeriod">
+			<option>AM</option>
+			<option>PM</option>
+		</select><br>
+	</form>
 </div>
 
 	<div id="addManagerModal" class="modal">

@@ -3,6 +3,7 @@ package edu.colostate.cs.cs414.enigma.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
+import edu.colostate.cs.cs414.enigma.entity.WorkHoursException;
 import edu.colostate.cs.cs414.enigma.handler.SystemHandler;
 import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
 
@@ -423,7 +425,7 @@ public class ManagerServlet extends HttpServlet {
 			out.write(new Gson().toJson(returnValues));
 		}
 		else if(type.equals("addQualification")) {
-			Integer trainerId = Integer.parseInt(request.getParameter("id"));
+			int trainerId = Integer.parseInt(request.getParameter("id"));
 			String qualification = request.getParameter("qualification");
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
@@ -435,6 +437,47 @@ public class ManagerServlet extends HttpServlet {
 			catch(PersistenceException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getCause().getCause().toString());
+			}
+			catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			finally {
+				th.close();
+			}
+			response.setContentType("application/json");
+			out.write(new Gson().toJson(returnValues));
+		}
+		else if(type.equals("addWorkHours")) {
+			int trainerId = Integer.parseInt(request.getParameter("id"));
+			int startYear = Integer.parseInt(request.getParameter("startYear"));
+			int startMonth = Integer.parseInt(request.getParameter("startMonth"));
+			int startDay = Integer.parseInt(request.getParameter("startDate"));
+			int startHour = Integer.parseInt(request.getParameter("startHour"));
+			int startMinute = Integer.parseInt(request.getParameter("startMinute"));
+			int startSecond = Integer.parseInt(request.getParameter("startSecond"));
+			int endYear = Integer.parseInt(request.getParameter("endYear"));
+			int endMonth = Integer.parseInt(request.getParameter("endMonth"));
+			int endDay = Integer.parseInt(request.getParameter("endDate"));
+			int endHour = Integer.parseInt(request.getParameter("endHour"));
+			int endMinute = Integer.parseInt(request.getParameter("endMinute"));
+			int endSecond = Integer.parseInt(request.getParameter("endSecond"));
+
+			Date startDatetime = new Date(startYear-1900, startMonth, startDay, startHour, startMinute, startSecond);
+			Date endDatetime = new Date(endYear-1900, endMonth, endDay, endHour, endMinute, endSecond);
+			
+			Map<String, Object> returnValues = new HashMap<String, Object>();
+			TrainerHandler th = new TrainerHandler();
+			try {
+				th.addWorkHours(trainerId, startDatetime, endDatetime);
+				returnValues.put("rc", "0");
+			}
+			catch(PersistenceException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getCause().getCause().toString());
+			}
+			catch(WorkHoursException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getMessage());
 			}
 			catch(Exception e) {
 				response.sendError(500, e.toString());

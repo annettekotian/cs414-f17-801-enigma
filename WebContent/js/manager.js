@@ -61,6 +61,7 @@ function showTrainerData() {
 	$("#trainerResults").show();
 	$("#deleteTrainer").show();
 	$("#addQualification").show();
+	$("#addWorkHours").show();
 }
 
 function getAllTrainers() {
@@ -125,6 +126,7 @@ function populateTrainerTable(trainers) {
 	document.getElementById("modifyTrainer").disabled = true;
 	document.getElementById("deleteTrainer").disabled = true;
 	document.getElementById("addQualification").disabled = true;
+	document.getElementById("addWorkHours").disabled = true;
 	
 	var trainerTable = document.getElementById("trainerTable");
 	while(trainerTable.rows.length > 0) {
@@ -180,6 +182,7 @@ function populateTrainerTable(trainers) {
 			document.getElementById("modifyTrainer").disabled = false;
 			document.getElementById("deleteTrainer").disabled = false;
 			document.getElementById("addQualification").disabled = false;
+			document.getElementById("addWorkHours").disabled = false;
 		});
 		trainerTableRow.dataset.trainer = JSON.stringify(trainers[i]);
 		
@@ -237,6 +240,7 @@ function showManagerData() {
 	$("#modifyTrainer").hide();
 	$("#deleteTrainer").hide();
 	$("#addQualification").hide();
+	$("#addWorkHours").hide();
 	$("#addCustomer").hide();
 	$("#addMachine").hide();
 	$(".searchCustomer").hide();
@@ -291,6 +295,7 @@ function showCustomerData() {
 	$(".searchManager").hide();
 	$(".searchTrainer").hide();
 	$("#addQualification").hide();
+	$("#addWorkHours").hide();
 	$("#addTrainer").hide();
 	$("#modifyTrainer").hide();
 	$("#deleteTrainer").hide();
@@ -354,6 +359,7 @@ function showInventoryData() {
 	$(".searchTrainer").hide();
 	$(".searchCustomer").hide();
 	$("#addQualification").hide();
+	$("#addWorkHours").hide();
 	$("#addTrainer").hide();
 	$("#modifyTrainer").hide();
 	$("#addCustomer").hide();
@@ -1124,4 +1130,42 @@ function submitTrainerQualification() {
 			$(document.body).html(jqXHR.responseText);
 		}
 	});
+}
+
+function populateStartDay() {
+	var year = parseInt($("#startYear").find(":selected").text());
+	var month = $("#startMonth")[0].selectedIndex + 1;
+	var numberOfDays = new Date(year, month, 0).getDate();
+	
+	var startDayList = $("#startDay");
+	startDayList.empty();
+	for(var i=1; i<=numberOfDays; i++) {
+		startDayList.append("<option>" + i + "</option>");
+	}
+}
+
+function populateEndDay() {
+	var year = parseInt($("#endYear").find(":selected").text());
+	var month = $("#endMonth")[0].selectedIndex + 1;
+	var numberOfDays = new Date(year, month, 0).getDate();
+	
+	var endDayList = $("#endtDay");
+	endDayList.empty();
+	for(var i=1; i<=numberOfDays; i++) {
+		endDayList.append("<option>" + i + "</option>");
+	}
+}
+
+function addTrainerWorkHours() {
+	var date = new Date();
+	
+	var startYearList = $("#startYear");
+	startYearList.empty();
+	for (var i = 0; i< 5; i++) {
+		startYearList.append("<option>" + (date.getFullYear() + i) + "</option>");
+	}
+	
+	populateStartDay();
+	
+	$("#addWorkHoursForm").modal();
 }

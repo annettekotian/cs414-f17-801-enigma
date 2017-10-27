@@ -12,6 +12,7 @@ import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.Qualification;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.WorkHours;
+import edu.colostate.cs.cs414.enigma.entity.WorkHoursException;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
 
@@ -27,7 +28,6 @@ public class TrainerHandler {
 		this.dao.close();
 	}
 	
-
 	public void addQualification(int trainerId, String qualification) {
 		
 		// Attempt to get the Qualification entity from the DB
@@ -49,7 +49,18 @@ public class TrainerHandler {
 		dao.update(trainerEntity);
 	}
 	
-	public void addWorkHours(int trainerId, Date startDateTime, Date endDateTime) {
+	public void addWorkHours(int trainerId, Date startDateTime, Date endDateTime) throws WorkHoursException {
+		
+		// Verify the start date time is before the end date time
+		if(startDateTime.compareTo(endDateTime) > 0) {
+			throw new WorkHoursException("Start date time cannot be after end data time");
+		}
+		
+		// Verify the start date time is not before the current date time
+		Date currentDateTime = new Date();
+		if(startDateTime.compareTo(currentDateTime) < 0) {
+			throw new WorkHoursException("Stat date time cannot occur in the past");
+		}
 		
 		// Create new work hours
 		WorkHours workHours = new WorkHours(startDateTime, endDateTime);
