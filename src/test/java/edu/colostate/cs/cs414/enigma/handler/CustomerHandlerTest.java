@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.AddressException;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -51,7 +53,7 @@ public class CustomerHandlerTest {
 	}
 	
 	@Test
-	public void testSearchCustomerByKeyword() {
+	public void testSearchCustomerByKeyword() throws AddressException {
 
 		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
 		String lName = "Kotian";
@@ -77,7 +79,7 @@ public class CustomerHandlerTest {
 	
 
 	@Test
-	public void testCreateCustomer() {
+	public void testCreateCustomer() throws AddressException {
 		
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -102,7 +104,7 @@ public class CustomerHandlerTest {
 	}
 	
 	@Test
-	public void testCreateDuplicateCustomer() {
+	public void testCreateDuplicateCustomer() throws AddressException {
 		
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -127,7 +129,7 @@ public class CustomerHandlerTest {
 	
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateCustomerWithNoEmail() {
+	public void testCreateCustomerWithNoEmail() throws AddressException{
 		
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -141,13 +143,31 @@ public class CustomerHandlerTest {
 		String membershipStatus = "ACTIVE";
 		
 		CustomerHandler ch = new CustomerHandler();
-		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(persistedC1);
+		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+	}
+	
+	@Test (expected = AddressException.class)
+	public void testCreateCustomerWithInvalidEmail() throws AddressException{
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		CustomerHandler ch = new CustomerHandler();
+		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		
 		
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateCustomerWithNoFirstName() {
+	public void testCreateCustomerWithNoFirstName() throws AddressException{
 		
 		String fName = "";
 		String lName = "Kotian";
@@ -161,12 +181,12 @@ public class CustomerHandlerTest {
 		String membershipStatus = "ACTIVE";
 		
 		CustomerHandler ch = new CustomerHandler();
-		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(persistedC1);
+		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateCustomerWithNoLastName() {
+	public void testCreateCustomerWithNoLastName() throws AddressException {
 		
 		String fName = "Annette";
 		String lName = "";
@@ -180,13 +200,13 @@ public class CustomerHandlerTest {
 		String membershipStatus = "ACTIVE";
 		
 		CustomerHandler ch = new CustomerHandler();
-		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(persistedC1);
+		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		
 		
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateCustomerWithNoPhone() {
+	public void testCreateCustomerWithNoPhone() throws AddressException{
 		
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -200,13 +220,13 @@ public class CustomerHandlerTest {
 		String membershipStatus = "ACTIVE";
 		
 		CustomerHandler ch = new CustomerHandler();
-		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(persistedC1);
+		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		
 		
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateCustomerWithNoInsurance() {
+	public void testCreateCustomerWithNoInsurance() throws AddressException{
 		
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -220,13 +240,12 @@ public class CustomerHandlerTest {
 		String membershipStatus = "ACTIVE";
 		
 		CustomerHandler ch = new CustomerHandler();
-		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(persistedC1);
+		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
 		
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateCustomerWithNoStreet() {
+	public void testCreateCustomerWithNoStreet() throws AddressException{
 		
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -240,13 +259,12 @@ public class CustomerHandlerTest {
 		String membershipStatus = "ACTIVE";
 		
 		CustomerHandler ch = new CustomerHandler();
-		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(persistedC1);
+		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
 		
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateCustomerWithNoCity() {
+	public void testCreateCustomerWithNoCity() throws AddressException {
 		
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -260,13 +278,12 @@ public class CustomerHandlerTest {
 		String membershipStatus = "ACTIVE";
 		
 		CustomerHandler ch = new CustomerHandler();
-		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(persistedC1);
+		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
 		
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateCustomerWithNoState() {
+	public void testCreateCustomerWithNoState() throws AddressException {
 		
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -281,12 +298,11 @@ public class CustomerHandlerTest {
 		
 		CustomerHandler ch = new CustomerHandler();
 		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(persistedC1);
 		
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateCustomerWithNoZip() {
+	public void testCreateCustomerWithNoZip() throws AddressException{
 		
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -300,12 +316,12 @@ public class CustomerHandlerTest {
 		String membershipStatus = "ACTIVE";
 		
 		CustomerHandler ch = new CustomerHandler();
-		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(persistedC1);
+		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		
 	}
 
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateCustomerWithNoMembership() {
+	public void testCreateCustomerWithNoMembership() throws AddressException{
 		
 		String fName = "Annette";
 		String lName = "Kotian";
@@ -320,13 +336,12 @@ public class CustomerHandlerTest {
 		
 		CustomerHandler ch = new CustomerHandler();
 		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(persistedC1);
 		
 	}
 	
 	
 	@Test
-	public void testSearchCustomerEmptyKeyword() {
+	public void testSearchCustomerEmptyKeyword() throws AddressException{
 		
 		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
 		String lName = "Kotian";
@@ -352,7 +367,7 @@ public class CustomerHandlerTest {
 	}
 	
 	@Test
-	public void testGetCustomerById() {
+	public void testGetCustomerById() throws AddressException{
 		
 		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
 		String lName = "Kotian";
@@ -376,7 +391,7 @@ public class CustomerHandlerTest {
 	
 	// ******************* Tests for update customer ***************************/
 	
-	private Customer createCustomer() {
+	private Customer createCustomer() throws AddressException {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "annette@gmail.com";
@@ -394,7 +409,7 @@ public class CustomerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testUpdateCustomerWithNoEmail() {
+	public void testUpdateCustomerWithNoEmail() throws AddressException {
 		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
@@ -414,7 +429,7 @@ public class CustomerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testUpdateCustomerWithNoFirstName() {
+	public void testUpdateCustomerWithNoFirstName() throws AddressException{
 		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
@@ -433,7 +448,7 @@ public class CustomerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testUpdateCustomerWithNoLastName() {
+	public void testUpdateCustomerWithNoLastName() throws AddressException{
 		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
@@ -453,7 +468,7 @@ public class CustomerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testUpdateCustomerWithNoPhone() {
+	public void testUpdateCustomerWithNoPhone() throws AddressException {
 		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
@@ -474,7 +489,7 @@ public class CustomerHandlerTest {
 	
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testUpdateCustomerWithNoInsurance() {
+	public void testUpdateCustomerWithNoInsurance() throws AddressException{
 		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
@@ -495,7 +510,7 @@ public class CustomerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testUpdateCustomerWithNoStreet() {
+	public void testUpdateCustomerWithNoStreet() throws AddressException{
 		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
@@ -515,7 +530,7 @@ public class CustomerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testUpdateCustomerWithNoCity() {
+	public void testUpdateCustomerWithNoCity() throws AddressException {
 		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
@@ -535,7 +550,7 @@ public class CustomerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testUpdateCustomerWithNoState() {
+	public void testUpdateCustomerWithNoState() throws AddressException {
 		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
@@ -555,7 +570,7 @@ public class CustomerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testUpdateCustomerWithNoZip() {
+	public void testUpdateCustomerWithNoZip() throws AddressException{
 		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
@@ -574,7 +589,7 @@ public class CustomerHandlerTest {
 	}
 
 	@Test (expected = IllegalArgumentException.class)
-	public void testUpdateCustomerWithNoMembership() {
+	public void testUpdateCustomerWithNoMembership() throws AddressException {
 		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
@@ -594,7 +609,7 @@ public class CustomerHandlerTest {
 	}
 
 	@Test
-	public void testUpdateCustomer() {
+	public void testUpdateCustomer() throws AddressException{
 		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
@@ -619,7 +634,7 @@ public class CustomerHandlerTest {
 	
 	
 	@Test 
-	public void testDeleteCustomer() {
+	public void testDeleteCustomer() throws AddressException {
 		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.AddressException;
 import javax.persistence.PersistenceException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -269,7 +270,10 @@ public class ManagerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 			} catch (PersistenceException e) {
 				response.sendError(500, e.toString());
-			}catch (Exception e) {
+			}catch (AddressException e) {
+				response.sendError(500, e.toString());
+			}
+			catch (Exception e) {
 				response.sendError(500, e.toString());
 			}
 
@@ -302,6 +306,8 @@ public class ManagerServlet extends HttpServlet {
 			}
 			catch(PersistenceException e) {
 				response.sendError(500, e.toString());
+			} catch (AddressException e) {
+				response.sendError(500, e.toString());
 			} catch (Exception e) {
 				response.sendError(500, e.toString());
 			}
@@ -330,8 +336,10 @@ public class ManagerServlet extends HttpServlet {
 					values.put("status", "failure");
 				}
 				out.write(new Gson().toJson(values));
-			}catch(PersistenceException e) {
-				
+			}catch(AddressException e) {
+				response.sendError(500, e.toString());
+			}catch(Exception e) {
+				response.sendError(500, e.toString());
 			}
 			
 			break;

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.AddressException;
 import javax.persistence.PersistenceException;
 
 import org.junit.After;
@@ -54,10 +55,11 @@ public class ManagerHandlerTest {
 		dao.close();
 	}
 	
-	/********** Test for Create Manager ************/
+	/********** Test for Create Manager 
+	 * @throws AddressException ************/
 
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoEmail() {
+	public void testCreateManagerWithNoEmail() throws AddressException {
 		String fName = "Annette";
 		String lName = "Kotian";
 		//String  email = "ann@email.com";
@@ -77,10 +79,32 @@ public class ManagerHandlerTest {
 		//assertNull(m);
 		
 	}
+	
+	@Test(expected = AddressException.class)
+	public void testCreateManagerWithInvalidEmail() throws AddressException {
+		String fName = "Annette";
+		String lName = "Kotian";
+		//String  email = "ann@email.com";
+		String email = "abc";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String userName = "annKot";
+		String userPass = "12345678";
+		String confirmPass = "12345678";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
+		//assertNull(m);
+		
+	}
 
 		
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoFirstName() {
+	public void testCreateManagerWithNoFirstName() throws AddressException {
 		//String fName = "Annette";
 		String fName = "";
 		String lName = "Kotian";
@@ -101,7 +125,7 @@ public class ManagerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoLastName() {
+	public void testCreateManagerWithNoLastName() throws AddressException{
 		String fName = "Annette";
 		String lName = "";
 		String  email = "ann@email.com";
@@ -122,7 +146,7 @@ public class ManagerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoPhone() {
+	public void testCreateManagerWithNoPhone() throws AddressException {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
@@ -143,7 +167,7 @@ public class ManagerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoHI() {
+	public void testCreateManagerWithNoHI() throws AddressException{
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
@@ -164,7 +188,7 @@ public class ManagerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoUserName() {
+	public void testCreateManagerWithNoUserName() throws AddressException{
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
@@ -185,7 +209,7 @@ public class ManagerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoPass() {
+	public void testCreateManagerWithNoPass() throws AddressException {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
@@ -206,7 +230,7 @@ public class ManagerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithDifferentPasses() {
+	public void testCreateManagerWithDifferentPasses()throws AddressException {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
@@ -227,7 +251,7 @@ public class ManagerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoStreet() {
+	public void testCreateManagerWithNoStreet() throws AddressException {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
@@ -248,7 +272,7 @@ public class ManagerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoCity() {
+	public void testCreateManagerWithNoCity() throws AddressException {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
@@ -268,7 +292,7 @@ public class ManagerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoZip() {
+	public void testCreateManagerWithNoZip() throws AddressException {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
@@ -288,7 +312,7 @@ public class ManagerHandlerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoState() {
+	public void testCreateManagerWithNoState() throws AddressException {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
@@ -308,7 +332,7 @@ public class ManagerHandlerTest {
 	}
 	
 	@Test
-	public void testCreateManager() {
+	public void testCreateManager() throws AddressException {
 		String fName = "AnnetteRachel1";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
@@ -336,7 +360,7 @@ public class ManagerHandlerTest {
 		}
 	
 	@Test(expected = PersistenceException.class)
-	public void testCreateDuplicateManager() {
+	public void testCreateDuplicateManager() throws AddressException {
 		String fName = "AnnetteRachel";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
@@ -413,7 +437,7 @@ public class ManagerHandlerTest {
 	
 	/*********** test for search Manager *****************/ 
 	
-	public void testSearchManagerByKeyword() {
+	public void testSearchManagerByKeyword() throws AddressException {
 		
 		String fName = "AnnetteRachel123456yeyeteyety";
 		String lName = "Kotian";
@@ -437,13 +461,13 @@ public class ManagerHandlerTest {
 	}
 	
 	@Test
-	public void testSearchManagerEmptyKeyword() {
+	public void testSearchManagerEmptyKeyword()throws AddressException {
 		
 		String fName = "AnnetteRachel123456yeyeteyety";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
 		String phone = "99999999";
-		String hiId = "2";
+		String hiId = "Cigna";
 		String userName = "annKotRac1";
 		String userPass = "12345678";
 		String confirmPass = "12345678";

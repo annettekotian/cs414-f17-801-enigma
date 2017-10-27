@@ -450,14 +450,13 @@ $("#createManagerButton").on("click", function (){
 		return;
 	}
 	
-	$.modal.close();
-	
 	$.ajax({
 		url: "/manager/ui",
 		method: "POST",
 		data: postParams,
 		
 		success: function(data) {
+			$.modal.close();
 			var data = JSON.parse(data);
 			var manager = data.manager;
 			var status = data.status;
@@ -489,6 +488,11 @@ $("#createManagerButton").on("click", function (){
 			
 			if(exception.responseText.indexOf("Password short")>=0) {
 				alert("Password must be atleast 8 characters in length");
+				return;
+			}
+			
+			if(exception.responseText.indexOf(" javax.mail.internet.AddressException") >=0 ) {
+				alert("Invalid email address");
 				return;
 			}
 			if(exception.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0) {
@@ -627,7 +631,7 @@ $("#createCustomerButton").on("click", function (){
 		return;
 	}
 	
-	$.modal.close();
+	
 	
 	$.ajax({
 		url: "/manager/ui",
@@ -635,6 +639,7 @@ $("#createCustomerButton").on("click", function (){
 		data: postParams,
 		
 		success: function(data) {
+			$.modal.close();
 			var data = JSON.parse(data);
 			var customer = data.customer;
 			var status = data.status;
@@ -660,10 +665,11 @@ $("#createCustomerButton").on("click", function (){
 			if(exception.responseText.indexOf("Missing input") >= 0) {
 				alert("Could not create customer! Some input fields were missing");
 				return;
+			} else if (exception.responseText.indexOf(" javax.mail.internet.AddressException") >=0 ) {
+				alert("Invalid email address");
+				return;
 			}
-			else {
-				alert("Error" + exception);
-			}
+			alert("Error" + exception);
 		}
 	
 	});
@@ -785,10 +791,11 @@ $(document).on('click', '.editCustomer', function() {
 				if(exception.responseText.indexOf("Missing input") >= 0) {
 					alert("Could not create customer! Some input fields were missing");
 					return;
+				}else if (exception.responseText.indexOf(" javax.mail.internet.AddressException") >=0 ) {
+					alert("Invalid email address");
+					return;
 				}
-				else {
-					alert("Error" + exception);
-				}
+				alert("Error" + exception);
 			}
 		
 		});

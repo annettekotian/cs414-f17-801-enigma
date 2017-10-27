@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
@@ -89,9 +92,10 @@ public class CustomerHandler {
 	 * @param zip: String
 	 * @param state: String
 	 * @return Customer: String
+	 * @throws AddressException 
 	 */
 	public Customer createNewCustomer(String email, String firstName, String lastName, String phoneNumber,
-			String insurance, String street, String city, String zip, String state, String membershipStatus) {
+			String insurance, String street, String city, String zip, String state, String membershipStatus) throws AddressException {
 
 		
 		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || insurance.isEmpty() || 
@@ -99,7 +103,12 @@ public class CustomerHandler {
 			
 			throw new IllegalArgumentException("Missing input");
 		}
-		
+		try {
+			InternetAddress emailAddr = new InternetAddress(email);
+			emailAddr.validate();
+		} catch (AddressException e) {
+			throw e;
+		}
 		// Establish a connection to the database
 		EntityManagerDao dao = new EntityManagerDao();
 
@@ -153,16 +162,24 @@ public class CustomerHandler {
 	 * @param state: String
 	 * @param membershipStatus: String
 	 * @return Customer: String
+	 * @throws AddressException 
 	 */
 	
 	public Customer updateCustomer(int id, String email, String firstName, String lastName, String phoneNumber,
-			String insurance, String street, String city, String zip, String state, String membershipStatus) {
+			String insurance, String street, String city, String zip, String state, String membershipStatus) throws AddressException {
 
 		
 		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || insurance.isEmpty() || 
 				street.isEmpty() || city.isEmpty() || zip.isEmpty() || state.isEmpty() || membershipStatus.isEmpty()) {
 			
 			throw new IllegalArgumentException("Missing input");
+		}
+		
+		try {
+			InternetAddress emailAddr = new InternetAddress(email);
+			emailAddr.validate();
+		} catch (AddressException e) {
+			throw e;
 		}
 		
 		// Establish a connection to the database

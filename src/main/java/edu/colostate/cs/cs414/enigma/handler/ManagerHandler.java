@@ -1,10 +1,13 @@
 package edu.colostate.cs.cs414.enigma.handler;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import javax.mail.*;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.persistence.PersistenceException;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
@@ -209,7 +212,7 @@ public class ManagerHandler extends GymSystemEmployeeHandler {
 	 * @return
 	 */
 	public Manager createManager(String email, String firstName, String lastName, String phoneNumber, String insurance, String userName, String userPass,
-			String confirmPassword, String street, String city, String zip, String state)  {
+			String confirmPassword, String street, String city, String zip, String state) throws AddressException  {
 		
 			
 		
@@ -227,6 +230,15 @@ public class ManagerHandler extends GymSystemEmployeeHandler {
 		if(!userPass.equals(confirmPassword) || userPass.length() < 8) {
 			throw new IllegalArgumentException("Password error");
 		}
+		
+		// validate email
+		try {
+			InternetAddress emailAddr = new InternetAddress(email);
+			emailAddr.validate();
+		} catch (AddressException e) {
+			throw e;
+		}
+		
 		
 		// Establish a connection to the database
 		EntityManagerDao dao = new EntityManagerDao();
