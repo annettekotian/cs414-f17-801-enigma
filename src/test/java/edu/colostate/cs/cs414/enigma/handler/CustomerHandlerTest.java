@@ -616,4 +616,20 @@ public class CustomerHandlerTest {
 				&& c2.getPersonalInformation().getHealthInsurance().getName().equals(insurance));
 		
 	}
+	
+	
+	@Test 
+	public void testDeleteCustomer() {
+		
+		Customer c1 = createCustomer();
+		persistedObjects.add(c1);
+		new CustomerHandler().removeCustomer(Integer.toString(c1.getId()));
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("id", c1.getId());
+		Customer c = (Customer) dao.querySingle("Customer.findById", params);
+		assertNull(c);
+		
+	}
 }
+
+

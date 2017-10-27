@@ -215,4 +215,18 @@ public class CustomerHandler {
 		
 		return c;
 	}
+	
+	public void removeCustomer(String id) {
+		int cId = Integer.parseInt(id);
+		
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("id", cId);
+		Customer c = (Customer) dao.querySingle("Customer.findById", params);
+		if(c==null) {
+			return;
+		}
+		dao.remove(c);
+		dao.close();
+		
+	}
 }

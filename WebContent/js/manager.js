@@ -332,7 +332,8 @@ function populateCustomerTable(customerData){
 	$("#customerResults").find(".tableData").remove();
 	for (var i = 0; i < customerData.length; i++) {
 		var customer = customerData[i];
-		$("#customerResults table").append("<tr data-id='" + customer.id + "' class='tableData'> <td><a class='editCustomer' href='#'>Edit</a></td>" +
+		$("#customerResults table").append("<tr data-id='" + customer.id + "' class='tableData'> <td><a class='editCustomer' href='#'>Edit</a>" +
+				"<span>&nbsp;</span><a class='deleteCustomer' href='#'>Delete</a></td>" +
 				"<td>" +  customer.id+"</td> " + 
 				"<td> " + customer.personalInformation.firstName+ "</td> " + 
 				" <td> " + customer.personalInformation.lastName +"</td> " +
@@ -627,7 +628,8 @@ $("#createCustomerButton").on("click", function (){
 				return;
 			}
 			
-			$("#customerResults table").append("<tr data-id='" + customer.id + "' class='tableData'> <td><a class='editCustomer' href='#'>Edit</a></td>" +
+			$("#customerResults table").append("<tr data-id='" + customer.id + "' class='tableData'> <td><a class='editCustomer' href='#'>Edit</a>" +
+					"<span>&nbsp;</span><a class='deleteCustomer' href='#'>Delete</a></td>" +
 					"<td>" +  customer.id+"</td> " + 
 					"<td> " + customer.personalInformation.firstName+ "</td> " + 
 					" <td> " + customer.personalInformation.lastName +"</td> " +
@@ -779,6 +781,42 @@ $(document).on('click', '.editCustomer', function() {
 	});
 });
 
+$(document).on("click", ".deleteCustomer", function(){
+	var id = $(this).parents("tr").data('id');
+	var deleteBool = confirm("Do you want to delete the customer having id " + id + "?");
+	if(deleteBool === false) {
+		return;
+	}
+	$.ajax({
+		url: "/manager/ui",
+		method: "POST",
+		data: {
+			"type": "deleteCustomer",
+			"id": id
+		},
+		
+		success: function(data) {
+			data = JSON.parse(data);
+			if(data.status == "success") {
+				$("tr[data-id='" + id + "']").remove();
+			}
+			
+			
+
+		},
+		error: function(exception) {
+			if(exception.responseText.indexOf("Missing input") >= 0) {
+				alert("Could not create customer! Some input fields were missing");
+				return;
+			}
+			else {
+				alert("Error" + exception);
+			}
+		}
+	
+	});
+
+})
 
 
 $("#customerModal").on($.modal.AFTER_CLOSE, function() {

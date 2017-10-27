@@ -333,6 +333,11 @@ public class ManagerServlet extends HttpServlet {
 			}
 			
 			break;
+		case "deleteCustomer":
+			String cId = request.getParameter("id");
+			new CustomerHandler().removeCustomer(cId);
+			values.put("status", "success");
+			out.write(new Gson().toJson(values));
 		}
 		
 		
