@@ -188,6 +188,7 @@ public class ManagerHandler extends GymSystemEmployeeHandler {
 		Map<String, Object> trainerParams = new HashMap<String, Object>();
 		trainerParams.put("id", id);
 		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", trainerParams);
+		trainer.deleteWorkHours();
 		
 		// Delete the trainer
 		dao.remove(trainer);
