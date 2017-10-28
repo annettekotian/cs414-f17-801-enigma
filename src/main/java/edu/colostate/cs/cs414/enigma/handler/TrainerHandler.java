@@ -59,7 +59,7 @@ public class TrainerHandler {
 		// Verify the start date time is not before the current date time
 		Date currentDateTime = new Date();
 		if(startDateTime.compareTo(currentDateTime) < 0) {
-			throw new WorkHoursException("Stat date time cannot occur in the past");
+			throw new WorkHoursException("Start date time cannot occur in the past");
 		}
 		
 		// Create new work hours

@@ -459,19 +459,17 @@ public class ManagerServlet extends HttpServlet {
 			int trainerId = Integer.parseInt(request.getParameter("id"));
 			int startYear = Integer.parseInt(request.getParameter("startYear"));
 			int startMonth = Integer.parseInt(request.getParameter("startMonth"));
-			int startDay = Integer.parseInt(request.getParameter("startDate"));
+			int startDay = Integer.parseInt(request.getParameter("startDay"));
 			int startHour = Integer.parseInt(request.getParameter("startHour"));
 			int startMinute = Integer.parseInt(request.getParameter("startMinute"));
-			int startSecond = Integer.parseInt(request.getParameter("startSecond"));
 			int endYear = Integer.parseInt(request.getParameter("endYear"));
 			int endMonth = Integer.parseInt(request.getParameter("endMonth"));
-			int endDay = Integer.parseInt(request.getParameter("endDate"));
+			int endDay = Integer.parseInt(request.getParameter("endDay"));
 			int endHour = Integer.parseInt(request.getParameter("endHour"));
 			int endMinute = Integer.parseInt(request.getParameter("endMinute"));
-			int endSecond = Integer.parseInt(request.getParameter("endSecond"));
 
-			Date startDatetime = new Date(startYear-1900, startMonth, startDay, startHour, startMinute, startSecond);
-			Date endDatetime = new Date(endYear-1900, endMonth, endDay, endHour, endMinute, endSecond);
+			Date startDatetime = new Date(startYear-1900, startMonth, startDay, startHour, startMinute);
+			Date endDatetime = new Date(endYear-1900, endMonth, endDay, endHour, endMinute);
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			TrainerHandler th = new TrainerHandler();

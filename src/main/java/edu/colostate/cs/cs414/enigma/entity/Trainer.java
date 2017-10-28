@@ -33,7 +33,8 @@ public class Trainer extends GymSystemUser implements Serializable {
 			inverseJoinColumns=@JoinColumn(name="qualification_id", referencedColumnName="id"))
 	private List<Qualification> qualifications = new ArrayList<Qualification>();
 	
-	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="trainer", fetch=FetchType.LAZY)
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
+	@JoinColumn(name="trainer_id", referencedColumnName="id")
 	private List<WorkHours> workHours = new ArrayList<WorkHours>();
 	
 	protected Trainer() {
@@ -69,7 +70,7 @@ public class Trainer extends GymSystemUser implements Serializable {
 	public void addWorkHours(WorkHours wh) {
 		if(!this.workHours.contains(wh)) {
 			this.workHours.add(wh);
-			wh.setTrainer(this);
+			wh.setTrainerId(this.getId());
 		}
 	}
 

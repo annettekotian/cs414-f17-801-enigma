@@ -167,6 +167,10 @@ function populateTrainerTable(trainers) {
 	trainerTableColumn.appendChild(document.createTextNode("Qualifications"));
 	trainerTableRow.appendChild(trainerTableColumn);
 
+	trainerTableColumn = document.createElement("th");
+	trainerTableColumn.appendChild(document.createTextNode("Work Schedule"));
+	trainerTableRow.appendChild(trainerTableColumn);
+
 	trainerTable.appendChild(trainerTableRow);
 	
 	for(var i=0; i<trainers.length; i++) {
@@ -228,6 +232,17 @@ function populateTrainerTable(trainers) {
 			qualifications += trainers[i].qualifications[j].name + "\n";
 		}
 		trainerTableColumn.appendChild(document.createTextNode(qualifications));
+		trainerTableColumn.classList.add("trainerTableCol");
+		trainerTableRow.appendChild(trainerTableColumn);
+		
+		trainerTableColumn = document.createElement("td");
+		var workSchedule = "";
+		for(var j=0; j<trainers[i].workHours.length; j++) {
+			var startDateTime = trainers[i].workHours[j].startDateTime;
+			var endDateTime = trainers[i].workHours[j].endDateTime;
+			workSchedule += startDateTime + " - " + endDateTime + "\n";
+		}
+		trainerTableColumn.appendChild(document.createTextNode(workSchedule));
 		trainerTableColumn.classList.add("trainerTableCol");
 		trainerTableRow.appendChild(trainerTableColumn);
 
@@ -1176,7 +1191,7 @@ function populateEndDay() {
 	var month = $("#endMonth")[0].selectedIndex + 1;
 	var numberOfDays = new Date(year, month, 0).getDate();
 	
-	var endDayList = $("#endtDay");
+	var endDayList = $("#endDay");
 	endDayList.empty();
 	for(var i=1; i<=numberOfDays; i++) {
 		endDayList.append("<option>" + i + "</option>");
@@ -1192,7 +1207,63 @@ function addTrainerWorkHours() {
 		startYearList.append("<option>" + (date.getFullYear() + i) + "</option>");
 	}
 	
+	var endYearList = $("#endYear");
+	endYearList.empty();
+	for (var i = 0; i< 5; i++) {
+		endYearList.append("<option>" + (date.getFullYear() + i) + "</option>");
+	}
+	
 	populateStartDay();
+	populateEndDay();
 	
 	$("#addWorkHoursForm").modal();
+}
+
+function submitWorkHours() {
+	var trainer = JSON.parse(selectedTrainerRow.dataset.trainer);
+	var startYear = parseInt($("#startYear").find(":selected").text());
+	var startMonth = parseInt($("#startMonth")[0].selectedIndex);
+	var startDay = parseInt($("#startDay")[0].selectedIndex);
+	var startHour = parseInt($("#startHour").val());
+	var startMinute = parseInt($("#startMinute").val());
+	var startPeriod = parseInt($("#startPeriod")[0].selectedIndex);
+	var endYear = parseInt($("#endYear").find(":selected").text());
+	var endMonth = parseInt($("#endMonth")[0].selectedIndex);
+	var endDay = parseInt($("#endDay")[0].selectedIndex);
+	var endHour = parseInt($("#endHour").val());
+	var endMinute = parseInt($("#endMinute").val());
+	var endPeriod = parseInt($("#endPeriod")[0].selectedIndex);
+	
+	var postParams = {};
+	postParams.id = trainer.id;
+	postParams.startYear = startYear;
+	postParams.startMonth = startMonth;
+	postParams.startDay = startDay + 1;
+	postParams.startHour = startHour + startPeriod * 12;
+	postParams.startMinute = startMinute;
+	postParams.endYear = endYear;
+	postParams.endMonth = endMonth;
+	postParams.endDay = endDay + 1;
+	postParams.endHour = endHour + startPeriod * 12;
+	postParams.endMinute = endMinute;
+	postParams.type = "addWorkHours";
+	
+	$.ajax({
+		url: "/manager/ui",
+		method: "POST",
+		data: postParams,
+		
+		success: function(data) {
+			if(data.rc == 0) {
+				populateAllTrainers();
+				$.modal.close();
+			}
+			else {
+				alert("Error: " + data.msg);
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			$(document.body).html(jqXHR.responseText);
+		}
+	});
 }

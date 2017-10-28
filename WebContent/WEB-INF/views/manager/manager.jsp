@@ -254,7 +254,7 @@
 			<option>December</option>
 		</select><br>
 		<label>End Day</label><br>
-		<select id="endtDay"></select><br>
+		<select id="endDay"></select><br>
 		<label>End Time</label><br>
 		<label>Hour</label><input id="endHour" type="number" value="1" min="1" max="12"><br>
 		<label>Minute</label><input id="endMinute" type="number" value="1" min="0" max="59"><br>
@@ -263,6 +263,7 @@
 			<option>PM</option>
 		</select><br>
 	</form>
+	<button onclick="submitWorkHours()">Submit</button>
 </div>
 
 	<div id="addManagerModal" class="modal">
