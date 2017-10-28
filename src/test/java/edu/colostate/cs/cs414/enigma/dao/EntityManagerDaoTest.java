@@ -307,14 +307,20 @@ public class EntityManagerDaoTest {
 		Trainer trainer = new Trainer(personalInformation, user);
 		dao.persist(trainer);
 		
+		Date startDateTime = new Date(117, 9, 1, 12, 30, 00);
+		Date endDateTime = new Date(117, 9, 1, 120, 30, 00);
+		WorkHours workHours = new WorkHours(startDateTime, endDateTime);
 		try {
-			Date startDateTime = new Date(117, 9, 1, 12, 30, 00);
-			Date endDateTime = new Date(117, 9, 1, 120, 30, 00);
-			WorkHours workHours = new WorkHours(startDateTime, endDateTime);
 			trainer.addWorkHours(workHours);
+			dao.update(trainer);
+			
+			trainer.deleteWorkHours();
 			dao.update(trainer);
 		}
 		finally {
+			for(int i=0; i<trainer.getWorkHours().size(); i++) {
+				persistedObjects.add(trainer.getWorkHours().get(i));
+			}
 			persistedObjects.add(trainer);
 			persistedObjects.add(insurance);
 		}

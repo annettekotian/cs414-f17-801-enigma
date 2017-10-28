@@ -34,7 +34,7 @@ public class WorkHours implements Serializable {
 	@Column(name="end_date_time", nullable=false, updatable=false, unique=false)
 	private Date endDateTime;
 	
-	@Column(name="trainer_id", nullable=false, updatable=false, unique=false)
+	@Column(name="trainer_id")
 	private int trainerId;
 	
 	protected WorkHours() {}
@@ -69,7 +69,7 @@ public class WorkHours implements Serializable {
 	}
 
 	public int getTrainerId() {
-		return trainerId;
+		return this.trainerId;
 	}
 
 	public void setTrainerId(int trainerId) {

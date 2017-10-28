@@ -74,6 +74,10 @@ public class Trainer extends GymSystemUser implements Serializable {
 			wh.setTrainerId(this.getId());
 		}
 	}
+	
+	public void deleteWorkHours() {
+		this.workHours.clear();
+	}
 
 	@Override
 	public int hashCode() {
