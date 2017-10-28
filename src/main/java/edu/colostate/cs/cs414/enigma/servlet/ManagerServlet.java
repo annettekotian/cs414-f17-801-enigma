@@ -62,7 +62,7 @@ public class ManagerServlet extends HttpServlet {
 		if(type.equals("searchTrainers")) {
 			String value = request.getParameter("value");
 			try {
-				List<Trainer> trainers = new ManagerHandler().searchTrainers(value);
+				List<Trainer> trainers = new TrainerHandler().searchTrainers(value);
 				response.setContentType("application/json");
 				out.write(new Gson().toJson(trainers));
 			} catch(Exception e) {
@@ -73,10 +73,10 @@ public class ManagerServlet extends HttpServlet {
 		}
 		else if(type.equals("getAllTrainers")) {
 			try {
-				ManagerHandler mh = new ManagerHandler();
+				TrainerHandler th = new TrainerHandler();
 				response.setContentType("application/json");
-				out.write(new Gson().toJson(mh.getAllTrainers()));
-				mh.close();
+				out.write(new Gson().toJson(th.getAllTrainers()));
+				th.close();
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
 			}
@@ -366,7 +366,7 @@ public class ManagerServlet extends HttpServlet {
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			try {
-				Trainer newTrainer = new ManagerHandler().createNewTrainer(firstName, lastName, phoneNumber, email,
+				Trainer newTrainer = new TrainerHandler().createNewTrainer(firstName, lastName, phoneNumber, email,
 						street, city, state, zipcode, healthInsurance, userName, password);	
 				returnValues.put("rc", "0");
 			}
@@ -398,7 +398,7 @@ public class ManagerServlet extends HttpServlet {
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			try {
-				Trainer newTrainer = new ManagerHandler().modifyTrainer(trainerId, firstName, lastName, phoneNumber,
+				Trainer newTrainer = new TrainerHandler().modifyTrainer(trainerId, firstName, lastName, phoneNumber,
 						email, street, city, state, zipcode, healthInsurance, userName, password);	
 				returnValues.put("rc", "0");
 			}
@@ -419,7 +419,7 @@ public class ManagerServlet extends HttpServlet {
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			try {
-				new ManagerHandler().deleteTrainer(trainerId);
+				new TrainerHandler().deleteTrainer(trainerId);
 				returnValues.put("rc", "0");
 			}
 			catch(PersistenceException e) {

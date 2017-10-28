@@ -383,58 +383,6 @@ public class ManagerHandlerTest {
 		
 	}
 	
-
-
-	/********* Test for new trainer **************/ 
-	@Test
-	public void presistNewTrainer() {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe@email.com";
-		String phone = "5555555555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String userName = "johndoe";
-		String password = "password";
-		ManagerHandler mh = new ManagerHandler();
-		Trainer newTrainer = mh.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password);
-		persistedObjects.add(newTrainer);
-	}
-	
-	@Test(expected = PersistenceException.class)
-	public void presistNewTrainerDuplicateUsername() {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe@email.com";
-		String phone = "5555555555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String userName = "johndoe";
-		String password = "password";
-		ManagerHandler mh = new ManagerHandler();
-		Trainer newTrainer = mh.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password);
-		persistedObjects.add(newTrainer);
-		
-		firstName = "John";
-		lastName = "Doe";
-		email = "johndoe@email.com";
-		phone = "5555555555";
-		insurance = "Cigna";
-		street = "720 City park";
-		city = "Fort Collins";
-		state = "Colorado";
-		zip = "80521";
-		userName = "johndoe";
-		password = "password";
-		newTrainer = mh.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password);
-	}
-	
 	/*********** test for search Manager *****************/ 
 	
 	public void testSearchManagerByKeyword() throws AddressException {
