@@ -86,9 +86,9 @@ public class ManagerServlet extends HttpServlet {
 		else if(type.equals("getTrainerById")) {
 			Integer trainerId = Integer.parseInt(request.getParameter("trainerId"));
 			try {
-				ManagerHandler mh = new ManagerHandler();
+				TrainerHandler h = new TrainerHandler();
 				response.setContentType("application/json");
-				out.write(new Gson().toJson(mh.getTrainerById(trainerId)));
+				out.write(new Gson().toJson(h.getTrainerById(trainerId)));
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
 			}

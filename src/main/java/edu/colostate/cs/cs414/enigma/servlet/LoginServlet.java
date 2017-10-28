@@ -13,9 +13,11 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import edu.colostate.cs.cs414.enigma.entity.Manager;
+import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.handler.LoginHandler;
 import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
+import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
 
 /**
  * Servlet implementation class Login
@@ -62,10 +64,14 @@ public class LoginServlet extends HttpServlet {
 			String level = LoginHandler.getUserLevel(userName);
 			// set level and user id in the session
 			session.setAttribute("level", level);
-			session.setAttribute("userid", LoginHandler.getUserId(userName));
+			int id = LoginHandler.getUserId(userName);
+			session.setAttribute("userid", id);
 			
 			// redirect based on level
 			if(level.equals("TRAINER")) {
+				Trainer t = new TrainerHandler().getTrainerByUserId(id);
+				request.setAttribute("trainer", new Gson().toJson(t));
+				
 				request.getRequestDispatcher("/WEB-INF/views/trainer/trainer.jsp").forward(request, response);
 			} else {
 

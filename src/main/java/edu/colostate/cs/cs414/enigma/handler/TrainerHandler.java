@@ -73,4 +73,36 @@ public class TrainerHandler {
 		trainerEntity.addWorkHours(workHours);
 		dao.update(trainerEntity);
 	}
+	
+	/**
+	 * Get a specific trainer by the trainer ID. Note that if the trainer does not exist, a null
+	 * trainer will be returned.
+	 * @param trainerId Trainer ID.
+	 * @return Trainer.
+	 */
+	public Trainer getTrainerById(int trainerId) {		
+		// Get a state entity/object
+		Map<String, Object> trainerParams = new HashMap<String, Object>();
+		trainerParams.put("id", trainerId);
+		
+		// Get the trainer
+		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", trainerParams);
+				
+		return trainer;		
+	}
+	
+	/**Given the user id, this method returns the trainer object
+	 * 
+	 * @param userId
+	 * @return: Trainer
+	 */
+	public Trainer getTrainerByUserId(int userId) {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", userId);		
+		// Get the trainer
+		Trainer trainer = (Trainer) dao.querySingle("Trainer.findByUserId", params);
+				
+		return trainer;	
+	}
 }

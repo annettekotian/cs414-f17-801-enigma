@@ -39,27 +39,31 @@
 <div id="home">
 	<table>
 		<tr>
-			<td>Personal Information</td>
+			<th>Personal Information</th>
 		</tr>
 		<tr>
 			<td>First Name:</td>
-			<td>John</td>
+			<td id="homeFName"></td>
 		</tr>
 		<tr>
 			<td>Last Name:</td>
-			<td>Doe</td>
+			<td id="homeLName"></td>
 		</tr>
 		<tr>
 			<td>Email:</td>
-			<td>johndoe@gmail.com</td>
+			<td id="homeEmail"></td>
 		</tr>
 		<tr>
 			<td>Phone Number:</td>
-			<td>555-555-5555</td>
+			<td id="homePhone"></td>
 		</tr>
 		<tr>
 			<td>Health Insurance:</td>
-			<td>Cigna</td>
+			<td id="homeInsurance"></td>
+		</tr>
+		<tr>
+			<td>Address:</td>
+			<td id="homeAddress"></td>
 		</tr>
 	</table>
 </div>
@@ -85,7 +89,8 @@
 	<script src="../js/trainer.js">
 </script>
 <script>
-focusHome();
+var trainerData = <%=request.getAttribute("trainer")%>
+focusHome(trainerData);
 </script>
 </body>
 </html>

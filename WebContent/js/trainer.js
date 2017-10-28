@@ -1,8 +1,19 @@
 function focusHome() {
 	$("#homeLi").css("background", "darkgrey");
 	$("#home").show();
+	populateHomePage()
 	$("#customerTable").hide();
 	$(".trainerSearchCustomers").hide();
+}
+
+function populateHomePage() {
+	$("#homeFName").text(trainerData.personalInformation.firstName);
+	$("#homeLName").text(trainerData.personalInformation.lastName);
+	$("#homeEmail").text(trainerData.personalInformation.email);
+	$("#homePhone").text(trainerData.personalInformation.phoneNumber);
+	$("#homeInsurance").text(trainerData.personalInformation.healthInsurance.name);
+	$("#homeAddress").text(trainerData.personalInformation.address.street + ", " + trainerData.personalInformation.address.city + 
+			", " + trainerData.personalInformation.address.state.stateAbbrev + " - " + trainerData.personalInformation.address.zipcode);
 }
 
 function focusCustomers() {

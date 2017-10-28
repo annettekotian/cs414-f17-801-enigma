@@ -42,20 +42,5 @@ public abstract class GymSystemEmployeeHandler {
 		return trainers;
 	}
 	
-	/**
-	 * Get a specific trainer by the trainer ID. Note that if the trainer does not exist, a null
-	 * trainer will be returned.
-	 * @param trainerId Trainer ID.
-	 * @return Trainer.
-	 */
-	public Trainer getTrainerById(int trainerId) {		
-		// Get a state entity/object
-		Map<String, Object> trainerParams = new HashMap<String, Object>();
-		trainerParams.put("id", trainerId);
-		
-		// Get the trainer
-		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", trainerParams);
-				
-		return trainer;		
-	}
+	
 }
