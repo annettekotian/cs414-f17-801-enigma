@@ -93,8 +93,12 @@ public class TrainerHandlerTest {
 		int trainerId = trainer.getId();
 		String qualification = "Iron Man";
 		
-		Date startDateTime = new Date(117, 9, 1, 12, 30, 00);
-		Date endDateTime = new Date(117, 9, 1, 20, 30, 00);
+		Date startDateTime = new Date();
+		startDateTime.setYear(startDateTime.getYear() + 1);
+		
+		Date endDateTime = new Date();
+		endDateTime.setYear(endDateTime.getYear() + 1);
+		endDateTime.setMinutes(endDateTime.getMinutes() + 1);
 		
 		TrainerHandler th = new TrainerHandler();
 		th.addWorkHours(trainerId, startDateTime, endDateTime);

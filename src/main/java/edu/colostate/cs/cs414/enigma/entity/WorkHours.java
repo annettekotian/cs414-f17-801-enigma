@@ -34,9 +34,8 @@ public class WorkHours implements Serializable {
 	@Column(name="end_date_time", nullable=false, updatable=false, unique=false)
 	private Date endDateTime;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="trainer_id")
-	private Trainer trainer;
+	@Column(name="trainer_id", nullable=false, updatable=false, unique=false)
+	private int trainerId;
 	
 	protected WorkHours() {}
 
@@ -69,57 +68,11 @@ public class WorkHours implements Serializable {
 		this.endDateTime = endDateTime;
 	}
 
-	public Trainer getTrainer() {
-		return trainer;
+	public int getTrainerId() {
+		return trainerId;
 	}
 
-	public void setTrainer(Trainer trainer) {
-		this.trainer = trainer;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((endDateTime == null) ? 0 : endDateTime.hashCode());
-		result = prime * result + id;
-		result = prime * result + ((startDateTime == null) ? 0 : startDateTime.hashCode());
-		result = prime * result + ((trainer == null) ? 0 : trainer.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		WorkHours other = (WorkHours) obj;
-		if (endDateTime == null) {
-			if (other.endDateTime != null)
-				return false;
-		} else if (!endDateTime.equals(other.endDateTime))
-			return false;
-		if (id != other.id)
-			return false;
-		if (startDateTime == null) {
-			if (other.startDateTime != null)
-				return false;
-		} else if (!startDateTime.equals(other.startDateTime))
-			return false;
-		if (trainer == null) {
-			if (other.trainer != null)
-				return false;
-		} else if (!trainer.equals(other.trainer))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "WorkHours [id=" + id + ", startDateTime=" + startDateTime + ", endDateTime=" + endDateTime
-				+ ", trainer=" + trainer + "]";
+	public void setTrainerId(int trainerId) {
+		this.trainerId = trainerId;
 	}
 }
