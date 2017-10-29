@@ -60,7 +60,7 @@ public class WorkHours implements Serializable {
 		this.startDateTime = startDateTime;
 	}
 	
-	public Date endStartDateTime() {
+	public Date getEndDateTime() {
 		return endDateTime;
 	}
 

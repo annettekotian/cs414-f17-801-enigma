@@ -274,7 +274,7 @@ public class TrainerHandler {
 		List<Trainer> matchedTrainers = new ArrayList<Trainer>();
 		for(int i=0; i<trainers.size(); i++) {
 			Trainer trainer = trainers.get(i);
-			if(trainer.toString().contains(value)) {
+			if(trainer.searchString().contains(value)) {
 				matchedTrainers.add(trainer);
 			}
 		}
