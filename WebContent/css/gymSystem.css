@@ -203,6 +203,10 @@ margin-top:3%;
 	
 }
 
+#addManagerModal h3{
+	margin-left: 10px;
+}
+
 .managerInputDiv, .customerInputDiv{
 	padding: 10px;
 }
