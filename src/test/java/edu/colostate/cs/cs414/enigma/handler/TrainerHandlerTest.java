@@ -208,4 +208,80 @@ public class TrainerHandlerTest {
 		TrainerHandler th = new TrainerHandler();
 		th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
 	}
+	
+	@Test
+	public void searchForTrainer() {
+		Trainer trainer = createArbitraryTrainer();
+		TrainerHandler th = new TrainerHandler();
+		List<Trainer> searchTrainers = th.searchTrainers(trainer.getPersonalInformation().getLastName());
+		th.close();
+		assertNotEquals("Failed to succesfully search for trainers", searchTrainers.size(), 0);
+	}
+	
+	@Test
+	public void getAllTrainers() {
+		Trainer trainer = createArbitraryTrainer();
+		TrainerHandler th = new TrainerHandler();
+		List<Trainer> trainers = th.getAllTrainers();
+		th.close();
+		assertTrue("Failed to get all trainers", trainers.size() != 0);
+	}
+	
+	@Test
+	public void getTrainerById() {
+		Trainer trainer = createArbitraryTrainer();
+		TrainerHandler th = new TrainerHandler();
+		Trainer searchTrainer = th.getTrainerById(trainer.getId());
+		assertEquals("Failed to get trainer from db", trainer.getId(), searchTrainer.getId());
+		th.close();
+	}
+	
+	@Test
+	public void getTrainerByUserId() {
+		Trainer trainer = createArbitraryTrainer();
+		TrainerHandler th = new TrainerHandler();
+		Trainer searchTrainer = th.getTrainerByUserId(trainer.getUser().getId());
+		assertEquals("Failed to get trainer from db", trainer.getId(), searchTrainer.getId());
+		th.close();
+	}
+	
+	@Test
+	public void modifyTrainer() throws Exception {
+		String firstName = "John";
+		String lastName = "Doe";
+		String email = "johndoe@email.com";
+		String phone = "555-555-5555";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String userName = "johndoe";
+		String password = "password";
+		TrainerHandler th = new TrainerHandler();
+		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+		persistedObjects.add(newTrainer);
+		th.modifyTrainer(newTrainer.getId(), "Bob", lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+		th.close();
+	}
+	
+	@Test
+	public void deleteTrainer() throws Exception {
+		String firstName = "John";
+		String lastName = "Doe";
+		String email = "johndoe@email.com";
+		String phone = "555-555-5555";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String userName = "johndoe";
+		String password = "password";
+		TrainerHandler th = new TrainerHandler();
+		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+		persistedObjects.add(newTrainer);
+		th.deleteTrainer(newTrainer.getId());
+		th.close();
+	}
 }

@@ -75,4 +75,47 @@ public class WorkHours implements Serializable {
 	public void setTrainerId(int trainerId) {
 		this.trainerId = trainerId;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((endDateTime == null) ? 0 : endDateTime.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((startDateTime == null) ? 0 : startDateTime.hashCode());
+		result = prime * result + trainerId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		WorkHours other = (WorkHours) obj;
+		if (endDateTime == null) {
+			if (other.endDateTime != null)
+				return false;
+		} else if (!endDateTime.equals(other.endDateTime))
+			return false;
+		if (id != other.id)
+			return false;
+		if (startDateTime == null) {
+			if (other.startDateTime != null)
+				return false;
+		} else if (!startDateTime.equals(other.startDateTime))
+			return false;
+		if (trainerId != other.trainerId)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "WorkHours [id=" + id + ", startDateTime=" + startDateTime + ", endDateTime=" + endDateTime
+				+ ", trainerId=" + trainerId + "]";
+	}
 }

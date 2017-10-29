@@ -81,9 +81,6 @@ public class TrainerHandler {
 		validateTrainerInformation(firstName, lastName, phoneNumber, email, street, city, state, zipcode,
 				healthInsurance, userName, password, confirmPassword);
 		
-		// Open up a connection to the db
-		EntityManagerDao dao = new EntityManagerDao();
-		
 		// Get a state entity/object
 		Map<String, Object> stateParams = new HashMap<String, Object>();
 		stateParams.put("state", state);
@@ -118,9 +115,6 @@ public class TrainerHandler {
 		// Persist the new trainers information with the db
 		dao.persist(trainer);
 		
-		// Shutdown connection to database
-		dao.close();
-		
 		return trainer;
 	}
 	
@@ -148,9 +142,6 @@ public class TrainerHandler {
 		// Validate parameters
 		validateTrainerInformation(firstName, lastName, phoneNumber, email, street, city, state, zipcode,
 						healthInsurance, userName, password, confirmPassword);
-		
-		// Open up a connection to the db
-		EntityManagerDao dao = new EntityManagerDao();
 		
 		// Get the trainer entity to be updated
 		Map<String, Object> trainerParams = new HashMap<String, Object>();
@@ -192,9 +183,6 @@ public class TrainerHandler {
 		
 		// Modify/update the trainers information with the db
 		dao.update(trainer);
-				
-		// Shutdown connection to database
-		dao.close();
 		
 		return trainer;
 	}
@@ -319,8 +307,6 @@ public class TrainerHandler {
 	 * @param id ID of trainer to be deleted.
 	 */
 	public void deleteTrainer(int id) {
-		// Open up a connection to the db
-		dao = new EntityManagerDao();
 		
 		// Get the trainer entity to be updated
 		Map<String, Object> trainerParams = new HashMap<String, Object>();
@@ -330,9 +316,6 @@ public class TrainerHandler {
 		
 		// Delete the trainer
 		dao.remove(trainer);
-		
-		// Shutdown connection to database
-		dao.close();
 	}
 	
 }
