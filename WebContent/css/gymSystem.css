@@ -19,12 +19,12 @@ body{
 }
 
 tr.trainerTableRow:hover{
-	background-color:gray;
+	color:steelblue;
 	cursor:pointer;
 }
 
 #trainerTableRowSelected{
-	background-color:yellow;
+	background-color:gainsboro;
 }
 
 
@@ -70,10 +70,14 @@ margin-top:3%;
 	color:black;
 }
 
-.addButtons {
-		margin-left: 10%;
+#addManager, #addCustomer, #addMachine {
+		margin-left: 170px;
 		display:none;
 	
+}
+
+#addTrainer {
+	margin-left: 167px
 }
 
 .addButtons a{
@@ -83,15 +87,19 @@ margin-top:3%;
 }
 
 #searchManagerInput {
-	margin-left: 40%
+	margin-left: 705px;
 }
 
 #searchCustomerInput {
-	margin-left: 48%;
+	margin-left: 832px;
 }
 
 .searchManager, .searchCustomer {
 	display: none;
+}
+
+#searchTrainerInput{
+	margin-left:280px;
 }
 
 /*********************** all results tables *********************/
