@@ -58,7 +58,7 @@ public class CustomerHandlerTest {
 		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
 		String lName = "Kotian";
 		String email = "ann@email.com";
-		String phone = "99889988834";
+		String phone = "999-999-9999";
 		String insurance = "Cigna";
 		String street = "720 City park";
 		String city = "Fort Collins";
@@ -84,7 +84,7 @@ public class CustomerHandlerTest {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
-		String phone = "99889988834";
+		String phone = "999-999-9999";
 		String insurance = "Cigna";
 		String street = "720 City park";
 		String city = "Fort Collins";
@@ -109,7 +109,7 @@ public class CustomerHandlerTest {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
-		String phone = "99889988834";
+		String phone = "999-999-9999";
 		String insurance = "Cigna";
 		String street = "720 City park";
 		String city = "Fort Collins";
@@ -346,7 +346,7 @@ public class CustomerHandlerTest {
 		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
 		String lName = "Kotian";
 		String email = "ann@email.com";
-		String phone = "99889988834";
+		String phone = "999-999-9999";
 		String insurance = "Cigna";
 		String street = "720 City park";
 		String city = "Fort Collins";
@@ -372,7 +372,7 @@ public class CustomerHandlerTest {
 		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
 		String lName = "Kotian";
 		String email = "ann@email.com";
-		String phone = "99889988834";
+		String phone = "999-999-9999";
 		String insurance = "Cigna";
 		String street = "720 City park";
 		String city = "Fort Collins";
@@ -395,7 +395,7 @@ public class CustomerHandlerTest {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "annette@gmail.com";
-		String phone = "99889988834";
+		String phone = "999-999-9999";
 		String insurance = "Cigna";
 		String street = "720 City park";
 		String city = "Fort Collins";
@@ -416,7 +416,7 @@ public class CustomerHandlerTest {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "";
-		String phone = "99889988834";
+		String phone = "999-999-9999";
 		String insurance = "Cigna";
 		String street = "720 City park";
 		String city = "Fort Collins";
@@ -436,7 +436,7 @@ public class CustomerHandlerTest {
 		String fName = "";
 		String lName = "Kotian";
 		String  email = "annette@gmail.com";
-		String phone = "99889988834";
+		String phone = "999-999-9999";;
 		String insurance = "Cigna";
 		String street = "720 City park";
 		String city = "Fort Collins";
@@ -455,7 +455,7 @@ public class CustomerHandlerTest {
 		String fName = "Annette";
 		String lName = "";
 		String  email = "annette@gmail.com";
-		String phone = "99889988834";
+		String phone = "999-999-9999";
 		String insurance = "Cigna";
 		String street = "720 City park";
 		String city = "Fort Collins";

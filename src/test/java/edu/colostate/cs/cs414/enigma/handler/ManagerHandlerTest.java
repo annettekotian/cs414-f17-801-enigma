@@ -64,7 +64,7 @@ public class ManagerHandlerTest {
 		String lName = "Kotian";
 		//String  email = "ann@email.com";
 		String email = "";
-		String phone = "99889988834";
+		String phone = "998-899-8834";
 		String insurance = "Cigna";
 		String userName = "annKot";
 		String userPass = "12345678";
@@ -86,7 +86,7 @@ public class ManagerHandlerTest {
 		String lName = "Kotian";
 		//String  email = "ann@email.com";
 		String email = "abc";
-		String phone = "99889988834";
+		String phone = "998-899-8834";
 		String insurance = "Cigna";
 		String userName = "annKot";
 		String userPass = "12345678";
@@ -109,7 +109,7 @@ public class ManagerHandlerTest {
 		String fName = "";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
-		String phone = "99889988834";
+		String phone = "998-899-8834";;
 		String insurance = "Cigna";
 		String userName = "annKot";
 		String userPass = "12345678";
@@ -129,7 +129,7 @@ public class ManagerHandlerTest {
 		String fName = "Annette";
 		String lName = "";
 		String  email = "ann@email.com";
-		String phone = "99889988834";
+		String phone = "998-899-8884";;
 		String insurance = "Cigna";
 		String userName = "annKot";
 		String userPass = "12345678";
@@ -171,7 +171,7 @@ public class ManagerHandlerTest {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
-		String phone = "99999999";
+		String phone = "998-899-8884";
 		String insurance = "";
 		String userName = "annKot";
 		String userPass = "12345678";
@@ -192,7 +192,7 @@ public class ManagerHandlerTest {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
-		String phone = "99999999";
+		String phone = "998-899-8884";
 		String insurance = "Cigna";
 		String userName = "";
 		String userPass = "12345678";
@@ -213,7 +213,7 @@ public class ManagerHandlerTest {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
-		String phone = "99999999";
+		String phone = "998-899-8883";
 		String insurance = "Cigna";
 		String userName = "annKot1";
 		String userPass = "";
@@ -336,7 +336,7 @@ public class ManagerHandlerTest {
 		String fName = "AnnetteRachel1";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
-		String phone = "99999999";
+		String phone = "999-999-9999";
 		String insurance = "Cigna";
 		String userName = "annKotRac1";
 		String userPass = "12345678";
@@ -364,7 +364,7 @@ public class ManagerHandlerTest {
 		String fName = "AnnetteRachel";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
-		String phone = "99999999";
+		String phone = "999-999-9988";
 		String insurance = "Cigna";
 		String userName = "annKotRac";
 		String userPass = "12345678";
@@ -390,7 +390,7 @@ public class ManagerHandlerTest {
 		String fName = "AnnetteRachel123456yeyeteyety";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
-		String phone = "99999999";
+		String phone = "999-999-9999";
 		String insurance = "Cigna";
 		String userName = "annKotRac1";
 		String userPass = "12345678";
@@ -414,7 +414,7 @@ public class ManagerHandlerTest {
 		String fName = "AnnetteRachel123456yeyeteyety";
 		String lName = "Kotian";
 		String  email = "ann@email.com";
-		String phone = "99999999";
+		String phone = "999-999-9999";
 		String hiId = "Cigna";
 		String userName = "annKotRac1";
 		String userPass = "12345678";
