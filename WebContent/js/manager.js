@@ -181,7 +181,7 @@ function populateTrainerTable(trainers) {
 			if(selectedTrainerRow != null) {
 				selectedTrainerRow.id = "";
 			}
-			selectedTrainerRow = event.target;
+			selectedTrainerRow = event.target.parentElement;
 			selectedTrainerRow.id = "trainerTableRowSelected";
 			document.getElementById("modifyTrainer").disabled = false;
 			document.getElementById("deleteTrainer").disabled = false;
