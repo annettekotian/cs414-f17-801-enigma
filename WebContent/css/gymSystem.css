@@ -199,16 +199,12 @@ margin-top:3%;
 /**************add manager, customer modal ****/
 #managerFirstNameDiv, #managerEmailDiv, #managerStreetDiv, #managerStateDiv, #managerUserNameDiv, #managerHealthInuranceDiv,
 #customerFirstNameDiv, #customerEmailDiv, #customerStreetDiv , #customerStateDiv, #customerHealthInuranceDiv{
-	float:left;
+	/* float:left; */
 	
 }
 
-#addManagerModal h3{
-	margin-left: 10px;
-}
-
 .managerInputDiv, .customerInputDiv{
-	padding: 10px;
+	padding-bottom: 3px;
 }
 
 .managerInput, .customerInput {
@@ -222,10 +218,15 @@ margin-top:3%;
 }
 
 #createManagerButton, #createCustomerButton, #editCustomerButton {
-	margin: 10px;
+	margin: 0px;
+
 	
 }
 
 #createCustomerHeader, #editCustomerHeader, #createCustomerButton, #editCustomerButton {
 	display:none
+}
+
+#confirmManagerPasswordDiv, #customerMembershipDiv{
+	padding-bottom: 10px;
 }
