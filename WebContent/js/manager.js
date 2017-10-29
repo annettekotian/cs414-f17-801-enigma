@@ -513,7 +513,15 @@ $("#createManagerButton").on("click", function (){
 			if(exception.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0) {
 				alert("Username already exists");
 				return;
-			} 
+			}
+			if(exception.responseText.indexOf("Zipcode") >= 0) {
+				alert("Zipcode must be 5 digits");
+				return;
+			}
+			if(exception.responseText.indexOf("Phone") >= 0) {
+				alert("Phone number must be 10 digits in format ###-###-####");
+				return;
+			}
 			alert("Error: " + exception);
 		}
 	});

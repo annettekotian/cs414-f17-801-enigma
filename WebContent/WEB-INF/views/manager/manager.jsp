@@ -295,7 +295,7 @@
 			</div>
 			<div id="managerPhoneDiv" class="managerInputDiv">
 				<label>Phone no. </label><br/>
-				<input id="managerPhone" class="managerInput" type="number" placeholder=" Enter phone no"/>
+				<input id="managerPhone" class="managerInput" placeholder=" Enter phone no"/>
 			</div>
 			<div id="managerStreetDiv" class="managerInputDiv">
 				<label>Street</label><br/>
@@ -311,7 +311,7 @@
 			</div>
 			<div id="managerZipDiv" class="managerInputDiv">
 				<label>Zip code</label><br/>
-				<input id="managerZip" class="managerInput" type="number" placeholder=" Enter zip"/>
+				<input id="managerZip" class="managerInput" placeholder=" Enter zip"/>
 			</div>
 			
 			<div id="managerUserNameDiv" class="managerInputDiv">
