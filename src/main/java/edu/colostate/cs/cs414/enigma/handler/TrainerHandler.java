@@ -47,6 +47,12 @@ public class TrainerHandler {
 		if(!password.equals(confirmPassword)) {
 			throw new IllegalArgumentException("Passwords do not match");
 		}
+		if(!zipcode.matches("^[0-9]{5}$")) {
+			throw new IllegalArgumentException("Zipcode must be 5 digits");
+		}
+		if(!phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
+			throw new IllegalArgumentException("Phone number must be 10 digits in format ###-###-####");
+		}
 		new InternetAddress(email).validate();
 	}
 	
