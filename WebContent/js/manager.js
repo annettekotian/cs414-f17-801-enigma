@@ -787,7 +787,6 @@ $(document).on('click', '.editCustomer', function() {
 			return;
 		}
 		
-		$.modal.close();
 		
 		$.ajax({
 			url: "/manager/ui",
@@ -795,6 +794,7 @@ $(document).on('click', '.editCustomer', function() {
 			data: postParams,
 			
 			success: function(data) {
+				$.modal.close();
 				var data = JSON.parse(data);
 				var customer = data.customer;
 				var status = data.status;
@@ -825,6 +825,13 @@ $(document).on('click', '.editCustomer', function() {
 					return;
 				}else if (exception.responseText.indexOf(" javax.mail.internet.AddressException") >=0 ) {
 					alert("Invalid email address");
+					return;
+				}else if(exception.responseText.indexOf("Zipcode") >= 0) {
+					alert("Zipcode must be 5 digits");
+					return;
+				}
+				else if(exception.responseText.indexOf("Phone") >= 0) {
+					alert("Phone number must be 10 digits in format ###-###-####");
 					return;
 				}
 				alert("Error" + exception);

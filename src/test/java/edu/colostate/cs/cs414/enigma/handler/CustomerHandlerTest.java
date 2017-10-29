@@ -221,6 +221,25 @@ public class CustomerHandlerTest {
 		
 		CustomerHandler ch = new CustomerHandler();
 		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+	
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateCustomerWithWrongPhoneFormat() throws AddressException{
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "88888888";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		
+		CustomerHandler ch = new CustomerHandler();
+		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
 		
 		
 	}
@@ -320,6 +339,24 @@ public class CustomerHandlerTest {
 		
 	}
 
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateCustomerWithIncorrectZipFormat() throws AddressException{
+		
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99889988834";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "88888888";
+		String membershipStatus = "ACTIVE";
+		
+		CustomerHandler ch = new CustomerHandler();
+		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		
+	}
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoMembership() throws AddressException{
 		
@@ -424,8 +461,25 @@ public class CustomerHandlerTest {
 		String zip = "80521";
 		String membershipStatus = "ACTIVE";
 		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(c2);
 		
+		
+	}
+	@Test (expected = AddressException.class)
+	public void testUpdateCustomerWithInvalideEmail() throws AddressException {
+		
+		Customer c1 = createCustomer();
+		persistedObjects.add(c1);
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann";
+		String phone = "999-999-9999";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -444,7 +498,7 @@ public class CustomerHandlerTest {
 		String zip = "80521";
 		String membershipStatus = "ACTIVE";
 		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(c2);
+		
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -463,7 +517,7 @@ public class CustomerHandlerTest {
 		String zip = "80521";
 		String membershipStatus = "ACTIVE";
 		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(c2);
+		
 		
 	}
 	
@@ -483,8 +537,25 @@ public class CustomerHandlerTest {
 		String zip = "80521";
 		String membershipStatus = "ACTIVE";
 		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(c2);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testUpdateCustomerWithInvalidPhone() throws AddressException {
 		
+		Customer c1 = createCustomer();
+		persistedObjects.add(c1);
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "annette@gmail.com";
+		String phone = "999-9999999";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+			
 	}
 	
 	
@@ -496,7 +567,7 @@ public class CustomerHandlerTest {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "annette@gmail.com";
-		String phone = "98765465";
+		String phone = "999-999-9999";
 		String insurance = "";
 		String street = "720 City park";
 		String city = "Fort Collins";
@@ -517,7 +588,7 @@ public class CustomerHandlerTest {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "annette@gmail.com";
-		String phone = "98765465";
+		String phone = "999-999-9999";
 		String insurance = "Cigna";
 		String street = "";
 		String city = "Fort Collins";
@@ -537,7 +608,7 @@ public class CustomerHandlerTest {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "annette@gmail.com";
-		String phone = "98765465";
+		String phone = "999-999-9999";
 		String insurance = "Cigna";
 		String street = "720 City Park";
 		String city = "";
@@ -557,7 +628,7 @@ public class CustomerHandlerTest {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "annette@gmail.com";
-		String phone = "98765465";
+		String phone = "999-999-9999";
 		String insurance = "Cigna";
 		String street = "720 City Park";
 		String city = "Fort Collins";
@@ -577,7 +648,7 @@ public class CustomerHandlerTest {
 		String fName = "Annette";
 		String lName = "Kotian";
 		String  email = "annette@gmail.com";
-		String phone = "98765465";
+		String phone = "999-999-9999";
 		String insurance = "Cigna";
 		String street = "720 City Park";
 		String city = "Fort Collins";
@@ -588,6 +659,25 @@ public class CustomerHandlerTest {
 		assertNull(c2);;
 	}
 
+	@Test (expected = IllegalArgumentException.class)
+	public void testUpdateCustomerWithInvalidZip() throws AddressException{
+		
+		Customer c1 = createCustomer();
+		persistedObjects.add(c1);
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "annette@gmail.com";
+		String phone = "999-999-9999";
+		String insurance = "Cigna";
+		String street = "720 City Park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "88888888";
+		String membershipStatus = "ACTIVE";
+		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		assertNull(c2);;
+	}
+	
 	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoMembership() throws AddressException {
 		
@@ -616,7 +706,7 @@ public class CustomerHandlerTest {
 		String fName = "Annette123";
 		String lName = "Kotian123";
 		String  email = "annett123e@gmail.com";
-		String phone = "98765465123";
+		String phone = "999-999-9999";
 		String insurance = "Blue Cross Blue Shield";
 		String street = "720 City Park123";
 		String city = "Fort Collins123";

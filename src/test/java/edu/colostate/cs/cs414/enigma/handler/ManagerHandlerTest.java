@@ -166,6 +166,27 @@ public class ManagerHandlerTest {
 			
 	}
 	
+
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateManagerWithWrongPhoneformat() throws AddressException {
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "88888888";
+		String insurance = "Cigna";
+		String userName = "annKot";
+		String userPass = "12345678";
+		String confirmPass = "12345678";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
+		//assertNull(m);
+			
+	}
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithNoHI() throws AddressException{
 		String fName = "Annette";
@@ -305,6 +326,26 @@ public class ManagerHandlerTest {
 		String city = "Fort Collins";
 		String state = "Colorado";
 		String zip = "";
+		
+		ManagerHandler mh = new ManagerHandler();
+		Manager m = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
+		//assertNull(m);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateManagerWithIncorrectZipFormat() throws AddressException {
+		String fName = "Annette";
+		String lName = "Kotian";
+		String  email = "ann@email.com";
+		String phone = "99999999";
+		String insurance = "Cigna";
+		String userName = "annKot1";
+		String userPass = "12345678";
+		String confirmPass = "12345678";
+		String street = "720 City Park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "88798888888";
 		
 		ManagerHandler mh = new ManagerHandler();
 		Manager m = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
