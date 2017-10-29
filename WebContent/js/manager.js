@@ -688,8 +688,17 @@ $("#createCustomerButton").on("click", function (){
 			if(exception.responseText.indexOf("Missing input") >= 0) {
 				alert("Could not create customer! Some input fields were missing");
 				return;
-			} else if (exception.responseText.indexOf(" javax.mail.internet.AddressException") >=0 ) {
+			}
+			if (exception.responseText.indexOf(" javax.mail.internet.AddressException") >=0 ) {
 				alert("Invalid email address");
+				return;
+			}
+			if(exception.responseText.indexOf("Zipcode") >= 0) {
+				alert("Zipcode must be 5 digits");
+				return;
+			}
+			if(exception.responseText.indexOf("Phone") >= 0) {
+				alert("Phone number must be 10 digits in format ###-###-####");
 				return;
 			}
 			alert("Error" + exception);

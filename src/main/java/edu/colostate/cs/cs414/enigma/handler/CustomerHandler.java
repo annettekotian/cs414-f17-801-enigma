@@ -109,6 +109,14 @@ public class CustomerHandler {
 		} catch (AddressException e) {
 			throw e;
 		}
+		if(!zip.matches("^[0-9]{5}$")) {
+			throw new IllegalArgumentException("Zipcode must be 5 digits");
+		}
+		if(!phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
+			throw new IllegalArgumentException("Phone number must be 10 digits in format ###-###-####");
+		}
+		
+		
 		// Establish a connection to the database
 		EntityManagerDao dao = new EntityManagerDao();
 
