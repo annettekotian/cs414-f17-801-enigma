@@ -363,16 +363,25 @@ public class ManagerServlet extends HttpServlet {
 			String healthInsurance = request.getParameter("healthInsurance");
 			String userName = request.getParameter("userName");
 			String password = request.getParameter("password");
+			String confirmPassword = request.getParameter("confirmPassword");
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			try {
 				Trainer newTrainer = new TrainerHandler().createNewTrainer(firstName, lastName, phoneNumber, email,
-						street, city, state, zipcode, healthInsurance, userName, password);	
+						street, city, state, zipcode, healthInsurance, userName, password, confirmPassword);	
 				returnValues.put("rc", "0");
 			}
 			catch(PersistenceException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getCause().getCause().toString());
+			}
+			catch(AddressException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e);
+			}
+			catch(IllegalArgumentException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e);
 			}
 			catch(Exception e) {
 				response.sendError(500, e.toString());
@@ -394,17 +403,26 @@ public class ManagerServlet extends HttpServlet {
 			String healthInsurance = request.getParameter("healthInsurance");
 			String userName = request.getParameter("userName");
 			String password = request.getParameter("password");
+			String confirmPassword = request.getParameter("confirmPassword");
 			int trainerId = Integer.parseInt(request.getParameter("id"));
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			try {
 				Trainer newTrainer = new TrainerHandler().modifyTrainer(trainerId, firstName, lastName, phoneNumber,
-						email, street, city, state, zipcode, healthInsurance, userName, password);	
+						email, street, city, state, zipcode, healthInsurance, userName, password, confirmPassword);	
 				returnValues.put("rc", "0");
 			}
 			catch(PersistenceException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getCause().getCause().toString());
+			}
+			catch(AddressException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getMessage());
+			}
+			catch(IllegalArgumentException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getMessage());
 			}
 			catch(Exception e) {
 				response.sendError(500, e.toString());

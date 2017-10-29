@@ -6,10 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.persistence.PersistenceException;
 
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
-import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.Qualification;
 import edu.colostate.cs.cs414.enigma.entity.State;
@@ -20,7 +21,6 @@ import edu.colostate.cs.cs414.enigma.entity.WorkHours;
 import edu.colostate.cs.cs414.enigma.entity.WorkHoursException;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
-import edu.colostate.cs.cs414.enigma.entity.Customer;
 
 public class TrainerHandler {
 	
@@ -32,6 +32,22 @@ public class TrainerHandler {
 	
 	public void close() {
 		this.dao.close();
+	}
+	
+	private void validateTrainerInformation(String firstName, String lastName, String phoneNumber, String email, String street,
+			String city, String state, String zipcode, String healthInsurance, String userName, String password, String confirmPassword) throws AddressException, IllegalArgumentException {
+		
+		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || healthInsurance.isEmpty() || userName.isEmpty()
+				|| password.isEmpty() || street.isEmpty() || city.isEmpty() || zipcode.isEmpty() || state.isEmpty()) {			
+			throw new IllegalArgumentException("Missing Input");
+		}
+		if(password.length() < 0) {
+			throw new IllegalArgumentException("Password must be 8 characters");
+		}
+		if(!password.equals(confirmPassword)) {
+			throw new IllegalArgumentException("Passwords do not match");
+		}
+		new InternetAddress(email).validate();
 	}
 	
 	/**
@@ -47,11 +63,17 @@ public class TrainerHandler {
 	 * @param healthInsurance Health insurance of the trainer.
 	 * @param userName Unique user name of the trainer.
 	 * @param password Password of the trainer.
+	 * @param confirmPassword Password of the trainer.
 	 * @return Trainer
 	 * @throws PersistenceException
 	 */
 	public Trainer createNewTrainer(String firstName, String lastName, String phoneNumber, String email, String street,
-			String city, String state, String zipcode, String healthInsurance, String userName, String password) throws PersistenceException {
+			String city, String state, String zipcode, String healthInsurance, String userName, String password,
+			String confirmPassword) throws PersistenceException, AddressException, IllegalArgumentException {
+		
+		// Validate parameters
+		validateTrainerInformation(firstName, lastName, phoneNumber, email, street, city, state, zipcode,
+				healthInsurance, userName, password, confirmPassword);
 		
 		// Open up a connection to the db
 		EntityManagerDao dao = new EntityManagerDao();
@@ -113,9 +135,14 @@ public class TrainerHandler {
 	 * @return Trainer
 	 * @throws PersistenceException
 	 */
-	public Trainer modifyTrainer(int id, String firstName, String lastName, String phoneNumber, String email, String street,
-			String city, String state, String zipcode, String healthInsurance, String userName, String password) throws PersistenceException {
+	public Trainer modifyTrainer(int id, String firstName, String lastName, String phoneNumber, String email,
+			String street, String city, String state, String zipcode, String healthInsurance, String userName,
+			String password, String confirmPassword) throws PersistenceException, AddressException, IllegalArgumentException {
 	
+		// Validate parameters
+		validateTrainerInformation(firstName, lastName, phoneNumber, email, street, city, state, zipcode,
+						healthInsurance, userName, password, confirmPassword);
+		
 		// Open up a connection to the db
 		EntityManagerDao dao = new EntityManagerDao();
 		

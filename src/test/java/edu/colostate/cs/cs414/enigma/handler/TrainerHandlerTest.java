@@ -60,7 +60,7 @@ public class TrainerHandlerTest {
 	}
 	/********* Test for new trainer **************/ 
 	@Test
-	public void presistNewTrainer() {
+	public void presistNewTrainer() throws Exception {
 		String firstName = "John";
 		String lastName = "Doe";
 		String email = "johndoe@email.com";
@@ -73,12 +73,12 @@ public class TrainerHandlerTest {
 		String userName = "johndoe";
 		String password = "password";
 		TrainerHandler th = new TrainerHandler();
-		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password);
+		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
 		persistedObjects.add(newTrainer);
 	}
 	
 	@Test(expected = PersistenceException.class)
-	public void presistNewTrainerDuplicateUsername() {
+	public void presistNewTrainerDuplicateUsername() throws Exception {
 		String firstName = "John";
 		String lastName = "Doe";
 		String email = "johndoe@email.com";
@@ -91,7 +91,7 @@ public class TrainerHandlerTest {
 		String userName = "johndoe";
 		String password = "password";
 		TrainerHandler th = new TrainerHandler();
-		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password);
+		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
 		persistedObjects.add(newTrainer);
 		
 		firstName = "John";
@@ -105,7 +105,7 @@ public class TrainerHandlerTest {
 		zip = "80521";
 		userName = "johndoe";
 		password = "password";
-		newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password);
+		newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
 	}
 	
 	

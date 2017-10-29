@@ -1048,23 +1048,7 @@ function modifyTrainerInformation() {
 	$("#modifyTrainerForm").modal();
 }
 
-function verifyTrainerForm() {
-	if(document.getElementById("modifyPassword").value != document.getElementById("modifyConfirmPassword").value) {
-		alert("Passwords are not the same");
-		return false;
-	}
-	if(document.getElementById("modifyPassword").value.length < 8) {
-		alert("Passwords must be at least 8 characters");
-		return false;
-	}
-		
-	return true;
-}
-
 function submitTrainerForm() {
-	if(!verifyTrainerForm()) {
-		return;
-	}
 	
 	var postParams = {};
 	postParams.id = trainerId;
@@ -1072,6 +1056,7 @@ function submitTrainerForm() {
 	postParams.lastName = $("#modifyLastName").val();
 	postParams.userName = $("#modifyUserName").val();
 	postParams.password = $("#modifyPassword").val();
+	postParams.confirmPassword = $("#modifyConfirmPassword").val();
 	postParams.email = $("#modifyEmail").val();
 	postParams.phone = $("#modifyPhoneNumber").val();
 	postParams.street = $("#modifyStreet").val();
