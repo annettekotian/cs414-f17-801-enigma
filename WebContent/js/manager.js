@@ -788,7 +788,7 @@ $(document).on('click', '.editCustomer', function() {
 				
 				var tr = $("#customerResults table").find("tr[data-id='" + customer.id+"']");
 				tr.empty();
-				tr.append("<td><a class='editCustomer' href='#'>Edit</a></td>" +
+				tr.append("<td><a class='editCustomer' href='#'>Edit</a><span>&nbsp;</span><a class='deleteCustomer' href='#'>Delete</a></td>" +
 						"<td>" +  customer.id+"</td> " + 
 						"<td> " + customer.personalInformation.firstName+ "</td> " + 
 						" <td> " + customer.personalInformation.lastName +"</td> " +
