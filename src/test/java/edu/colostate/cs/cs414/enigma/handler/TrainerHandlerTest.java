@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.AddressException;
 import javax.persistence.PersistenceException;
 
 import org.junit.After;
@@ -64,7 +65,7 @@ public class TrainerHandlerTest {
 		String firstName = "John";
 		String lastName = "Doe";
 		String email = "johndoe@email.com";
-		String phone = "5555555555";
+		String phone = "555-555-5555";
 		String insurance = "Cigna";
 		String street = "720 City park";
 		String city = "Fort Collins";
@@ -82,7 +83,7 @@ public class TrainerHandlerTest {
 		String firstName = "John";
 		String lastName = "Doe";
 		String email = "johndoe@email.com";
-		String phone = "5555555555";
+		String phone = "555-555-5555";
 		String insurance = "Cigna";
 		String street = "720 City park";
 		String city = "Fort Collins";
@@ -97,7 +98,7 @@ public class TrainerHandlerTest {
 		firstName = "John";
 		lastName = "Doe";
 		email = "johndoe@email.com";
-		phone = "5555555555";
+		phone = "555-555-5555";
 		insurance = "Cigna";
 		street = "720 City park";
 		city = "Fort Collins";
@@ -113,9 +114,9 @@ public class TrainerHandlerTest {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);
-		Address newAddress = new Address("12345 Ave", "My Town", "55555-5555", colorado);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
-		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
 		parameters = new HashMap<String, Object>();
 		parameters.put("level", "TRAINER");
 		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
@@ -143,7 +144,6 @@ public class TrainerHandlerTest {
 	public void addWorkHours() throws WorkHoursException {
 		Trainer trainer = createArbitraryTrainer();
 		int trainerId = trainer.getId();
-		String qualification = "Iron Man";
 		
 		Date startDateTime = new Date();
 		startDateTime.setYear(startDateTime.getYear() + 1);
@@ -156,5 +156,56 @@ public class TrainerHandlerTest {
 		th.addWorkHours(trainerId, startDateTime, endDateTime);
 		
 		th.close();
+	}
+	
+	@Test(expected = AddressException.class)
+	public void incorrectEmailAddressFormat() throws Exception {
+		String firstName = "John";
+		String lastName = "Doe";
+		String email = "johndoe";
+		String phone = "555-555-5555";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String userName = "johndoe";
+		String password = "password";
+		TrainerHandler th = new TrainerHandler();
+		th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void incorrectZipcodeFormat() throws Exception {
+		String firstName = "John";
+		String lastName = "Doe";
+		String email = "johndoe";
+		String phone = "555-555-5555";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "805adsfasdf21";
+		String userName = "johndoe";
+		String password = "password";
+		TrainerHandler th = new TrainerHandler();
+		th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void emptyCreateTrainerParameters() throws Exception {
+		String firstName = "John";
+		String lastName = "Doe";
+		String email = "johndoe";
+		String phone = "555-555-5555";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "";
+		String userName = "johndoe";
+		String password = "password";
+		TrainerHandler th = new TrainerHandler();
+		th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
 	}
 }
