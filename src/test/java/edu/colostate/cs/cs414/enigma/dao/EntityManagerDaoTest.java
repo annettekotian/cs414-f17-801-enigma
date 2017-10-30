@@ -18,7 +18,9 @@ import org.junit.Test;
 
 import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
+import edu.colostate.cs.cs414.enigma.entity.Exercise;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
+import edu.colostate.cs.cs414.enigma.entity.Machine;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
@@ -328,5 +330,28 @@ public class EntityManagerDaoTest {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", trainer.getId());
 		trainer = (Trainer) dao.querySingle("Trainer.findById", params);
+	}
+	
+	@Test
+	public void persistNewMachine() throws Exception {
+		Machine machine = new Machine("Treadmill", "/images/treadmill.png", 1);
+		dao.persist(machine);
+		persistedObjects.add(machine);
+	}
+	
+	@Test
+	public void persistNewExercise() {
+		Exercise exercise = new Exercise("Push-ups", "/images/push-ups.png");
+		dao.persist(exercise);
+		persistedObjects.add(exercise);
+	}
+	
+	@Test
+	public void persistNewExerciseMachine() throws Exception {
+		Machine machine = new Machine("Treadmill", "/images/treadmill.png", 1);
+		Exercise exercise = new Exercise("Push-ups", "/images/push-ups.png", machine);
+		dao.persist(exercise);
+		persistedObjects.add(exercise);
+		persistedObjects.add(exercise.getMachine());
 	}
 }
