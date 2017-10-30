@@ -18,6 +18,15 @@ body{
 	line-height: 40px
 }
 
+tr.trainerTableRow:hover{
+	color:steelblue;
+	cursor:pointer;
+}
+
+#trainerTableRowSelected{
+	background-color:gainsboro;
+}
+
 
  #logoutLink {
 	float:right;
@@ -41,14 +50,12 @@ body{
 
 }
 
-#trainerLi {
-	background:darkgrey;
-}
+
 
 #menuBarDiv{
 background: gainsboro;	
 width: 40%;
-margin-left:19.8%;
+margin-left:27.5%;
 margin-top:3%;
 }
 
@@ -59,17 +66,47 @@ margin-top:3%;
 }
 
 .menuLi{
-	float:left
+	float:left;
+	color:black;
 }
 
-#addTrainer {
-		margin-left: 300px;
+#addManager, #addCustomer, #addMachine {
+		margin-left: 170px;
+		display:none;
 	
 }
 
+#addTrainer {
+	margin-left: 167px
+}
+
+.addButtons a{
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+}
+
+#searchManagerInput {
+	margin-left: 705px;
+}
+
+#searchCustomerInput {
+	margin-left: 832px;
+}
+
+.searchManager, .searchCustomer {
+	display: none;
+}
+
+#searchTrainerInput{
+	margin-left:280px;
+}
+
+/*********************** all results tables *********************/
 #trainerResults {
-	margin-left:300px;
+	margin-left:165px;
 	margin-top: 20px;
+	display:none;
 	
 }
 
@@ -87,4 +124,109 @@ margin-top:3%;
 
 #trainerResults tr {
 	height: 45px;
+}
+
+#managerResults {
+	margin-left:165px;
+	margin-top: 20px;
+	display:none;
+	
+}
+
+#managerResults table {
+	font-size:13px;
+	text-align:center;
+	border:1px solid black;
+}
+
+ #managerResults th, #managerResults td {
+	width: 150px;
+	border:1px solid black;
+	
+}
+
+#managerResults tr {
+	height: 45px;
+}
+
+#customerResults {
+	margin-left:165px;
+	margin-top: 20px;
+	display:none;
+	
+}
+
+#customerResults table {
+	font-size:13px;
+	text-align:center;
+	border:1px solid black;
+}
+
+ #customerResults th, #customerResults td {
+	width: 130px;
+	border:1px solid black;
+	
+}
+
+#customerResults tr {
+	height: 50px;
+}
+
+#inventoryResults {
+	margin-left:165px;
+	margin-top: 20px;
+	display:none;
+	
+}
+
+#inventoryResults table {
+	font-size:13px;
+	text-align:center;
+	border:1px solid black;
+}
+
+ #inventoryResults th, #inventoryResults td {
+	width: 150px;
+	border:1px solid black;
+	
+}
+
+#inventoryResults tr {
+	height: 45px;
+}
+
+
+/**************add manager, customer modal ****/
+#managerFirstNameDiv, #managerEmailDiv, #managerStreetDiv, #managerStateDiv, #managerUserNameDiv, #managerHealthInuranceDiv,
+#customerFirstNameDiv, #customerEmailDiv, #customerStreetDiv , #customerStateDiv, #customerHealthInuranceDiv{
+	/* float:left; */
+	
+}
+
+.managerInputDiv, .customerInputDiv{
+	padding-bottom: 3px;
+}
+
+.managerInput, .customerInput {
+	width: 198px;
+}
+
+.modal a {
+	text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+}
+
+#createManagerButton, #createCustomerButton, #editCustomerButton {
+	margin: 0px;
+
+	
+}
+
+#createCustomerHeader, #editCustomerHeader, #createCustomerButton, #editCustomerButton {
+	display:none
+}
+
+#confirmManagerPasswordDiv, #customerMembershipDiv{
+	padding-bottom: 10px;
 }

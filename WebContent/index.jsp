@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<div id="topHeaderDiv" ><span>Welcome to Gym Managment System</span> </div>
+<div id="topHeaderDiv" ><span>Welcome to Gym Management System</span> </div>
 <div id="formDiv">
 
 	<h2>Gym System Login</h2>
@@ -26,34 +26,15 @@
 				<td><input id="password" name="password" type="password"/></td>
 			</tr>
 			<tr>
-				<td><input type="button" onclick="sumbitLoginForm()" value="Login" /></td>
+				<td><input type="submit" value="Login" /></td>
 			</tr>
 		</table>
 	</form>
 </div>
 
-<script>
-function sumbitLoginForm() {
-	var userName = $("input#username").val();
-	var password = $("input#password").val();
-	$.ajax({
-		url: "Login",
-		method: "POST",
-		data: {
-			type: "loginUser",
-			userName: userName,
-			password: password	
-		},
-		success: function(data, textStatus, jqXHR) {
-			if(data.isLoggedIn == "true") {
-				window.location.href = data.url;
-			}
-			else {
-				alert("Incorrect user name and/or password!");
-			}
-		}
-	});
-}
+
+
+
 </script>
 
 </body>
