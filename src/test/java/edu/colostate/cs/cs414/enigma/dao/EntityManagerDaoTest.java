@@ -18,6 +18,7 @@ import org.junit.Test;
 
 import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
+import edu.colostate.cs.cs414.enigma.entity.ExerciseDuration;
 import edu.colostate.cs.cs414.enigma.entity.Exercise;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
 import edu.colostate.cs.cs414.enigma.entity.Machine;
@@ -25,6 +26,7 @@ import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.Qualification;
+import edu.colostate.cs.cs414.enigma.entity.ExerciseSet;
 import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
@@ -349,9 +351,35 @@ public class EntityManagerDaoTest {
 	@Test
 	public void persistNewExerciseMachine() throws Exception {
 		Machine machine = new Machine("Treadmill", "/images/treadmill.png", 1);
-		Exercise exercise = new Exercise("Push-ups", "/images/push-ups.png", machine);
+		Exercise exercise = new Exercise("Push-ups", "/images/push-ups.png");
+		exercise.setMachine(machine);
 		dao.persist(exercise);
 		persistedObjects.add(exercise);
 		persistedObjects.add(exercise.getMachine());
+	}
+	
+	@Test
+	public void persistNewExerciseDuration() throws Exception {
+		ExerciseDuration duration = new ExerciseDuration(5, 5, 5);
+		Exercise exercise = new Exercise("Push-ups", "/images/push-ups.png");
+		exercise.setDuration(duration);
+		dao.persist(exercise);
+		persistedObjects.add(exercise);
+	}
+	
+	@Test
+	public void persistNewExerciseSet() throws Exception {
+		Exercise exercise = new Exercise("Push-ups", "/images/push-ups.png");
+		dao.persist(exercise);
+		
+		ExerciseSet set = new ExerciseSet(5);
+		exercise.addSet(set);
+		dao.update(exercise);
+		
+		exercise.deleteSets();
+		dao.update(exercise);
+		
+		persistedObjects.add(set);
+		persistedObjects.add(exercise);
 	}
 }

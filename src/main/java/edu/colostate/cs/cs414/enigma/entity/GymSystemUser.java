@@ -22,7 +22,7 @@ public abstract class GymSystemUser {
 	private PersonalInformation personalInformation;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn (name="user_id", unique=true, nullable=false, updatable=false)
+	@JoinColumn(name="user_id", unique=true, nullable=false, updatable=false)
 	private User user;
 
 	public GymSystemUser(PersonalInformation personalInformation, User user) {
