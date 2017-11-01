@@ -430,4 +430,68 @@ public class EntityManagerDaoTest {
 		persistedObjects.add(exercise2);
 		persistedObjects.add(workout);
 	}
+	
+	@Test
+	public void addWorkoutToCustomer() {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("type", "ACTIVE");
+		Membership membership = (Membership) dao.querySingle("Membership.findType", parameters);
+		parameters = new HashMap<String, Object>();
+		parameters.put("state", "Colorado");
+		State colorado = (State) dao.querySingle("State.findState", parameters);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
+		HealthInsurance insurance = new HealthInsurance("Free Insurance");
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		Customer customer = new Customer(personalInformation, membership);
+		dao.persist(customer);
+		persistedObjects.add(customer);
+		persistedObjects.add(insurance);
+		
+		Exercise exercise1 = new Exercise("Push-ups", "/images/push-ups.png");
+		Exercise exercise2 = new Exercise("Jumping Jacks", "/images/jumping-jacks.png");
+		Workout workout =  new Workout("Extreme Workout");
+		workout.addExercise(exercise1);
+		workout.addExercise(exercise2);
+		dao.persist(workout);
+		persistedObjects.add(exercise1);
+		persistedObjects.add(exercise2);
+		persistedObjects.add(workout);
+		
+		customer.addWorkout(workout);
+		dao.update(customer);
+	}
+	
+	@Test
+	public void removeWorkoutFromCustomer() {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("type", "ACTIVE");
+		Membership membership = (Membership) dao.querySingle("Membership.findType", parameters);
+		parameters = new HashMap<String, Object>();
+		parameters.put("state", "Colorado");
+		State colorado = (State) dao.querySingle("State.findState", parameters);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
+		HealthInsurance insurance = new HealthInsurance("Free Insurance");
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		Customer customer = new Customer(personalInformation, membership);
+		dao.persist(customer);
+		persistedObjects.add(customer);
+		persistedObjects.add(insurance);
+		
+		Exercise exercise1 = new Exercise("Push-ups", "/images/push-ups.png");
+		Exercise exercise2 = new Exercise("Jumping Jacks", "/images/jumping-jacks.png");
+		Workout workout =  new Workout("Extreme Workout");
+		workout.addExercise(exercise1);
+		workout.addExercise(exercise2);
+		dao.persist(workout);
+		persistedObjects.add(exercise1);
+		persistedObjects.add(exercise2);
+		persistedObjects.add(workout);
+		
+		customer.addWorkout(workout);
+		dao.update(customer);
+		
+		customer.removeWorkout(workout);
+		dao.update(customer);
+		assertEquals("Failed to remove workout from customer", customer.getWorkouts().size(), 0);
+	}
 }
