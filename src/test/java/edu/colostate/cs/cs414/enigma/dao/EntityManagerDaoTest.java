@@ -32,6 +32,7 @@ import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
 import edu.colostate.cs.cs414.enigma.entity.WorkHours;
+import edu.colostate.cs.cs414.enigma.entity.Workout;
 import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 public class EntityManagerDaoTest {
@@ -381,5 +382,52 @@ public class EntityManagerDaoTest {
 		
 		persistedObjects.add(set);
 		persistedObjects.add(exercise);
+	}
+	
+	@Test
+	public void persisNewWorkout() throws Exception {
+		Exercise exercise = new Exercise("Push-ups", "/images/push-ups.png");
+		
+		Workout workout =  new Workout("Extreme Workout");
+		workout.addExercise(exercise);
+		
+		dao.persist(workout);
+		
+		persistedObjects.add(exercise);
+		persistedObjects.add(workout);
+	}
+	
+	@Test
+	public void persisNewWorkoutMultipleExercises() throws Exception {
+		Exercise exercise1 = new Exercise("Push-ups", "/images/push-ups.png");
+		Exercise exercise2 = new Exercise("Jumping Jacks", "/images/jumping-jacks.png");
+		
+		Workout workout =  new Workout("Extreme Workout");
+		workout.addExercise(exercise1);
+		workout.addExercise(exercise2);
+		dao.persist(workout);
+		
+		persistedObjects.add(exercise1);
+		persistedObjects.add(exercise2);
+		persistedObjects.add(workout);
+	}
+	
+	@Test
+	public void removeSingleExerciseFromWorkout() throws Exception {
+		Exercise exercise1 = new Exercise("Push-ups", "/images/push-ups.png");
+		Exercise exercise2 = new Exercise("Jumping Jacks", "/images/jumping-jacks.png");
+		
+		Workout workout =  new Workout("Extreme Workout");
+		workout.addExercise(exercise1);
+		workout.addExercise(exercise2);
+		dao.persist(workout);
+		
+		workout.removeExercise(exercise2);
+		dao.update(workout);
+		assertEquals("Failed to remove exercise from workout", workout.getExercises().size(), 1);
+		
+		persistedObjects.add(exercise1);
+		persistedObjects.add(exercise2);
+		persistedObjects.add(workout);
 	}
 }
