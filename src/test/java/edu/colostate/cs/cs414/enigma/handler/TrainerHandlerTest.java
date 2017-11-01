@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
+import edu.colostate.cs.cs414.enigma.entity.Exercise;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.State;
@@ -282,6 +283,72 @@ public class TrainerHandlerTest {
 		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
 		persistedObjects.add(newTrainer);
 		th.deleteTrainer(newTrainer.getId());
+		th.close();
+	}
+	
+	@Test
+	public void createDeleteExerciseNoDurationNoSetsNoMachine() throws Exception {
+		String name = "push-ups";
+		String pictureLocation = "/tmp/push_up.png";
+		int machineId = 0;
+		int hours = 0;
+		int minutes = 0;
+		int seconds = 0;
+		List<Integer> repetitions = new ArrayList<Integer>();
+		TrainerHandler th = new TrainerHandler();
+		Exercise newExercise = th.createExercise(name, pictureLocation, machineId, hours, minutes, seconds, repetitions);
+		th.deleteExercise(newExercise.getId());
+		th.close();
+	}
+	
+	@Test
+	public void createDeleteExerciseDurationNoSetsNoMachine() throws Exception {
+		String name = "push-ups";
+		String pictureLocation = "/tmp/push_up.png";
+		int machineId = 0;
+		int hours = 0;
+		int minutes = 10;
+		int seconds = 0;
+		List<Integer> repetitions = new ArrayList<Integer>();
+		TrainerHandler th = new TrainerHandler();
+		Exercise newExercise = th.createExercise(name, pictureLocation, machineId, hours, minutes, seconds, repetitions);
+		th.deleteExercise(newExercise.getId());
+		th.close();
+	}
+	
+	@Test
+	public void createDeleteExerciseNoDurationSetsNoMachine() throws Exception {
+		String name = "push-ups";
+		String pictureLocation = "/tmp/push_up.png";
+		int machineId = 0;
+		int hours = 0;
+		int minutes = 0;
+		int seconds = 0;
+		List<Integer> repetitions = new ArrayList<Integer>();
+		repetitions.add(5);
+		repetitions.add(10);
+		repetitions.add(15);
+		TrainerHandler th = new TrainerHandler();
+		Exercise newExercise = th.createExercise(name, pictureLocation, machineId, hours, minutes, seconds, repetitions);
+		th.deleteExercise(newExercise.getId());
+		th.close();
+	}
+
+	@Test
+	public void createDeleteExerciseDurationSetsNoMachine() throws Exception {
+		String name = "push-ups";
+		String pictureLocation = "/tmp/push_up.png";
+		int machineId = 0;
+		int hours = 0;
+		int minutes = 10;
+		int seconds = 0;
+		List<Integer> repetitions = new ArrayList<Integer>();
+		repetitions.add(5);
+		repetitions.add(10);
+		repetitions.add(15);
+		TrainerHandler th = new TrainerHandler();
+		Exercise newExercise = th.createExercise(name, pictureLocation, machineId, hours, minutes, seconds, repetitions);
+		th.deleteExercise(newExercise.getId());
 		th.close();
 	}
 }

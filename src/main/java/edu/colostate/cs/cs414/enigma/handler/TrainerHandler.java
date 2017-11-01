@@ -11,6 +11,7 @@ import javax.mail.internet.InternetAddress;
 import javax.persistence.PersistenceException;
 
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
+import edu.colostate.cs.cs414.enigma.entity.Machine;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.Qualification;
 import edu.colostate.cs.cs414.enigma.entity.State;
@@ -21,6 +22,9 @@ import edu.colostate.cs.cs414.enigma.entity.WorkHours;
 import edu.colostate.cs.cs414.enigma.entity.WorkHoursException;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
+import edu.colostate.cs.cs414.enigma.entity.Exercise;
+import edu.colostate.cs.cs414.enigma.entity.ExerciseDuration;
+import edu.colostate.cs.cs414.enigma.entity.ExerciseSet;
 
 public class TrainerHandler {
 	
@@ -318,4 +322,77 @@ public class TrainerHandler {
 		dao.remove(trainer);
 	}
 	
+	public Exercise createExercise(String name, String pictureLocation, int machineId, int durationHours,
+			int durationMinutes, int durationSeconds, List<Integer> repetitions) throws PersistenceException {
+		
+		// Create a new exercise
+		Exercise exercise = new Exercise(name, pictureLocation);
+		
+		// Only add a duration if hours, mintues, and seconds are non-null
+		if(durationHours != 0 || durationMinutes != 0 || durationSeconds != 0) {
+			ExerciseDuration duration = new ExerciseDuration(durationHours, durationMinutes, durationSeconds);
+			exercise.setDuration(duration);
+		}
+		
+		// Only add a machine if the ID is not zero
+		if(machineId > 0) {
+			Machine machine = this.getMachineById(machineId);
+			exercise.setMachine(machine);
+		}
+		
+		// Persist the new exercise
+		dao.persist(exercise);
+		
+		// Check to see if repetitions need to be added
+		for(int i=0; i<repetitions.size(); i++) {
+			ExerciseSet set = new ExerciseSet(repetitions.get(i));
+			exercise.addSet(set);
+		}
+		if(repetitions.size() > 0) {
+			dao.update(exercise);
+		}
+		
+		return exercise;
+	}
+	
+	public void deleteExercise(int exerciseId) {
+		
+		// Get the exercise to be deleted
+		Exercise exercise = this.getExerciseById(exerciseId);
+		if(exercise == null) {
+			return;
+		}
+		
+		// All sets need to be deleted before removing the exercise
+		if(exercise.getSets().size() > 0) {
+			exercise.deleteSets();
+			dao.update(exercise);
+		}
+		
+		// Delete the exercise
+		dao.remove(exercise);
+	}
+	
+	public List<Exercise> getAllExercises() {
+		List<?> results = dao.query("Exercise.findAl", null);
+		List<Exercise> exercises = new ArrayList<Exercise>();
+		for(int i=0; i<results.size(); i++) {
+			exercises.add((Exercise) results.get(i));
+		}
+		return exercises;
+	}
+	
+	private Exercise getExerciseById(int exerciseId) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("id", exerciseId);
+		Exercise exercise = (Exercise) dao.querySingle("Exercise.findId", parameters);
+		return exercise;
+	}
+	
+	private Machine getMachineById(int machineId) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("id", machineId);
+		Machine machine = (Machine) dao.querySingle("Machine.findId", parameters);
+		return machine;
+	}
 }
