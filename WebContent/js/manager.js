@@ -1276,3 +1276,28 @@ function submitWorkHours() {
 		}
 	});
 }
+
+
+$("#addMachine").on("click", function(){
+	$("#machineModal").modal();
+});
+
+$("#machineForm").on("submit", function(e){
+	e.preventDefault();
+	var data = new FormData(this);
+	$.ajax({
+		url: "/manager/ui",
+		type: "POST",
+		data:  data,
+		contentType: false,
+		cache: false,
+		processData:false,
+		success: function(data){
+			$.modal.close();
+		},
+		error: function(){} 
+	})
+})
+
+
+

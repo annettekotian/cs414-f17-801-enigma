@@ -1,10 +1,17 @@
 package edu.colostate.cs.cs414.enigma.handler;
 
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
+import java.io.File;
+import java.io.IOException;
+
 import java.util.ArrayList;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -12,13 +19,12 @@ import javax.persistence.PersistenceException;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
-import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
+import edu.colostate.cs.cs414.enigma.entity.Machine;
+import edu.colostate.cs.cs414.enigma.entity.MachineException;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
-import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.State;
-import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
 
@@ -170,6 +176,26 @@ public class ManagerHandler  {
 			}
 		dao.close();
 		return managers;
+	}
+	
+	public Machine addMachine(String name, InputStream fileContent, String uploadPath, String quantity) throws IOException, MessagingException, 
+	MachineException {
+		EntityManagerDao dao = new EntityManagerDao();
+		
+		BufferedImage image = ImageIO.read(fileContent);
+		String fullName = name + ".png";
+		int noOfMachines = Integer.parseInt(quantity);
+		Machine m = new Machine(name, fullName, noOfMachines);
+		dao.persist(m);
+		int machineId = m.getId();
+		String fullNameWithId = machineId + "_" + fullName;
+		m.setPictureLocation(fullNameWithId);
+		dao.update(m);
+		String path = uploadPath +   "/"+ fullNameWithId;
+		File imageFile = new File(path);
+		ImageIO.write(image, "png", imageFile);
+		return m;
+		
 	}
 	
 

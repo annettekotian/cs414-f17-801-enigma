@@ -393,11 +393,27 @@
 			<button id="editCustomerButton">Submit changes</button>
 			<button id="cancelCustomerButton">Cancel</button>
 		</div>
+	</div>
 	
-	
-	
-	
-	
+	<div id="machineModal" class="modal">
+		<h3>Add a machine</h3>
+		<form id="machineForm" action="/manager/ui" method="post" enctype="multipart/form-data">
+		<input style="display:none" name="type" type="text" name="type" value="addMachine"/>
+		<div class=machineInputDiv>
+			<label>Machine name</label><br/>
+			<input name="machineName" type="text" placeholder="Enter machine name"/>
+			
+		</div>
+		<div class=machineInputDiv>
+			<label>Machine quantity</label><br/>
+			<input name="machineQuantity" type="number" placeholder="Enter quantity"/>
+		</div>
+		<div class=machineInputDiv>
+			<label>Choose picture</label><br/>
+			<input type="file" name="machinePic"/>
+		</div>
+		<input type="submit"/>
+		</form>
 	</div>
 </body>
 

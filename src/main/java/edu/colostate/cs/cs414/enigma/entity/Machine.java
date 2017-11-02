@@ -100,9 +100,7 @@ public class Machine {
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (pictureLocation == null) {
+		} if (pictureLocation == null) {
 			if (other.pictureLocation != null)
 				return false;
 		} else if (!pictureLocation.equals(other.pictureLocation))

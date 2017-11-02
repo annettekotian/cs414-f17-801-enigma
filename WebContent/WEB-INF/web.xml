@@ -36,4 +36,8 @@
   <listener>
     <listener-class>edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener</listener-class>
   </listener>
+  <context-param>
+  	<param-name>path_to_upload</param-name>
+  	<param-value>D:/images</param-value>
+  </context-param>
 </web-app>

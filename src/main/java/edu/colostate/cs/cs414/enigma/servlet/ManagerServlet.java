@@ -1,6 +1,9 @@
 package edu.colostate.cs.cs414.enigma.servlet;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,21 +11,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.persistence.PersistenceException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import com.google.gson.Gson;
 
 import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
+import edu.colostate.cs.cs414.enigma.entity.Machine;
+import edu.colostate.cs.cs414.enigma.entity.MachineException;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
-import edu.colostate.cs.cs414.enigma.entity.Membership;
-import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
+
 import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.WorkHoursException;
@@ -37,6 +45,7 @@ import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
  * Servlet implementation class Manager
  */
 @WebServlet({ "/manager/*" })
+@MultipartConfig
 public class ManagerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -243,6 +252,18 @@ public class ManagerServlet extends HttpServlet {
 		Map<String, Object> values = new HashMap<String, Object>();
 		PrintWriter out = response.getWriter();
 		switch (type) {
+		case "addMachine": 
+			Part part = request.getPart("machinePic");
+			InputStream content = part.getInputStream();
+			String uploadPath = getServletContext().getInitParameter("path_to_upload");
+			try {
+				Machine m = new ManagerHandler().addMachine(request.getParameter("machineName"), content, uploadPath, request.getParameter("machineQuantity"));
+			} catch (MessagingException | MachineException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			out.println("success");
+			break;
 
 		case "createManager":
 
