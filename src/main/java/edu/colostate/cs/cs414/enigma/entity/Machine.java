@@ -23,13 +23,13 @@ public class Machine {
 	@Column(name="id", unique=true, nullable=false, updatable=false)
 	private int id;
 	
-	@Column(name="name", unique=true, nullable=false, updatable=true)
+	@Column(name="name", nullable=false, updatable=true)
 	private String name;
 	
 	@Column(name="picture_location", unique=true, nullable=false, updatable=true)
 	private String pictureLocation;
 	
-	@Column(name="quantity", unique=true, nullable=false, updatable=true)
+	@Column(name="quantity", nullable=false, updatable=true)
 	private int quantity;
 	
 	protected Machine() {}
