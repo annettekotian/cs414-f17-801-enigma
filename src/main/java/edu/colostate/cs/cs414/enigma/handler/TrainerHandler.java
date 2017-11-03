@@ -148,9 +148,7 @@ public class TrainerHandler {
 						healthInsurance, userName, password, confirmPassword);
 		
 		// Get the trainer entity to be updated
-		Map<String, Object> trainerParams = new HashMap<String, Object>();
-		trainerParams.put("id", id);
-		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", trainerParams);
+		Trainer trainer = this.getTrainerById(id);
 		
 		// Update the trainers information that does not require a new object
 		PersonalInformation personalInformation = trainer.getPersonalInformation();
@@ -191,25 +189,41 @@ public class TrainerHandler {
 		return trainer;
 	}
 	
+	private Qualification getQualificationByName(String name) {
+		// Attempt to get the Qualification entity from the DB
+		Map<String, Object> qualificationParams = new HashMap<String, Object>();
+		qualificationParams.put("name", name);
+		Qualification qualificationEntity = (Qualification) dao.querySingle("Qualification.findByName", qualificationParams);
+		return qualificationEntity;
+	}
 	
 	public void addQualification(int trainerId, String qualification) {
 		
-		// Attempt to get the Qualification entity from the DB
-		Map<String, Object> qualificationParams = new HashMap<String, Object>();
-		qualificationParams.put("name", qualification);
-		Qualification qualificationEntity = (Qualification) dao.querySingle("Qualification.findByName", qualificationParams);
+		Qualification qualificationEntity = this.getQualificationByName(qualification);
 		if(qualificationEntity == null) {
 			qualificationEntity = new Qualification(qualification);
 			dao.persist(qualificationEntity);
 		}
 		
 		// Get the Trainer entity from the DB
-		Map<String, Object> trainerParams = new HashMap<String, Object>();
-		trainerParams.put("id", trainerId);
-		Trainer trainerEntity = (Trainer) dao.querySingle("Trainer.findById", trainerParams);
+		Trainer trainerEntity = this.getTrainerById(trainerId);
 		
 		// Add the qualification to the trainer
 		trainerEntity.addQualification(qualificationEntity);
+		dao.update(trainerEntity);
+	}
+	
+	public void deleteQualification(int trainerId, String qualification) {
+		Qualification qualificationEntity = this.getQualificationByName(qualification);
+		if(qualificationEntity == null) {
+			return;
+		}
+		
+		// Get the Trainer entity from the DB
+		Trainer trainerEntity = this.getTrainerById(trainerId);
+		trainerEntity.removeQualification(qualificationEntity);
+		
+		// Update the db
 		dao.update(trainerEntity);
 	}
 	
@@ -322,11 +336,11 @@ public class TrainerHandler {
 		dao.remove(trainer);
 	}
 	
-	public Exercise createExercise(String name, String pictureLocation, int machineId, int durationHours,
-			int durationMinutes, int durationSeconds, List<Integer> repetitions) throws PersistenceException {
+	public Exercise createExercise(String name, int machineId, int durationHours, int durationMinutes,
+			int durationSeconds, List<Integer> repetitions) throws PersistenceException {
 		
 		// Create a new exercise
-		Exercise exercise = new Exercise(name, pictureLocation);
+		Exercise exercise = new Exercise(name);
 		
 		// Only add a duration if hours, mintues, and seconds are non-null
 		if(durationHours != 0 || durationMinutes != 0 || durationSeconds != 0) {
@@ -372,6 +386,15 @@ public class TrainerHandler {
 		// Delete the exercise
 		dao.remove(exercise);
 	}
+	
+	public List<Qualification> getAllQualifications() {
+		List<?> results = dao.query("Qualification.findAll", null);
+		List<Qualification> qualifications = new ArrayList<Qualification>();
+		for(int i=0; i<results.size(); i++) {
+			qualifications.add((Qualification) results.get(i));
+		}
+		return qualifications;
+	} 
 	
 	public List<Exercise> getAllExercises() {
 		List<?> results = dao.query("Exercise.findAl", null);

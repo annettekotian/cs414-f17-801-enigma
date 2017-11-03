@@ -35,9 +35,6 @@ public class Exercise {
 	@Column(name="name", unique=true, nullable=false, updatable=true)
 	private String name;
 	
-	@Column(name="picture_location", unique=true, nullable=false, updatable=true)
-	private String pictureLocation;
-	
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
 	@JoinColumn(name="machine_id", nullable=true, updatable=true)
 	private Machine machine;
@@ -52,9 +49,8 @@ public class Exercise {
 	
 	protected Exercise() {}
 
-	public Exercise(String name, String pictureLocation) {
+	public Exercise(String name) {
 		this.name = name;
-		this.pictureLocation = pictureLocation;
 		this.sets = new ArrayList<ExerciseSet>();
 	}
 
@@ -72,14 +68,6 @@ public class Exercise {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getPictureLocation() {
-		return pictureLocation;
-	}
-
-	public void setPictureLocation(String pictureLocation) {
-		this.pictureLocation = pictureLocation;
 	}
 
 	public Machine getMachine() {
@@ -131,7 +119,6 @@ public class Exercise {
 		result = prime * result + id;
 		result = prime * result + ((machine == null) ? 0 : machine.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((pictureLocation == null) ? 0 : pictureLocation.hashCode());
 		result = prime * result + ((sets == null) ? 0 : sets.hashCode());
 		return result;
 	}
@@ -162,11 +149,6 @@ public class Exercise {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (pictureLocation == null) {
-			if (other.pictureLocation != null)
-				return false;
-		} else if (!pictureLocation.equals(other.pictureLocation))
-			return false;
 		if (sets == null) {
 			if (other.sets != null)
 				return false;
@@ -177,7 +159,7 @@ public class Exercise {
 
 	@Override
 	public String toString() {
-		return "Exercise [id=" + id + ", name=" + name + ", pictureLocation=" + pictureLocation + ", machine=" + machine
-				+ ", duration=" + duration + ", sets=" + sets + "]";
+		return "Exercise [id=" + id + ", name=" + name + ", machine=" + machine + ", duration=" + duration + ", sets="
+				+ sets + "]";
 	}
 }

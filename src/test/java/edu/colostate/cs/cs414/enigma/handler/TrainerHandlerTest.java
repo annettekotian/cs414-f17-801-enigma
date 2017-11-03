@@ -142,6 +142,18 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
+	public void removeQualification() {
+		Trainer trainer = createArbitraryTrainer();
+		int trainerId = trainer.getId();
+		String qualification = "Iron Man";
+		
+		TrainerHandler th = new TrainerHandler();
+		th.addQualification(trainerId, qualification);
+		th.deleteQualification(trainerId, qualification);
+		th.close();
+	}
+	
+	@Test
 	public void addWorkHours() throws WorkHoursException {
 		Trainer trainer = createArbitraryTrainer();
 		int trainerId = trainer.getId();
@@ -289,14 +301,13 @@ public class TrainerHandlerTest {
 	@Test
 	public void createDeleteExerciseNoDurationNoSetsNoMachine() throws Exception {
 		String name = "push-ups";
-		String pictureLocation = "/tmp/push_up.png";
 		int machineId = 0;
 		int hours = 0;
 		int minutes = 0;
 		int seconds = 0;
 		List<Integer> repetitions = new ArrayList<Integer>();
 		TrainerHandler th = new TrainerHandler();
-		Exercise newExercise = th.createExercise(name, pictureLocation, machineId, hours, minutes, seconds, repetitions);
+		Exercise newExercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 		th.deleteExercise(newExercise.getId());
 		th.close();
 	}
@@ -304,14 +315,13 @@ public class TrainerHandlerTest {
 	@Test
 	public void createDeleteExerciseDurationNoSetsNoMachine() throws Exception {
 		String name = "push-ups";
-		String pictureLocation = "/tmp/push_up.png";
 		int machineId = 0;
 		int hours = 0;
 		int minutes = 10;
 		int seconds = 0;
 		List<Integer> repetitions = new ArrayList<Integer>();
 		TrainerHandler th = new TrainerHandler();
-		Exercise newExercise = th.createExercise(name, pictureLocation, machineId, hours, minutes, seconds, repetitions);
+		Exercise newExercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 		th.deleteExercise(newExercise.getId());
 		th.close();
 	}
@@ -319,7 +329,6 @@ public class TrainerHandlerTest {
 	@Test
 	public void createDeleteExerciseNoDurationSetsNoMachine() throws Exception {
 		String name = "push-ups";
-		String pictureLocation = "/tmp/push_up.png";
 		int machineId = 0;
 		int hours = 0;
 		int minutes = 0;
@@ -329,7 +338,7 @@ public class TrainerHandlerTest {
 		repetitions.add(10);
 		repetitions.add(15);
 		TrainerHandler th = new TrainerHandler();
-		Exercise newExercise = th.createExercise(name, pictureLocation, machineId, hours, minutes, seconds, repetitions);
+		Exercise newExercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 		th.deleteExercise(newExercise.getId());
 		th.close();
 	}
@@ -337,7 +346,6 @@ public class TrainerHandlerTest {
 	@Test
 	public void createDeleteExerciseDurationSetsNoMachine() throws Exception {
 		String name = "push-ups";
-		String pictureLocation = "/tmp/push_up.png";
 		int machineId = 0;
 		int hours = 0;
 		int minutes = 10;
@@ -347,7 +355,7 @@ public class TrainerHandlerTest {
 		repetitions.add(10);
 		repetitions.add(15);
 		TrainerHandler th = new TrainerHandler();
-		Exercise newExercise = th.createExercise(name, pictureLocation, machineId, hours, minutes, seconds, repetitions);
+		Exercise newExercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 		th.deleteExercise(newExercise.getId());
 		th.close();
 	}

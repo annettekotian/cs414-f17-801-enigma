@@ -344,7 +344,7 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void persistNewExercise() {
-		Exercise exercise = new Exercise("Push-ups", "/images/push-ups.png");
+		Exercise exercise = new Exercise("Push-ups");
 		dao.persist(exercise);
 		persistedObjects.add(exercise);
 	}
@@ -352,7 +352,7 @@ public class EntityManagerDaoTest {
 	@Test
 	public void persistNewExerciseMachine() throws Exception {
 		Machine machine = new Machine("Treadmill", "/images/treadmill.png", 1);
-		Exercise exercise = new Exercise("Push-ups", "/images/push-ups.png");
+		Exercise exercise = new Exercise("Push-ups");
 		exercise.setMachine(machine);
 		dao.persist(exercise);
 		persistedObjects.add(exercise);
@@ -362,7 +362,7 @@ public class EntityManagerDaoTest {
 	@Test
 	public void persistNewExerciseDuration() throws Exception {
 		ExerciseDuration duration = new ExerciseDuration(5, 5, 5);
-		Exercise exercise = new Exercise("Push-ups", "/images/push-ups.png");
+		Exercise exercise = new Exercise("Push-ups");
 		exercise.setDuration(duration);
 		dao.persist(exercise);
 		persistedObjects.add(exercise);
@@ -370,7 +370,7 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void persistNewExerciseSet() throws Exception {
-		Exercise exercise = new Exercise("Push-ups", "/images/push-ups.png");
+		Exercise exercise = new Exercise("Push-ups");
 		dao.persist(exercise);
 		
 		ExerciseSet set = new ExerciseSet(5);
@@ -386,7 +386,7 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void persisNewWorkout() throws Exception {
-		Exercise exercise = new Exercise("Push-ups", "/images/push-ups.png");
+		Exercise exercise = new Exercise("Push-ups");
 		
 		Workout workout =  new Workout("Extreme Workout");
 		workout.addExercise(exercise);
@@ -399,8 +399,8 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void persisNewWorkoutMultipleExercises() throws Exception {
-		Exercise exercise1 = new Exercise("Push-ups", "/images/push-ups.png");
-		Exercise exercise2 = new Exercise("Jumping Jacks", "/images/jumping-jacks.png");
+		Exercise exercise1 = new Exercise("Push-ups");
+		Exercise exercise2 = new Exercise("Jumping Jacks");
 		
 		Workout workout =  new Workout("Extreme Workout");
 		workout.addExercise(exercise1);
@@ -414,8 +414,8 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void removeSingleExerciseFromWorkout() throws Exception {
-		Exercise exercise1 = new Exercise("Push-ups", "/images/push-ups.png");
-		Exercise exercise2 = new Exercise("Jumping Jacks", "/images/jumping-jacks.png");
+		Exercise exercise1 = new Exercise("Push-ups");
+		Exercise exercise2 = new Exercise("Jumping Jacks");
 		
 		Workout workout =  new Workout("Extreme Workout");
 		workout.addExercise(exercise1);
@@ -447,8 +447,8 @@ public class EntityManagerDaoTest {
 		persistedObjects.add(customer);
 		persistedObjects.add(insurance);
 		
-		Exercise exercise1 = new Exercise("Push-ups", "/images/push-ups.png");
-		Exercise exercise2 = new Exercise("Jumping Jacks", "/images/jumping-jacks.png");
+		Exercise exercise1 = new Exercise("Push-ups");
+		Exercise exercise2 = new Exercise("Jumping Jacks");
 		Workout workout =  new Workout("Extreme Workout");
 		workout.addExercise(exercise1);
 		workout.addExercise(exercise2);
@@ -477,8 +477,8 @@ public class EntityManagerDaoTest {
 		persistedObjects.add(customer);
 		persistedObjects.add(insurance);
 		
-		Exercise exercise1 = new Exercise("Push-ups", "/images/push-ups.png");
-		Exercise exercise2 = new Exercise("Jumping Jacks", "/images/jumping-jacks.png");
+		Exercise exercise1 = new Exercise("Push-ups");
+		Exercise exercise2 = new Exercise("Jumping Jacks");
 		Workout workout =  new Workout("Extreme Workout");
 		workout.addExercise(exercise1);
 		workout.addExercise(exercise2);

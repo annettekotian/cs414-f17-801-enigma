@@ -62,6 +62,12 @@ public class Trainer extends GymSystemUser implements Serializable {
 			this.qualifications.add(qualification);
 		}
 	}
+	
+	public void removeQualification(Qualification qualification) {
+		if(this.qualifications.contains(qualification)) {
+			this.qualifications.remove(qualification);
+		}
+	}
 
 	public List<WorkHours> getWorkHours() {
 		return workHours;
