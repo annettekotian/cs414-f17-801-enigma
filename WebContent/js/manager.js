@@ -393,10 +393,10 @@ function showInventoryData() {
 		},
 		success: function(data) {
 			data = JSON.parse(data);
-			$("#inventoryResults table").empty();	
+			$("#inventoryResults .tableData").empty();	
 			for (var i = 0 ; i<data.machines.length; i++) {
 				var machine = data.machines[i];
-				$("#inventoryResults table").append("<tr data-id='"+ machine.id + "'>" 
+				$("#inventoryResults table").append("<tr data-id='"+ machine.id + "' class='tableData>" 
 						+ "<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
 						+ "<td>" + machine.name + "</td>" 
 						+ "<td><img src='/machineImages/"+ machine.pictureLocation + "'></img></td>"
@@ -1326,7 +1326,7 @@ $("#machineForm").on("submit", function(e){
 			$.modal.close();
 			data = JSON.parse(data);
 			var machine = data.machine;
-			$("#inventoryResults table").append("<tr data-id='"+ machine.id + "'>" 
+			$("#inventoryResults table").append("<tr data-id='"+ machine.id + "' class='.tableData'>" 
 					+ "<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
 					+ "<td>" + machine.name + "</td>" 
 					+ "<td><img src='/machineImages/"+ machine.pictureLocation + "'></img></td>"

@@ -201,8 +201,8 @@ margin-top:3%;
 
 
 #inventoryResults table img{
-	height: 250px;
-	width: 250px;
+	max-height: 250px;
+	max-width: 250px;
 }
 
 /**************add manager, customer modal ****/

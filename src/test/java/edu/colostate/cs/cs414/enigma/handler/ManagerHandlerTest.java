@@ -2,11 +2,18 @@ package edu.colostate.cs.cs414.enigma.handler;
 
 import static org.junit.Assert.*;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.persistence.PersistenceException;
 
@@ -18,6 +25,8 @@ import org.junit.Test;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
+import edu.colostate.cs.cs414.enigma.entity.Machine;
+import edu.colostate.cs.cs414.enigma.entity.MachineException;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
@@ -475,6 +484,21 @@ public class ManagerHandlerTest {
 		
 		List<Manager> list = mh.searchManager("");
 		assertTrue(list.size() >=2);
+	}
+	
+	
+	@Test
+	public void testAddMachine() throws IOException, MessagingException, MachineException {
+		InputStream in = getClass().getResourceAsStream("images/treadmill.jpg");
+		
+		String uploadPath = System.getProperty("user.home");
+		Machine m = new ManagerHandler().addMachine("machine123", in, uploadPath, "3");
+		String location = m.getPictureLocation();
+		persistedObjects.add(m);
+		File file = new File(uploadPath + "/" + location);
+		file.delete();
+		
+		
 	}
 	
 }
