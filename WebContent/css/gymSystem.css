@@ -70,10 +70,14 @@ margin-top:3%;
 	color:black;
 }
 
-#addManager, #addCustomer, #addMachine {
+#addManager, #addCustomer {
 		margin-left: 170px;
 		display:none;
 	
+}
+
+#addMachine {
+	margin-left: 407px;
 }
 
 #addTrainer {
@@ -173,7 +177,7 @@ margin-top:3%;
 }
 
 #inventoryResults {
-	margin-left:165px;
+	margin-left:407px;
 	margin-top: 20px;
 	display:none;
 	
@@ -195,6 +199,11 @@ margin-top:3%;
 	height: 45px;
 }
 
+
+#inventoryResults table img{
+	height: 250px;
+	width: 250px;
+}
 
 /**************add manager, customer modal ****/
 #managerFirstNameDiv, #managerEmailDiv, #managerStreetDiv, #managerStateDiv, #managerUserNameDiv, #managerHealthInuranceDiv,

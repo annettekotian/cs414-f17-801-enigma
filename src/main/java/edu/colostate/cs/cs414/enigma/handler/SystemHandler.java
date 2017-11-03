@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
+import edu.colostate.cs.cs414.enigma.entity.Machine;
 import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.State;
 
@@ -73,5 +74,14 @@ public class SystemHandler {
 		return memberships;
 	}
 
+	public List<Machine> getInventory(){
+		List rawMachines = dao.query("Machine.findAll", null);
+		List<Machine> machines = new ArrayList<Machine>();
+		for(int i=0; i<rawMachines.size(); i++) {
+			machines.add((Machine) rawMachines.get(i));
+		}
+		close();
+		return machines;
+	}
 	
 }

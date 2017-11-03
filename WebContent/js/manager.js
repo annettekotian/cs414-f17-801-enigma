@@ -376,12 +376,42 @@ function showInventoryData() {
 	$("#addQualification").hide();
 	$("#addWorkHours").hide();
 	$("#addTrainer").hide();
+	$("#deleteTrainer").hide();
 	$("#modifyTrainer").hide();
 	$("#addCustomer").hide();
 	$("#addMachine").show();
 	$("#managerResults").hide();
 	$("#trainerResults").hide();
 	$("#customerResults").hide();
+	// send ajax call to get inventory data
+	
+	$.ajax({
+		url: "/manager/ui",
+		method: "GET",
+		data: {
+			type: "getInventory"
+		},
+		success: function(data) {
+			data = JSON.parse(data);
+			$("#inventoryResults table").empty();	
+			for (var i = 0 ; i<data.machines.length; i++) {
+				var machine = data.machines[i];
+				$("#inventoryResults table").append("<tr data-id='"+ machine.id + "'>" 
+						+ "<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
+						+ "<td>" + machine.name + "</td>" 
+						+ "<td><img src='/machineImages/"+ machine.pictureLocation + "'></img></td>"
+						+ "<td>"+ machine.quantity + "</td></tr>");
+			}
+			
+			
+			
+		},
+		error: function(exception) {
+			alert("Error: " + exception);
+		}
+	
+	});
+	
 	$("#inventoryResults").show();
 }
 
@@ -1294,8 +1324,17 @@ $("#machineForm").on("submit", function(e){
 		processData:false,
 		success: function(data){
 			$.modal.close();
+			data = JSON.parse(data);
+			var machine = data.machine;
+			$("#inventoryResults table").append("<tr data-id='"+ machine.id + "'>" 
+					+ "<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
+					+ "<td>" + machine.name + "</td>" 
+					+ "<td><img src='/machineImages/"+ machine.pictureLocation + "'></img></td>"
+					+ "<td>"+ machine.quantity + "</td></tr>");
 		},
-		error: function(){} 
+		error: function(){
+			
+		} 
 	})
 })
 

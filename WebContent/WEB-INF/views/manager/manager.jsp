@@ -136,30 +136,7 @@
 			
 				
 			</tr>
-			<tr>
-				<td><a href="">Edit</a></td>
-				<td>Machine 1</td>
-				<td><img src="../images/treadmill.jpg"></img></td>
-				<td>1</td>
-				
-				
-			</tr>
-			<tr>
-				<td><a href="">Edit</a></td>
-				<td>Machine 2</td>
-				<td><img src="../images/treadmill.jpg"></img></td>
-				<td>2</</td>
-				
-				
-			</tr>
-			<tr>
-				<td><a href="">Edit</a></td>
-				<td>Machine 3</td>
-				<td><img src="../images/treadmill.jpg"></img></td>
-				<td>3</</td>
-				
-				
-			</tr>
+			
 		</table>
 	</div>
 
@@ -331,8 +308,6 @@
 		</div>	
 	</div>
 	
-	
-
 
 <div id="customerModal" class="modal">
 		<h3 id="createCustomerHeader">Add a Customer</h3>

@@ -234,6 +234,15 @@ public class ManagerServlet extends HttpServlet {
 			}
 			return;
 			
+		case "getInventory": 
+			try {
+				List<Machine> machines = new SystemHandler().getInventory();
+				values.put("machines", machines);
+				out.write(new Gson().toJson(values));
+			}catch (Exception e) {
+				
+			}
+			break;
 		default:
 			response.sendError(404);
 			break;
@@ -258,11 +267,13 @@ public class ManagerServlet extends HttpServlet {
 			String uploadPath = getServletContext().getInitParameter("path_to_upload");
 			try {
 				Machine m = new ManagerHandler().addMachine(request.getParameter("machineName"), content, uploadPath, request.getParameter("machineQuantity"));
+				values.put("machine", m);
+				out.println(new Gson().toJson(values));
 			} catch (MessagingException | MachineException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			out.println("success");
+			
 			break;
 
 		case "createManager":
