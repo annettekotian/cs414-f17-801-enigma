@@ -169,6 +169,9 @@ function submitTrainerForm() {
 function deleteTrainer() {
 
 	var trainer = JSON.parse(SELECTED_TRAINER.dataset.trainer);
+	if(!confirm("Are you sure you want to delete " + trainer.personalInformation.firstName + " " + trainer.personalInformation.lastName + "?")) {
+		return;
+	}
 	
 	var postParams = {};
 	postParams.id = trainer.id;
