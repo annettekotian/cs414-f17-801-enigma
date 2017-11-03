@@ -10,7 +10,8 @@
 <script src="/js/jquery-3.2.1.min.js"></script>
 <script src="/js/jquery.modal.min.js"></script>
 <script src="/js/globalVariables.js"></script>
-
+<script src="/js/trainerTab.js"></script>
+<script src="/js/systemFunctions.js"></script>
 
 </head>
 <body>
@@ -39,11 +40,11 @@
 	<button id="modifyTrainer" class="addButtons" onclick="modifyTrainerInformation()" disabled>Modify Trainer</button>
 	<button id="deleteTrainer" class="addButtons" onclick="deleteTrainer()" disabled>Delete Trainer</button>
 	<button id="addQualification" class="addButtons" onclick="addTrainerQualification()" disabled>Add Qualification</button>
+	<button id="removeQualification" class="addButtons" onclick="removeTrainerQualificationForm()" disabled>Remove Qualification</button>
 	<button id="addWorkHours" class="addButtons" onclick="addTrainerWorkHours()" disabled>Add Work Hours</button>
 	<input id ="searchTrainerInput" class="searchTrainer" type="text" placeholder="Search"/> 
 	<button id="searchTrainerButton" class="searchTrainer" onclick="populateSearchTrainers()">Search</button>
 	<button id="searchTrainerButton" class="searchTrainer" onclick="resetSearchTrainers()">Reset</button>
-	
 	<button id="addCustomer" class="addButtons">Add Customer</button>
 	<input id = "searchCustomerInput" class="searchCustomer" type="text" placeholder="enter name, address etc" /> 
 	<button id="searchCustomerButton" class="searchCustomer">Search</button>
@@ -81,7 +82,19 @@
 	</div>
 	
 	<div id="trainerResults">
-		<table id="trainerTable"></table>
+		<table id="trainerTable">
+			<tr>
+				<th>Trainer Id</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Address</th>
+				<th>Email</th>
+				<th>Phone Number</th>
+				<th>Health Insurance</th>
+				<th>Qualifications</th>
+				<th>Work Schedule</th>
+			</tr>
+		</table>
 	</div>
 
 	<div id="customerResults">
@@ -177,10 +190,21 @@
 <div id="addQualificationForm" class="modal">
 	<h3>Add Trainer Qualification</h3>
 	<form id="qualificationForm">
-		<label>Qualification Name</label><br>
-		<input id="qualificationName" type="text"><br>
+		<label>Qualifications</label><br>
+		<select id="qualifications" onchange="checkNewQualification()"></select><br>
+		<label>New Qualification</label><br>
+		<input id="newQualification" type="text" disabled><br>
 	</form>
 	<button onclick="submitTrainerQualification()">Submit</button>
+</div>
+
+<div id="removeQualificationModal" class="modal">
+	<h3>Remove Trainer Qualification</h3>
+	<form id="removeQualificationForm">
+		<label>Qualifications</label><br>
+		<select id="removeQualificationsList"></select><br>
+	</form>
+	<button onclick="removeTrainerQualification()">Submit</button>
 </div>
 
 <div id="addWorkHoursForm" class="modal">
