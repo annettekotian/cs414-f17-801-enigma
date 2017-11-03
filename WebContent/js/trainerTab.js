@@ -288,7 +288,6 @@ function removeTrainerQualificationForm() {
 	var qualificationsList = $("#removeQualificationsList");
 	qualificationsList.empty();
 	if(trainer.qualifications.length == 0){
-		populateAllTrainers();
 		return;
 	}
 	for (var i = 0; i< trainer.qualifications.length; i++) {
@@ -425,7 +424,52 @@ function submitWorkHours() {
 	});
 }
 
+function deleteTrainerWorkHours() {
+	var trainer = JSON.parse(SELECTED_TRAINER.dataset.trainer);
+	if(trainer.workHours.length == 0) {
+		return;
+	}
+	
+	var removeWorkHoursList = $("#removeWorkHoursList");
+	removeWorkHoursList.empty();
+	for(var i=0; i<trainer.workHours.length; i++) {
+		var startDateTime = trainer.workHours[i].startDateTime;
+		var endDateTime = trainer.workHours[i].endDateTime;
+		var workHours = startDateTime + " - " + endDateTime;
+		removeWorkHoursList.append("<option data-id='" + trainer.workHours[i].id + "'>" + workHours + "</option>");
+	}
+	$("#removeWorkHoursModal").modal();
+}
 
+function deleteWorkHours() {
+	
+	var trainer = JSON.parse(SELECTED_TRAINER.dataset.trainer);
+	var workHoursId = $("#removeWorkHoursList").find(":selected").data("id");
+	
+	var postParams = {};
+	postParams.trainerId = trainer.id;
+	postParams.workHoursId = workHoursId;
+	postParams.type = "deleteWorkHours";
+	
+	$.ajax({
+		url: "/manager/ui",
+		method: "POST",
+		data: postParams,
+		
+		success: function(data) {
+			if(data.rc == 0) {
+				populateAllTrainers();
+				$.modal.close();
+			}
+			else {
+				alert("Error: " + data.msg);
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			$(document.body).html(jqXHR.responseText);
+		}
+	});
+}
 
 /****************************************************************/
 /************* Functions to populate trainers table *************/
@@ -503,6 +547,7 @@ function selectTrainerRow(event) {
 	document.getElementById("addQualification").disabled = false;
 	document.getElementById("removeQualification").disabled = false;
 	document.getElementById("addWorkHours").disabled = false;
+	document.getElementById("deleteWorkHours").disabled = false;
 }
 
 // Function to populate the trainers table with specific trainer information
@@ -514,6 +559,7 @@ function populateTrainerTable(trainers) {
 	document.getElementById("addQualification").disabled = true;
 	document.getElementById("removeQualification").disabled = true;
 	document.getElementById("addWorkHours").disabled = true;
+	document.getElementById("deleteWorkHours").disabled = true;
 	
 	// Remove all rows from the table except the first
 	$("#trainerTable tr").slice(1).remove();

@@ -252,6 +252,21 @@ public class TrainerHandler {
 		dao.update(trainerEntity);
 	}
 	
+	public void deleteWorkHours(int trainerId, int workHoursId) {
+		
+		// Get the trainer to be removed
+		Trainer trainer = this.getTrainerById(trainerId);
+		
+		// Get the work hours to be remove
+		WorkHours workHours = this.getWorkHoursById(workHoursId);
+		
+		// Remove the workhours
+		trainer.removeWorkHours(workHours);
+		
+		// Update db
+		dao.update(trainer);
+	}
+	
 	/**
 	 * Get a specific trainer by the trainer ID. Note that if the trainer does not exist, a null
 	 * trainer will be returned.
@@ -330,7 +345,7 @@ public class TrainerHandler {
 		Map<String, Object> trainerParams = new HashMap<String, Object>();
 		trainerParams.put("id", id);
 		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", trainerParams);
-		trainer.deleteWorkHours();
+		trainer.removeAllWorkHours();
 		
 		// Delete the trainer
 		dao.remove(trainer);
@@ -410,6 +425,13 @@ public class TrainerHandler {
 		parameters.put("id", exerciseId);
 		Exercise exercise = (Exercise) dao.querySingle("Exercise.findId", parameters);
 		return exercise;
+	}
+	
+	private WorkHours getWorkHoursById(int workHoursId) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("id", workHoursId);
+		WorkHours workHours = (WorkHours) dao.querySingle("WorkHours.findById", parameters);
+		return workHours;
 	}
 	
 	private Machine getMachineById(int machineId) {

@@ -171,6 +171,24 @@ public class TrainerHandlerTest {
 		th.close();
 	}
 	
+	@Test
+	public void deleteSingleWorkHours() throws WorkHoursException {
+		Trainer trainer = createArbitraryTrainer();
+		int trainerId = trainer.getId();
+		
+		Date startDateTime = new Date();
+		startDateTime.setYear(startDateTime.getYear() + 1);
+		
+		Date endDateTime = new Date();
+		endDateTime.setYear(endDateTime.getYear() + 1);
+		endDateTime.setMinutes(endDateTime.getMinutes() + 1);
+		
+		TrainerHandler th = new TrainerHandler();
+		th.addWorkHours(trainerId, startDateTime, endDateTime);
+		trainer = th.getTrainerById(trainerId);
+		th.deleteWorkHours(trainerId, trainer.getWorkHours().get(0).getId());
+	}
+	
 	@Test(expected = AddressException.class)
 	public void incorrectEmailAddressFormat() throws Exception {
 		String firstName = "John";

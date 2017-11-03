@@ -579,5 +579,28 @@ public class ManagerServlet extends HttpServlet {
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
 		}
+		else if(type.equals("deleteWorkHours")) {
+			int trainerId = Integer.parseInt(request.getParameter("trainerId"));
+			int workHoursId = Integer.parseInt(request.getParameter("workHoursId"));
+			
+			Map<String, Object> returnValues = new HashMap<String, Object>();
+			TrainerHandler th = new TrainerHandler();
+			try {
+				th.deleteWorkHours(trainerId, workHoursId);
+				returnValues.put("rc", "0");
+			}
+			catch(PersistenceException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getCause().getCause().toString());
+			}
+			catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			finally {
+				th.close();
+			}
+			response.setContentType("application/json");
+			out.write(new Gson().toJson(returnValues));
+		}
 	}
 }

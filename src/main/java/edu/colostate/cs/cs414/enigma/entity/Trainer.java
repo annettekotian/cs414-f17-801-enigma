@@ -84,7 +84,13 @@ public class Trainer extends GymSystemUser implements Serializable {
 		}
 	}
 	
-	public void deleteWorkHours() {
+	public void removeWorkHours(WorkHours workHours) {
+		if(this.workHours.contains(workHours)) {
+			this.workHours.remove(workHours);
+		}
+	}
+	
+	public void removeAllWorkHours() {
 		this.workHours.clear();
 	}
 	

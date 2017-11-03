@@ -319,7 +319,7 @@ public class EntityManagerDaoTest {
 			trainer.addWorkHours(workHours);
 			dao.update(trainer);
 			
-			trainer.deleteWorkHours();
+			trainer.removeAllWorkHours();
 			dao.update(trainer);
 		}
 		finally {

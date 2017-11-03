@@ -42,6 +42,7 @@
 	<button id="addQualification" class="addButtons" onclick="addTrainerQualification()" disabled>Add Qualification</button>
 	<button id="removeQualification" class="addButtons" onclick="removeTrainerQualificationForm()" disabled>Remove Qualification</button>
 	<button id="addWorkHours" class="addButtons" onclick="addTrainerWorkHours()" disabled>Add Work Hours</button>
+	<button id="deleteWorkHours" class="addButtons" onclick="deleteTrainerWorkHours()" disabled>Delete Work Hours</button>
 	<input id ="searchTrainerInput" class="searchTrainer" type="text" placeholder="Search"/> 
 	<button id="searchTrainerButton" class="searchTrainer" onclick="populateSearchTrainers()">Search</button>
 	<button id="searchTrainerButton" class="searchTrainer" onclick="resetSearchTrainers()">Reset</button>
@@ -265,6 +266,15 @@
 		</select><br>
 	</form>
 	<button onclick="submitWorkHours()">Submit</button>
+</div>
+
+<div id="removeWorkHoursModal" class="modal">
+	<h3>Remove Trainer Work Hours</h3>
+	<form id="removeWorkHoursForm">
+		<label>Qualifications</label><br>
+		<select id="removeWorkHoursList"></select><br>
+	</form>
+	<button onclick="deleteWorkHours()">Submit</button>
 </div>
 
 	<div id="addManagerModal" class="modal">

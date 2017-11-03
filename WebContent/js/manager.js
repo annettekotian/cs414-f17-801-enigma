@@ -53,6 +53,7 @@ function showTrainerElements() {
 	$("#addWorkHours").show();
 	$("#removeQualification").show();
 	$(".searchTrainer").show();
+	$("#deleteWorkHours").show();
 }
 
 function hideTrainerElements() {
@@ -64,6 +65,7 @@ function hideTrainerElements() {
 	$("#addWorkHours").hide();
 	$("#removeQualification").hide();
 	$(".searchTrainer").hide();
+	$("#deleteWorkHours").hide();
 }
 
 function showTrainerData() {
