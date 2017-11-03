@@ -213,10 +213,11 @@ function showInventoryData() {
 		},
 		success: function(data) {
 			data = JSON.parse(data);
-			$("#inventoryResults .tableData").empty();	
+			$("#inventoryResults .tableData").remove();
 			for (var i = 0 ; i<data.machines.length; i++) {
 				var machine = data.machines[i];
-				$("#inventoryResults table").append("<tr data-id='"+ machine.id + "' class='tableData>" 
+				$("#inventoryResults table").append("<tr class='tableData' data-id='"+ machine.id + "' class='tableData>" 
+						+"<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
 						+ "<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
 						+ "<td>" + machine.name + "</td>" 
 						+ "<td><img src='/machineImages/"+ machine.pictureLocation + "'></img></td>"
@@ -789,14 +790,20 @@ $("#machineForm").on("submit", function(e){
 			$.modal.close();
 			data = JSON.parse(data);
 			var machine = data.machine;
-			$("#inventoryResults table").append("<tr data-id='"+ machine.id + "' class='.tableData'>" 
+			$("#inventoryResults table").append("<tr class='tableData' data-id='"+ machine.id + "' class='.tableData'>" 
 					+ "<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
 					+ "<td>" + machine.name + "</td>" 
 					+ "<td><img src='/machineImages/"+ machine.pictureLocation + "'></img></td>"
 					+ "<td>"+ machine.quantity + "</td></tr>");
 		},
-		error: function(){
-			
+		error: function(error){
+			if(error.responseText.indexOf("missing input") >= 0) {
+				alert("Could not add machine to the inventory. Some input fields were missing");
+			} else if(error.responseText.indexOf("not image file") >= 0){
+				alert("The file selected is not an image file");
+			}else {
+				alert("Error: " + error);
+			}
 		} 
 	})
 })

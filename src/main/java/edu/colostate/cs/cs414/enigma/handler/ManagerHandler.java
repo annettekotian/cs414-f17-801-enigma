@@ -178,11 +178,30 @@ public class ManagerHandler  {
 		return managers;
 	}
 	
-	public Machine addMachine(String name, InputStream fileContent, String uploadPath, String quantity) throws IOException, MessagingException, 
-	MachineException {
+	/**
+	 * 
+	 * @param name: String name of the image file to be saved
+	 * @param fileContent: InputStream of the image file
+	 * @param uploadPath: String path where the file is to be saved
+	 * @param quantity: String: number of machines
+	 * @return
+	 * @throws IOException
+	 * @throws MachineException
+	 */
+	public Machine addMachine(String name, InputStream fileContent, String uploadPath, String quantity) throws IOException, MachineException {
+		
+		// validations
+		if(name.isEmpty() || fileContent == null || fileContent.available()==0 || uploadPath.isEmpty() || quantity.isEmpty()) {
+			throw new IllegalArgumentException("missing input");
+		}
+		BufferedImage image = ImageIO.read(fileContent);
+		if(image == null) {
+			throw new IllegalArgumentException("not image file");
+		}
+		
 		EntityManagerDao dao = new EntityManagerDao();
 		
-		BufferedImage image = ImageIO.read(fileContent);
+		
 		String fullName = name + ".png";
 		int noOfMachines = Integer.parseInt(quantity);
 		Machine m = new Machine(name, fullName, noOfMachines);

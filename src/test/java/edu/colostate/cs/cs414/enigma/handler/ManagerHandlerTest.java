@@ -490,15 +490,72 @@ public class ManagerHandlerTest {
 	@Test
 	public void testAddMachine() throws IOException, MessagingException, MachineException {
 		InputStream in = getClass().getResourceAsStream("images/treadmill.jpg");
-		
+		String name = "machine1234";
+		String quantity = "4";
 		String uploadPath = System.getProperty("user.home");
-		Machine m = new ManagerHandler().addMachine("machine123", in, uploadPath, "3");
+		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
 		String location = m.getPictureLocation();
 		persistedObjects.add(m);
 		File file = new File(uploadPath + "/" + location);
 		file.delete();
-		
-		
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("id", m.getId());
+		Machine m1 = (Machine) dao.querySingle("Machine.findId", params);
+		assertTrue(m1.getName().equals(name) && m1.getQuantity() == Integer.parseInt(quantity) );
+				
 	}
+	
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testAddMachineWithNoName() throws IOException, MachineException {
+		InputStream in = getClass().getResourceAsStream("images/treadmill.jpg");
+		String name = "";
+		String quantity = "4";
+		String uploadPath = System.getProperty("user.home");
+		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+	}
+	
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testAddMachineWithNoQuantity() throws IOException, MachineException {
+		InputStream in = getClass().getResourceAsStream("images/treadmill.jpg");
+		String name = "Machine1234";
+		String quantity = "";
+		String uploadPath = System.getProperty("user.home");
+		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+	}
+	
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testAddMachineWithNoInputStream() throws IOException, MachineException {
+		InputStream in = getClass().getResourceAsStream("images/treadmill1.jpg");
+		//InputStream in = null;
+		String name = "Machine1234";
+		String quantity = "4";
+		String uploadPath = System.getProperty("user.home");
+		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+	}
+	
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testAddMachineWithNoUploadPath() throws IOException, MachineException {
+		InputStream in = getClass().getResourceAsStream("images/treadmill.jpg");
+		String name = "Machine1234";
+		String quantity = "4";
+		String uploadPath = "";
+		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testAddMachineWithWrongImageFormat() throws IOException, MachineException {
+		InputStream in = getClass().getResourceAsStream("images/test.txt");
+		String name = "Machine1234";
+		String quantity = "4";
+		String uploadPath = System.getProperty("user.home");
+		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+	}
+	
+	
+	
 	
 }

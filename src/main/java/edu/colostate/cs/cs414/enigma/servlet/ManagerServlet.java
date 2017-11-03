@@ -280,9 +280,10 @@ public class ManagerServlet extends HttpServlet {
 				Machine m = new ManagerHandler().addMachine(request.getParameter("machineName"), content, uploadPath, request.getParameter("machineQuantity"));
 				values.put("machine", m);
 				out.println(new Gson().toJson(values));
-			} catch (MessagingException | MachineException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch ( MachineException e) {
+				response.sendError(500, e.toString());
+			} catch(IllegalArgumentException e) {
+				response.sendError(500, e.toString());
 			}
 			
 			break;

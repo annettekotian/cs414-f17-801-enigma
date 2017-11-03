@@ -409,7 +409,7 @@
 		</div>
 		<div class=machineInputDiv>
 			<label>Choose picture</label><br/>
-			<input type="file" name="machinePic"/>
+			<input type="file" name="machinePic" accept=".jpg,.png,.bmp,.tiff"/>
 		</div>
 		<input type="submit"/>
 		</form>
