@@ -412,7 +412,7 @@ public class TrainerHandler {
 	} 
 	
 	public List<Exercise> getAllExercises() {
-		List<?> results = dao.query("Exercise.findAl", null);
+		List<?> results = dao.query("Exercise.findAll", null);
 		List<Exercise> exercises = new ArrayList<Exercise>();
 		for(int i=0; i<results.size(); i++) {
 			exercises.add((Exercise) results.get(i));

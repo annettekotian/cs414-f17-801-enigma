@@ -32,6 +32,8 @@ function focusExercises() {
 	$("#customerTable").hide();
 	$("#home").hide();
 	$(".trainerSearchCustomers").hide();
+	
+	populateAllExercises();
 }
 
 function focusWorkours() {
@@ -137,4 +139,47 @@ $("#trainerSearchCustomerButton").on("click", function(){
 			alert("Error: " + exception);
 		}
 	});
-})
+});
+
+function getAllExercises() {
+	var exercises = null;
+	$.ajax({
+		url: "/trainer/ui",
+		data: {
+			type: "getAllExercises"
+		},
+		method: "GET",
+		success: function(data, textStatus, jqXHR) {
+			exercises = data;
+		},
+		error: function(exception) {
+			alert("Exception" + exception);
+		},
+		async: false
+	});
+	return exercises;
+}
+
+function populateAllExercises() {
+	var exercises = getAllExercises();
+	populateExercises(exercises);
+}
+
+function populateExercises(exercises) {
+	$("#exerciseTable tr").slice(1).remove();
+	for(var i=0; i<exercises.length; i++) {
+		var name = exercises[i].name;
+		var duration = "00:00:00";
+		var sets = "";
+		var machine = "";
+		
+		var exerciseRow = "<tr data-exercise='" + JSON.stringify(exercises[i]) + "'>"
+		+ "<td>" + name + "</td>"
+		+ "<td>" + duration + "</td>"
+		+ "<td>" + sets + "</td>"
+		+ "<td>" + machine + "</td>"
+		+ "</tr>";
+				  
+		$("#exerciseTable").append(trainerRow);
+	}
+}

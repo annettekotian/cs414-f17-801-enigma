@@ -80,8 +80,18 @@ public class TrainerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 			}
 			return;
+			
+		case "getAllExercises":
+			try {
+				TrainerHandler th = new TrainerHandler();
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(th.getAllExercises()));
+				th.close();
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			return;
 		}
-		
 		
 	}
 
