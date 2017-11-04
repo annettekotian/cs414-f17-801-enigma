@@ -191,19 +191,9 @@ public class ManagerHandler  {
 	public Machine addMachine(String name, InputStream fileContent, String uploadPath, String quantity) throws IOException, MachineException {
 		
 		// validations
-		if(name.isEmpty()  || quantity.isEmpty()) {
+		if(name.isEmpty() || fileContent == null || fileContent.available()==0 || uploadPath.isEmpty() || quantity.isEmpty()) {
 			throw new IllegalArgumentException("missing input");
 		}
-		
-		if(uploadPath.isEmpty()) {
-			throw new IllegalArgumentException("missing input - uploadPath");
-		}
-		
-		if(fileContent == null || fileContent.available()==0) {
-			throw new IllegalArgumentException("missing input - file content");
-		}
-		
-		
 		BufferedImage image = ImageIO.read(fileContent);
 		if(image == null) {
 			throw new IllegalArgumentException("not image file");

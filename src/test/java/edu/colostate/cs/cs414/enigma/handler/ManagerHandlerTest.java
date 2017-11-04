@@ -487,7 +487,7 @@ public class ManagerHandlerTest {
 	}
 	
 	
-	@Test
+	/*@Test
 	public void testAddMachine() throws IOException, MessagingException, MachineException {
 		InputStream in = getClass().getResourceAsStream("images/treadmill.jpg");
 		String name = "machine1234";
@@ -503,7 +503,7 @@ public class ManagerHandlerTest {
 		Machine m1 = (Machine) dao.querySingle("Machine.findId", params);
 		assertTrue(m1.getName().equals(name) && m1.getQuantity() == Integer.parseInt(quantity) );
 				
-	}
+	}*/
 	
 	
 	@Test (expected = IllegalArgumentException.class)
