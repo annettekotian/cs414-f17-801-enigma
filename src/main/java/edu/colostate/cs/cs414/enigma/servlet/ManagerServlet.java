@@ -251,9 +251,19 @@ public class ManagerServlet extends HttpServlet {
 				values.put("machines", machines);
 				out.write(new Gson().toJson(values));
 			}catch (Exception e) {
-				
+				response.sendError(500, e.toString());
 			}
 			break;
+		case "getMachineById": 
+			try {
+				Machine m = new ManagerHandler().getMachineById(request.getParameter("id"));
+				values.put("machine", m);
+				out.write(new Gson().toJson(values));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			break;
+			
 		default:
 			response.sendError(404);
 			break;

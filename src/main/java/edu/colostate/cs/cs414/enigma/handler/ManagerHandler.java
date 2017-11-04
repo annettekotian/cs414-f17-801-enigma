@@ -210,11 +210,19 @@ public class ManagerHandler  {
 		String fullNameWithId = machineId + "_" + fullName;
 		m.setPictureLocation(fullNameWithId);
 		dao.update(m);
+		dao.close();
 		String path = uploadPath +   "/"+ fullNameWithId;
 		File imageFile = new File(path);
 		ImageIO.write(image, "png", imageFile);
 		return m;
 		
+	}
+	
+	public Machine getMachineById(String id) {
+		
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("id", Integer.parseInt(id));
+		return (Machine)dao.querySingle("Machine.findId", params);
 	}
 	
 

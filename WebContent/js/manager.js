@@ -775,8 +775,23 @@ function getSearchCustomerResults(keywords) {
 
 
 $("#addMachine").on("click", function(){
+	$("#editMachineButton").hide();
+	$("#addMachineButton").show();
 	$("#machineModal").modal();
 });
+
+$("#machinePic").on("change", function(){
+	debugger;
+	if (this.files && this.files[0]) {
+	    var reader = new FileReader();
+
+	    reader.onload = function(e) {
+	      $('#imgPreview').attr('src', e.target.result);
+	    }
+
+	    reader.readAsDataURL(this.files[0]);
+	  }
+})
 
 $("#machineForm").on("submit", function(e){
 	e.preventDefault();
@@ -809,8 +824,46 @@ $("#machineForm").on("submit", function(e){
 				alert("Error: " + error);
 			}
 		} 
-	})
+	});
 })
 
+
+$("#machineModal").on($.modal.AFTER_CLOSE, function() {
+	$("#machineName, #machineQuantity, #machinePic").val("");
+	$("#imgPreview").attr("src", "#");
+});
+
+$(document).on("click", ".editMachine", function(){
+	$("#addMachineButton").hide();
+	$("#editMachineButton").show();
+	
+	 CURRENTLY_EDITED_MACHINE_ID = $(this).parents("tr").data("id");
+		$.ajax({
+			url: "/manager/ui",
+			type: "GET",
+			data:  {
+				type: "getMachineById",
+				id: CURRENTLY_EDITED_MACHINE_ID
+			},
+			
+			success: function(data){
+				data = JSON.parse(data);
+				var machine = data.machine
+				$("#machineName").val(machine.name);
+				$("#machineQuantity").val(machine.quantity);
+				$("#imgPreview").attr("src", "/machineImages/"+ machine.pictureLocation);
+				$("#machineModal").modal();
+				
+			},
+			error: function(error){
+				alert("Error: " + error);
+			} 
+		})
+});
+
+$("#cancelMachineButton").on("click", function(e){
+	e.preventDefault();
+	$.modal.close();
+})
 
 

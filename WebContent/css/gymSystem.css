@@ -205,7 +205,7 @@ margin-top:3%;
 	max-width: 250px;
 }
 
-/**************add manager, customer modal ****/
+/**************add manager, customer modal, machine modal ****/
 #managerFirstNameDiv, #managerEmailDiv, #managerStreetDiv, #managerStateDiv, #managerUserNameDiv, #managerHealthInuranceDiv,
 #customerFirstNameDiv, #customerEmailDiv, #customerStreetDiv , #customerStateDiv, #customerHealthInuranceDiv{
 	/* float:left; */
@@ -238,4 +238,10 @@ margin-top:3%;
 
 #confirmManagerPasswordDiv, #customerMembershipDiv{
 	padding-bottom: 10px;
+}
+
+
+#imgPreview {
+	max-height:150px;
+	max-width:150px;
 }

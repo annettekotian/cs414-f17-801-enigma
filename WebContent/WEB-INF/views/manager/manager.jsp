@@ -410,18 +410,22 @@
 		<input style="display:none" name="type" type="text" name="type" value="addMachine"/>
 		<div class=machineInputDiv>
 			<label>Machine name</label><br/>
-			<input name="machineName" type="text" placeholder="Enter machine name"/>
+			<input id="machineName" name="machineName" type="text" placeholder="Enter machine name"/>
 			
 		</div>
 		<div class=machineInputDiv>
 			<label>Machine quantity</label><br/>
-			<input name="machineQuantity" type="number" placeholder="Enter quantity"/>
+			<input id="machineQuantity" name="machineQuantity" type="number" placeholder="Enter quantity"/>
 		</div>
 		<div class=machineInputDiv>
+			
 			<label>Choose picture</label><br/>
-			<input type="file" name="machinePic" accept=".jpg,.png,.bmp,.tiff"/>
+			<input id="machinePic" type="file" name="machinePic" accept=".jpg,.png,.bmp,.tiff"/><br/>
+			<img id="imgPreview" src="#"></img>
 		</div>
-		<input type="submit"/>
+		<input id="addMachineButton" type="submit" value="Add machine"/>
+		<input id="editMachineButton" type="submit" value="Submit Changes"/>
+		<button id= "cancelMachineButton" >Cancel</button>
 		</form>
 	</div>
 </body>
