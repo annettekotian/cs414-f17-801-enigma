@@ -23,7 +23,7 @@ public class Machine {
 	@Column(name="id", unique=true, nullable=false, updatable=false)
 	private int id;
 	
-	@Column(name="name", nullable=false, updatable=true)
+	@Column(name="name", unique=true, nullable=false, updatable=true)
 	private String name;
 	
 	@Column(name="picture_location", unique=true, nullable=false, updatable=true)
@@ -100,7 +100,9 @@ public class Machine {
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} if (pictureLocation == null) {
+		}  else if (!name.equals(other.name))
+			return false;
+		if (pictureLocation == null) {
 			if (other.pictureLocation != null)
 				return false;
 		} else if (!pictureLocation.equals(other.pictureLocation))

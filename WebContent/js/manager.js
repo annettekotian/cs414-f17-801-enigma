@@ -803,7 +803,9 @@ $("#machineForm").on("submit", function(e){
 				alert("Could not add machine to the inventory. Some input fields were missing");
 			} else if(error.responseText.indexOf("not image file") >= 0){
 				alert("The file selected is not an image file");
-			}else {
+			} else if (error.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0){
+				alert("Machine name already exists. Please use another name");
+			} else {
 				alert("Error: " + error);
 			}
 		} 

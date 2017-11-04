@@ -284,6 +284,8 @@ public class ManagerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 			} catch(IllegalArgumentException e) {
 				response.sendError(500, e.toString());
+			}catch(PersistenceException e) {
+				response.sendError(500, e.toString());
 			}
 			
 			break;
