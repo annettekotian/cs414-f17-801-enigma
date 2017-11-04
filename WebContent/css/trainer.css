@@ -5,26 +5,25 @@
 	margin-left: 10%
 }
 
-#customerTable {
+#customerTable, #exerciseResults {
 	display: none;
 	margin-left:165px;
 	margin-top: 20px;
-
 }
 
-#customerTable table {
+#customerTable table, #exerciseResults table {
 	font-size:13px;
 	text-align:center;
 	border:1px solid black;
 }
 
- #customerTable th, #customerTable td {
+#customerTable th, #customerTable td, #exerciseResults th, #exerciseResults td {
 	width: 150px;
 	border:1px solid black;
 	
 }
 
-#customerTable tr {
+#customerTable tr, #exerciseResults tr {
 	height: 45px;
 }
 

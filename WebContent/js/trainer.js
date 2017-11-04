@@ -4,6 +4,7 @@ function focusHome() {
 	populateHomePage()
 	$("#customerTable").hide();
 	$(".trainerSearchCustomers").hide();
+	$("#exerciseResults").hide();
 }
 
 function populateHomePage() {
@@ -21,6 +22,24 @@ function focusCustomers() {
 	$("#home").hide();
 	$("#customerTable").show();
 	$(".trainerSearchCustomers").show();
+	
+	$("#exerciseResults").hide();
+}
+
+function focusExercises() {
+	$("#exerciseResults").show();
+	
+	$("#customerTable").hide();
+	$("#home").hide();
+	$(".trainerSearchCustomers").hide();
+}
+
+function focusWorkours() {
+	$("#exerciseResults").hide();
+	
+	$("#customerTable").hide();
+	$("#home").hide();
+	$(".trainerSearchCustomers").hide();
 }
 
 $("#homeLi, #customerLi, #workoutsLi, #exerciseLi").on("click", function(){
@@ -39,15 +58,14 @@ $("#homeLi, #customerLi, #workoutsLi, #exerciseLi").on("mouseleave", function(){
 	
 });
 
-$("#homeLi").on("click", focusHome)
+$("#homeLi").on("click", focusHome);
 
-$("#customerLi").on("click", focusCustomers)
+$("#customerLi").on("click", focusCustomers);
 
-$("#workoutsLi, #exerciseLi").on("click", function() {
-	$("#customerTable").hide();
-	$("#home").hide();
-	$(".trainerSearchCustomers").hide();
-});
+$("#exerciseLi").on("click", focusExercises);
+
+$("#workoutsLi").on("click", focusWorkours);
+
 
 function populateCustomers() {
 	var currentUrl = window.location.pathname
@@ -120,5 +138,3 @@ $("#trainerSearchCustomerButton").on("click", function(){
 		}
 	});
 })
-
-

@@ -32,7 +32,7 @@
 		<li id="workoutsLi">Workouts</li>
 		<li id="exerciseLi">Exercises</li>
 	</ul>
-	</div>
+</div>
 
 <button id="trainerSearchCustomerButton" class="trainerSearchCustomers">Search</button>
 <input id = "trainerSearchCustomerInput" class="trainerSearchCustomers" type="text" placeholder = "enter name, address etc."/>
@@ -68,26 +68,36 @@
 	</table>
 </div>
 
-	<div id="customerTable">
-		<table>
-			<tr class="tableHeader">
-				<th>Id</th>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>Address</th>
-				<th>Email</th>
-				<th>Phone No</th>
-				<th>Health Insurance</th>
-				<th>Membership</th>
+<div id="customerTable">
+	<table>
+		<tr class="tableHeader">
+			<th>Id</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Address</th>
+			<th>Email</th>
+			<th>Phone No</th>
+			<th>Health Insurance</th>
+			<th>Membership</th>
 
-			</tr>
+		</tr>
 
-		</table>
-	</div>
+	</table>
+</div>
 	
-	
-	<script src="../js/trainer.js">
-</script>
+<div id="exerciseResults">
+	<table id="exerciseTable">
+		<tr class="tableHeader">
+			<th>Exercise Name</th>
+			<th>Duration</th>
+			<th>Sets</th>
+			<th>Machine</th>
+		</tr>
+	</table>
+</div>
+
+
+<script src="/js/trainer.js" type="text/javascript"></script>
 <script>
 var trainerData = <%=request.getAttribute("trainer")%>
 focusHome(trainerData);
