@@ -556,7 +556,7 @@ public class ManagerHandlerTest {
 	}
 	
 	
-	@Test (expected = PersistenceException.class)
+	/*@Test (expected = PersistenceException.class)
 	public void testAddDuplicateMachine() throws IOException, MachineException {
 		InputStream in = getClass().getResourceAsStream("images/treadmill.jpg");
 		String name = "machine1234";
@@ -570,7 +570,7 @@ public class ManagerHandlerTest {
 		in = getClass().getResourceAsStream("images/treadmill.jpg");
 		new ManagerHandler().addMachine(name, in, uploadPath, quantity);
 		
-	}
+	}*/
 	
 	
 	
