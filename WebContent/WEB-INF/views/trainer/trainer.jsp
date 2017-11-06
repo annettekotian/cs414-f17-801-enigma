@@ -6,7 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="/css/gymSystem.css">
 <link rel="stylesheet" type="text/css" href="/css/trainer.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.modal.min.css">
 <script src="/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="/js/jquery.modal.min.js"></script>
 <title>Trainer UI</title>
 </head>
 <body>
@@ -84,7 +86,9 @@
 
 	</table>
 </div>
-	
+
+
+<button id="addExercise" class="addButtons" onclick="addExerciseModal()">Add Exercise</button>
 <div id="exerciseResults">
 	<table id="exerciseTable">
 		<tr class="tableHeader">
@@ -96,8 +100,31 @@
 	</table>
 </div>
 
+<div id="exerciseModal" class="modal">
+	<h3 id="addExerciseHeader">Add Exercise</h3>
+	<h3 id="modifyExerciseHeader">Modify Exercise</h3>
+	<form id="exerciseForm">
+		<label>Name</label><br>
+		<input id="exerciseName" type="text"><br>
+		<label>Duration Hours</label><br>
+		<input id="exerciseDurationHours" type="number"><br>
+		<label>Duration Minutes</label><br>
+		<input id="exerciseDurationMinutes" type="number"><br>
+		<label>Duration Seconds</label><br>
+		<input id="exerciseDurationSeconds" type="number"><br>
+		<label>Sets</label><br>
+		<p id="exerciseSetsDisplay">Current Sets: None<p>
+		<input id="exercisesetRepetition" type="number"><br>
+		<button id="addExerciseSet" class="addButtons" onclick="addExerciseSet()">Add Set</button><br>
+		<label>Machine</label><br>
+		<input id="exerciseMachine" type="number"><br>
+	</form>
+	<button id="addExercise" class="addButtons" onclick="addExercise()">Submit</button><br>
+</div>
 
-<script src="/js/trainer.js" type="text/javascript"></script>
+
+<script src="/js/trainer/trainer.js" type="text/javascript"></script>
+<script src="/js/trainer/exercise.js" type="text/javascript"></script>
 <script>
 var trainerData = <%=request.getAttribute("trainer")%>
 focusHome(trainerData);

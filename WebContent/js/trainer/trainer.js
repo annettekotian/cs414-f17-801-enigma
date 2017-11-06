@@ -5,6 +5,7 @@ function focusHome() {
 	$("#customerTable").hide();
 	$(".trainerSearchCustomers").hide();
 	$("#exerciseResults").hide();
+	$("#addExercise").hide();
 }
 
 function populateHomePage() {
@@ -24,10 +25,12 @@ function focusCustomers() {
 	$(".trainerSearchCustomers").show();
 	
 	$("#exerciseResults").hide();
+	$("#addExercise").hide();
 }
 
 function focusExercises() {
 	$("#exerciseResults").show();
+	$("#addExercise").show();
 	
 	$("#customerTable").hide();
 	$("#home").hide();
@@ -38,6 +41,7 @@ function focusExercises() {
 
 function focusWorkours() {
 	$("#exerciseResults").hide();
+	$("#addExercise").hide();
 	
 	$("#customerTable").hide();
 	$("#home").hide();
@@ -140,46 +144,3 @@ $("#trainerSearchCustomerButton").on("click", function(){
 		}
 	});
 });
-
-function getAllExercises() {
-	var exercises = null;
-	$.ajax({
-		url: "/trainer/ui",
-		data: {
-			type: "getAllExercises"
-		},
-		method: "GET",
-		success: function(data, textStatus, jqXHR) {
-			exercises = data;
-		},
-		error: function(exception) {
-			alert("Exception" + exception);
-		},
-		async: false
-	});
-	return exercises;
-}
-
-function populateAllExercises() {
-	var exercises = getAllExercises();
-	populateExercises(exercises);
-}
-
-function populateExercises(exercises) {
-	$("#exerciseTable tr").slice(1).remove();
-	for(var i=0; i<exercises.length; i++) {
-		var name = exercises[i].name;
-		var duration = "00:00:00";
-		var sets = "";
-		var machine = "";
-		
-		var exerciseRow = "<tr data-exercise='" + JSON.stringify(exercises[i]) + "'>"
-		+ "<td>" + name + "</td>"
-		+ "<td>" + duration + "</td>"
-		+ "<td>" + sets + "</td>"
-		+ "<td>" + machine + "</td>"
-		+ "</tr>";
-				  
-		$("#exerciseTable").append(trainerRow);
-	}
-}

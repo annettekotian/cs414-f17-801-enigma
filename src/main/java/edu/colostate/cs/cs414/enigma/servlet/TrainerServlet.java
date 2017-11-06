@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.PersistenceException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -100,6 +101,37 @@ public class TrainerServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
+		String type = request.getParameter("type");
+		PrintWriter out = response.getWriter();
+		Map<String, Object> values = new HashMap<String, Object>();
+		
+		if(type.equals("createExercise")) {
+			String name = request.getParameter("name");
+			int machineId = Integer.parseInt(request.getParameter("machineId"));
+			int hours = Integer.parseInt(request.getParameter("hours"));
+			int minutes = Integer.parseInt(request.getParameter("minutes"));
+			int seconds = Integer.parseInt(request.getParameter("seconds"));
+			List<Integer> repetitions = new Gson().fromJson(request.getParameter("repetitions"), List.class);
+			
+			Map<String, Object> returnValues = new HashMap<String, Object>();
+			TrainerHandler th = new TrainerHandler();
+			try {
+				th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
+				returnValues.put("rc", "0");
+			}
+			catch(PersistenceException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getCause().getCause().toString());
+			}
+			catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			finally {
+				th.close();
+			}
+			response.setContentType("application/json");
+			out.write(new Gson().toJson(returnValues));
+		}
 	}
 
 }
