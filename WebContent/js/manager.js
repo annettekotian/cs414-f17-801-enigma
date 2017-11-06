@@ -218,11 +218,12 @@ function showInventoryData() {
 			$("#inventoryResults .tableData").remove();
 			for (var i = 0 ; i<data.machines.length; i++) {
 				var machine = data.machines[i];
-				$("#inventoryResults table").append("<tr class='tableData' data-id='"+ machine.id + "' class='tableData>" 
+				$("#inventoryResults table").append("<tr class='tableData' data-id='"+ machine.id + "'>" 
 						+"<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
-						+ "<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
+						
+						 +"<td>" + machine.id + "</td>"
 						+ "<td>" + machine.name + "</td>" 
-						+ "<td><img src='/machineImages/"+ machine.pictureLocation + "'></img></td>"
+						+ "<td><img src='/machineImages/"+ machine.pictureLocation + "?v="+ new Date().getTime()+"'></img></td>"
 						+ "<td>"+ machine.quantity + "</td></tr>");
 			}
 			
@@ -775,25 +776,23 @@ function getSearchCustomerResults(keywords) {
 
 
 $("#addMachine").on("click", function(){
-	$("#editMachineButton").hide();
-	$("#addMachineButton").show();
-	$("#machineModal").modal();
+	$("#addMachineModal").modal();
 });
 
-$("#machinePic").on("change", function(){
+$("#addMachinePic").on("change", function(){
 	debugger;
 	if (this.files && this.files[0]) {
 	    var reader = new FileReader();
 
 	    reader.onload = function(e) {
-	      $('#imgPreview').attr('src', e.target.result);
+	      $('#addMachinePreview').attr('src', e.target.result);
 	    }
 
 	    reader.readAsDataURL(this.files[0]);
 	  }
 })
 
-$("#machineForm").on("submit", function(e){
+$("#addMachineForm").on("submit", function(e){
 	e.preventDefault();
 	var data = new FormData(this);
 	$.ajax({
@@ -809,8 +808,9 @@ $("#machineForm").on("submit", function(e){
 			var machine = data.machine;
 			$("#inventoryResults table").append("<tr class='tableData' data-id='"+ machine.id + "' class='.tableData'>" 
 					+ "<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
+					+"<td>" + machine.id + "</td>"
 					+ "<td>" + machine.name + "</td>" 
-					+ "<td><img src='/machineImages/"+ machine.pictureLocation + "'></img></td>"
+					+ "<td><img src='/machineImages/"+ machine.pictureLocation + "?v="+new Date().getTime()+"'></img></td>"
 					+ "<td>"+ machine.quantity + "</td></tr>");
 		},
 		error: function(error){
@@ -828,16 +828,14 @@ $("#machineForm").on("submit", function(e){
 })
 
 
-$("#machineModal").on($.modal.AFTER_CLOSE, function() {
-	$("#machineName, #machineQuantity, #machinePic").val("");
-	$("#imgPreview").attr("src", "#");
+$("#addMachineMoxdal").on($.modal.AFTER_CLOSE, function() {
+	$("#addMachineName, #addMachineQuantity, #addMachinePic").val("");
+	$("#addMachinePreview").attr("src", "#");
 });
 
-$(document).on("click", ".editMachine", function(){
-	$("#addMachineButton").hide();
-	$("#editMachineButton").show();
-	
+$(document).on("click", ".editMachine", function(){	
 	 CURRENTLY_EDITED_MACHINE_ID = $(this).parents("tr").data("id");
+	 $("#machineId").val(CURRENTLY_EDITED_MACHINE_ID);
 		$.ajax({
 			url: "/manager/ui",
 			type: "GET",
@@ -849,10 +847,10 @@ $(document).on("click", ".editMachine", function(){
 			success: function(data){
 				data = JSON.parse(data);
 				var machine = data.machine
-				$("#machineName").val(machine.name);
-				$("#machineQuantity").val(machine.quantity);
-				$("#imgPreview").attr("src", "/machineImages/"+ machine.pictureLocation);
-				$("#machineModal").modal();
+				$("#editMachineName").val(machine.name);
+				$("#editMachineQuantity").val(machine.quantity);
+				$("#editMachinePreview").attr("src", "/machineImages/"+ machine.pictureLocation);
+				$("#editMachineModal").modal();
 				
 			},
 			error: function(error){
@@ -860,10 +858,65 @@ $(document).on("click", ".editMachine", function(){
 			} 
 		})
 });
-
-$("#cancelMachineButton").on("click", function(e){
+$("#cancelMachineButton, #cancelEditMachine").on("click", function(e){
 	e.preventDefault();
 	$.modal.close();
 })
+
+
+$("#editMachinePic").on("change", function(){
+	if (this.files && this.files[0]) {
+	    var reader = new FileReader();
+
+	    reader.onload = function(e) {
+	      $('#editMachinePreview').attr('src', e.target.result);
+	    }
+
+	    reader.readAsDataURL(this.files[0]);
+	  }
+})
+
+
+$("#editMachineForm").on("submit", function(e){
+
+	console.log("here");
+	e.preventDefault();
+	var data = new FormData(this);
+	$.ajax({
+		url: "/manager/ui",
+		type: "POST",
+		data:  data,
+		contentType: false,
+		cache: false,
+		processData:false,
+		success: function(data){
+			$.modal.close();
+			data = JSON.parse(data);
+			var machine = data.machine
+			
+			var tr = $("#inventoryResults table").find("tr[data-id='" + machine.id+"']");
+			tr.empty();
+			var machine = data.machine;
+			tr.append("<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
+					+"<td>" + machine.id + "</td>"
+					+ "<td>" + machine.name + "</td>" 
+					+ "<td><img src='/machineImages/"+ machine.pictureLocation + "?v="+ new Date().getTime()+"'></img></td>"
+					+ "<td>"+ machine.quantity + "</td>");
+		},
+		error: function(error){
+			if(error.responseText.indexOf("missing input") >= 0) {
+				alert("Could not add machine to the inventory. Some input fields were missing");
+			} else if(error.responseText.indexOf("not image file") >= 0){
+				alert("The file selected is not an image file");
+			} else if (error.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0){
+				alert("Machine name already exists. Please use another name");
+			} else {
+				alert("Error: " + error);
+			}
+		} 
+	});
+})
+
+
 
 

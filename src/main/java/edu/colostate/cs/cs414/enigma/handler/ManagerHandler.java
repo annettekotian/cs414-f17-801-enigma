@@ -225,5 +225,77 @@ public class ManagerHandler  {
 		return (Machine)dao.querySingle("Machine.findId", params);
 	}
 	
+	
+	/**this methods updates a machine. If the name has been changes, it updates the name in the db and the name of the image file stored in the 
+	 * disk. If the image has been changed it stores the new image in the disk.
+	 * @param id: String db id of the  machine being updated.
+	 * @param name: String name of the image file to be saved
+	 * @param fileContent: InputStream of the image file
+	 * @param uploadPath: String path where the file is to be saved
+	 * @param quantity: String: number of machines
+	 * @return
+	 * @throws IOException
+	 * @throws MachineException
+	 */
+	public Machine updateMachine(String id, String name, InputStream fileContent, String uploadPath, String quantity) throws IOException, MachineException {
+		
+		// validations
+		if(id.isEmpty() || name.isEmpty() ||  uploadPath.isEmpty() || quantity.isEmpty()) {
+			throw new IllegalArgumentException("missing input");
+		}
+		BufferedImage image = null;
+		boolean picChanged = false;
+		if(fileContent != null && fileContent.available() > 0 ) {
+			image = ImageIO.read(fileContent);
+			picChanged = true;
+			if(image == null) {
+				throw new IllegalArgumentException("not image file");
+			}
+		}
+		
+		
+		EntityManagerDao dao = new EntityManagerDao();
+		
+		
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("id", Integer.parseInt(id));
+		Machine m = (Machine) dao.querySingle("Machine.findId", params);
+		
+		// get the current machine name
+		String currentName = m.getName();
+		
+		// set the new full name
+		String fullName = name + ".png";
+		int noOfMachines = Integer.parseInt(quantity);
+		//set full name with db id
+		String fullNameWithId = m.getId() + "_" + fullName;
+		
+		m.setName(name);
+		m.setPictureLocation(fullNameWithId);
+		m.setQuantity(Integer.parseInt(quantity));
+		
+		dao.update(m);
+		dao.close();
+		
+		String currentPath = uploadPath +   "/"+ m.getId() + "_" + currentName + ".png";
+		System.out.println(currentPath);
+		File currentFile = new File(currentPath);
+		String path = uploadPath +   "/"+ fullNameWithId;
+		System.out.println(path);
+		File imageFile = new File(path);
+		
+		// if name has been updated update the picture in the storage disk too
+		if(!currentName.equals(name) && picChanged == false) {
+			currentFile.renameTo(imageFile);
+			// write the new image to the storage disk	
+
+		}
+		
+		if (picChanged == true) {
+			ImageIO.write(image, "png", imageFile);
+		}
+		return m;
+		
+	}
 
 }

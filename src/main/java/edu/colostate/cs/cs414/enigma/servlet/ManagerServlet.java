@@ -282,24 +282,43 @@ public class ManagerServlet extends HttpServlet {
 		Map<String, Object> values = new HashMap<String, Object>();
 		PrintWriter out = response.getWriter();
 		switch (type) {
-		case "addMachine": 
+		case "addMachine": {
 			Part part = request.getPart("machinePic");
 			InputStream content = part.getInputStream();
 			String uploadPath = getServletContext().getInitParameter("path_to_upload");
 			try {
-				Machine m = new ManagerHandler().addMachine(request.getParameter("machineName"), content, uploadPath, request.getParameter("machineQuantity"));
+				Machine m = new ManagerHandler().addMachine(request.getParameter("machineName"), content, uploadPath,
+						request.getParameter("machineQuantity"));
 				values.put("machine", m);
 				out.println(new Gson().toJson(values));
-			} catch ( MachineException e) {
+			} catch (MachineException e) {
 				response.sendError(500, e.toString());
-			} catch(IllegalArgumentException e) {
+			} catch (IllegalArgumentException e) {
 				response.sendError(500, e.toString());
-			}catch(PersistenceException e) {
+			} catch (PersistenceException e) {
 				response.sendError(500, e.toString());
 			}
-			
+		}
 			break;
-
+		case "updateMachine": {
+			Part part = request.getPart("machinePic");
+			InputStream content = part.getInputStream();
+			String uploadPath = getServletContext().getInitParameter("path_to_upload");
+			try {
+				Machine m = new ManagerHandler().updateMachine(request.getParameter("machineId") ,request.getParameter("machineName"), 
+						content, uploadPath, request.getParameter("machineQuantity"));
+				values.put("machine", m);
+				out.println(new Gson().toJson(values));
+			} catch (MachineException e) {
+				response.sendError(500, e.toString());
+			} catch (IllegalArgumentException e) {
+				response.sendError(500, e.toString());
+			} catch (PersistenceException e) {
+				response.sendError(500, e.toString());
+			}
+		}
+			
+		break;
 		case "createManager":
 
 			String fName = request.getParameter("fName");

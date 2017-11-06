@@ -139,6 +139,9 @@
 					
 				</th>
 				<th>
+					Id
+				</th>
+				<th>
 					Name
 				</th>
 				<th>
@@ -404,28 +407,52 @@
 		</div>
 	</div>
 	
-	<div id="machineModal" class="modal">
+	<div id="addMachineModal" class="modal">
 		<h3>Add a machine</h3>
-		<form id="machineForm" action="/manager/ui" method="post" enctype="multipart/form-data">
+		<form id="addMachineForm" action="/manager/ui" method="post" enctype="multipart/form-data">
 		<input style="display:none" name="type" type="text" name="type" value="addMachine"/>
 		<div class=machineInputDiv>
 			<label>Machine name</label><br/>
-			<input id="machineName" name="machineName" type="text" placeholder="Enter machine name"/>
+			<input id="addMachineName" name="machineName" type="text" placeholder="Enter machine name"/>
 			
 		</div>
 		<div class=machineInputDiv>
 			<label>Machine quantity</label><br/>
-			<input id="machineQuantity" name="machineQuantity" type="number" placeholder="Enter quantity"/>
+			<input id="addMachineQuantity" name="machineQuantity" type="number" placeholder="Enter quantity"/>
 		</div>
 		<div class=machineInputDiv>
 			
 			<label>Choose picture</label><br/>
-			<input id="machinePic" type="file" name="machinePic" accept=".jpg,.png,.bmp,.tiff"/><br/>
-			<img id="imgPreview" src="#"></img>
+			<input id="addMachinePic" type="file" name="machinePic" accept=".jpg,.png,.bmp,.tiff"/><br/>
+			<img id="addMachinePreview" src="#"></img>
 		</div>
 		<input id="addMachineButton" type="submit" value="Add machine"/>
-		<input id="editMachineButton" type="submit" value="Submit Changes"/>
 		<button id= "cancelMachineButton" >Cancel</button>
+		</form>
+	</div>
+	
+	<div id="editMachineModal" class="modal">
+		<h3>Add a machine</h3>
+		<form id="editMachineForm" action="/manager/ui" method="post" enctype="multipart/form-data">
+		<input style="display:none" name="type" type="text" name="type" value="updateMachine"/>
+		<input style="display:none" id = "machineId" name="machineId" type="text"  value=""/>
+		<div class=machineInputDiv>
+			<label>Machine name</label><br/>
+			<input id="editMachineName" name="machineName" type="text" placeholder="Enter machine name"/>
+			
+		</div>
+		<div class=machineInputDiv>
+			<label>Machine quantity</label><br/>
+			<input id="editMachineQuantity" name="machineQuantity" type="number" placeholder="Enter quantity"/>
+		</div>
+		<div class=machineInputDiv>
+			
+			<label>Choose picture</label><br/>
+			<input id="editMachinePic" type="file" name="machinePic" accept=".jpg,.png,.bmp,.tiff"/><br/>
+			<img id="editMachinePreview" src="#"></img>
+		</div>
+		<input id="editMachineButton" type="submit" value="Submit Changes"/>
+		<button id= "cancelEditMachine" >Cancel</button>
 		</form>
 	</div>
 </body>
