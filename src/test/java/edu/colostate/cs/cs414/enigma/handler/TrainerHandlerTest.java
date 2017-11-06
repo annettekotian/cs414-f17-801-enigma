@@ -26,7 +26,7 @@ import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
-import edu.colostate.cs.cs414.enigma.entity.WorkHoursException;
+import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
 import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 public class TrainerHandlerTest {

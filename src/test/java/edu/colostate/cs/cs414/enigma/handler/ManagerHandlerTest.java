@@ -26,9 +26,9 @@ import org.junit.Test;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.Machine;
-import edu.colostate.cs.cs414.enigma.entity.MachineException;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
+import edu.colostate.cs.cs414.enigma.entity.exception.MachineException;
 import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 

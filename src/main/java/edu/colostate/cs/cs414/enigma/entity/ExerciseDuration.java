@@ -9,6 +9,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
+
 @Entity
 @Table(name="exercise_duration")
 @NamedQueries({
@@ -33,10 +35,10 @@ public class ExerciseDuration {
 		
 	protected ExerciseDuration() {}
 
-	public ExerciseDuration(int hours, int minutes, int seconds) {
-		this.hours = hours;
-		this.minutes = minutes;
-		this.seconds = seconds;
+	public ExerciseDuration(int hours, int minutes, int seconds) throws ExerciseDurationException {
+		this.setHours(hours);
+		this.setMinutes(minutes);
+		this.setSeconds(seconds);
 	}
 
 	public int getId() {
@@ -51,7 +53,10 @@ public class ExerciseDuration {
 		return hours;
 	}
 
-	public void setHours(int hours) {
+	public void setHours(int hours) throws ExerciseDurationException {
+		if(hours < 0) {
+			throw new ExerciseDurationException("Exercise duration hours cannot be less than zero");
+		}
 		this.hours = hours;
 	}
 
@@ -59,7 +64,10 @@ public class ExerciseDuration {
 		return minutes;
 	}
 
-	public void setMinutes(int minutes) {
+	public void setMinutes(int minutes) throws ExerciseDurationException {
+		if(minutes < 0) {
+			throw new ExerciseDurationException("Exercise duration minutes cannot be less than zero");
+		}
 		this.minutes = minutes;
 	}
 
@@ -67,7 +75,10 @@ public class ExerciseDuration {
 		return seconds;
 	}
 
-	public void setSeconds(int seconds) {
+	public void setSeconds(int seconds) throws ExerciseDurationException {
+		if(seconds < 0) {
+			throw new ExerciseDurationException("Exercise duration seconds cannot be less than zero");
+		}
 		this.seconds = seconds;
 	}
 

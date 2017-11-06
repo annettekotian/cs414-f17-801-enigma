@@ -103,22 +103,20 @@
 <div id="exerciseModal" class="modal">
 	<h3 id="addExerciseHeader">Add Exercise</h3>
 	<h3 id="modifyExerciseHeader">Modify Exercise</h3>
-	<form id="exerciseForm">
-		<label>Name</label><br>
-		<input id="exerciseName" type="text"><br>
-		<label>Duration Hours</label><br>
-		<input id="exerciseDurationHours" type="number"><br>
-		<label>Duration Minutes</label><br>
-		<input id="exerciseDurationMinutes" type="number"><br>
-		<label>Duration Seconds</label><br>
-		<input id="exerciseDurationSeconds" type="number"><br>
-		<label>Sets</label><br>
-		<p id="exerciseSetsDisplay">Current Sets: None<p>
-		<input id="exercisesetRepetition" type="number"><br>
-		<button id="addExerciseSet" class="addButtons" onclick="addExerciseSet()">Add Set</button><br>
-		<label>Machine</label><br>
-		<input id="exerciseMachine" type="number"><br>
-	</form>
+	<label>Name</label><br>
+	<input id="exerciseName" type="text" placeholder="Name"><br>
+	<label>Duration Hours</label><br>
+	<input id="exerciseDurationHours" type="number" placeholder="Hours"><br>
+	<label>Duration Minutes</label><br>
+	<input id="exerciseDurationMinutes" type="number" placeholder="Minutes"><br>
+	<label>Duration Seconds</label><br>
+	<input id="exerciseDurationSeconds" type="number" placeholder="Seconds"><br>
+	<label>Sets</label><br>
+	<ul id="exerciseSetList"></ul>
+	<input id="exerciseSetRepetition" type="number" placeholder="Repetitions"><br>
+	<button type="button" id="addExerciseSet" class="addButtons" onclick="addExerciseSet()" >Add Set</button><br>
+	<label>Machine</label><br>
+	<select id="exerciseMachine"></select><br>
 	<button id="addExercise" class="addButtons" onclick="addExercise()">Submit</button><br>
 </div>
 

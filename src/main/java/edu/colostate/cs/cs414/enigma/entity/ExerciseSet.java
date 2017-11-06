@@ -9,6 +9,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
+
 @Entity
 @Table(name="exercise_set")
 @NamedQueries({
@@ -30,8 +32,8 @@ public class ExerciseSet {
 	
 	protected ExerciseSet() {}
 	
-	public ExerciseSet(int repetitions) {
-		this.repetitions = repetitions;
+	public ExerciseSet(int repetitions) throws ExerciseSetException {
+		this.setRepetitions(repetitions);
 	}
 
 	public int getId() {
@@ -46,7 +48,10 @@ public class ExerciseSet {
 		return repetitions;
 	}
 
-	public void setRepetitions(int repetitions) {
+	public void setRepetitions(int repetitions) throws ExerciseSetException {
+		if(repetitions < 1) {
+			throw new ExerciseSetException("Exercise set repetitions cannot be less than 1");
+		}
 		this.repetitions = repetitions;
 	}
 

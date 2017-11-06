@@ -33,6 +33,7 @@ import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
 import edu.colostate.cs.cs414.enigma.entity.WorkHours;
 import edu.colostate.cs.cs414.enigma.entity.Workout;
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
 import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 public class EntityManagerDaoTest {
@@ -343,7 +344,7 @@ public class EntityManagerDaoTest {
 	}
 	
 	@Test
-	public void persistNewExercise() {
+	public void persistNewExercise() throws Exception {
 		Exercise exercise = new Exercise("Push-ups");
 		dao.persist(exercise);
 		persistedObjects.add(exercise);
@@ -432,7 +433,7 @@ public class EntityManagerDaoTest {
 	}
 	
 	@Test
-	public void addWorkoutToCustomer() {
+	public void addWorkoutToCustomer() throws Exception {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("type", "ACTIVE");
 		Membership membership = (Membership) dao.querySingle("Membership.findType", parameters);
@@ -462,7 +463,7 @@ public class EntityManagerDaoTest {
 	}
 	
 	@Test
-	public void removeWorkoutFromCustomer() {
+	public void removeWorkoutFromCustomer() throws Exception {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("type", "ACTIVE");
 		Membership membership = (Membership) dao.querySingle("Membership.findType", parameters);

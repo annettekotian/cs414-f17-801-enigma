@@ -19,7 +19,10 @@ import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
 import edu.colostate.cs.cs414.enigma.entity.WorkHours;
-import edu.colostate.cs.cs414.enigma.entity.WorkHoursException;
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
+import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.Exercise;
@@ -352,12 +355,12 @@ public class TrainerHandler {
 	}
 	
 	public Exercise createExercise(String name, int machineId, int durationHours, int durationMinutes,
-			int durationSeconds, List<Integer> repetitions) throws PersistenceException {
+			int durationSeconds, List<Integer> repetitions) throws PersistenceException, ExerciseDurationException, ExerciseSetException, ExerciseException {
 		
 		// Create a new exercise
 		Exercise exercise = new Exercise(name);
 		
-		// Only add a duration if hours, mintues, and seconds are non-null
+		// Only add a duration if hours, minutes, and seconds are non-null
 		if(durationHours != 0 || durationMinutes != 0 || durationSeconds != 0) {
 			ExerciseDuration duration = new ExerciseDuration(durationHours, durationMinutes, durationSeconds);
 			exercise.setDuration(duration);

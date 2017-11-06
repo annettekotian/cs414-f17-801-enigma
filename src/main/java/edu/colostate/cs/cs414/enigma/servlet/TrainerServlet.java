@@ -15,10 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import edu.colostate.cs.cs414.enigma.entity.Customer;
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
 import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
-
+import edu.colostate.cs.cs414.enigma.handler.SystemHandler;
 import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
 
 /**
@@ -50,8 +54,9 @@ public class TrainerServlet extends HttpServlet {
 		String type = request.getParameter("type");
 		PrintWriter out = response.getWriter();
 		Map<String, Object> values = new HashMap<String, Object>();
-		switch(type) {
-		case "getCustomers": 
+		
+		
+		if(type.equals("getCustomers")) {
 			try {
 				
 				CustomerHandler ch = new CustomerHandler();
@@ -64,8 +69,7 @@ public class TrainerServlet extends HttpServlet {
 			}
 			return;
 			
-		case "getSearchCustomerResults":
-
+		} else if(type.equals("getSearchCustomerResults")) {
 			try {
 				String searchText = request.getParameter("searchText");
 				CustomerHandler ch = new CustomerHandler();
@@ -82,7 +86,7 @@ public class TrainerServlet extends HttpServlet {
 			}
 			return;
 			
-		case "getAllExercises":
+		} else if(type.equals("getAllExercises")) {
 			try {
 				TrainerHandler th = new TrainerHandler();
 				response.setContentType("application/json");
@@ -92,8 +96,19 @@ public class TrainerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 			}
 			return;
+			
+		} else if(type.equals("getAllMachines")) {
+			try {
+				SystemHandler sh = new SystemHandler();
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(sh.getInventory()));
+				sh.close();
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			return;
+			
 		}
-		
 	}
 
 	/**
@@ -111,19 +126,32 @@ public class TrainerServlet extends HttpServlet {
 			int hours = Integer.parseInt(request.getParameter("hours"));
 			int minutes = Integer.parseInt(request.getParameter("minutes"));
 			int seconds = Integer.parseInt(request.getParameter("seconds"));
-			List<Integer> repetitions = new Gson().fromJson(request.getParameter("repetitions"), List.class);
+			String[] sets = request.getParameterValues("sets[]");
+			List<Integer> repetitions = new ArrayList<Integer>();
+			if(sets != null) {
+				for(int i=0; i<sets.length; i++) {
+					repetitions.add(Integer.parseInt(sets[i]));
+				}
+			}
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			TrainerHandler th = new TrainerHandler();
 			try {
 				th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 				returnValues.put("rc", "0");
-			}
-			catch(PersistenceException e) {
+			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getCause().getCause().toString());
-			}
-			catch(Exception e) {
+			} catch(ExerciseDurationException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getMessage());
+			} catch(ExerciseSetException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getMessage());
+			} catch(ExerciseException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getMessage());
+			} catch(Exception e) {
 				response.sendError(500, e.toString());
 			}
 			finally {
