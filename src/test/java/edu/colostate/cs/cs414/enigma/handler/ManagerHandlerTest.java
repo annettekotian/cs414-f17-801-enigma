@@ -487,9 +487,9 @@ public class ManagerHandlerTest {
 	}
 	
 	
-	/*@Test
+	@Test
 	public void testAddMachine() throws IOException, MessagingException, MachineException {
-		InputStream in = getClass().getResourceAsStream("images/treadmill.jpg");
+		InputStream in = getClass().getResourceAsStream("treadmill.jpg");
 		String name = "machine1234";
 		String quantity = "4";
 		String uploadPath = System.getProperty("user.home");
@@ -503,7 +503,7 @@ public class ManagerHandlerTest {
 		Machine m1 = (Machine) dao.querySingle("Machine.findId", params);
 		assertTrue(m1.getName().equals(name) && m1.getQuantity() == Integer.parseInt(quantity) );
 				
-	}*/
+	}
 	
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -571,6 +571,7 @@ public class ManagerHandlerTest {
 		new ManagerHandler().addMachine(name, in, uploadPath, quantity);
 		
 	}*/
+	
 	
 	
 	
