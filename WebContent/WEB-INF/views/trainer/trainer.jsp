@@ -89,6 +89,8 @@
 
 
 <button id="addExercise" class="addButtons" onclick="addExerciseModal()">Add Exercise</button>
+<button id="modifyExercise" class="addButtons" onclick="modifyExerciseModal()" disabled>Modify Exercise</button>
+<button id="deleteExercise" class="addButtons" onclick="deleteExercise()" disabled>Delete Exercise</button>
 <div id="exerciseResults">
 	<table id="exerciseTable">
 		<tr class="tableHeader">
@@ -114,10 +116,12 @@
 	<label>Sets</label><br>
 	<ul id="exerciseSetList"></ul>
 	<input id="exerciseSetRepetition" type="number" placeholder="Repetitions"><br>
-	<button type="button" id="addExerciseSet" class="addButtons" onclick="addExerciseSet()" >Add Set</button><br>
+	<button type="button" id="addExerciseSet" class="addButtons" onclick="addExerciseSet()" >Add Set</button>
+	<button type="button" id="deleteExerciseSet" class="addButtons" onclick="deleteExerciseSet()" >Delete Set</button><br>
 	<label>Machine</label><br>
 	<select id="exerciseMachine"></select><br>
-	<button id="addExercise" class="addButtons" onclick="addExercise()">Submit</button><br>
+	<button id="submitAddExercise" class="addButtons" onclick="addExercise()">Submit</button><br>
+	<button id="submitModifyExercise" class="addButtons" onclick="modifyExercise()">Submit</button><br>
 </div>
 
 

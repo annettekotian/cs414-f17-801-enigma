@@ -120,7 +120,8 @@ public class TrainerServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		Map<String, Object> values = new HashMap<String, Object>();
 		
-		if(type.equals("createExercise")) {
+		if(type.equals("createExercise") || type.equals("modifyExercise")) {
+			int exerciseId = Integer.parseInt(request.getParameter("id"));
 			String name = request.getParameter("name");
 			int machineId = Integer.parseInt(request.getParameter("machineId"));
 			int hours = Integer.parseInt(request.getParameter("hours"));
@@ -137,7 +138,11 @@ public class TrainerServlet extends HttpServlet {
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			TrainerHandler th = new TrainerHandler();
 			try {
-				th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
+				if(type.equals("createExercise")) {
+					th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
+				} else if(type.equals("modifyExercise")) {
+					th.modifyExercise(exerciseId, name, machineId, hours, minutes, seconds, repetitions);
+				}
 				returnValues.put("rc", "0");
 			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
@@ -159,6 +164,27 @@ public class TrainerServlet extends HttpServlet {
 			}
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
+			
+		} else if(type.equals("deleteExercise")) {
+			int exerciseId = Integer.parseInt(request.getParameter("id"));
+			
+			Map<String, Object> returnValues = new HashMap<String, Object>();
+			TrainerHandler th = new TrainerHandler();
+			try {
+				th.deleteExercise(exerciseId);
+				returnValues.put("rc", "0");
+			} catch(PersistenceException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getCause().getCause().toString());
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			finally {
+				th.close();
+			}
+			response.setContentType("application/json");
+			out.write(new Gson().toJson(returnValues));
+			
 		}
 	}
 

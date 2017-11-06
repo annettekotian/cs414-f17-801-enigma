@@ -1,9 +1,31 @@
+var selectedExerciseRow = null;
+
+function selectExerciseRow(event) {
+	if(selectedExerciseRow != null) {
+		selectedExerciseRow.id = "";
+	}
+	selectedExerciseRow = event.target.parentElement;
+	selectedExerciseRow.id = "selectedExerciseRow";
+	document.getElementById("modifyExercise").disabled = false;
+	document.getElementById("deleteExercise").disabled = false;
+}
+
+function clearSelectedExerciseRow() {
+	if(selectedExerciseRow != null) {
+		selectedExerciseRow.id = "";
+		selectedExerciseRow = null;
+		document.getElementById("modifyExercise").disabled = true;
+		document.getElementById("deleteExercise").disabled = true;
+	}
+}
+
 function populateAllExercises() {
 	var exercises = getAllExercises();
 	populateExercises(exercises);
 }
 
 function populateExercises(exercises) {
+	clearSelectedExerciseRow();
 	$("#exerciseTable tr").slice(1).remove();
 	for(var i=0; i<exercises.length; i++) {
 		var name = exercises[i].name;
@@ -18,15 +40,15 @@ function populateExercises(exercises) {
 		if(exercises[i].sets) {
 			for(var j=0; j<exercises[i].sets.length; j++) {
 				if(j == 0) {
-					sets = sets + exercises[i].sets[i].repetitions + " repetition(s)";
+					sets = sets + exercises[i].sets[j].repetitions + " repetition(s)";
 				}
 				else {
-					sets = sets + ", " + exercises[i].sets[i].repetitions + " repetition(s)";
+					sets = sets + ", " + exercises[i].sets[j].repetitions + " repetition(s)";
 				}
 			}
 		}
 		
-		var exerciseRow = "<tr data-exercise='" + JSON.stringify(exercises[i]) + "'>"
+		var exerciseRow = "<tr class='exerciseRow' onclick='selectExerciseRow(event)' data-exercise='" + JSON.stringify(exercises[i]) + "'>"
 			+ "<td>" + name + "</td>"
 			+ "<td>" + duration + "</td>"
 			+ "<td>" + sets + "</td>"
@@ -49,7 +71,7 @@ function getAllMachines() {
 	return getTrainerUi(params);
 }
 
-function addExerciseModal() {
+function resetExerciseModal(){
 	$("#exerciseName").val("");
 	$("#exerciseDurationHours").val("");
 	$("#exerciseDurationMinutes").val("");
@@ -60,13 +82,19 @@ function addExerciseModal() {
 	$("#exerciseMachine").append("<option data-id='0'>--None--</option>");
 	var machines = getAllMachines();
 	for(var i=0; i<machines.lenght; i++) {
-		$("#exerciseMachine").append("<option data-id='" + machines[i].id + "'>" + machines[i].name + "</option>");
+		$("#exerciseMachine").append("<option value='" + machines[i].name + "' data-id='" + machines[i].id + "'>" + machines[i].name + "</option>");
 	}
 	
+	$("#exerciseSetList").empty();
+}
+
+function addExerciseModal() {
+	resetExerciseModal();
 	
 	$("#addExerciseHeader").show();
 	$("#modifyExerciseHeader").hide();
-	$("#exerciseSetList").empty();
+	$("#submitModifyExercise").hide();
+	$("#submitAddExercise").show();
 	$("#exerciseModal").modal();
 }
 
@@ -75,9 +103,20 @@ function addExerciseSet() {
 	$("#exerciseSetList").append("<li data-reps='" + repetitions + "'>" + repetitions + " repetition(s)</li>");
 }
 
+function deleteExerciseSet() {
+	if($("#exerciseSetList li").length > 0) {
+		$("#exerciseSetList li:last-child").remove();
+	}
+}
+
 function addExercise() {
+	submitExercise("createExercise", 0);
+}
+
+function submitExercise(type, id) {
 	var params = {};
-	params.type = "createExercise";
+	params.type = type;
+	params.id = id;
 	params.name = $("#exerciseName").val();
 	params.machineId = $("#exerciseMachine").find(":selected").data("id");
 	params.hours = $("#exerciseDurationHours").val() || 0;
@@ -88,6 +127,63 @@ function addExercise() {
 		params.sets.push($(this).data("reps"));
 	});
 	
+	var data = postTrainerUi(params);
+	if(data.rc == 0) {
+		populateAllExercises();
+		$.modal.close();
+	}
+	else {
+		alert("Error: " + data.msg);
+	}
+}
+
+function modifyExerciseModal() {
+	resetExerciseModal();
+	
+	var exercise = JSON.parse(selectedExerciseRow.dataset.exercise);
+	
+	$("#exerciseName").val(exercise.name);
+	if(exercise.duration) {
+		if(exercise.duration.hours) {
+			$("#exerciseDurationHours").val(exercise.duration.hours);
+		}
+		if(exercise.duration.minutes) {
+			$("#exerciseDurationMinutes").val(exercise.duration.minutes);
+		}
+		if(exercise.duration.seconds) {
+			$("#exerciseDurationSeconds").val(exercise.duration.seconds);
+		}
+	}
+	if(exercise.sets) {
+		for(var i=0; i<exercise.sets.length; i++) {
+			$("#exerciseSetList").append("<li data-reps='" + exercise.sets[i].repetitions + "'>" + exercise.sets[i].repetitions + " repetition(s)</li>");
+		}
+	}
+	if(exercise.machine) {
+		$("#exerciseMachine").val(exercise.machine.name);
+	}
+	
+	$("#addExerciseHeader").hide();
+	$("#modifyExerciseHeader").show();
+	$("#submitModifyExercise").show();
+	$("#submitAddExercise").hide();
+	$("#exerciseModal").modal();
+}
+
+function modifyExercise() {
+	submitExercise("modifyExercise", JSON.parse(selectedExerciseRow.dataset.exercise).id);
+}
+
+function deleteExercise() {
+	var exercise = JSON.parse(selectedExerciseRow.dataset.exercise);
+	if(!confirm("Are you sure you want to delete " + exercise.name + "?")) {
+		return;
+	}
+	
+	var params = {};
+	params.type = "deleteExercise";
+	params.id = exercise.id;
+
 	var data = postTrainerUi(params);
 	if(data.rc == 0) {
 		populateAllExercises();
