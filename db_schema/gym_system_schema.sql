@@ -251,7 +251,8 @@ CREATE TABLE IF NOT EXISTS `GymSystem`.`machine` (
   `picture_location` VARCHAR(255) NOT NULL,
   `quantity` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
 ENGINE = InnoDB;
 
 

@@ -30,7 +30,7 @@ public class Machine {
 	@Column(name="name", unique=true, nullable=false, updatable=true)
 	private String name;
 	
-	@Column(name="picture_location", unique=true, nullable=false, updatable=true)
+	@Column(name="picture_location", nullable=false, updatable=true)
 	private String pictureLocation;
 	
 	@Column(name="quantity", nullable=false, updatable=true)
