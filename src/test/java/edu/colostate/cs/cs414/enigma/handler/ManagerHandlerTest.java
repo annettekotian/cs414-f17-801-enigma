@@ -556,23 +556,21 @@ public class ManagerHandlerTest {
 	}
 	
 	
-	/*@Test (expected = PersistenceException.class)
+	@Test (expected = PersistenceException.class)
 	public void testAddDuplicateMachine() throws IOException, MachineException {
-		InputStream in = getClass().getResourceAsStream("images/treadmill.jpg");
-		String name = "machine1234";
-		String quantity = "4";
-		String uploadPath = System.getProperty("user.home");
-		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
-		String location = m.getPictureLocation();
+		String name = "testMachine1234567789";
+		int quantity = 4;
+		String pictureLocation = "/" + name + ".png";
+		Machine m = new Machine(name, pictureLocation, quantity);
+		dao.persist(m);
 		persistedObjects.add(m);
-		File file = new File(uploadPath + "/" + location);
-		file.delete();
-		in = getClass().getResourceAsStream("images/treadmill.jpg");
-		new ManagerHandler().addMachine(name, in, uploadPath, quantity);
 		
-	}*/
-	
-	
-	
+		String name2 = "testMachine1234567789";
+		String pictureLocation2 = "/" + name2 + ".png";
+		Machine m2 = new Machine(name, pictureLocation2, quantity);
+		dao.persist(m2);
+		persistedObjects.add(m2);
+		
+	}	
 	
 }

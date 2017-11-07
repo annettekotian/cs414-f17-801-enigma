@@ -1,7 +1,9 @@
 package edu.colostate.cs.cs414.enigma.handler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
@@ -75,6 +77,7 @@ public class SystemHandler {
 	}
 
 	public List<Machine> getInventory(){
+
 		List rawMachines = dao.query("Machine.findAll", null);
 		List<Machine> machines = new ArrayList<Machine>();
 		for(int i=0; i<rawMachines.size(); i++) {
@@ -83,5 +86,22 @@ public class SystemHandler {
 		close();
 		return machines;
 	}
+	
+	
+	public List<Machine> searchByKeyword(String keyword){
+		dao = new EntityManagerDao();
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("keyword", "%" + keyword + "%");
+		//System.out.println("here 1");
+		List rawMachines = dao.query("Machine.findByKeyword", parameters);
+		//System.out.println("here 2");
+		List<Machine> machines = new ArrayList<Machine>();
+		for(int i=0; i<rawMachines.size(); i++) {
+			machines.add((Machine) rawMachines.get(i));
+		}
+		close();
+		return machines;
+	}
+	
 	
 }

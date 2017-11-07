@@ -14,7 +14,9 @@ import javax.persistence.Table;
 @NamedQueries({
 	@NamedQuery(name="Machine.findAll", query="SELECT m FROM Machine m"),
 	@NamedQuery(name="Machine.findByName", query="SELECT m FROM Machine m WHERE m.name = :name"),
-	@NamedQuery(name="Machine.findId", query="SELECT m FROM Machine m WHERE m.id = :id")
+	@NamedQuery(name="Machine.findId", query="SELECT m FROM Machine m WHERE m.id = :id"),
+	@NamedQuery(name="Machine.findByKeyword", query="Select m from Machine m  where m.name LIKE :keyword "
+			+ "OR m.quantity LIKE :keyword OR m.id LIKE :keyword")
 })
 public class Machine {
 

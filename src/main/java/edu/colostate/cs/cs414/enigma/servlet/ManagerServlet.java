@@ -263,7 +263,26 @@ public class ManagerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 			}
 			break;
-			
+		case "getSearchMachineResults": 
+		{
+			try {
+				String searchText = request.getParameter("searchText");
+				SystemHandler sysHandler = new SystemHandler();
+				List<Machine> machines = null;
+				if(searchText.isEmpty()) {
+					machines = sysHandler.getInventory();
+				} else {
+					machines = sysHandler.searchByKeyword(searchText);
+				}
+				
+				values.put("machines", machines);
+				out.write(new Gson().toJson(values));
+				
+			}catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+		}
+		break;	
 		default:
 			response.sendError(404);
 			break;

@@ -76,6 +76,7 @@ function showTrainerData() {
 	$("#addCustomer").hide()
 	$(".searchCustomer").hide();
 	$("#addMachine").hide();
+	$(".searchMachine").hide();
 	$("#managerResults").hide();
 	$("#customerResults").hide();
 	$("#inventoryResults").hide();
@@ -91,6 +92,7 @@ function showManagerData() {
 	$(".searchCustomer").hide();
 	$(".searchManager").show();
 	$(".searchTrainer").hide();
+	$(".searchMachine").hide();
 	$("#customerResults").hide();
 	$("#inventoryResults").hide();
 	$("#addManager").show();
@@ -139,6 +141,7 @@ function showCustomerData() {
 	$("#addManager").hide();
 	$(".searchManager").hide();
 	$("#addMachine").hide();
+	$(".searchMachine").hide();
 	$("#addCustomer").show();
 	$("#managerResults").hide();
 	$("#inventoryResults").hide();
@@ -203,6 +206,7 @@ function showInventoryData() {
 	$("#modifyTrainer").hide();
 	$("#addCustomer").hide();
 	$("#addMachine").show();
+	$(".searchMachine").show();
 	$("#managerResults").hide();
 	$("#customerResults").hide();
 	// send ajax call to get inventory data
@@ -215,20 +219,9 @@ function showInventoryData() {
 		},
 		success: function(data) {
 			data = JSON.parse(data);
-			$("#inventoryResults .tableData").remove();
-			for (var i = 0 ; i<data.machines.length; i++) {
-				var machine = data.machines[i];
-				$("#inventoryResults table").append("<tr class='tableData' data-id='"+ machine.id + "'>" 
-						+"<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
-						
-						 +"<td>" + machine.id + "</td>"
-						+ "<td>" + machine.name + "</td>" 
-						+ "<td><img src='/machineImages/"+ machine.pictureLocation + "?v="+ new Date().getTime()+"'></img></td>"
-						+ "<td>"+ machine.quantity + "</td></tr>");
-			}
-			
-			
-			
+			var machineList = data.machines; 
+			populateInventoryTable(machineList);
+					
 		},
 		error: function(exception) {
 			alert("Error: " + exception);
@@ -239,6 +232,20 @@ function showInventoryData() {
 	$("#inventoryResults").show();
 }
 
+
+function populateInventoryTable(machineList){
+	$("#inventoryResults .tableData").remove();
+	for (var i = 0 ; i<machineList.length; i++) {
+		var machine = machineList[i];
+		$("#inventoryResults table").append("<tr class='tableData' data-id='"+ machine.id + "'>" 
+				+"<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
+				
+				 +"<td>" + machine.id + "</td>"
+				+ "<td>" + machine.name + "</td>" 
+				+ "<td><img src='/machineImages/"+ machine.pictureLocation + "?v="+ new Date().getTime()+"'></img></td>"
+				+ "<td>"+ machine.quantity + "</td></tr>");
+	}
+}
 
 /**
  * send ajax call to get Health insurance details and state list before opening modal
@@ -917,6 +924,36 @@ $("#editMachineForm").on("submit", function(e){
 	});
 })
 
+$("#searchMachineButton").on("click", function(){
+	getSearchMachineResults($("#searchMachineInput").val());
+});
 
+$("#resetMachineSearch").on("click", function(){
+	$("#searchMachineInput").val("");
+	getSearchMachineResults("");
+});
+
+function getSearchMachineResults(keywords) {
+	var params = {};
+	params.type = "getSearchMachineResults";
+	params.searchText = keywords;
+	$.ajax({
+		url: "/manager/ui",
+		method: "GET",
+		data: params,
+		
+		success: function(data) {
+
+			data = JSON.parse(data);
+			var machineList = data.machines;
+			
+			populateInventoryTable(machineList);
+		},
+		error: function(exception) {
+			
+			alert("Error: " + exception);
+		}
+	});
+}
 
 

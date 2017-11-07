@@ -51,6 +51,9 @@
 	<button id="searchCustomerButton" class="searchCustomer">Search</button>
 	<button id = "resetCustomerSearch" class="searchCustomer">Reset</button>
 	<button id="addMachine" class="addButtons">Add Equipment</button>
+	<input id = "searchMachineInput" class="searchMachine" type="text" placeholder="enter name, quantity etc" /> 
+	<button id="searchMachineButton" class="searchMachine">Search</button>
+	<button id = "resetMachineSearch" class="searchMachine">Reset</button>
 	<div id="managerResults">
 		<table>
 			<tr class = "tableHeader">

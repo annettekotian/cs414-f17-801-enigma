@@ -278,10 +278,10 @@ public class ManagerHandler  {
 		dao.close();
 		
 		String currentPath = uploadPath +   "/"+ m.getId() + "_" + currentName + ".png";
-		System.out.println(currentPath);
+		//System.out.println(currentPath);
 		File currentFile = new File(currentPath);
 		String path = uploadPath +   "/"+ fullNameWithId;
-		System.out.println(path);
+		//System.out.println(path);
 		File imageFile = new File(path);
 		
 		// if name has been updated update the picture in the storage disk too

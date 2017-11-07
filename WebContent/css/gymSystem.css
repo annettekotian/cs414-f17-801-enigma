@@ -103,7 +103,12 @@ margin-top:3%;
 }
 
 #searchTrainerInput{
-	margin-left:280px;
+	margin-left:240px;
+}
+
+#searchMachineInput{
+	margin-left:437px;
+	width:200px;
 }
 
 /*********************** all results tables *********************/
