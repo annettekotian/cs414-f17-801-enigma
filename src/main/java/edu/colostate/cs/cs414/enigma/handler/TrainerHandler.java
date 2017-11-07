@@ -19,7 +19,10 @@ import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
 import edu.colostate.cs.cs414.enigma.entity.WorkHours;
-import edu.colostate.cs.cs414.enigma.entity.WorkHoursException;
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
+import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.Exercise;
@@ -352,12 +355,12 @@ public class TrainerHandler {
 	}
 	
 	public Exercise createExercise(String name, int machineId, int durationHours, int durationMinutes,
-			int durationSeconds, List<Integer> repetitions) throws PersistenceException {
+			int durationSeconds, List<Integer> sets) throws PersistenceException, ExerciseDurationException, ExerciseSetException, ExerciseException {
 		
 		// Create a new exercise
 		Exercise exercise = new Exercise(name);
 		
-		// Only add a duration if hours, mintues, and seconds are non-null
+		// Only add a duration if hours, minutes, and seconds are non-null
 		if(durationHours != 0 || durationMinutes != 0 || durationSeconds != 0) {
 			ExerciseDuration duration = new ExerciseDuration(durationHours, durationMinutes, durationSeconds);
 			exercise.setDuration(duration);
@@ -373,13 +376,90 @@ public class TrainerHandler {
 		dao.persist(exercise);
 		
 		// Check to see if repetitions need to be added
-		for(int i=0; i<repetitions.size(); i++) {
-			ExerciseSet set = new ExerciseSet(repetitions.get(i));
+		for(int i=0; i<sets.size(); i++) {
+			ExerciseSet set = new ExerciseSet(sets.get(i));
 			exercise.addSet(set);
 		}
-		if(repetitions.size() > 0) {
+		if(sets.size() > 0) {
 			dao.update(exercise);
 		}
+		
+		return exercise;
+	}
+	
+	public Exercise modifyExercise(int exerciseId, String name, int machineId, int durationHours, int durationMinutes,
+			int durationSeconds, List<Integer> sets) throws PersistenceException, ExerciseDurationException, ExerciseSetException, ExerciseException {
+		
+		// Get the exercise to be modified
+		Exercise exercise = this.getExerciseById(exerciseId);
+		
+		// Check if name needs to be update
+		if(!exercise.getName().equals(name)) {
+			exercise.setName(name);
+		}
+		
+		// Check if the duration needs to be modified
+		ExerciseDuration duration = exercise.getDuration();
+		if(durationHours != 0 || durationMinutes != 0 || durationSeconds != 0) {
+			if(duration == null) {
+				duration = new ExerciseDuration(durationHours, durationMinutes, durationSeconds);
+				exercise.setDuration(duration);
+			} else {
+				if(duration.getHours() != durationHours) {
+					duration.setHours(durationHours);
+				}
+				if(duration.getMinutes() != durationMinutes) {
+					duration.setMinutes(durationMinutes);
+				}
+				if(duration.getSeconds() != durationSeconds) {
+					duration.setSeconds(durationSeconds);
+				}
+			}
+		} else {
+			if(duration != null) {
+				exercise.deleteDuration();
+			}
+		}
+		
+		// Check if machine needs to be updated
+		Machine machine = exercise.getMachine();
+		if(machine == null) {
+			if(machineId > 0) {
+				machine = this.getMachineById(machineId);
+				exercise.setMachine(machine);
+			}
+		} else {
+			if(machine.getId() != machineId) {
+				machine = this.getMachineById(machineId);
+				exercise.setMachine(machine);
+			}
+		}		
+		
+		// Check to see if the sets are the same (order and repetition count)
+		boolean rebuildSets = false;
+		if(exercise.getSets().size() == sets.size()) {
+			for(int i=0; i<exercise.getSets().size(); i++) {
+				if(exercise.getSets().get(i).getRepetitions() != sets.get(i)) {
+					rebuildSets = true;
+				}
+			}
+		} else if(sets.size() != 0) {
+			rebuildSets = true;
+		} else {
+			exercise.deleteSets();
+		}
+		
+		if(rebuildSets) {
+			exercise.deleteSets();
+			dao.update(exercise);
+			for(int i=0; i<sets.size(); i++) {
+				ExerciseSet set = new ExerciseSet(sets.get(i));
+				exercise.addSet(set);
+			}
+		}
+		
+		// Commit the changes
+		dao.update(exercise);
 		
 		return exercise;
 	}

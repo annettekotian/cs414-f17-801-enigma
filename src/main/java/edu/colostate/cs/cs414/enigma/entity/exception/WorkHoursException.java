@@ -1,4 +1,4 @@
-package edu.colostate.cs.cs414.enigma.entity;
+package edu.colostate.cs.cs414.enigma.entity.exception;
 
 public class WorkHoursException extends Exception {
 	private static final long serialVersionUID = 1L;

@@ -26,7 +26,7 @@ import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
-import edu.colostate.cs.cs414.enigma.entity.WorkHoursException;
+import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
 import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 public class TrainerHandlerTest {
@@ -375,6 +375,117 @@ public class TrainerHandlerTest {
 		TrainerHandler th = new TrainerHandler();
 		Exercise newExercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 		th.deleteExercise(newExercise.getId());
+		th.close();
+	}
+	
+	@Test
+	public void modifyExerciseDurationNoMachine() throws Exception {
+		String name = "push-ups";
+		int machineId = 0;
+		int hours = 0;
+		int minutes = 10;
+		int seconds = 0;
+		List<Integer> repetitions = new ArrayList<Integer>();
+		repetitions.add(5);
+		repetitions.add(10);
+		repetitions.add(15);
+		TrainerHandler th = new TrainerHandler();
+		Exercise exercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
+		
+		int updatedHours = 10;
+		exercise = th.modifyExercise(exercise.getId(), name, machineId, updatedHours, minutes, seconds, repetitions);
+		assertEquals("Failed to update duration", exercise.getDuration().getHours(), updatedHours);
+		
+		th.deleteExercise(exercise.getId());
+		th.close();
+	}
+	
+	@Test
+	public void modifyExerciseSetsNoMachine() throws Exception {
+		String name = "push-ups";
+		int machineId = 0;
+		int hours = 0;
+		int minutes = 10;
+		int seconds = 0;
+		List<Integer> repetitions = new ArrayList<Integer>();
+		repetitions.add(5);
+		repetitions.add(10);
+		repetitions.add(15);
+		TrainerHandler th = new TrainerHandler();
+		Exercise exercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
+		
+		repetitions = new ArrayList<Integer>();
+		repetitions.add(5);
+		repetitions.add(10);
+		repetitions.add(20);
+		th.modifyExercise(exercise.getId(), name, machineId, hours, minutes, seconds, repetitions);
+		
+		
+		th.deleteExercise(exercise.getId());
+		th.close();
+	}
+	
+	@Test
+	public void modifyExerciseNameNoMachine() throws Exception {
+		String name = "push-ups";
+		int machineId = 0;
+		int hours = 0;
+		int minutes = 10;
+		int seconds = 0;
+		List<Integer> repetitions = new ArrayList<Integer>();
+		repetitions.add(5);
+		repetitions.add(10);
+		repetitions.add(15);
+		TrainerHandler th = new TrainerHandler();
+		Exercise exercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
+		
+		name = "mega push-ups";
+		exercise = th.modifyExercise(exercise.getId(), name, machineId, hours, minutes, seconds, repetitions);
+		assertEquals("Failed to update name", exercise.getName(), name);
+		
+		th.deleteExercise(exercise.getId());
+		th.close();
+	}
+	
+	@Test
+	public void modifyExerciseDeleteDurationNoMachine() throws Exception {
+		String name = "push-ups";
+		int machineId = 0;
+		int hours = 0;
+		int minutes = 10;
+		int seconds = 0;
+		List<Integer> repetitions = new ArrayList<Integer>();
+		repetitions.add(5);
+		repetitions.add(10);
+		repetitions.add(15);
+		TrainerHandler th = new TrainerHandler();
+		Exercise exercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
+		
+		exercise = th.modifyExercise(exercise.getId(), name, machineId, 0, 0, 0, repetitions);
+		assertNull("Failed to delete duration", exercise.getDuration());
+		
+		th.deleteExercise(exercise.getId());
+		th.close();
+	}
+	
+	@Test
+	public void modifyExerciseDeleteSetsNoMachine() throws Exception {
+		String name = "push-ups";
+		int machineId = 0;
+		int hours = 0;
+		int minutes = 10;
+		int seconds = 0;
+		List<Integer> repetitions = new ArrayList<Integer>();
+		repetitions.add(5);
+		repetitions.add(10);
+		repetitions.add(15);
+		TrainerHandler th = new TrainerHandler();
+		Exercise exercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
+		
+		exercise = th.modifyExercise(exercise.getId(), name, machineId, hours, minutes, seconds, new ArrayList<Integer>());
+		assertEquals("Failed to delete sets", exercise.getSets().size(), 0);
+		
+		th.deleteExercise(exercise.getId());
 		th.close();
 	}
 }

@@ -35,3 +35,12 @@
 #trainerSearchCustomerButton {
 	margin-left: 166px
 }
+
+.exerciseRow:hover{
+	color:steelblue;
+	cursor:pointer;
+}
+
+#selectedExerciseRow{
+	background-color:gainsboro;
+}

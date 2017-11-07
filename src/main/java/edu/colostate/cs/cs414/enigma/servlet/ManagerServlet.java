@@ -28,12 +28,12 @@ import com.google.gson.Gson;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
 import edu.colostate.cs.cs414.enigma.entity.Machine;
-import edu.colostate.cs.cs414.enigma.entity.MachineException;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
 
 import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
-import edu.colostate.cs.cs414.enigma.entity.WorkHoursException;
+import edu.colostate.cs.cs414.enigma.entity.exception.MachineException;
+import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
 import edu.colostate.cs.cs414.enigma.handler.SystemHandler;
 import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
 

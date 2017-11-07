@@ -89,6 +89,8 @@
 
 
 <button id="addExercise" class="addButtons" onclick="addExerciseModal()">Add Exercise</button>
+<button id="modifyExercise" class="addButtons" onclick="modifyExerciseModal()" disabled>Modify Exercise</button>
+<button id="deleteExercise" class="addButtons" onclick="deleteExercise()" disabled>Delete Exercise</button>
 <div id="exerciseResults">
 	<table id="exerciseTable">
 		<tr class="tableHeader">
@@ -103,23 +105,23 @@
 <div id="exerciseModal" class="modal">
 	<h3 id="addExerciseHeader">Add Exercise</h3>
 	<h3 id="modifyExerciseHeader">Modify Exercise</h3>
-	<form id="exerciseForm">
-		<label>Name</label><br>
-		<input id="exerciseName" type="text"><br>
-		<label>Duration Hours</label><br>
-		<input id="exerciseDurationHours" type="number"><br>
-		<label>Duration Minutes</label><br>
-		<input id="exerciseDurationMinutes" type="number"><br>
-		<label>Duration Seconds</label><br>
-		<input id="exerciseDurationSeconds" type="number"><br>
-		<label>Sets</label><br>
-		<p id="exerciseSetsDisplay">Current Sets: None<p>
-		<input id="exercisesetRepetition" type="number"><br>
-		<button id="addExerciseSet" class="addButtons" onclick="addExerciseSet()">Add Set</button><br>
-		<label>Machine</label><br>
-		<input id="exerciseMachine" type="number"><br>
-	</form>
-	<button id="addExercise" class="addButtons" onclick="addExercise()">Submit</button><br>
+	<label>Name</label><br>
+	<input id="exerciseName" type="text" placeholder="Name"><br>
+	<label>Duration Hours</label><br>
+	<input id="exerciseDurationHours" type="number" placeholder="Hours"><br>
+	<label>Duration Minutes</label><br>
+	<input id="exerciseDurationMinutes" type="number" placeholder="Minutes"><br>
+	<label>Duration Seconds</label><br>
+	<input id="exerciseDurationSeconds" type="number" placeholder="Seconds"><br>
+	<label>Sets</label><br>
+	<ul id="exerciseSetList"></ul>
+	<input id="exerciseSetRepetition" type="number" placeholder="Repetitions"><br>
+	<button type="button" id="addExerciseSet" class="addButtons" onclick="addExerciseSet()" >Add Set</button>
+	<button type="button" id="deleteExerciseSet" class="addButtons" onclick="deleteExerciseSet()" >Delete Set</button><br>
+	<label>Machine</label><br>
+	<select id="exerciseMachine"></select><br>
+	<button id="submitAddExercise" class="addButtons" onclick="addExercise()">Submit</button><br>
+	<button id="submitModifyExercise" class="addButtons" onclick="modifyExercise()">Submit</button><br>
 </div>
 
 

@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
+
 @Entity
 @Table(name="exercise")
 @NamedQueries({
@@ -49,8 +51,8 @@ public class Exercise {
 	
 	protected Exercise() {}
 
-	public Exercise(String name) {
-		this.name = name;
+	public Exercise(String name) throws ExerciseException {
+		this.setName(name);
 		this.sets = new ArrayList<ExerciseSet>();
 	}
 
@@ -66,7 +68,10 @@ public class Exercise {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String name) throws ExerciseException {
+		if(name == "") {
+			throw new ExerciseException("Exercise name cannot be empty");
+		}
 		this.name = name;
 	}
 

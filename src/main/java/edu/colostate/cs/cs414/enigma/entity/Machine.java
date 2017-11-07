@@ -9,6 +9,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import edu.colostate.cs.cs414.enigma.entity.exception.MachineException;
+
 @Entity
 @Table(name="machine")
 @NamedQueries({

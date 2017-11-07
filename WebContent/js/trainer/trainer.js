@@ -6,6 +6,8 @@ function focusHome() {
 	$(".trainerSearchCustomers").hide();
 	$("#exerciseResults").hide();
 	$("#addExercise").hide();
+	$("#modifyExercise").hide();
+	$("#deleteExercise").hide();
 }
 
 function populateHomePage() {
@@ -26,11 +28,15 @@ function focusCustomers() {
 	
 	$("#exerciseResults").hide();
 	$("#addExercise").hide();
+	$("#modifyExercise").hide();
+	$("#deleteExercise").hide();
 }
 
 function focusExercises() {
 	$("#exerciseResults").show();
 	$("#addExercise").show();
+	$("#modifyExercise").show();
+	$("#deleteExercise").show();
 	
 	$("#customerTable").hide();
 	$("#home").hide();
@@ -42,6 +48,8 @@ function focusExercises() {
 function focusWorkours() {
 	$("#exerciseResults").hide();
 	$("#addExercise").hide();
+	$("#modifyExercise").hide();
+	$("#deleteExercise").hide();
 	
 	$("#customerTable").hide();
 	$("#home").hide();

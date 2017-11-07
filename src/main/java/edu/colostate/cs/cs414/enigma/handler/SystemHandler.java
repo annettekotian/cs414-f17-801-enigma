@@ -21,7 +21,7 @@ public class SystemHandler {
 	/**this methods shuts down the connection to the database
 	 *  
 	 */
-	private void close() {
+	public void close() {
 		dao.close();
 	}
 
@@ -31,19 +31,11 @@ public class SystemHandler {
 	 * @return List<State>
 	 */
 	public List getAllStates() {
-		// Open up a connection to the db
-		dao = new EntityManagerDao();
-
-		// Issue a query to get all the customers
 		List<State> states = new ArrayList<State>();
 		List<?> results = dao.query("State.findAll", null);
 		for (int i = 0; i < results.size(); i++) {
 			states.add((State) results.get(i));
 		}
-
-		// Shutdown connection to database
-		close();
-
 		return states;
 	}
 
@@ -57,8 +49,6 @@ public class SystemHandler {
 		for (int i = 0; i < rawHealthInsurance.size(); i++) {
 			insurances.add((HealthInsurance) rawHealthInsurance.get(i));
 		}
-
-		close();
 		return insurances;
 	}
 	
@@ -72,7 +62,6 @@ public class SystemHandler {
 		for(int i=0; i<rawMemberships.size(); i++) {
 			memberships.add((Membership) rawMemberships.get(i));
 		}
-		close();
 		return memberships;
 	}
 
@@ -83,7 +72,6 @@ public class SystemHandler {
 		for(int i=0; i<rawMachines.size(); i++) {
 			machines.add((Machine) rawMachines.get(i));
 		}
-		close();
 		return machines;
 	}
 	

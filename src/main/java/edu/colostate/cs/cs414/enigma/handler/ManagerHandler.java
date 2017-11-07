@@ -21,12 +21,12 @@ import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
 import edu.colostate.cs.cs414.enigma.entity.Machine;
-import edu.colostate.cs.cs414.enigma.entity.MachineException;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
+import edu.colostate.cs.cs414.enigma.entity.exception.MachineException;
 
 public class ManagerHandler  {
 	
