@@ -338,6 +338,15 @@ public class ManagerServlet extends HttpServlet {
 		}
 			
 		break;
+		case "deleteMachine":
+		{
+				String uploadPath = getServletContext().getInitParameter("path_to_upload");
+				new ManagerHandler().removeMachine(request.getParameter("id"), uploadPath);
+				values.put("status", "success");
+				out.write(new Gson().toJson(values));
+		}
+		break;
+			
 		case "createManager":
 
 			String fName = request.getParameter("fName");

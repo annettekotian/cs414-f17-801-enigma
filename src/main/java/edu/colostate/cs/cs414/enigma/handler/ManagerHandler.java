@@ -19,6 +19,7 @@ import javax.persistence.PersistenceException;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
+import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
 import edu.colostate.cs.cs414.enigma.entity.Machine;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
@@ -298,4 +299,22 @@ public class ManagerHandler  {
 		
 	}
 
+	
+	public void removeMachine(String id, String uploadPath) {
+		int mId = Integer.parseInt(id);
+		
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("id", mId);
+		Machine m = (Machine) dao.querySingle("Machine.findId", params);
+		if(m == null) {
+			return;
+		}
+		String location = m.getPictureLocation();
+		dao.remove(m);
+		dao.close();
+		File f = new File(uploadPath + "/" + location);
+		f.delete();
+				
+		
+	}
 }

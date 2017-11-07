@@ -787,7 +787,7 @@ $("#addMachine").on("click", function(){
 });
 
 $("#addMachinePic").on("change", function(){
-	debugger;
+
 	if (this.files && this.files[0]) {
 	    var reader = new FileReader();
 
@@ -835,7 +835,7 @@ $("#addMachineForm").on("submit", function(e){
 })
 
 
-$("#addMachineMoxdal").on($.modal.AFTER_CLOSE, function() {
+$("#addMachineModal").on($.modal.AFTER_CLOSE, function() {
 	$("#addMachineName, #addMachineQuantity, #addMachinePic").val("");
 	$("#addMachinePreview").attr("src", "#");
 });
@@ -881,6 +881,37 @@ $("#editMachinePic").on("change", function(){
 
 	    reader.readAsDataURL(this.files[0]);
 	  }
+})
+
+$(document).on("click", ".deleteMachine", function(){
+	var id = $(this).parents("tr").data('id');
+	var deleteBool = confirm("Do you want to delete the customer having id " + id + "?");
+	if(deleteBool === false) {
+		return;
+	}
+	$.ajax({
+		url: "/manager/ui",
+		method: "POST",
+		data: {
+			"type": "deleteMachine",
+			"id": id
+		},
+		
+		success: function(data) {
+			data = JSON.parse(data);
+			if(data.status == "success") {
+				$("tr[data-id='" + id + "']").remove();
+			}
+			
+			
+
+		},
+		error: function(exception) {
+			
+			alert("Error" + exception);
+		}
+	
+	});
 })
 
 

@@ -573,4 +573,21 @@ public class ManagerHandlerTest {
 		
 	}	
 	
+	@Test
+	public void testRemoveMachine() throws MachineException {
+		String name = "testMachine1234567789";
+		int quantity = 4;
+		String pictureLocation = "/" + name + ".png";
+		Machine m = new Machine(name, pictureLocation, quantity);
+		int id = m.getId();
+		dao.persist(m);
+		persistedObjects.add(m);
+		dao.remove(m);
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		
+		Machine m2 = (Machine)dao.querySingle("Machine.findId", params);
+		
+		assertNull(m2);
+	}
 }
