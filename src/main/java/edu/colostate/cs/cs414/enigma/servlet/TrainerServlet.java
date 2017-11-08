@@ -87,24 +87,39 @@ public class TrainerServlet extends HttpServlet {
 			return;
 			
 		} else if(type.equals("getAllExercises")) {
+			TrainerHandler th = new TrainerHandler();
 			try {
-				TrainerHandler th = new TrainerHandler();
 				response.setContentType("application/json");
 				out.write(new Gson().toJson(th.getAllExercises()));
-				th.close();
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				th.close();
 			}
 			return;
 			
 		} else if(type.equals("getAllMachines")) {
+			SystemHandler sh = new SystemHandler();
 			try {
-				SystemHandler sh = new SystemHandler();
 				response.setContentType("application/json");
 				out.write(new Gson().toJson(sh.getInventory()));
-				sh.close();
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				sh.close();
+			}
+			return;
+			
+		} else if(type.equals("searchExercises")) {
+			String value = request.getParameter("value");
+			TrainerHandler th = new TrainerHandler();
+			try {
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(th.searchExercises(value)));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			} finally {
+				th.close();
 			}
 			return;
 			

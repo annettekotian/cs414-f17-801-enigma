@@ -26,6 +26,9 @@ import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
 import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
 import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
@@ -484,6 +487,27 @@ public class TrainerHandlerTest {
 		
 		exercise = th.modifyExercise(exercise.getId(), name, machineId, hours, minutes, seconds, new ArrayList<Integer>());
 		assertEquals("Failed to delete sets", exercise.getSets().size(), 0);
+		
+		th.deleteExercise(exercise.getId());
+		th.close();
+	}
+	
+	@Test
+	public void searchExercise() throws Exception {
+		String name = "push-ups";
+		int machineId = 0;
+		int hours = 0;
+		int minutes = 10;
+		int seconds = 0;
+		List<Integer> repetitions = new ArrayList<Integer>();
+		repetitions.add(5);
+		repetitions.add(10);
+		repetitions.add(15);
+		TrainerHandler th = new TrainerHandler();
+		Exercise exercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
+		
+		List<Exercise> exercises = th.searchExercises(name);
+		assertTrue("Failed to search for exercise", exercises.contains(exercise));
 		
 		th.deleteExercise(exercise.getId());
 		th.close();

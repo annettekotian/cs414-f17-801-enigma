@@ -500,6 +500,18 @@ public class TrainerHandler {
 		return exercises;
 	}
 	
+	public List<Exercise> searchExercises(String value) {
+		List<?> results = dao.query("Exercise.findAll", null);
+		List<Exercise> exercises = new ArrayList<Exercise>();
+		for(int i=0; i<results.size(); i++) {
+			Exercise exercise = (Exercise) results.get(i);
+			if(exercise.searchString().contains(value)) {
+				exercises.add(exercise);
+			}
+		}
+		return exercises;
+	}
+	
 	private Exercise getExerciseById(int exerciseId) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("id", exerciseId);

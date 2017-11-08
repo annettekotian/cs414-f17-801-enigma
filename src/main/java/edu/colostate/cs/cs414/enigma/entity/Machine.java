@@ -1,5 +1,7 @@
 package edu.colostate.cs.cs414.enigma.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +22,8 @@ import edu.colostate.cs.cs414.enigma.entity.exception.MachineException;
 	@NamedQuery(name="Machine.findByKeyword", query="Select m from Machine m  where m.name LIKE :keyword "
 			+ "OR m.quantity LIKE :keyword OR m.id LIKE :keyword")
 })
-public class Machine {
+public class Machine implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

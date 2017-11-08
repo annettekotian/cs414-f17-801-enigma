@@ -1,5 +1,7 @@
 package edu.colostate.cs.cs414.enigma.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +19,8 @@ import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
 	@NamedQuery(name="ExerciseSet.findAll", query="SELECT s FROM ExerciseSet s"),
 	@NamedQuery(name="ExerciseSet.findId", query="SELECT s FROM ExerciseSet s WHERE s.id = :id")
 })
-public class ExerciseSet {
+public class ExerciseSet implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

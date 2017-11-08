@@ -91,6 +91,9 @@
 <button id="addExercise" class="addButtons" onclick="addExerciseModal()">Add Exercise</button>
 <button id="modifyExercise" class="addButtons" onclick="modifyExerciseModal()" disabled>Modify Exercise</button>
 <button id="deleteExercise" class="addButtons" onclick="deleteExercise()" disabled>Delete Exercise</button>
+<input id="searchExerciseBox" type="text" placeholder="Search Exercises">
+<button id="searchExercise" class="addButtons" onclick="searchExercise()">Search</button>
+<button id="resetExercise" class="addButtons" onclick="populateAllExercises()">Reset</button>
 <div id="exerciseResults">
 	<table id="exerciseTable">
 		<tr class="tableHeader">

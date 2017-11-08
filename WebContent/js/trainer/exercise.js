@@ -20,6 +20,7 @@ function clearSelectedExerciseRow() {
 }
 
 function populateAllExercises() {
+	$("#searchExerciseBox").val("");
 	var exercises = getAllExercises();
 	populateExercises(exercises);
 }
@@ -46,6 +47,9 @@ function populateExercises(exercises) {
 					sets = sets + ", " + exercises[i].sets[j].repetitions + " repetition(s)";
 				}
 			}
+		}
+		if(exercises[i].machine) {
+			machine = exercises[i].machine.name;
 		}
 		
 		var exerciseRow = "<tr class='exerciseRow' onclick='selectExerciseRow(event)' data-exercise='" + JSON.stringify(exercises[i]) + "'>"
@@ -81,7 +85,7 @@ function resetExerciseModal(){
 	$("#exerciseMachine").empty();
 	$("#exerciseMachine").append("<option data-id='0'>--None--</option>");
 	var machines = getAllMachines();
-	for(var i=0; i<machines.lenght; i++) {
+	for(var i=0; i<machines.length; i++) {
 		$("#exerciseMachine").append("<option value='" + machines[i].name + "' data-id='" + machines[i].id + "'>" + machines[i].name + "</option>");
 	}
 	
@@ -192,6 +196,16 @@ function deleteExercise() {
 	else {
 		alert("Error: " + data.msg);
 	}
+}
+
+function searchExercise() {
+	var value = $("#searchExerciseBox").val();
+	var params = {};
+	params.type = "searchExercises";
+	params.value = value;
+	
+	var exercises = getTrainerUi(params);
+	populateExercises(exercises);
 }
 
 function postTrainerUi(params) {

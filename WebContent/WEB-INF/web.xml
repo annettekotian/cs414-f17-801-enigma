@@ -38,6 +38,6 @@
   </listener>
   <context-param>
   	<param-name>path_to_upload</param-name>
-  	<param-value>D:/images</param-value>
+  	<param-value>/images</param-value>
   </context-param>
 </web-app>

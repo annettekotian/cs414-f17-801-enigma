@@ -8,6 +8,9 @@ function focusHome() {
 	$("#addExercise").hide();
 	$("#modifyExercise").hide();
 	$("#deleteExercise").hide();
+	$("#searchExerciseBox").hide();
+	$("#searchExercise").hide();
+	$("#resetExercise").hide();
 }
 
 function populateHomePage() {
@@ -30,6 +33,9 @@ function focusCustomers() {
 	$("#addExercise").hide();
 	$("#modifyExercise").hide();
 	$("#deleteExercise").hide();
+	$("#searchExerciseBox").hide();
+	$("#searchExercise").hide();
+	$("#resetExercise").hide();
 }
 
 function focusExercises() {
@@ -37,6 +43,9 @@ function focusExercises() {
 	$("#addExercise").show();
 	$("#modifyExercise").show();
 	$("#deleteExercise").show();
+	$("#searchExerciseBox").show();
+	$("#searchExercise").show();
+	$("#resetExercise").show();
 	
 	$("#customerTable").hide();
 	$("#home").hide();
@@ -50,6 +59,9 @@ function focusWorkours() {
 	$("#addExercise").hide();
 	$("#modifyExercise").hide();
 	$("#deleteExercise").hide();
+	$("#searchExerciseBox").hide();
+	$("#searchExercise").hide();
+	$("#resetExercise").hide();
 	
 	$("#customerTable").hide();
 	$("#home").hide();

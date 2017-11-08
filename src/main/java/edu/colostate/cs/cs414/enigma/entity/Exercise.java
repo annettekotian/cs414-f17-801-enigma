@@ -1,5 +1,6 @@
 package edu.colostate.cs.cs414.enigma.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,8 @@ import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
 	@NamedQuery(name="Exercise.findByName", query="SELECT e FROM Exercise e WHERE e.name = :name"),
 	@NamedQuery(name="Exercise.findId", query="SELECT e FROM Exercise e WHERE e.id = :id")
 })
-public class Exercise {
+public class Exercise implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -37,7 +39,7 @@ public class Exercise {
 	@Column(name="name", unique=true, nullable=false, updatable=true)
 	private String name;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
+	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 	@JoinColumn(name="machine_id", nullable=true, updatable=true)
 	private Machine machine;
 	
@@ -114,6 +116,28 @@ public class Exercise {
 	
 	public void deleteSets() {
 		this.sets.clear();
+	}
+	
+	public String searchString() {
+		String machineName = "";
+		String duration = "";
+		String sets = "";
+		
+		if(this.getMachine() != null) {
+			machineName = this.getMachine().getName();
+		}
+		if(this.getDuration() != null) {
+			duration = "" + this.getDuration().getHours() + "H " + this.getDuration().getMinutes() + "M " + this.getDuration().getSeconds() + "S";
+		}
+		for(int i=0; i<this.getSets().size(); i++) {
+			if(i == 0) {
+				sets = "" + this.getSets().get(i).getRepetitions() + " repetition(s)";
+			} else {
+				sets = sets +  ", " + this.getSets().get(i).getRepetitions() + " repetition(s)";
+			}
+		}
+		
+		return this.getName() + " " + machineName + " " + duration + " " + sets;
 	}
 
 	@Override
