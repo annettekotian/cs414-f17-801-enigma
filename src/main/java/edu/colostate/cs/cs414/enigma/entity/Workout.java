@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -38,6 +39,7 @@ public class Workout {
 	@JoinTable(name="workout_routine_exercise",
 			joinColumns=@JoinColumn(name="workout_routine_id", referencedColumnName="id"),
 			inverseJoinColumns=@JoinColumn(name="exercise_id", referencedColumnName="id"))
+	@OrderColumn(name="exercise_order")
 	private List<Exercise> exercises;
 	
 	protected Workout() {}

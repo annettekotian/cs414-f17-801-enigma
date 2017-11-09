@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="/css/jquery.modal.min.css">
 <script src="/js/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script src="/js/jquery.modal.min.js"></script>
+<script src="/js/globalVariables.js"></script>
 <title>Trainer UI</title>
 </head>
 <body>
@@ -86,7 +87,31 @@
 
 	</table>
 </div>
+<button id="createWorkoutButton">Create Workout</button>
 
+<div id="workoutResults">
+	<table >
+		<tr class="tableHeader">
+				<th>Id</th>
+				<th>Workout Name</th>
+				<th>Exercises</th>
+		</tr>
+	</table>
+</div>
+
+<div id="createWorkoutModal" class="modal">
+	<h3>Create Workout</h3>
+	<label>Workout Name</label><br/>
+	<input id="workoutName" type="text" placeholder="Enter workout name"/> <br>
+	<label>Select Exercise</label><br/>
+	<select id="workoutExerciseSelect">
+	</select> <br/>
+	<button id="addExerciseToWorkout">Add exercise</button><br/>
+	<label>List of exercises added</label><br/>
+	<ol id="workoutExerciseList">
+	</ol>
+	<button id="submitWorkout">Create</button>
+</div>
 
 <button id="addExercise" class="addButtons" onclick="addExerciseModal()">Add Exercise</button>
 <button id="modifyExercise" class="addButtons" onclick="modifyExerciseModal()" disabled>Modify Exercise</button>

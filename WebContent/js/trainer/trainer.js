@@ -11,6 +11,8 @@ function focusHome() {
 	$("#searchExerciseBox").hide();
 	$("#searchExercise").hide();
 	$("#resetExercise").hide();
+	$("#workoutResults").hide();
+	$("#createWorkoutButton").hide();
 }
 
 function populateHomePage() {
@@ -36,6 +38,8 @@ function focusCustomers() {
 	$("#searchExerciseBox").hide();
 	$("#searchExercise").hide();
 	$("#resetExercise").hide();
+	$("#workoutResults").hide();
+	$("#createWorkoutButton").hide();
 }
 
 function focusExercises() {
@@ -50,11 +54,13 @@ function focusExercises() {
 	$("#customerTable").hide();
 	$("#home").hide();
 	$(".trainerSearchCustomers").hide();
+	$("#workoutResults").hide();
+	$("#createWorkoutButton").hide();
 	
 	populateAllExercises();
 }
 
-function focusWorkours() {
+function focusWorkouts() {
 	$("#exerciseResults").hide();
 	$("#addExercise").hide();
 	$("#modifyExercise").hide();
@@ -66,6 +72,8 @@ function focusWorkours() {
 	$("#customerTable").hide();
 	$("#home").hide();
 	$(".trainerSearchCustomers").hide();
+	$("#workoutResults").show();
+	$("#createWorkoutButton").show();
 }
 
 $("#homeLi, #customerLi, #workoutsLi, #exerciseLi").on("click", function(){
@@ -90,7 +98,7 @@ $("#customerLi").on("click", focusCustomers);
 
 $("#exerciseLi").on("click", focusExercises);
 
-$("#workoutsLi").on("click", focusWorkours);
+$("#workoutsLi").on("click", focusWorkouts);
 
 
 function populateCustomers() {
@@ -164,3 +172,102 @@ $("#trainerSearchCustomerButton").on("click", function(){
 		}
 	});
 });
+
+$("#createWorkoutModal").on($.modal.BEFORE_OPEN, function() {
+	
+	$.ajax({
+		url: "/trainer/ui",
+		method: "GET",
+		data: {
+			type: "getAllExercises"
+		},
+		
+		success: function(data) {
+			//debugger;
+			$("#workoutExerciseSelect").children().remove();
+			$("#workoutExerciseSelect").append("<option>--Select--</option>")
+			for(var i = 0; i< data.length; i++) {
+				$("#workoutExerciseSelect").append("<option>"+ data[i].name + "</option>");
+			}
+			
+			
+
+		},
+		error: function(exception) {
+			
+			alert("Error: " + exception);
+		}
+	})
+});
+
+
+$("#addExerciseToWorkout").on("click", function(){
+	if($("#workoutExerciseSelect").find(":selected").index() == 0) {
+		alert("Please select an exercise to add to the workout.");
+	} else {
+		var exerciseName = $("#workoutExerciseSelect").val();
+		if(SELECTED_EXERCISES_LIST.indexOf(exerciseName)>=0) {
+			alert("Exercise has already been added!");
+			return;
+		}
+		
+		$("#workoutExerciseList").append("<li>"+ $("#workoutExerciseSelect").val() +"</li>");
+		SELECTED_EXERCISES_LIST.push(exerciseName);
+	}
+})
+
+
+$("#createWorkoutButton").on("click", function(){
+	$("#createWorkoutModal").modal();
+	
+	/*var params = {};
+	params.type = "createWorkout";
+	params.name = "testWorkout7";
+	params.exerciseIds = [76,74,75];
+	$.ajax({
+		url: "/trainer/ui",
+		method: "POST",
+		data: params,
+		
+		success: function(data) {
+			console.log(data);
+			
+
+		},
+		error: function(exception) {
+			
+			alert("Error: " + exception);
+		}
+	});*/
+	
+	
+});
+
+$("#submitWorkout").on("click", function(){
+	$("#createWorkoutModal").modal();
+	
+	var params = {};
+	params.type = "createWorkout";
+	params.name = $("#workoutName").val();
+	params.exerciseList = SELECTED_EXERCISES_LIST;
+	$.ajax({
+		url: "/trainer/ui",
+		method: "POST",
+		data: params,
+		
+		success: function(data) {
+			console.log(data);
+			SELECTED_EXERCISES_LIST = [];
+			$.modal.close();
+
+		},
+		error: function(exception) {
+			
+			alert("Error: " + exception);
+		}
+	});
+});
+	
+	
+	
+	

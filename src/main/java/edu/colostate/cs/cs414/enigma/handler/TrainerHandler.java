@@ -19,6 +19,7 @@ import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
 import edu.colostate.cs.cs414.enigma.entity.WorkHours;
+import edu.colostate.cs.cs414.enigma.entity.Workout;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
@@ -531,5 +532,34 @@ public class TrainerHandler {
 		parameters.put("id", machineId);
 		Machine machine = (Machine) dao.querySingle("Machine.findId", parameters);
 		return machine;
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param exerciseIds
+	 * @return
+	 * @throws ExerciseException
+	 */
+	public Workout createWorkout(String name, String[] exerciseIds) throws ExerciseException {
+		
+		//validations
+		
+		ArrayList<Exercise> exList = new ArrayList<Exercise>();
+		for (String exName : exerciseIds) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("name", exName );
+			Exercise ex = (Exercise) dao.querySingle("Exercise.findByName", map);
+			exList.add(ex);
+		}
+		
+		
+		Workout w = new Workout(name);
+		w.setExercises(exList);
+		dao.persist(w);
+		
+		return w;
+		
+		
 	}
 }

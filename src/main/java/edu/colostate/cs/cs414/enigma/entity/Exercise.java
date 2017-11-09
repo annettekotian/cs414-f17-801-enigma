@@ -19,6 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
 
 @Entity
@@ -41,13 +44,14 @@ public class Exercise implements Serializable {
 	
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 	@JoinColumn(name="machine_id", nullable=true, updatable=true)
+	
 	private Machine machine;
 	
 	@OneToOne(cascade=CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name="duration_id", nullable=true, updatable=true)
 	private ExerciseDuration duration;
 	
-	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	@JoinColumn(name="exercise_id", referencedColumnName="id")
 	private List<ExerciseSet> sets;
 	

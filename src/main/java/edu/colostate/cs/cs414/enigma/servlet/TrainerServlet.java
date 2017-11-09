@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import edu.colostate.cs.cs414.enigma.entity.Customer;
+import edu.colostate.cs.cs414.enigma.entity.Workout;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
@@ -199,6 +200,26 @@ public class TrainerServlet extends HttpServlet {
 			}
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
+			
+		} else if (type.equals("createWorkout")) {
+			
+			String name = request.getParameter("name");
+			String[] exerciseList = request.getParameterValues("exerciseList[]");
+			Map<String, Object> returnValues = new HashMap<String, Object>();
+			TrainerHandler th = new TrainerHandler();
+			try {
+				
+				Workout w = th.createWorkout(name, exerciseList);
+				
+				returnValues.put("workout", w);
+				out.println(returnValues);
+			} catch (ExerciseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				th.close();
+			}
+			
 			
 		}
 	}

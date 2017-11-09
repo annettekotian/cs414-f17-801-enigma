@@ -5,25 +5,35 @@
 	margin-left: 10%
 }
 
-#customerTable, #exerciseResults {
+#customerTable, #exerciseResults  {
 	display: none;
 	margin-left:165px;
 	margin-top: 20px;
 }
 
-#customerTable table, #exerciseResults table {
+#workoutResults {
+	margin-left:390px;
+	margin-top: 20px;
+}
+
+#createWorkoutButton {
+	display: none;
+	margin-left: 395px;
+}
+
+#customerTable table, #exerciseResults table, #workoutResults table {
 	font-size:13px;
 	text-align:center;
 	border:1px solid black;
 }
 
-#customerTable th, #customerTable td, #exerciseResults th, #exerciseResults td {
+#customerTable th, #customerTable td, #exerciseResults th, #exerciseResults td, #workoutResults th, #workoutResults td{
 	width: 150px;
 	border:1px solid black;
 	
 }
 
-#customerTable tr, #exerciseResults tr {
+#customerTable tr, #exerciseResults tr, #workoutResults tr {
 	height: 45px;
 }
 

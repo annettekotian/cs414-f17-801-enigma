@@ -26,6 +26,7 @@ import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
+import edu.colostate.cs.cs414.enigma.entity.Workout;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
@@ -510,6 +511,37 @@ public class TrainerHandlerTest {
 		assertTrue("Failed to search for exercise", exercises.contains(exercise));
 		
 		th.deleteExercise(exercise.getId());
+		th.close();
+	}
+	
+	@Test
+	public void testCreateWorkout() throws ExerciseException, PersistenceException, ExerciseDurationException, ExerciseSetException {
+		String name = "testWorkout12345";
+		TrainerHandler th = new TrainerHandler();
+		Exercise ex1 = th.createExercise("ex112234", 0, 0, 30, 30, new ArrayList<Integer>());
+		Exercise ex2 = th.createExercise("ex11223456", 0, 0, 30, 30, new ArrayList<Integer>());
+		String[] exList = {ex2.getName(), ex1.getName()}; 
+		persistedObjects.add(ex1);
+		persistedObjects.add(ex2);
+		 th = new TrainerHandler();
+		Workout w = th.createWorkout(name, exList);
+		persistedObjects.add(w);
+		List<Exercise> list = w.getExercises();
+		assertTrue(list.get(0).getName().equals(ex2.getName()) && list.get(1).getName().equals(ex1.getName()));
+	}
+	
+	@Test (expected = PersistenceException.class)
+	public void testCreateDuplicateWorkout() throws ExerciseException, PersistenceException, ExerciseDurationException, ExerciseSetException {
+		String name = "testWorkout12345";
+		TrainerHandler th = new TrainerHandler();
+		Exercise ex1 = th.createExercise("ex112234", 0, 0, 30, 30, new ArrayList<Integer>());
+		Exercise ex2 = th.createExercise("ex11223456", 0, 0, 30, 30, new ArrayList<Integer>());
+		String[] exList = {ex2.getName(), ex1.getName()}; 
+		persistedObjects.add(ex1);
+		persistedObjects.add(ex2);
+		Workout w = th.createWorkout(name, exList);
+		persistedObjects.add(w);
+		th.createWorkout(name, exList);
 		th.close();
 	}
 }

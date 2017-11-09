@@ -342,19 +342,20 @@ DROP TABLE IF EXISTS `GymSystem`.`workout_routine_exercise` ;
 CREATE TABLE IF NOT EXISTS `GymSystem`.`workout_routine_exercise` (
   `workout_routine_id` INT UNSIGNED NOT NULL,
   `exercise_id` INT UNSIGNED NOT NULL,
+  `exercise_order` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`workout_routine_id`, `exercise_id`),
   INDEX `fk_workout_routine_has_exercise_exercise1_idx` (`exercise_id` ASC),
   INDEX `fk_workout_routine_has_exercise_workout_routine1_idx` (`workout_routine_id` ASC),
   CONSTRAINT `fk_workout_routine_has_exercise_workout_routine1`
     FOREIGN KEY (`workout_routine_id`)
     REFERENCES `GymSystem`.`workout_routine` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE cascade
+    ON UPDATE cascade,
   CONSTRAINT `fk_workout_routine_has_exercise_exercise1`
     FOREIGN KEY (`exercise_id`)
     REFERENCES `GymSystem`.`exercise` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE cascade
+    ON UPDATE cascade)
 ENGINE = InnoDB;
 
 
