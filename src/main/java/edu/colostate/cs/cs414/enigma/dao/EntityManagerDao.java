@@ -31,6 +31,7 @@ public class EntityManagerDao implements GymSystemDao {
 	public void shutdown() {
 		if(emf != null) {
 			emf.close();
+			emf = null;
 		}
 	}
 	
