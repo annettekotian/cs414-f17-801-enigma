@@ -31,24 +31,20 @@ import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
 import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
-import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 public class TrainerHandlerTest {
 
-	private static EntityManagerFactoryListener emfl;
 	private EntityManagerDao dao;
-	private List<Object> persistedObjects;
-
+	private List<Object> persistedObjects = new ArrayList<Object>();	
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		emfl = new EntityManagerFactoryListener();
-		emfl.contextInitialized(null);
+		new EntityManagerDao().close();
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		emfl.contextDestroyed(null);
-		emfl = null;
+		new EntityManagerDao().shutdown();
 	}
 
 	@Before

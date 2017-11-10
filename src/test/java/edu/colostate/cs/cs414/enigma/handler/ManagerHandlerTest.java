@@ -2,9 +2,6 @@ package edu.colostate.cs.cs414.enigma.handler;
 
 import static org.junit.Assert.*;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -12,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.persistence.PersistenceException;
 
@@ -24,30 +19,24 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
-import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.Machine;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
-import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.exception.MachineException;
-import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 
 public class ManagerHandlerTest {
 	
 	private EntityManagerDao dao;
-	private static EntityManagerFactoryListener emfl;
 	private List<Object> persistedObjects = new ArrayList<Object>();	
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		emfl = new EntityManagerFactoryListener();
-		emfl.contextInitialized(null);
+		new EntityManagerDao().close();
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		emfl.contextDestroyed(null);
-		emfl = null;
+		new EntityManagerDao().shutdown();
 	}
 
 	@Before

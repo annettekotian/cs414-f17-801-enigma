@@ -33,25 +33,20 @@ import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
 import edu.colostate.cs.cs414.enigma.entity.WorkHours;
 import edu.colostate.cs.cs414.enigma.entity.Workout;
-import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
-import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 public class EntityManagerDaoTest {
 	
-	private static EntityManagerFactoryListener emfl;
 	private EntityManagerDao dao;
 	private List<Object> persistedObjects;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		emfl = new EntityManagerFactoryListener();
-		emfl.contextInitialized(null);
+		new EntityManagerDao().close();
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		emfl.contextDestroyed(null);
-		emfl = null;
+		new EntityManagerDao().shutdown();
 	}
 
 	@Before
@@ -70,7 +65,7 @@ public class EntityManagerDaoTest {
 
 	@Test
 	public void getAllUserLevels() {
-		List userLevels = dao.query("UserLevel.findAll", null);
+		List<?> userLevels = dao.query("UserLevel.findAll", null);
 		assertNotNull("Failed to get user levels", userLevels);
 	}
 	
@@ -100,7 +95,7 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void getAllUsers() {
-		List users = dao.query("User.findAll", null);
+		List<?> users = dao.query("User.findAll", null);
 		assertNotNull("Failed to get users", users);
 	}
 	
@@ -133,7 +128,7 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void getAllStates() {
-		List states = dao.query("State.findAll", null);
+		List<?> states = dao.query("State.findAll", null);
 		assertEquals("Failed to get all 50 states from lookup table", states.size(), 50);
 	}
 	
@@ -147,7 +142,7 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void getAllHealthInsurances() {
-		List insurances = dao.query("HealthInsurance.findAll", null);
+		List<?> insurances = dao.query("HealthInsurance.findAll", null);
 		assertNotNull("Failed to get health insurances", insurances);
 	}
 	
@@ -168,7 +163,7 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void getAllMembershipStatus() {
-		List memberships = dao.query("Membership.findAll", null);
+		List<?> memberships = dao.query("Membership.findAll", null);
 		assertNotNull("Failed to get all memebrship statuses", memberships);
 	}
 	

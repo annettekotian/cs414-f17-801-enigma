@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
@@ -11,10 +13,25 @@ import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 public class EntityManagerDao implements GymSystemDao {
 
+	private static EntityManagerFactory emf = null;
+	
 	private EntityManager em;
 	
 	public EntityManagerDao() {
-		em = EntityManagerFactoryListener.createEntityManager();
+		em = getEntityManagerFactory().createEntityManager();
+	}
+	
+	private static synchronized EntityManagerFactory getEntityManagerFactory() {
+		if(emf == null) {
+			emf = Persistence.createEntityManagerFactory("GymSystem");
+		}
+		return emf;
+	}
+	
+	public void shutdown() {
+		if(emf != null) {
+			emf.close();
+		}
 	}
 	
 	@Override

@@ -12,24 +12,20 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
-import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 public class LoginHandlerTest {
 
 	private EntityManagerDao dao;
-	private static EntityManagerFactoryListener emfl;
 	private List<Object> persistedObjects = new ArrayList<Object>();	
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		emfl = new EntityManagerFactoryListener();
-		emfl.contextInitialized(null);
+		new EntityManagerDao().close();
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		emfl.contextDestroyed(null);
-		emfl = null;
+		new EntityManagerDao().shutdown();
 	}
 
 	@Before

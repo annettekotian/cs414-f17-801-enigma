@@ -1,26 +1,21 @@
 package edu.colostate.cs.cs414.enigma.listener;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-public class EntityManagerFactoryListener implements ServletContextListener {
+import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 
-	private static EntityManagerFactory emf;
+public class EntityManagerFactoryListener implements ServletContextListener {
 	
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
-		emf.close();
+		// Create a new EntityManagerDao to close EntityManagerFactory for DB
+		new EntityManagerDao().shutdown();
 	}
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		emf = Persistence.createEntityManagerFactory("GymSystem");
-	}
-
-	public static EntityManager createEntityManager() {
-		return emf.createEntityManager();
+		// Create a new EntityManagerDao to initialize EntityManagerFactory for DB
+		new EntityManagerDao().close();
 	}
 }
