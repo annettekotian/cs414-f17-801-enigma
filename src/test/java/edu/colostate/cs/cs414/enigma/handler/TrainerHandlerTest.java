@@ -516,10 +516,10 @@ public class TrainerHandlerTest {
 	
 	@Test
 	public void testCreateWorkout() throws ExerciseException, PersistenceException, ExerciseDurationException, ExerciseSetException {
-		String name = "testWorkout12345";
+		String name = "testWorkout123456";
 		TrainerHandler th = new TrainerHandler();
-		Exercise ex1 = th.createExercise("ex112234", 0, 0, 30, 30, new ArrayList<Integer>());
-		Exercise ex2 = th.createExercise("ex11223456", 0, 0, 30, 30, new ArrayList<Integer>());
+		Exercise ex1 = th.createExercise("ex1122346", 0, 0, 30, 30, new ArrayList<Integer>());
+		Exercise ex2 = th.createExercise("ex112234567", 0, 0, 30, 30, new ArrayList<Integer>());
 		String[] exList = {ex2.getName(), ex1.getName()}; 
 		persistedObjects.add(ex1);
 		persistedObjects.add(ex2);
@@ -532,10 +532,10 @@ public class TrainerHandlerTest {
 	
 	@Test (expected = PersistenceException.class)
 	public void testCreateDuplicateWorkout() throws ExerciseException, PersistenceException, ExerciseDurationException, ExerciseSetException {
-		String name = "testWorkout12345";
+		String name = "testWorkout123456";
 		TrainerHandler th = new TrainerHandler();
-		Exercise ex1 = th.createExercise("ex112234", 0, 0, 30, 30, new ArrayList<Integer>());
-		Exercise ex2 = th.createExercise("ex11223456", 0, 0, 30, 30, new ArrayList<Integer>());
+		Exercise ex1 = th.createExercise("ex1122346", 0, 0, 30, 30, new ArrayList<Integer>());
+		Exercise ex2 = th.createExercise("ex112234567", 0, 0, 30, 30, new ArrayList<Integer>());
 		String[] exList = {ex2.getName(), ex1.getName()}; 
 		persistedObjects.add(ex1);
 		persistedObjects.add(ex2);

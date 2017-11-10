@@ -562,4 +562,13 @@ public class TrainerHandler {
 		
 		
 	}
+	
+	public List<Workout> getAllWorkouts() {
+		List<?> results = dao.query("Workout.findAll", null);
+		List<Workout> wList= new ArrayList<Workout>();
+		for(int i=0; i<results.size(); i++) {
+			wList.add((Workout) results.get(i));
+		}
+		return wList;
+	}
 }

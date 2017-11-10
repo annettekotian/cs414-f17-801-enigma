@@ -27,7 +27,14 @@
 	border:1px solid black;
 }
 
-#customerTable th, #customerTable td, #exerciseResults th, #exerciseResults td, #workoutResults th, #workoutResults td{
+#workoutExercises table{
+	font-size:13px;
+	text-align:center;
+	border:1px solid black;
+}
+
+#customerTable th, #customerTable td, #exerciseResults th, #exerciseResults td, #workoutResults th, #workoutResults td,
+#workoutExercises th, #workoutExercises td{
 	width: 150px;
 	border:1px solid black;
 	

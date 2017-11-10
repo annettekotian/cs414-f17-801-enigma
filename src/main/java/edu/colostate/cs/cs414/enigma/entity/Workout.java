@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="workout_routine")
 @NamedQueries({
-	@NamedQuery(name="Workout.findAll", query="SELECT w FROM Workout w"),
+	@NamedQuery(name="Workout.findAll", query="SELECT w FROM Workout w ORDER BY w.id"),
 	@NamedQuery(name="Workout.findByName", query="SELECT w FROM Workout w WHERE w.name = :name"),
 	@NamedQuery(name="Workout.findId", query="SELECT w FROM Workout w WHERE w.id = :id")
 })

@@ -124,6 +124,23 @@ public class TrainerServlet extends HttpServlet {
 			}
 			return;
 			
+		} else if(type.equals("getAllWorkouts")) {
+			TrainerHandler th = new TrainerHandler();
+			try {
+				List<Workout> wList = th.getAllWorkouts();
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(wList));
+				return;
+			} catch (Exception e) {
+				response.sendError(500, e.toString());
+			} finally {
+				//System.out.println("closed connection");
+				th.close();
+			}
+			
+	
+			
+			
 		}
 	}
 
@@ -211,8 +228,9 @@ public class TrainerServlet extends HttpServlet {
 				
 				Workout w = th.createWorkout(name, exerciseList);
 				
-				returnValues.put("workout", w);
-				out.println(returnValues);
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(w));
+				out.println();
 			} catch (ExerciseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

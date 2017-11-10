@@ -113,6 +113,18 @@
 	<button id="submitWorkout">Create</button>
 </div>
 
+
+<div id="workoutExercisesModal" class="modal">
+	<h3>Workout Exercises</h3>
+	<div id="workoutExercises">
+		<table>
+			<th>id</th>
+			<th>Name</th>
+		</table>
+	</div>
+	
+</div>
+
 <button id="addExercise" class="addButtons" onclick="addExerciseModal()">Add Exercise</button>
 <button id="modifyExercise" class="addButtons" onclick="modifyExerciseModal()" disabled>Modify Exercise</button>
 <button id="deleteExercise" class="addButtons" onclick="deleteExercise()" disabled>Delete Exercise</button>

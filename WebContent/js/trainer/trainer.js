@@ -74,6 +74,7 @@ function focusWorkouts() {
 	$(".trainerSearchCustomers").hide();
 	$("#workoutResults").show();
 	$("#createWorkoutButton").show();
+	showWorkoutData();
 }
 
 $("#homeLi, #customerLi, #workoutsLi, #exerciseLi").on("click", function(){
@@ -220,28 +221,14 @@ $("#addExerciseToWorkout").on("click", function(){
 $("#createWorkoutButton").on("click", function(){
 	$("#createWorkoutModal").modal();
 	
-	/*var params = {};
-	params.type = "createWorkout";
-	params.name = "testWorkout7";
-	params.exerciseIds = [76,74,75];
-	$.ajax({
-		url: "/trainer/ui",
-		method: "POST",
-		data: params,
-		
-		success: function(data) {
-			console.log(data);
-			
-
-		},
-		error: function(exception) {
-			
-			alert("Error: " + exception);
-		}
-	});*/
-	
-	
 });
+
+$("#createWorkoutModal").on($.modal.AFTER_CLOSE, function(){
+	$("#workoutName").val("");
+	$("#workoutExerciseSelect").children().remove();
+	$("#workoutExerciseList").children().remove();
+	SELECTED_EXERCISES_LIST = [];
+})
 
 $("#submitWorkout").on("click", function(){
 	$("#createWorkoutModal").modal();
@@ -255,10 +242,16 @@ $("#submitWorkout").on("click", function(){
 		method: "POST",
 		data: params,
 		
-		success: function(data) {
-			console.log(data);
+		success: function(workout) {
+			
+			//console.log(data);
 			SELECTED_EXERCISES_LIST = [];
+			WORKOUT_LIST.push(workout);
 			$.modal.close();
+			$("#workoutResults table").append("<tr data-id='"+ workout.id + "' class='tableData'> " +
+					"<td>" +  workout.id+"</td> " + 
+					"<td> " + workout.name+ "</td> " + 
+					"<td> <a class='viewWorkoutExercises' href='#'>View Exercises</a></td></tr>");
 
 		},
 		error: function(exception) {
@@ -270,4 +263,49 @@ $("#submitWorkout").on("click", function(){
 	
 	
 	
-	
+function showWorkoutData () {
+	var params = {};
+	params.type = "getAllWorkouts";
+	$.ajax({
+		url: "/trainer/ui",
+		method: "GET",
+		data: params,
+		
+		success: function(data) {
+			//console.log(data);
+			WORKOUT_LIST = data;
+			populateWorkoutTable(data);
+
+		},
+		error: function(exception) {
+			
+			alert("Error: " + exception);
+		}
+	});
+}
+
+function populateWorkoutTable(workoutList) {
+	$("#workoutResults .tableData").remove();
+	for(var i = 0; i < workoutList.length; i++) {
+		workout = workoutList[i];
+		$("#workoutResults table").append("<tr data-id='"+ workout.id + "' class='tableData'> " +
+				"<td>" +  workout.id+"</td> " + 
+				"<td> " + workout.name+ "</td> " + 
+				"<td> <a class='viewWorkoutExercises' href='#'>View Exercises</a></td></tr>");
+	}
+}
+
+$(document).on("click", ".viewWorkoutExercises", function(){
+	var workoutId = $(this).parents('tr').data('id');
+	var workout = WORKOUT_LIST.find(item => item.id == workoutId);
+	var exercises = workout.exercises;
+	$("#workoutExercises .tableData").remove();
+	for(var i = 0; i< exercises.length; i++) {
+		var exercise = exercises[i];
+		$("#workoutExercises table").append("<tr data-id='"+ exercise.id + "' class='tableData'>" 
+				+ "<td>" + exercise.id + "</td>" 
+				+ "<td>" + exercise.name + "</td>"  
+				+ "</tr>")
+	}
+	$("#workoutExercisesModal").modal();
+})
