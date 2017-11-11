@@ -87,7 +87,8 @@
 
 	</table>
 </div>
-<button id="createWorkoutButton">Create Workout</button>
+<button id="createWorkoutButton" class="workoutButtons">Create Workout</button>
+<button id="editWorkoutButton" class="workoutButtons" disabled>Edit Workout</button>
 
 <div id="workoutResults">
 	<table >
@@ -114,10 +115,26 @@
 </div>
 
 
+<div id="editWorkoutModal" class="modal">
+	<h3>Edit Workout</h3>
+	<label>Workout Name</label><br/>
+	<input id="editWorkoutName" type="text" placeholder="Enter workout name"/> <br>
+	<label>Sequence of exercises</label><br/>
+	<table id="editWorkoutExercises">
+		<th></th>
+		<th>Sequence</th>
+		<th>id</th>
+		<th>Name</th>
+	</table>
+	<button id="submitWorkoutChanges">Submit Changes</button>
+</div>
+
+
 <div id="workoutExercisesModal" class="modal">
 	<h3>Workout Exercises</h3>
 	<div id="workoutExercises">
 		<table>
+			<th>Sequence</th>
 			<th>id</th>
 			<th>Name</th>
 		</table>

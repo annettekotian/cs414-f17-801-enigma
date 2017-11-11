@@ -21,27 +21,35 @@
 	margin-left: 395px;
 }
 
+#submitWorkoutChanges {
+	margin-top: 10px;
+}
+
 #customerTable table, #exerciseResults table, #workoutResults table {
 	font-size:13px;
 	text-align:center;
 	border:1px solid black;
 }
 
-#workoutExercises table{
+#workoutExercises table, #editWorkoutExercises{
 	font-size:13px;
 	text-align:center;
 	border:1px solid black;
 }
 
 #customerTable th, #customerTable td, #exerciseResults th, #exerciseResults td, #workoutResults th, #workoutResults td,
-#workoutExercises th, #workoutExercises td{
+#workoutExercises th, #workoutExercises td, #editWorkoutExercises th, #editWorkoutExercises td{
 	width: 150px;
 	border:1px solid black;
 	
 }
 
-#customerTable tr, #exerciseResults tr, #workoutResults tr {
+#customerTable tr, #exerciseResults tr {
 	height: 45px;
+}
+
+#workoutResults tr, #editWorkoutExercises tr {
+	height: 30px;
 }
 
 .trainerSearchCustomers {
@@ -54,6 +62,11 @@
 }
 
 .exerciseRow:hover{
+	color:steelblue;
+	cursor:pointer;
+}
+
+#workoutResults .tableData:hover{
 	color:steelblue;
 	cursor:pointer;
 }

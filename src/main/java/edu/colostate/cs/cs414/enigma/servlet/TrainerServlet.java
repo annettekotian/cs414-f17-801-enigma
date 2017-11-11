@@ -231,9 +231,11 @@ public class TrainerServlet extends HttpServlet {
 				response.setContentType("application/json");
 				out.write(new Gson().toJson(w));
 				out.println();
-			} catch (ExerciseException e) {
+			} catch(IllegalArgumentException e) {
+				response.sendError(500, e.toString());
+			}catch (ExerciseException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				response.sendError(500, e.toString());
 			}finally {
 				th.close();
 			}

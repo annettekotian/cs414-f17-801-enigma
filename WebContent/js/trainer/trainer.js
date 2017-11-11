@@ -12,7 +12,7 @@ function focusHome() {
 	$("#searchExercise").hide();
 	$("#resetExercise").hide();
 	$("#workoutResults").hide();
-	$("#createWorkoutButton").hide();
+	$(".workoutButtons").hide();
 }
 
 function populateHomePage() {
@@ -39,7 +39,7 @@ function focusCustomers() {
 	$("#searchExercise").hide();
 	$("#resetExercise").hide();
 	$("#workoutResults").hide();
-	$("#createWorkoutButton").hide();
+	$(".workoutButtons").hide();
 }
 
 function focusExercises() {
@@ -55,7 +55,7 @@ function focusExercises() {
 	$("#home").hide();
 	$(".trainerSearchCustomers").hide();
 	$("#workoutResults").hide();
-	$("#createWorkoutButton").hide();
+	$(".workoutButtons").hide();
 	
 	populateAllExercises();
 }
@@ -73,7 +73,8 @@ function focusWorkouts() {
 	$("#home").hide();
 	$(".trainerSearchCustomers").hide();
 	$("#workoutResults").show();
-	$("#createWorkoutButton").show();
+	$("#editWorkoutButton").attr("disabled", true);
+	$(".workoutButtons").show();
 	showWorkoutData();
 }
 
@@ -255,8 +256,12 @@ $("#submitWorkout").on("click", function(){
 
 		},
 		error: function(exception) {
+			if(exception.responseText.indexOf("missing input") >=0) {
+				alert("Could not create workout! Some input fields were missing");
+			} else {
+				alert("Error: " + exception);
+			}
 			
-			alert("Error: " + exception);
 		}
 	});
 });
@@ -303,9 +308,46 @@ $(document).on("click", ".viewWorkoutExercises", function(){
 	for(var i = 0; i< exercises.length; i++) {
 		var exercise = exercises[i];
 		$("#workoutExercises table").append("<tr data-id='"+ exercise.id + "' class='tableData'>" 
+				+ "<td>" + (i+1) + "</td>" 
 				+ "<td>" + exercise.id + "</td>" 
 				+ "<td>" + exercise.name + "</td>"  
 				+ "</tr>")
 	}
 	$("#workoutExercisesModal").modal();
 })
+
+
+$(document).on("click", "#workoutResults .tableData", function(){
+	console.log("here");
+	$("#workoutResults .tableData").css("background-color", "");
+	$(this).css("background-color", "gainsboro");
+	$("#editWorkoutButton").attr("disabled", false);
+	CURRENTLY_EDITED_WORKOUT = $(this).data("id");
+});
+
+$("#editWorkoutButton").on("click", function(){
+	$("#editWorkoutModal").modal();
+	
+});
+
+$("#editWorkoutModal").on($.modal.BEFORE_OPEN, function(){
+
+	var workout = WORKOUT_LIST.find(item => item.id == CURRENTLY_EDITED_WORKOUT);
+	$("#editWorkoutName").val(workout.name);
+	populateEditExerciseInEditWorkoutModal(workout.exercises);	
+})
+
+function populateEditExerciseInEditWorkoutModal(exerciseList){
+	$("#editWorkoutExercises").find(".tableData").remove();
+	for(var i = 0; i< exerciseList.length; i++){
+		var exercise = exerciseList[i];
+		$("#editWorkoutExercises").append("<tr class='tableData' data-id='" + exercise.id + "'>"
+				+ "<td><a href='#'>Remove</a></td>"
+				+ "<td>"+ (i+1) + "</td>"
+				+ "<td>"+ exercise.id+ "</td>"
+				+ "<td>"+ exercise.name + "</td>"
+				+ "</tr");
+	}
+}
+
+
