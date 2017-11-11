@@ -540,4 +540,31 @@ public class TrainerHandlerTest {
 		th.createWorkout(name, exList);
 		th.close();
 	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateWorkoutWithoutName() throws ExerciseException, PersistenceException, ExerciseDurationException, ExerciseSetException {
+		String name = "";
+		TrainerHandler th = new TrainerHandler();
+		Exercise ex1 = th.createExercise("ex1122346", 0, 0, 30, 30, new ArrayList<Integer>());
+		Exercise ex2 = th.createExercise("ex112234567", 0, 0, 30, 30, new ArrayList<Integer>());
+		String[] exList = {ex2.getName(), ex1.getName()}; 
+		persistedObjects.add(ex1);
+		persistedObjects.add(ex2);
+		th = new TrainerHandler();
+		Workout w = th.createWorkout(name, exList);
+		persistedObjects.add(w);
+		
+	}
+	
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateWorkoutWithoutExercises() throws ExerciseException, PersistenceException, ExerciseDurationException, ExerciseSetException {
+		String name = "testWorkout123456";
+		TrainerHandler th = new TrainerHandler();
+		String[] exList = {}; 
+		th = new TrainerHandler();
+		Workout w = th.createWorkout(name, exList);
+		persistedObjects.add(w);
+		
+	}
 }

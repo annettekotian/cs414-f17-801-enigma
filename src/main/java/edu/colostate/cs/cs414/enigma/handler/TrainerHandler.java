@@ -544,6 +544,9 @@ public class TrainerHandler {
 	public Workout createWorkout(String name, String[] exerciseIds) throws ExerciseException {
 		
 		//validations
+		if(name.isEmpty() || exerciseIds.length == 0) {
+			throw new IllegalArgumentException("missing input");
+		}
 		
 		ArrayList<Exercise> exList = new ArrayList<Exercise>();
 		for (String exName : exerciseIds) {
