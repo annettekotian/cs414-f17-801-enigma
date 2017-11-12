@@ -26,6 +26,7 @@ import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
 import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
+import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.Exercise;
 import edu.colostate.cs.cs414.enigma.entity.ExerciseDuration;
 import edu.colostate.cs.cs414.enigma.entity.ExerciseSet;
@@ -573,5 +574,41 @@ public class TrainerHandler {
 			wList.add((Workout) results.get(i));
 		}
 		return wList;
+	}
+	
+	public void assignWorkout(int customerId, int workoutId) {
+		
+		// Get the customer and the workout entity
+		Map<String, Object> customerParams = new HashMap<String, Object>();
+		customerParams.put("id", customerId);
+		Customer customer = (Customer) dao.querySingle("Customer.findById", customerParams);
+		
+		Map<String, Object> workoutParams = new HashMap<String, Object>();
+		workoutParams.put("id", workoutId);
+		Workout workout = (Workout) dao.querySingle("Workout.findId", workoutParams);
+		
+		// Assign (add) the customer the workout
+		customer.addWorkout(workout);
+		
+		// Persist the changes
+		dao.update(customer);
+	}
+	
+	public void unassignWorkout(int customerId, int workoutId) {
+		
+		// Get the customer and the workout entity
+		Map<String, Object> customerParams = new HashMap<String, Object>();
+		customerParams.put("id", customerId);
+		Customer customer = (Customer) dao.querySingle("Customer.findById", customerParams);
+		
+		Map<String, Object> workoutParams = new HashMap<String, Object>();
+		workoutParams.put("id", workoutId);
+		Workout workout = (Workout) dao.querySingle("Workout.findId", workoutParams);
+		
+		// Unassign (remove) the customer the workout
+		customer.removeWorkout(workout);
+		
+		// Persist the changes
+		dao.update(customer);
 	}
 }

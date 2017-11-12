@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
+import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.Exercise;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
@@ -565,6 +566,87 @@ public class TrainerHandlerTest {
 		th = new TrainerHandler();
 		Workout w = th.createWorkout(name, exList);
 		persistedObjects.add(w);
+		
+	}
+	
+	@Test
+	public void assignWorkout() throws Exception {
+		// Create a customer
+		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
+		String lName = "Kotian";
+		String email = "ann@email.com";
+		String phone = "999-999-9999";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+
+		CustomerHandler ch = new CustomerHandler();
+		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
+				membershipStatus);
+		persistedObjects.add(c1);
+		
+		// Create a workout
+		String name = "testWorkout123456";
+		TrainerHandler th = new TrainerHandler();
+		Exercise ex1 = th.createExercise("ex1122346", 0, 0, 30, 30, new ArrayList<Integer>());
+		Exercise ex2 = th.createExercise("ex112234567", 0, 0, 30, 30, new ArrayList<Integer>());
+		String[] exList = {ex2.getName(), ex1.getName()}; 
+		persistedObjects.add(ex1);
+		persistedObjects.add(ex2);
+		 th = new TrainerHandler();
+		Workout w = th.createWorkout(name, exList);
+		persistedObjects.add(w);
+		
+		// Assign workout to customer
+		th.assignWorkout(c1.getId(), w.getId());
+		
+		// Verify workout was added
+		assertEquals("Failled to assign workout to customer", ch.getCustomerById(c1.getId()).getWorkouts().size(), 1);
+		
+	}
+	
+	@Test
+	public void unassignWorkout() throws Exception {
+		// Create a customer
+		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
+		String lName = "Kotian";
+		String email = "ann@email.com";
+		String phone = "999-999-9999";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+
+		CustomerHandler ch = new CustomerHandler();
+		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
+				membershipStatus);
+		persistedObjects.add(c1);
+		
+		// Create a workout
+		String name = "testWorkout123456";
+		TrainerHandler th = new TrainerHandler();
+		Exercise ex1 = th.createExercise("ex1122346", 0, 0, 30, 30, new ArrayList<Integer>());
+		Exercise ex2 = th.createExercise("ex112234567", 0, 0, 30, 30, new ArrayList<Integer>());
+		String[] exList = {ex2.getName(), ex1.getName()}; 
+		persistedObjects.add(ex1);
+		persistedObjects.add(ex2);
+		 th = new TrainerHandler();
+		Workout w = th.createWorkout(name, exList);
+		persistedObjects.add(w);
+		
+		// Assign workout to customer
+		th.assignWorkout(c1.getId(), w.getId());
+		
+		// Assign workout to customer
+		th.unassignWorkout(c1.getId(), w.getId());
+		
+		// Verify workout was added
+		assertEquals("Failled to assign workout to customer", ch.getCustomerById(c1.getId()).getWorkouts().size(), 0);
 		
 	}
 }
