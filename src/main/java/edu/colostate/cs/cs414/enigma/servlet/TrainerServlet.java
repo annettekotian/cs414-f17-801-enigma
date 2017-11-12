@@ -263,7 +263,33 @@ public class TrainerServlet extends HttpServlet {
 			}finally {
 				th.close();
 			}
+
+		} else if(type.equals("assignWorkout") || type.equals("unassignWorkout")) {
 			
+			int customerId = Integer.parseInt(request.getParameter("customerId"));
+			int workoutId = Integer.parseInt(request.getParameter("workoutId"));
+
+			Map<String, Object> returnValues = new HashMap<String, Object>();
+			TrainerHandler th = new TrainerHandler();
+			try {
+				if(type.equals("assignWorkout")) {
+					th.assignWorkout(customerId, workoutId);
+				} else if(type.equals("unassignWorkout")){
+					th.unassignWorkout(customerId, workoutId);
+				}
+				returnValues.put("rc", "0");
+			} catch(PersistenceException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getCause().getCause().toString());
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			}
+			finally {
+				th.close();
+			}
+			response.setContentType("application/json");
+			out.write(new Gson().toJson(returnValues));
+
 			
 		}
 	}
