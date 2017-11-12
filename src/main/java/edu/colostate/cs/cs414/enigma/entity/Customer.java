@@ -56,7 +56,7 @@ public class Customer implements Serializable {
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name="customer_workout_routine",
-			joinColumns=@JoinColumn(name="customer_membership_id", referencedColumnName="id"),
+			joinColumns=@JoinColumn(name="customer_id", referencedColumnName="id"),
 			inverseJoinColumns=@JoinColumn(name="workout_routine_id", referencedColumnName="id"))
 	private List<Workout> workouts;
 

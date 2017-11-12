@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
+import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.Exercise;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
@@ -530,7 +531,7 @@ public class TrainerHandlerTest {
 	
 	@Test (expected = PersistenceException.class)
 	public void testCreateDuplicateWorkout() throws ExerciseException, PersistenceException, ExerciseDurationException, ExerciseSetException {
-		String name = "testWorkout123456";
+		String name = "testWorkout12348856";
 		TrainerHandler th = new TrainerHandler();
 		Exercise ex1 = th.createExercise("ex1122346", 0, 0, 30, 30, new ArrayList<Integer>());
 		Exercise ex2 = th.createExercise("ex112234567", 0, 0, 30, 30, new ArrayList<Integer>());
@@ -571,6 +572,8 @@ public class TrainerHandlerTest {
 		
 	}
 	
+
+	
 //////***************** Update workout **************//////////
 	private Workout createWorkout() throws ExerciseException, PersistenceException, ExerciseDurationException, ExerciseSetException {
 		String name = "testWorkout123456";
@@ -581,14 +584,11 @@ public class TrainerHandlerTest {
 		persistedObjects.add(ex1);
 		persistedObjects.add(ex2);
 		 th = new TrainerHandler();
-
 		Workout w = th.createWorkout(name, exList);
 		persistedObjects.add(w);
 		
-		
 		return w;
 	}
-	
 	@Test
 	public void updateWorkoutName() throws PersistenceException, ExerciseException, ExerciseDurationException, ExerciseSetException {
 		Workout w = createWorkout();
@@ -630,6 +630,91 @@ public class TrainerHandlerTest {
 		
 		th.updateWorkout(Integer.toString(w.getId()), name, null);
 		
+	}
+		
+
+	
+	public void assignWorkout(int customerId, int workoutId) {
+
+		// Get the customer and the workout entity
+		Map<String, Object> customerParams = new HashMap<String, Object>();
+		customerParams.put("id", customerId);
+		Customer customer = (Customer) dao.querySingle("Customer.findById", customerParams);
+
+		Map<String, Object> workoutParams = new HashMap<String, Object>();
+		workoutParams.put("id", workoutId);
+		Workout workout = (Workout) dao.querySingle("Workout.findId", workoutParams);
+
+		// Assign (add) the customer the workout
+		customer.addWorkout(workout);
+
+		// Persist the changes
+		dao.update(customer);
+	}
+	
+	
+	@Test
+	public void assignWorkout() throws Exception {
+		// Create a customer
+		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
+		String lName = "Kotian";
+		String email = "ann@email.com";
+		String phone = "999-999-9999";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+
+		CustomerHandler ch = new CustomerHandler();
+		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
+				membershipStatus);
+		persistedObjects.add(c1);
+		
+	
+		
+	}
+	@Test
+	public void unassignWorkout() throws Exception {
+		// Create a customer
+		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
+		String lName = "Kotian";
+		String email = "ann@email.com";
+		String phone = "999-999-9999";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+
+		CustomerHandler ch = new CustomerHandler();
+		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
+				membershipStatus);
+		persistedObjects.add(c1);
+		
+		// Create a workout
+		String name = "testWorkout123456";
+		TrainerHandler th = new TrainerHandler();
+		Exercise ex1 = th.createExercise("ex1122346", 0, 0, 30, 30, new ArrayList<Integer>());
+		Exercise ex2 = th.createExercise("ex112234567", 0, 0, 30, 30, new ArrayList<Integer>());
+		String[] exList = {ex2.getName(), ex1.getName()}; 
+		persistedObjects.add(ex1);
+		persistedObjects.add(ex2);
+		 th = new TrainerHandler();
+		Workout w = th.createWorkout(name, exList);
+		persistedObjects.add(w);
+		
+		// Assign work-out to customer
+		th.assignWorkout(c1.getId(), w.getId());
+		
+		// Assign work-out to customer
+		th.unassignWorkout(c1.getId(), w.getId());
+		
+		// Verify workout was added
+		assertEquals("Failled to assign workout to customer", ch.getCustomerById(c1.getId()).getWorkouts().size(), 0);
+
 		
 	}
 }
