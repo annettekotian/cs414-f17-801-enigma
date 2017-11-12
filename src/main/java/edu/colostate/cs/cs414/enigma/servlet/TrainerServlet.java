@@ -241,6 +241,30 @@ public class TrainerServlet extends HttpServlet {
 			}
 			
 			
+		} else if (type.equals("updateWorkout")) {
+			
+			String id = request.getParameter("id");
+			String name = request.getParameter("name");
+			String[] exerciseList = request.getParameterValues("exerciseList[]");
+			Map<String, Object> returnValues = new HashMap<String, Object>();
+			TrainerHandler th = new TrainerHandler();
+			try {
+				
+				Workout w = th.updateWorkout(id, name, exerciseList);
+				
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(w));
+				out.println();
+			} catch(IllegalArgumentException e) {
+				response.sendError(500, e.toString());
+			}catch (ExerciseException e) {
+				// TODO Auto-generated catch block
+				response.sendError(500, e.toString());
+			}finally {
+				th.close();
+			}
+			
+			
 		}
 	}
 

@@ -225,11 +225,7 @@ margin-top:3%;
 	width: 198px;
 }
 
-.modal a {
-	text-decoration: inherit;
-    color: inherit;
-    cursor: auto;
-}
+
 
 #createManagerButton, #createCustomerButton, #editCustomerButton {
 	margin: 0px;

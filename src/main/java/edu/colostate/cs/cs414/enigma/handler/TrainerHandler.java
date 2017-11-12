@@ -574,4 +574,41 @@ public class TrainerHandler {
 		}
 		return wList;
 	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param exerciseIds
+	 * @return
+	 * @throws ExerciseException
+	 */
+	public Workout updateWorkout(String workoutId, String name, String[] exerciseIds) throws ExerciseException {
+		
+		//validations
+		if(workoutId.isEmpty() || name.isEmpty() || exerciseIds == null || exerciseIds.length == 0) {
+			throw new IllegalArgumentException("missing input");
+		}
+		
+		HashMap<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("id", Integer.parseInt(workoutId));
+		Workout w = (Workout) dao.querySingle("Workout.findId", map1);
+		
+		
+		ArrayList<Exercise> exList = new ArrayList<Exercise>();
+		for (String exName : exerciseIds) {
+			HashMap<String, Object> map2 = new HashMap<String, Object>();
+			map2.put("name", exName );
+			Exercise ex = (Exercise) dao.querySingle("Exercise.findByName", map2);
+			exList.add(ex);
+		}
+		
+		
+		w.setName(name);
+		w.setExercises(exList);
+		dao.update(w);
+		
+		return w;
+		
+		
+	}
 }

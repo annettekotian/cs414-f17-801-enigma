@@ -199,7 +199,7 @@ $("#createWorkoutModal").on($.modal.BEFORE_OPEN, function() {
 			
 			alert("Error: " + exception);
 		}
-	})
+	});
 });
 
 
@@ -232,7 +232,7 @@ $("#createWorkoutModal").on($.modal.AFTER_CLOSE, function(){
 })
 
 $("#submitWorkout").on("click", function(){
-	$("#createWorkoutModal").modal();
+	//$("#createWorkoutModal").modal();
 	
 	var params = {};
 	params.type = "createWorkout";
@@ -334,20 +334,144 @@ $("#editWorkoutModal").on($.modal.BEFORE_OPEN, function(){
 
 	var workout = WORKOUT_LIST.find(item => item.id == CURRENTLY_EDITED_WORKOUT);
 	$("#editWorkoutName").val(workout.name);
-	populateEditExerciseInEditWorkoutModal(workout.exercises);	
+	$.ajax({
+		url: "/trainer/ui",
+		method: "GET",
+		data: {
+			type: "getAllExercises"
+		},
+		async:false,
+		success: function(data) {
+			//debugger;
+			$("#editWorkoutExerciseSelect").children().remove();
+			$("#editWorkoutExerciseSelect").append("<option>--Select--</option>")
+			for(var i = 0; i< data.length; i++) {
+				$("#editWorkoutExerciseSelect").append("<option>"+ data[i].name + "</option>");
+			}
+			
+			
+
+		},
+		error: function(exception) {
+			
+			alert("Error: " + exception);
+		}
+	});
+	CURRENTLY_EDITED_WORKOUT_EXERCISES = $.extend(true, [], workout.exercises);
+	populateEditExerciseInEditWorkoutModal(CURRENTLY_EDITED_WORKOUT_EXERCISES);	
 })
 
 function populateEditExerciseInEditWorkoutModal(exerciseList){
 	$("#editWorkoutExercises").find(".tableData").remove();
 	for(var i = 0; i< exerciseList.length; i++){
 		var exercise = exerciseList[i];
-		$("#editWorkoutExercises").append("<tr class='tableData' data-id='" + exercise.id + "'>"
-				+ "<td><a href='#'>Remove</a></td>"
+		$("#editWorkoutExercises").append("<tr class='tableData' data-name='"+ exercise.name + "' data-id='" + exercise.id + "'>"
+				+ "<td><a class='removeExercise' href='#'>Remove</a></td>"
 				+ "<td>"+ (i+1) + "</td>"
-				+ "<td>"+ exercise.id+ "</td>"
 				+ "<td>"+ exercise.name + "</td>"
 				+ "</tr");
 	}
 }
 
+$(document).on("click", ".removeExercise", function(){
+	var exerciseName = $(this).parents("tr").data("name");
+	//console.log(exerciseId)
+	//var workout = null;
+	/*for(var i = 0; i< WORKOUT_LIST.length; i ++) {
+		// did not use array.find because I wanted to referecne the object
+		if(WORKOUT_LIST[i].id == CURRENTLY_EDITED_WORKOUT) {
+			workout = WORKOUT_LIST[i]
+		}
+	}*/
+	/*var exercises = workout.exercises;*/
+	
+	CURRENTLY_EDITED_WORKOUT_EXERCISES = CURRENTLY_EDITED_WORKOUT_EXERCISES.filter(function(obj){
+		return obj.name != exerciseName;
+	})
+	
+	populateEditExerciseInEditWorkoutModal (CURRENTLY_EDITED_WORKOUT_EXERCISES);
+});
 
+
+$("#addExerciseToEditedWorkout").on("click", function(){
+	if($("#editWorkoutExerciseSelect").find(":selected").index() == 0) {
+		alert("Please select an exercise to add to the workout.");
+		return;
+	}
+	var exerciseName = $("#editWorkoutExerciseSelect").val();
+	/*for(var i = 0; i< WORKOUT_LIST.length; i ++) {
+		// did not use array.find because I wanted to referecne the object
+		if(WORKOUT_LIST[i].id == CURRENTLY_EDITED_WORKOUT) {
+			workout = WORKOUT_LIST[i]
+		}
+	}
+	//debugger;
+	var exercises = workout.exercises;*/
+	var exerciseExists = false;
+	for(var i = 0; i< CURRENTLY_EDITED_WORKOUT_EXERCISES.length; i++) {
+		if(CURRENTLY_EDITED_WORKOUT_EXERCISES[i].name == exerciseName) {
+			exerciseExists = true;
+			break;
+		} 
+	}
+	
+	if(exerciseExists == true){
+		alert("Exercise has already been added!");
+		return;
+	}
+	CURRENTLY_EDITED_WORKOUT_EXERCISES.push({name:exerciseName});
+	populateEditExerciseInEditWorkoutModal (CURRENTLY_EDITED_WORKOUT_EXERCISES);
+	
+})
+
+$("#editWorkoutModal").on($.modal.AFTER_CLOSE, function(){
+	$("#editWorkoutName").val("");
+	$("#editWorkoutExercises").find(".tableData").remove()
+	$("#editWorkoutExerciseSelect").children().remove();
+	CURRENTLY_EDITED_WORKOUT_EXERCISES = [];
+	
+});
+
+
+$("#submitWorkoutChanges").on("click", function(){
+	var params = {};
+	params.id = CURRENTLY_EDITED_WORKOUT;
+	params.type = "updateWorkout";
+	params.name = $("#editWorkoutName").val();
+	params.exerciseList = [];
+	for(var i=0; i< CURRENTLY_EDITED_WORKOUT_EXERCISES.length;i++) {
+		params.exerciseList.push(CURRENTLY_EDITED_WORKOUT_EXERCISES[i].name);
+	}
+	
+	$.ajax({
+		url: "/trainer/ui",
+		method: "POST",
+		data: params,
+		
+		success: function(workout) {
+			$.modal.close();
+			for(var i = 0; i< WORKOUT_LIST.length; i ++) {
+			// did not use array.find because I wanted to referecne the object
+			if(WORKOUT_LIST[i].id == workout.id) {
+				WORKOUT_LIST[i] = workout;
+			}
+			
+			var tr =  $("#workoutResults").find("tr[data-id='" + workout.id + "']");
+			tr.children().remove();
+			tr.append("<td>" +  workout.id+"</td> " + 
+			"<td> " + workout.name+ "</td> " + 
+			"<td> <a class='viewWorkoutExercises' href='#'>View Exercises</a></td>");
+			
+		}
+		},
+		error: function(exception) {
+			if(exception.responseText.indexOf("missing input") >=0) {
+				alert("Could not create workout! Some input fields were missing");
+			} else {
+				alert("Error: " + exception);
+			}
+			
+		}
+	});
+	
+});

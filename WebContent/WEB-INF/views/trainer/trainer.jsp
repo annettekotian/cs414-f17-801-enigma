@@ -123,9 +123,13 @@
 	<table id="editWorkoutExercises">
 		<th></th>
 		<th>Sequence</th>
-		<th>id</th>
 		<th>Name</th>
 	</table>
+	
+	<label>Select Exercise</label><br/>
+	<select id="editWorkoutExerciseSelect">
+	</select> <br/>
+	<button id="addExerciseToEditedWorkout">Add exercise</button><br/>
 	<button id="submitWorkoutChanges">Submit Changes</button>
 </div>
 

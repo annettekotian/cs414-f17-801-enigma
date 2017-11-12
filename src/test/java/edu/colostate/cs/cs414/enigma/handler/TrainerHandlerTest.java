@@ -510,6 +510,8 @@ public class TrainerHandlerTest {
 		th.close();
 	}
 	
+	//////***************** Create workout **************////////////////
+	
 	@Test
 	public void testCreateWorkout() throws ExerciseException, PersistenceException, ExerciseDurationException, ExerciseSetException {
 		String name = "testWorkout123456";
@@ -551,6 +553,7 @@ public class TrainerHandlerTest {
 		persistedObjects.add(ex1);
 		persistedObjects.add(ex2);
 		th = new TrainerHandler();
+		
 		Workout w = th.createWorkout(name, exList);
 		persistedObjects.add(w);
 		
@@ -565,6 +568,68 @@ public class TrainerHandlerTest {
 		th = new TrainerHandler();
 		Workout w = th.createWorkout(name, exList);
 		persistedObjects.add(w);
+		
+	}
+	
+//////***************** Update workout **************//////////
+	private Workout createWorkout() throws ExerciseException, PersistenceException, ExerciseDurationException, ExerciseSetException {
+		String name = "testWorkout123456";
+		TrainerHandler th = new TrainerHandler();
+		Exercise ex1 = th.createExercise("ex1122346", 0, 0, 30, 30, new ArrayList<Integer>());
+		Exercise ex2 = th.createExercise("ex112234567", 0, 0, 30, 30, new ArrayList<Integer>());
+		String[] exList = {ex2.getName(), ex1.getName()}; 
+		persistedObjects.add(ex1);
+		persistedObjects.add(ex2);
+		 th = new TrainerHandler();
+
+		Workout w = th.createWorkout(name, exList);
+		persistedObjects.add(w);
+		
+		
+		return w;
+	}
+	
+	@Test
+	public void updateWorkoutName() throws PersistenceException, ExerciseException, ExerciseDurationException, ExerciseSetException {
+		Workout w = createWorkout();
+		String name = "testWorkout1234567766";
+		TrainerHandler th = new TrainerHandler();
+		Exercise ex1 = th.createExercise("ex1122346777", 0, 0, 30, 30, new ArrayList<Integer>());
+		persistedObjects.add(ex1);
+		String[] exerciseNames = new String[3];
+		List<Exercise> list = w.getExercises();
+		for(int i = 0; i<list.size(); i++) {
+			exerciseNames[i] = list.get(i).getName();
+		}
+		exerciseNames[2] = ex1.getName();
+		Workout w2 = th.updateWorkout(Integer.toString(w.getId()), name, exerciseNames);
+		assertTrue(w2.getName().equals(name) && w2.getExercises().size() == exerciseNames.length && w2.getExercises().get(2).getName() == ex1.getName());
+		
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void updateWorkoutWithoutName() throws PersistenceException, ExerciseException, ExerciseDurationException, ExerciseSetException {
+		Workout w = createWorkout();
+		String name = "";
+		TrainerHandler th = new TrainerHandler();
+		String[] exerciseNames = new String[2];
+		List<Exercise> list = w.getExercises();
+		for(int i = 0; i<list.size(); i++) {
+			exerciseNames[i] = list.get(i).getName();
+		}
+		th.updateWorkout(Integer.toString(w.getId()), name, exerciseNames);
+		
+		
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void updateWorkoutWithoutExercises() throws PersistenceException, ExerciseException, ExerciseDurationException, ExerciseSetException {
+		Workout w = createWorkout();
+		String name = "testabcdef";
+		TrainerHandler th = new TrainerHandler();
+		
+		th.updateWorkout(Integer.toString(w.getId()), name, null);
+		
 		
 	}
 }
