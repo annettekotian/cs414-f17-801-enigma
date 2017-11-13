@@ -29,14 +29,7 @@ import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
 import edu.colostate.cs.cs414.enigma.entity.exception.MachineException;
 
-public class ManagerHandler  {
-	
-	private EntityManagerDao dao;
-	
-	public ManagerHandler() {
-		dao = new EntityManagerDao();
-	}
-	
+public class ManagerHandler extends GymSystemHandler {	
 	
 	/**
 	 * 
@@ -57,7 +50,7 @@ public class ManagerHandler  {
 			String confirmPassword, String street, String city, String zip, String state) throws AddressException  {
 		
 			
-		
+
 		// validations
 		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || insurance.isEmpty() || userName.isEmpty()
 				|| userPass.isEmpty() || street.isEmpty() || city.isEmpty() || zip.isEmpty() || state.isEmpty()) {
@@ -87,55 +80,40 @@ public class ManagerHandler  {
 			throw e;
 		}
 		
-		
-		// Establish a connection to the database
-		dao = new EntityManagerDao();
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("name", insurance);
-		HealthInsurance hiDB = (HealthInsurance) dao.querySingle("HealthInsurance.findByName", parameters);
+		HealthInsurance hiDB = (HealthInsurance) getDao().querySingle("HealthInsurance.findByName", parameters);
 		if(hiDB == null) {
 			hiDB = new HealthInsurance(insurance);
 		}
 		
 		Map<String, Object> stateParams = new HashMap<String, Object>();
 		stateParams.put("state", state);
-		State stateDB = (State) dao.querySingle("State.findState", stateParams);
+		State stateDB = (State) getDao().querySingle("State.findState", stateParams);
 		Address address = new Address(street, city, zip, stateDB);
 		
 		PersonalInformation p = new PersonalInformation(email, firstName, lastName, phoneNumber, hiDB, address);
 		Map<String, Object> userLevelParams = new HashMap<String, Object>(); 
 		userLevelParams.put("level", "MANAGER");
-		UserLevel ul = (UserLevel) dao.querySingle("UserLevel.findLevel", userLevelParams);
+		UserLevel ul = (UserLevel) getDao().querySingle("UserLevel.findLevel", userLevelParams);
 		User user = new User( userName, userPass, ul);
 		Manager manager= new Manager(p, user);
 		
 		// Persist the manager with the database
-		
-		dao.persist(manager);
-		
-		// Shutdown connection to database
-		dao.close();
-		
+		getDao().persist(manager);
 		
 		return manager;		
-		
 	}
 	
 	public List<Manager> getAllManagers() {
-		// Open up a connection to the db
-			EntityManagerDao dao = new EntityManagerDao();
 			
-			// Issue a query to get all the customers
-			List<Manager> managers = new ArrayList<Manager>();
-			List<?> results = dao.query("Manager.findAll", null);
-			for(int i=0; i<results.size(); i++) {
-				managers.add((Manager) results.get(i));
-			}
-
-			// Shutdown connection to database
-			dao.close();
-			
-			return managers;
+		// Issue a query to get all the customers
+		List<Manager> managers = new ArrayList<Manager>();
+		List<?> results = getDao().query("Manager.findAll", null);
+		for(int i=0; i<results.size(); i++) {
+			managers.add((Manager) results.get(i));
+		}		
+		return managers;
 	}
 	
 	
@@ -146,15 +124,9 @@ public class ManagerHandler  {
 	 * @return Manager
 	 */
 	public Manager getMangerById(String id) {
-		
-		// Establish a connection to the database
-		
-		EntityManagerDao dao = new EntityManagerDao();
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("id", Integer.parseInt(id));
-		Manager m = (Manager) dao.querySingle("Manager.findById", parameters);
-		
-		dao.close();
+		Manager m = (Manager) getDao().querySingle("Manager.findById", parameters);
 		return m;
 	}
 	
@@ -166,16 +138,13 @@ public class ManagerHandler  {
 	 */
 	
 	public List<Manager> searchManager(String keywords) {
-		EntityManagerDao dao = new EntityManagerDao();
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("keyword", "%" + keywords + "%");
-		List<?> results = dao.query("Manager.findByKeywords", parameters);
+		List<?> results = getDao().query("Manager.findByKeywords", parameters);
 		List<Manager> managers= new ArrayList<Manager>();
-		
-			for(int i=0; i<results.size(); i++) {
-				managers.add((Manager) results.get(i));
-			}
-		dao.close();
+		for(int i=0; i<results.size(); i++) {
+			managers.add((Manager) results.get(i));
+		}
 		return managers;
 	}
 	
@@ -198,20 +167,16 @@ public class ManagerHandler  {
 		BufferedImage image = ImageIO.read(fileContent);
 		if(image == null) {
 			throw new IllegalArgumentException("not image file");
-		}
-		
-		EntityManagerDao dao = new EntityManagerDao();
-		
+		}		
 		
 		String fullName = name + ".png";
 		int noOfMachines = Integer.parseInt(quantity);
 		Machine m = new Machine(name, fullName, noOfMachines);
-		dao.persist(m);
+		getDao().persist(m);
 		int machineId = m.getId();
 		String fullNameWithId = machineId + "_" + fullName;
 		m.setPictureLocation(fullNameWithId);
-		dao.update(m);
-		dao.close();
+		getDao().update(m);
 		String path = uploadPath +   "/"+ fullNameWithId;
 		File imageFile = new File(path);
 		ImageIO.write(image, "png", imageFile);
@@ -219,11 +184,10 @@ public class ManagerHandler  {
 		
 	}
 	
-	public Machine getMachineById(String id) {
-		
+	public Machine getMachineById(String id) {	
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("id", Integer.parseInt(id));
-		return (Machine)dao.querySingle("Machine.findId", params);
+		return (Machine)getDao().querySingle("Machine.findId", params);
 	}
 	
 	
@@ -252,15 +216,11 @@ public class ManagerHandler  {
 			if(image == null) {
 				throw new IllegalArgumentException("not image file");
 			}
-		}
-		
-		
-		EntityManagerDao dao = new EntityManagerDao();
-		
+		}		
 		
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("id", Integer.parseInt(id));
-		Machine m = (Machine) dao.querySingle("Machine.findId", params);
+		Machine m = (Machine) getDao().querySingle("Machine.findId", params);
 		
 		// get the current machine name
 		String currentName = m.getName();
@@ -275,9 +235,8 @@ public class ManagerHandler  {
 		m.setPictureLocation(fullNameWithId);
 		m.setQuantity(Integer.parseInt(quantity));
 		
-		dao.update(m);
-		dao.close();
-		
+		getDao().update(m);
+
 		String currentPath = uploadPath +   "/"+ m.getId() + "_" + currentName + ".png";
 		//System.out.println(currentPath);
 		File currentFile = new File(currentPath);
@@ -305,16 +264,14 @@ public class ManagerHandler  {
 		
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("id", mId);
-		Machine m = (Machine) dao.querySingle("Machine.findId", params);
+		Machine m = (Machine) getDao().querySingle("Machine.findId", params);
 		if(m == null) {
 			return;
 		}
 		String location = m.getPictureLocation();
-		dao.remove(m);
-		dao.close();
+		getDao().remove(m);
 		File f = new File(uploadPath + "/" + location);
 		f.delete();
 				
-		
 	}
 }

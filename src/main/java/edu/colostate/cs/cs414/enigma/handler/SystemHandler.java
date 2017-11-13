@@ -11,20 +11,7 @@ import edu.colostate.cs.cs414.enigma.entity.Machine;
 import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.State;
 
-public class SystemHandler {
-	EntityManagerDao dao;
-
-	public SystemHandler() {
-		dao = new EntityManagerDao();
-	}
-	
-	/**this methods shuts down the connection to the database
-	 *  
-	 */
-	public void close() {
-		dao.close();
-	}
-
+public class SystemHandler extends GymSystemHandler {
 	
 	/** this method returns all the states from the states table
 	 * 
@@ -32,7 +19,7 @@ public class SystemHandler {
 	 */
 	public List getAllStates() {
 		List<State> states = new ArrayList<State>();
-		List<?> results = dao.query("State.findAll", null);
+		List<?> results = getDao().query("State.findAll", null);
 		for (int i = 0; i < results.size(); i++) {
 			states.add((State) results.get(i));
 		}
@@ -44,7 +31,7 @@ public class SystemHandler {
 	 * @return
 	 */
 	public List<HealthInsurance> getHealthInsurances() {
-		List rawHealthInsurance = dao.query("HealthInsurance.findAll", null);
+		List rawHealthInsurance = getDao().query("HealthInsurance.findAll", null);
 		List<HealthInsurance> insurances = new ArrayList<HealthInsurance>();
 		for (int i = 0; i < rawHealthInsurance.size(); i++) {
 			insurances.add((HealthInsurance) rawHealthInsurance.get(i));
@@ -57,7 +44,7 @@ public class SystemHandler {
 	 * @return
 	 */
 	public List<Membership> getMembershipTypes() {
-		List rawMemberships = dao.query("Membership.findAll", null);
+		List rawMemberships = getDao().query("Membership.findAll", null);
 		List<Membership> memberships = new ArrayList<Membership>();
 		for(int i=0; i<rawMemberships.size(); i++) {
 			memberships.add((Membership) rawMemberships.get(i));
@@ -67,7 +54,7 @@ public class SystemHandler {
 
 	public List<Machine> getInventory(){
 
-		List rawMachines = dao.query("Machine.findAll", null);
+		List rawMachines = getDao().query("Machine.findAll", null);
 		List<Machine> machines = new ArrayList<Machine>();
 		for(int i=0; i<rawMachines.size(); i++) {
 			machines.add((Machine) rawMachines.get(i));
@@ -77,19 +64,15 @@ public class SystemHandler {
 	
 	
 	public List<Machine> searchByKeyword(String keyword){
-		dao = new EntityManagerDao();
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("keyword", "%" + keyword + "%");
 		//System.out.println("here 1");
-		List rawMachines = dao.query("Machine.findByKeyword", parameters);
+		List rawMachines = getDao().query("Machine.findByKeyword", parameters);
 		//System.out.println("here 2");
 		List<Machine> machines = new ArrayList<Machine>();
 		for(int i=0; i<rawMachines.size(); i++) {
 			machines.add((Machine) rawMachines.get(i));
 		}
-		close();
 		return machines;
-	}
-	
-	
+	}	
 }

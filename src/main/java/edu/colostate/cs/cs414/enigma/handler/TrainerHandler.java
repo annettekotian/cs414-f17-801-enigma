@@ -31,17 +31,7 @@ import edu.colostate.cs.cs414.enigma.entity.Exercise;
 import edu.colostate.cs.cs414.enigma.entity.ExerciseDuration;
 import edu.colostate.cs.cs414.enigma.entity.ExerciseSet;
 
-public class TrainerHandler {
-	
-	private EntityManagerDao dao;
-	
-	public TrainerHandler() {
-		this.dao = new EntityManagerDao();
-	}
-	
-	public void close() {
-		this.dao.close();
-	}
+public class TrainerHandler extends GymSystemHandler {
 	
 	private void validateTrainerInformation(String firstName, String lastName, String phoneNumber, String email, String street,
 			String city, String state, String zipcode, String healthInsurance, String userName, String password, String confirmPassword) throws AddressException, IllegalArgumentException {
@@ -93,7 +83,7 @@ public class TrainerHandler {
 		// Get a state entity/object
 		Map<String, Object> stateParams = new HashMap<String, Object>();
 		stateParams.put("state", state);
-		State stateEntity = (State) dao.querySingle("State.findState", stateParams);
+		State stateEntity = (State) getDao().querySingle("State.findState", stateParams);
 		
 		// Create an address for the new trainer
 		Address addressEntity = new Address(street, city, zipcode, stateEntity);
@@ -101,7 +91,7 @@ public class TrainerHandler {
 		// Attempt to get a healthInsurance object
 		Map<String, Object> healthInsuranceParams = new HashMap<String, Object>();
 		healthInsuranceParams.put("name", healthInsurance);
-		HealthInsurance healthInsuranceEntity = (HealthInsurance) dao.querySingle("HealthInsurance.findByName", healthInsuranceParams);
+		HealthInsurance healthInsuranceEntity = (HealthInsurance) getDao().querySingle("HealthInsurance.findByName", healthInsuranceParams);
 		if(healthInsuranceEntity == null) {
 			healthInsuranceEntity = new HealthInsurance(healthInsurance);
 		}
@@ -113,7 +103,7 @@ public class TrainerHandler {
 		// Get the trainer userLevel object for the new trainer
 		Map<String, Object> userLevelParams = new HashMap<String, Object>();
 		userLevelParams.put("level", "TRAINER");
-		UserLevel userLevelEntity = (UserLevel) dao.querySingle("UserLevel.findLevel", userLevelParams);
+		UserLevel userLevelEntity = (UserLevel) getDao().querySingle("UserLevel.findLevel", userLevelParams);
 		
 		// Create a user for the new trainer
 		User userEntity = new User(userName, password, userLevelEntity);
@@ -122,7 +112,7 @@ public class TrainerHandler {
 		Trainer trainer = new Trainer(personalInformationEntity, userEntity);
 		
 		// Persist the new trainers information with the db
-		dao.persist(trainer);
+		getDao().persist(trainer);
 		
 		return trainer;
 	}
@@ -164,10 +154,10 @@ public class TrainerHandler {
 		if(!personalInformation.getHealthInsurance().getName().equals(healthInsurance)) {
 			Map<String, Object> healthInsuranceParams = new HashMap<String, Object>();
 			healthInsuranceParams.put("name", healthInsurance);
-			HealthInsurance healthInsuranceEntity = (HealthInsurance) dao.querySingle("HealthInsurance.findByName", healthInsuranceParams);
+			HealthInsurance healthInsuranceEntity = (HealthInsurance) getDao().querySingle("HealthInsurance.findByName", healthInsuranceParams);
 			if(healthInsuranceEntity == null) {
 				healthInsuranceEntity = new HealthInsurance(healthInsurance);
-				dao.persist(healthInsuranceEntity);
+				getDao().persist(healthInsuranceEntity);
 			}
 			personalInformation.setHealthInsurance(healthInsuranceEntity);
 		}
@@ -179,7 +169,7 @@ public class TrainerHandler {
 		if(!address.getState().getState().equals(state)) {
 			Map<String, Object> stateParams = new HashMap<String, Object>();
 			stateParams.put("state", state);
-			State stateEntity = (State) dao.querySingle("State.findState", stateParams);
+			State stateEntity = (State) getDao().querySingle("State.findState", stateParams);
 			address.setState(stateEntity);
 		}
 		
@@ -189,7 +179,7 @@ public class TrainerHandler {
 		
 		
 		// Modify/update the trainers information with the db
-		dao.update(trainer);
+		getDao().update(trainer);
 		
 		return trainer;
 	}
@@ -198,7 +188,7 @@ public class TrainerHandler {
 		// Attempt to get the Qualification entity from the DB
 		Map<String, Object> qualificationParams = new HashMap<String, Object>();
 		qualificationParams.put("name", name);
-		Qualification qualificationEntity = (Qualification) dao.querySingle("Qualification.findByName", qualificationParams);
+		Qualification qualificationEntity = (Qualification) getDao().querySingle("Qualification.findByName", qualificationParams);
 		return qualificationEntity;
 	}
 	
@@ -207,7 +197,7 @@ public class TrainerHandler {
 		Qualification qualificationEntity = this.getQualificationByName(qualification);
 		if(qualificationEntity == null) {
 			qualificationEntity = new Qualification(qualification);
-			dao.persist(qualificationEntity);
+			getDao().persist(qualificationEntity);
 		}
 		
 		// Get the Trainer entity from the DB
@@ -215,7 +205,7 @@ public class TrainerHandler {
 		
 		// Add the qualification to the trainer
 		trainerEntity.addQualification(qualificationEntity);
-		dao.update(trainerEntity);
+		getDao().update(trainerEntity);
 	}
 	
 	public void deleteQualification(int trainerId, String qualification) {
@@ -229,7 +219,7 @@ public class TrainerHandler {
 		trainerEntity.removeQualification(qualificationEntity);
 		
 		// Update the db
-		dao.update(trainerEntity);
+		getDao().update(trainerEntity);
 	}
 	
 	public void addWorkHours(int trainerId, Date startDateTime, Date endDateTime) throws WorkHoursException {
@@ -251,10 +241,10 @@ public class TrainerHandler {
 		// Get the Trainer entity from the DB
 		Map<String, Object> trainerParams = new HashMap<String, Object>();
 		trainerParams.put("id", trainerId);
-		Trainer trainerEntity = (Trainer) dao.querySingle("Trainer.findById", trainerParams);
+		Trainer trainerEntity = (Trainer) getDao().querySingle("Trainer.findById", trainerParams);
 
 		trainerEntity.addWorkHours(workHours);
-		dao.update(trainerEntity);
+		getDao().update(trainerEntity);
 	}
 	
 	public void deleteWorkHours(int trainerId, int workHoursId) {
@@ -269,7 +259,7 @@ public class TrainerHandler {
 		trainer.removeWorkHours(workHours);
 		
 		// Update db
-		dao.update(trainer);
+		getDao().update(trainer);
 	}
 	
 	/**
@@ -284,7 +274,7 @@ public class TrainerHandler {
 		trainerParams.put("id", trainerId);
 		
 		// Get the trainer
-		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", trainerParams);
+		Trainer trainer = (Trainer) getDao().querySingle("Trainer.findById", trainerParams);
 				
 		return trainer;		
 	}
@@ -299,7 +289,7 @@ public class TrainerHandler {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", userId);		
 		// Get the trainer
-		Trainer trainer = (Trainer) dao.querySingle("Trainer.findByUserId", params);
+		Trainer trainer = (Trainer) getDao().querySingle("Trainer.findByUserId", params);
 				
 		return trainer;	
 	}
@@ -313,7 +303,7 @@ public class TrainerHandler {
 		
 		// Issue a query to get all the customers
 		List<Trainer> trainers = new ArrayList<Trainer>();
-		List<?> results = dao.query("Trainer.findAll", null);
+		List<?> results = getDao().query("Trainer.findAll", null);
 		for(int i=0; i<results.size(); i++) {
 			trainers.add((Trainer) results.get(i));
 		}
@@ -349,11 +339,11 @@ public class TrainerHandler {
 		// Get the trainer entity to be updated
 		Map<String, Object> trainerParams = new HashMap<String, Object>();
 		trainerParams.put("id", id);
-		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", trainerParams);
+		Trainer trainer = (Trainer) getDao().querySingle("Trainer.findById", trainerParams);
 		trainer.removeAllWorkHours();
 		
 		// Delete the trainer
-		dao.remove(trainer);
+		getDao().remove(trainer);
 	}
 	
 	public Exercise createExercise(String name, int machineId, int durationHours, int durationMinutes,
@@ -375,7 +365,7 @@ public class TrainerHandler {
 		}
 		
 		// Persist the new exercise
-		dao.persist(exercise);
+		getDao().persist(exercise);
 		
 		// Check to see if repetitions need to be added
 		for(int i=0; i<sets.size(); i++) {
@@ -383,7 +373,7 @@ public class TrainerHandler {
 			exercise.addSet(set);
 		}
 		if(sets.size() > 0) {
-			dao.update(exercise);
+			getDao().update(exercise);
 		}
 		
 		return exercise;
@@ -453,7 +443,7 @@ public class TrainerHandler {
 		
 		if(rebuildSets) {
 			exercise.deleteSets();
-			dao.update(exercise);
+			getDao().update(exercise);
 			for(int i=0; i<sets.size(); i++) {
 				ExerciseSet set = new ExerciseSet(sets.get(i));
 				exercise.addSet(set);
@@ -461,7 +451,7 @@ public class TrainerHandler {
 		}
 		
 		// Commit the changes
-		dao.update(exercise);
+		getDao().update(exercise);
 		
 		return exercise;
 	}
@@ -477,15 +467,15 @@ public class TrainerHandler {
 		// All sets need to be deleted before removing the exercise
 		if(exercise.getSets().size() > 0) {
 			exercise.deleteSets();
-			dao.update(exercise);
+			getDao().update(exercise);
 		}
 		
 		// Delete the exercise
-		dao.remove(exercise);
+		getDao().remove(exercise);
 	}
 	
 	public List<Qualification> getAllQualifications() {
-		List<?> results = dao.query("Qualification.findAll", null);
+		List<?> results = getDao().query("Qualification.findAll", null);
 		List<Qualification> qualifications = new ArrayList<Qualification>();
 		for(int i=0; i<results.size(); i++) {
 			qualifications.add((Qualification) results.get(i));
@@ -494,7 +484,7 @@ public class TrainerHandler {
 	} 
 	
 	public List<Exercise> getAllExercises() {
-		List<?> results = dao.query("Exercise.findAll", null);
+		List<?> results = getDao().query("Exercise.findAll", null);
 		List<Exercise> exercises = new ArrayList<Exercise>();
 		for(int i=0; i<results.size(); i++) {
 			exercises.add((Exercise) results.get(i));
@@ -503,7 +493,7 @@ public class TrainerHandler {
 	}
 	
 	public List<Exercise> searchExercises(String value) {
-		List<?> results = dao.query("Exercise.findAll", null);
+		List<?> results = getDao().query("Exercise.findAll", null);
 		List<Exercise> exercises = new ArrayList<Exercise>();
 		for(int i=0; i<results.size(); i++) {
 			Exercise exercise = (Exercise) results.get(i);
@@ -517,21 +507,21 @@ public class TrainerHandler {
 	private Exercise getExerciseById(int exerciseId) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("id", exerciseId);
-		Exercise exercise = (Exercise) dao.querySingle("Exercise.findId", parameters);
+		Exercise exercise = (Exercise) getDao().querySingle("Exercise.findId", parameters);
 		return exercise;
 	}
 	
 	private WorkHours getWorkHoursById(int workHoursId) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("id", workHoursId);
-		WorkHours workHours = (WorkHours) dao.querySingle("WorkHours.findById", parameters);
+		WorkHours workHours = (WorkHours) getDao().querySingle("WorkHours.findById", parameters);
 		return workHours;
 	}
 	
 	private Machine getMachineById(int machineId) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("id", machineId);
-		Machine machine = (Machine) dao.querySingle("Machine.findId", parameters);
+		Machine machine = (Machine) getDao().querySingle("Machine.findId", parameters);
 		return machine;
 	}
 	
@@ -553,14 +543,14 @@ public class TrainerHandler {
 		for (String exName : exerciseNames) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("name", exName );
-			Exercise ex = (Exercise) dao.querySingle("Exercise.findByName", map);
+			Exercise ex = (Exercise) getDao().querySingle("Exercise.findByName", map);
 			exList.add(ex);
 		}
 		
 		
 		Workout w = new Workout(name);
 		w.setExercises(exList);
-		dao.persist(w);
+		getDao().persist(w);
 		
 		return w;
 		
@@ -568,7 +558,7 @@ public class TrainerHandler {
 	}
 	
 	public List<Workout> getAllWorkouts() {
-		List<?> results = dao.query("Workout.findAll", null);
+		List<?> results = getDao().query("Workout.findAll", null);
 		List<Workout> wList= new ArrayList<Workout>();
 		for(int i=0; i<results.size(); i++) {
 			wList.add((Workout) results.get(i));
@@ -592,21 +582,21 @@ public class TrainerHandler {
 		
 		HashMap<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("id", Integer.parseInt(workoutId));
-		Workout w = (Workout) dao.querySingle("Workout.findId", map1);
+		Workout w = (Workout) getDao().querySingle("Workout.findId", map1);
 		
 		
 		ArrayList<Exercise> exList = new ArrayList<Exercise>();
 		for (String exName : exerciseNames) {
 			HashMap<String, Object> map2 = new HashMap<String, Object>();
 			map2.put("name", exName );
-			Exercise ex = (Exercise) dao.querySingle("Exercise.findByName", map2);
+			Exercise ex = (Exercise) getDao().querySingle("Exercise.findByName", map2);
 			exList.add(ex);
 		}
 		
 		
 		w.setName(name);
 		w.setExercises(exList);
-		dao.update(w);
+		getDao().update(w);
 		
 		return w;
 	}
@@ -614,7 +604,7 @@ public class TrainerHandler {
 	public List<Workout> searchWorkouts(String keyword) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("keyword", "%" + keyword + "%");
-		List<?> results = dao.query("Workout.findByKeyword", params);
+		List<?> results = getDao().query("Workout.findByKeyword", params);
 		List<Workout> wList= new ArrayList<Workout>();
 		for(int i=0; i<results.size(); i++) {
 			wList.add((Workout) results.get(i));
@@ -627,14 +617,14 @@ public class TrainerHandler {
 		// Get the customer and the workout entity
 		Map<String, Object> customerParams = new HashMap<String, Object>();
 		customerParams.put("id", customerId);
-		Customer customer = (Customer) dao.querySingle("Customer.findById", customerParams);
+		Customer customer = (Customer) getDao().querySingle("Customer.findById", customerParams);
 		if(customer == null) {
 			throw new IllegalArgumentException("Customer does not exist");
 		}
 		
 		Map<String, Object> workoutParams = new HashMap<String, Object>();
 		workoutParams.put("id", workoutId);
-		Workout workout = (Workout) dao.querySingle("Workout.findId", workoutParams);
+		Workout workout = (Workout) getDao().querySingle("Workout.findId", workoutParams);
 		if(workout == null) {
 			throw new IllegalArgumentException("Workout does not exist");
 		}
@@ -643,7 +633,7 @@ public class TrainerHandler {
 		customer.addWorkout(workout);
 		
 		// Persist the changes
-		dao.update(customer);
+		getDao().update(customer);
 	}
 	
 	public void unassignWorkout(int customerId, int workoutId) throws IllegalArgumentException {
@@ -651,14 +641,14 @@ public class TrainerHandler {
 		// Get the customer and the workout entity
 		Map<String, Object> customerParams = new HashMap<String, Object>();
 		customerParams.put("id", customerId);
-		Customer customer = (Customer) dao.querySingle("Customer.findById", customerParams);
+		Customer customer = (Customer) getDao().querySingle("Customer.findById", customerParams);
 		if(customer == null) {
 			throw new IllegalArgumentException("Customer does not exist");
 		}
 		
 		Map<String, Object> workoutParams = new HashMap<String, Object>();
 		workoutParams.put("id", workoutId);
-		Workout workout = (Workout) dao.querySingle("Workout.findId", workoutParams);
+		Workout workout = (Workout) getDao().querySingle("Workout.findId", workoutParams);
 		if(workout == null) {
 			throw new IllegalArgumentException("Workout does not exist");
 		}
@@ -667,7 +657,7 @@ public class TrainerHandler {
 		customer.removeWorkout(workout);
 		
 		// Persist the changes
-		dao.update(customer);
+		getDao().update(customer);
 
 	}
 }

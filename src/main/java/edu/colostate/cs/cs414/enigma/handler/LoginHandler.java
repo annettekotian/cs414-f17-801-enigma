@@ -6,23 +6,17 @@ import java.util.Map;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.User;
 
-public class LoginHandler {
-	private static User getUserByUsername(String username) {
-		// Connect to the database
-		EntityManagerDao dao = new EntityManagerDao();
-		
+public class LoginHandler extends GymSystemHandler {
+	private User getUserByUsername(String username) {
+
 		// Issued a named query for a specific username
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("name", username);
-		User user = (User) dao.querySingle("User.findUser", parameters);
-
-		// Close connection to the database
-		dao.close();
-		
+		User user = (User) getDao().querySingle("User.findUser", parameters);		
 		return user;
 	}
 	
-	public static boolean authenticate(String username, String password) {
+	public boolean authenticate(String username, String password) {
 		User user = getUserByUsername(username);
 		if(user == null) {
 			return false;
@@ -30,7 +24,7 @@ public class LoginHandler {
 		return user.getPassword().equals(password);
 	}
 	
-	public static String getUserLevel(String username) throws IllegalArgumentException {
+	public String getUserLevel(String username) throws IllegalArgumentException {
 		User user = getUserByUsername(username);
 		if(user == null) {
 			throw new IllegalArgumentException("Invalid username");
@@ -38,7 +32,7 @@ public class LoginHandler {
 		return user.getUserLevel().getDescription();
 	}
 
-	public static int getUserId(String username) throws IllegalArgumentException {
+	public int getUserId(String username) throws IllegalArgumentException {
 		User user = getUserByUsername(username);
 		if(user == null) {
 			throw new IllegalArgumentException("Invalid username");
