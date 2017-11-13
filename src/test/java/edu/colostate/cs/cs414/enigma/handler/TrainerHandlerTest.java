@@ -580,10 +580,12 @@ public class TrainerHandlerTest {
 		TrainerHandler th = new TrainerHandler();
 		Exercise ex1 = th.createExercise("ex1122346", 0, 0, 30, 30, new ArrayList<Integer>());
 		Exercise ex2 = th.createExercise("ex112234567", 0, 0, 30, 30, new ArrayList<Integer>());
-		String[] exList = {ex2.getName(), ex1.getName()}; 
+		String[] exList = new String[2];
+		exList[0] = ex2.getName();
+		exList[1] = ex1.getName();
 		persistedObjects.add(ex1);
 		persistedObjects.add(ex2);
-		 th = new TrainerHandler();
+		th = new TrainerHandler();
 		Workout w = th.createWorkout(name, exList);
 		persistedObjects.add(w);
 		
@@ -632,7 +634,28 @@ public class TrainerHandlerTest {
 		
 	}
 		
+//************************ Search Workout ************************//
+	
+	@Test
+	public void testSearchWorkout() throws PersistenceException, ExerciseException, ExerciseDurationException, ExerciseSetException {
+		Workout w = createWorkout();
+		TrainerHandler th = new TrainerHandler();
+		List<Workout> list = th.searchWorkouts(w.getName());
+		assertTrue(list.size() == 1 && list.get(0).getName().equals(w.getName()));
+	}
+	
+	@Test
+	public void testSearchWorkoutWithEmptyKeyword() throws PersistenceException, ExerciseException, ExerciseDurationException, ExerciseSetException {
+		Workout w = createWorkout();
+		TrainerHandler th = new TrainerHandler();
+		List<Workout> list = th.searchWorkouts("");
+		assertTrue(list.size() >= 0);
+	}
+	
+	
+	/// ******* assign/ unassign workout***/
 
+	
 	
 	public void assignWorkout(int customerId, int workoutId) {
 

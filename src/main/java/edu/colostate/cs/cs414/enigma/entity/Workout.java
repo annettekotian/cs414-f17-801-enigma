@@ -23,7 +23,10 @@ import javax.persistence.Table;
 @NamedQueries({
 	@NamedQuery(name="Workout.findAll", query="SELECT w FROM Workout w ORDER BY w.id"),
 	@NamedQuery(name="Workout.findByName", query="SELECT w FROM Workout w WHERE w.name = :name"),
-	@NamedQuery(name="Workout.findId", query="SELECT w FROM Workout w WHERE w.id = :id")
+	@NamedQuery(name="Workout.findId", query="SELECT w FROM Workout w WHERE w.id = :id"),
+	@NamedQuery(name="Workout.findByKeyword", query="SELECT DISTINCT w FROM Workout w "
+			+ " JOIN w.exercises e where w.name LIKE :keyword or e.name LIKE :keyword"
+			+ " OR e.id LIKE :keyword")
 })
 public class Workout {
 

@@ -73,7 +73,7 @@ function focusWorkouts() {
 	$("#home").hide();
 	$(".trainerSearchCustomers").hide();
 	$("#workoutResults").show();
-	$("#editWorkoutButton").attr("disabled", true);
+	
 	$(".workoutButtons").show();
 	showWorkoutData();
 }
@@ -290,6 +290,8 @@ function showWorkoutData () {
 }
 
 function populateWorkoutTable(workoutList) {
+	$("#editWorkoutButton").attr("disabled", true);
+	CURRENTLY_EDITED_WORKOUT = 0;
 	$("#workoutResults .tableData").remove();
 	for(var i = 0; i < workoutList.length; i++) {
 		workout = workoutList[i];
@@ -377,16 +379,6 @@ function populateEditExerciseInEditWorkoutModal(exerciseList){
 
 $(document).on("click", ".removeExercise", function(){
 	var exerciseName = $(this).parents("tr").data("name");
-	//console.log(exerciseId)
-	//var workout = null;
-	/*for(var i = 0; i< WORKOUT_LIST.length; i ++) {
-		// did not use array.find because I wanted to referecne the object
-		if(WORKOUT_LIST[i].id == CURRENTLY_EDITED_WORKOUT) {
-			workout = WORKOUT_LIST[i]
-		}
-	}*/
-	/*var exercises = workout.exercises;*/
-	
 	CURRENTLY_EDITED_WORKOUT_EXERCISES = CURRENTLY_EDITED_WORKOUT_EXERCISES.filter(function(obj){
 		return obj.name != exerciseName;
 	})
@@ -401,14 +393,6 @@ $("#addExerciseToEditedWorkout").on("click", function(){
 		return;
 	}
 	var exerciseName = $("#editWorkoutExerciseSelect").val();
-	/*for(var i = 0; i< WORKOUT_LIST.length; i ++) {
-		// did not use array.find because I wanted to referecne the object
-		if(WORKOUT_LIST[i].id == CURRENTLY_EDITED_WORKOUT) {
-			workout = WORKOUT_LIST[i]
-		}
-	}
-	//debugger;
-	var exercises = workout.exercises;*/
 	var exerciseExists = false;
 	for(var i = 0; i< CURRENTLY_EDITED_WORKOUT_EXERCISES.length; i++) {
 		if(CURRENTLY_EDITED_WORKOUT_EXERCISES[i].name == exerciseName) {
@@ -547,3 +531,33 @@ $("#assignWorkout").on("click", function(){
 		alert("Error: " + data.msg);
 	}
 });
+
+$("#searchWorkoutButton").on("click", function(){
+	getSearchWorkoutResults($("#searchWorkoutInput").val());
+	
+});
+
+$("#resetSearchWorkout").on("click", function(){
+	$("#searchWorkoutInput").val("");
+	getSearchWorkoutResults("");
+});
+
+function getSearchWorkoutResults(searchText) {
+	var params = {};
+	params.type = "getSearchWorkoutResults";
+	params.searchText = searchText;
+	$.ajax({
+		url: "/trainer/ui",
+		method: "GET",
+		data: params,
+		
+		success: function(data) {
+			//debugger;
+			populateWorkoutTable(data);
+		},
+		error: function(error){
+			alert("error " + error)
+		},
+		async: false
+	});
+}

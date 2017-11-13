@@ -538,19 +538,19 @@ public class TrainerHandler {
 	/**
 	 * 
 	 * @param name
-	 * @param exerciseIds
+	 * @param exerciseNames
 	 * @return
 	 * @throws ExerciseException
 	 */
-	public Workout createWorkout(String name, String[] exerciseIds) throws ExerciseException {
+	public Workout createWorkout(String name, String[] exerciseNames) throws ExerciseException {
 		
 		//validations
-		if(name.isEmpty() || exerciseIds.length == 0) {
+		if(name.isEmpty() || exerciseNames.length == 0) {
 			throw new IllegalArgumentException("missing input");
 		}
 		
 		ArrayList<Exercise> exList = new ArrayList<Exercise>();
-		for (String exName : exerciseIds) {
+		for (String exName : exerciseNames) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("name", exName );
 			Exercise ex = (Exercise) dao.querySingle("Exercise.findByName", map);
@@ -577,16 +577,16 @@ public class TrainerHandler {
 	}
 	
 	/**
-	 * 
-	 * @param name
-	 * @param exerciseIds
+	 * @param workoutId: String
+	 * @param name: String
+	 * @param exerciseIds: String[], array of exercise names
 	 * @return
 	 * @throws ExerciseException
 	 */
-	public Workout updateWorkout(String workoutId, String name, String[] exerciseIds) throws ExerciseException {
+	public Workout updateWorkout(String workoutId, String name, String[] exerciseNames) throws ExerciseException {
 		
 		//validations
-		if(workoutId.isEmpty() || name.isEmpty() || exerciseIds == null || exerciseIds.length == 0) {
+		if(workoutId.isEmpty() || name.isEmpty() || exerciseNames == null || exerciseNames.length == 0) {
 			throw new IllegalArgumentException("missing input");
 		}
 		
@@ -596,7 +596,7 @@ public class TrainerHandler {
 		
 		
 		ArrayList<Exercise> exList = new ArrayList<Exercise>();
-		for (String exName : exerciseIds) {
+		for (String exName : exerciseNames) {
 			HashMap<String, Object> map2 = new HashMap<String, Object>();
 			map2.put("name", exName );
 			Exercise ex = (Exercise) dao.querySingle("Exercise.findByName", map2);
@@ -610,7 +610,17 @@ public class TrainerHandler {
 		
 		return w;
 	}
-		
+	
+	public List<Workout> searchWorkouts(String keyword) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("keyword", "%" + keyword + "%");
+		List<?> results = dao.query("Workout.findByKeyword", params);
+		List<Workout> wList= new ArrayList<Workout>();
+		for(int i=0; i<results.size(); i++) {
+			wList.add((Workout) results.get(i));
+		}
+		return wList;
+	}
 		
 	public void assignWorkout(int customerId, int workoutId) throws IllegalArgumentException {
 		

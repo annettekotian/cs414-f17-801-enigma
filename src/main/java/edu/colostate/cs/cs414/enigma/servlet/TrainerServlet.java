@@ -138,10 +138,27 @@ public class TrainerServlet extends HttpServlet {
 				th.close();
 			}
 			
-	
 			
-			
+		}  else if(type.equals("getSearchWorkoutResults")) {
+			TrainerHandler th = new TrainerHandler();
+			try {
+				List<Workout> wList = null;
+				String keyword = request.getParameter("searchText");
+				if(keyword.isEmpty()) {
+					wList = th.getAllWorkouts();
+				} else {
+					wList = th.searchWorkouts(keyword);
+				}
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(wList));
+				return;
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			} finally {
+				th.close();
+			}
 		}
+		
 	}
 
 	/**
