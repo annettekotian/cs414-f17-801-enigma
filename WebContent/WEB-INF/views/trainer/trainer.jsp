@@ -82,7 +82,7 @@
 			<th>Phone No</th>
 			<th>Health Insurance</th>
 			<th>Membership</th>
-
+			<th>Workouts</th>
 		</tr>
 
 	</table>

@@ -137,6 +137,16 @@ function generateCustomersDisplay(customerData){
 	$("#customerTable").find(".tableData").remove();
 	for (var i = 0; i < customerData.length; i++) {
 		var customer = customerData[i];
+		
+		var workouts = "";
+		for(var j=0; j<customer.workouts.length; j++) {
+			if(j==0) {
+				workouts = customer.workouts[j].name;
+			} else {
+				workouts = workouts + "<br>" + customer.workouts[j].name;
+			}
+		}
+		
 		$("#customerTable table").append("<tr class='tableData'> " +
 				"<td>" +  customer.id+"</td> " + 
 				"<td> " + customer.personalInformation.firstName+ "</td> " + 
@@ -146,7 +156,8 @@ function generateCustomersDisplay(customerData){
 						"<td> "+ customer.personalInformation.email+ "</td> " + "" +
 						"<td>" + customer.personalInformation.phoneNumber + "</td> " +
 						" <td>" + customer.personalInformation.healthInsurance.name + "</td>"+
-						" <td>" + customer.membership.type+ "</td></tr>");
+						" <td>" + customer.membership.type+ "</td>" +
+						"<td>" + workouts + "</td></tr>");
 	}
 	
 }
