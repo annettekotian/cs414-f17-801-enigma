@@ -322,6 +322,8 @@ $(document).on("click", "#workoutResults .tableData", function(){
 	$("#workoutResults .tableData").css("background-color", "");
 	$(this).css("background-color", "gainsboro");
 	$("#editWorkoutButton").attr("disabled", false);
+	$("#assignWorkoutButton").attr("disabled", false);
+	$("#unassignWorkoutButton").attr("disabled", false);
 	CURRENTLY_EDITED_WORKOUT = $(this).data("id");
 });
 
@@ -474,4 +476,74 @@ $("#submitWorkoutChanges").on("click", function(){
 		}
 	});
 	
+});
+
+function getAllCustomers() {
+	var customers = null;
+	$.ajax({
+		url: "/trainer/ui",
+		method: "GET",
+		data: {
+			type: "getCustomers"
+		},
+		success: function(data, textStatus, jqXHR) {
+			data = JSON.parse(data);
+			customers = data.customers;
+		},
+		error: function(exception) {
+			alert("Exception" + exception);
+		},
+		async: false
+	});
+	return customers;
+}
+
+$("#assignWorkoutButton").on("click", function(){
+	var customers = getAllCustomers();
+	
+	$("#assignWorkoutCustomerList").empty();
+	$("#assignWorkoutCustomerList").append("<option data-id='0'>--None--</option>");
+	if(customers) {
+		for(var i=0; i<customers.length; i++) {
+			$("#assignWorkoutCustomerList").append("<option data-id='" + customers[i].id + "'>" + customers[i].personalInformation.firstName + " " + customers[i].personalInformation.lastName + "</option>");
+		}
+	}
+	
+	$("#assignWorkoutModal").modal();
+});
+
+function postTrainerUi(params) {
+	var results = null;
+	$.ajax({
+		url: "/trainer/ui",
+		method: "POST",
+		data: params,
+		
+		success: function(data) {
+			results = data;
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			$(document.body).html(jqXHR.responseText);
+		},
+		async: false
+	});
+	return results;
+}
+
+$("#assignWorkout").on("click", function(){
+	var params = {}
+	params.type = "assignWorkout";
+	params.workoutId = CURRENTLY_EDITED_WORKOUT;
+	params.customerId = $("#assignWorkoutCustomerList").find(":selected").data("id");
+	if(params.customerId == 0) {
+		return;
+	}
+	
+	var data = postTrainerUi(params);
+	if(data.rc == 0) {
+		$.modal.close();
+	}
+	else {
+		alert("Error: " + data.msg);
+	}
 });

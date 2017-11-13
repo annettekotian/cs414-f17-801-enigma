@@ -281,6 +281,9 @@ public class TrainerServlet extends HttpServlet {
 			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getCause().getCause().toString());
+			} catch(IllegalArgumentException e) {
+				returnValues.put("rc", "1");
+				returnValues.put("msg", e.getMessage());
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
 			}

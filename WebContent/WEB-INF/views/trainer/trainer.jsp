@@ -89,6 +89,8 @@
 </div>
 <button id="createWorkoutButton" class="workoutButtons">Create Workout</button>
 <button id="editWorkoutButton" class="workoutButtons" disabled>Edit Workout</button>
+<button id="assignWorkoutButton" class="workoutButtons" disabled>Assign Workout</button>
+<button id="unassignWorkoutButton" class="workoutButtons" disabled>Unassign Workout</button>
 
 <div id="workoutResults">
 	<table >
@@ -98,6 +100,13 @@
 				<th>Exercises</th>
 		</tr>
 	</table>
+</div>
+
+<div id="assignWorkoutModal" class="modal">
+	<h3>Assign Workout</h3><br>
+	<label>Customer</label><br>
+	<select id="assignWorkoutCustomerList"></select><br>
+	<button id="assignWorkout">Submit</button>
 </div>
 
 <div id="createWorkoutModal" class="modal">

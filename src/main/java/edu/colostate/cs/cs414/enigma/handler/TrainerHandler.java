@@ -612,16 +612,22 @@ public class TrainerHandler {
 	}
 		
 		
-	public void assignWorkout(int customerId, int workoutId) {
+	public void assignWorkout(int customerId, int workoutId) throws IllegalArgumentException {
 		
 		// Get the customer and the workout entity
 		Map<String, Object> customerParams = new HashMap<String, Object>();
 		customerParams.put("id", customerId);
 		Customer customer = (Customer) dao.querySingle("Customer.findById", customerParams);
+		if(customer == null) {
+			throw new IllegalArgumentException("Customer does not exist");
+		}
 		
 		Map<String, Object> workoutParams = new HashMap<String, Object>();
 		workoutParams.put("id", workoutId);
 		Workout workout = (Workout) dao.querySingle("Workout.findId", workoutParams);
+		if(workout == null) {
+			throw new IllegalArgumentException("Workout does not exist");
+		}
 		
 		// Assign (add) the customer the workout
 		customer.addWorkout(workout);
@@ -630,16 +636,22 @@ public class TrainerHandler {
 		dao.update(customer);
 	}
 	
-	public void unassignWorkout(int customerId, int workoutId) {
+	public void unassignWorkout(int customerId, int workoutId) throws IllegalArgumentException {
 		
 		// Get the customer and the workout entity
 		Map<String, Object> customerParams = new HashMap<String, Object>();
 		customerParams.put("id", customerId);
 		Customer customer = (Customer) dao.querySingle("Customer.findById", customerParams);
+		if(customer == null) {
+			throw new IllegalArgumentException("Customer does not exist");
+		}
 		
 		Map<String, Object> workoutParams = new HashMap<String, Object>();
 		workoutParams.put("id", workoutId);
 		Workout workout = (Workout) dao.querySingle("Workout.findId", workoutParams);
+		if(workout == null) {
+			throw new IllegalArgumentException("Workout does not exist");
+		}
 		
 		// Unassign (remove) the customer the workout
 		customer.removeWorkout(workout);
