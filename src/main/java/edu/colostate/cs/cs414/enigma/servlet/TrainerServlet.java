@@ -58,22 +58,23 @@ public class TrainerServlet extends HttpServlet {
 		
 		
 		if(type.equals("getCustomers")) {
+			CustomerHandler ch = new CustomerHandler();
 			try {
-				
-				CustomerHandler ch = new CustomerHandler();
 				List<Customer> list = ch.getCustomers();
 				values.put("customers", list);
 				values.put("status", "success");
 				out.write(new Gson().toJson(values));
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				ch.close();
 			}
 			return;
 			
 		} else if(type.equals("getSearchCustomerResults")) {
+			String searchText = request.getParameter("searchText");
+			CustomerHandler ch = new CustomerHandler();
 			try {
-				String searchText = request.getParameter("searchText");
-				CustomerHandler ch = new CustomerHandler();
 				List<Customer> customers = new ArrayList<Customer>();
 				if (searchText.isEmpty()) {
 					customers = ch.getCustomers();
@@ -84,6 +85,8 @@ public class TrainerServlet extends HttpServlet {
 				out.write(new Gson().toJson(values));
 			} catch (Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				ch.close();
 			}
 			return;
 			
@@ -137,9 +140,6 @@ public class TrainerServlet extends HttpServlet {
 				//System.out.println("closed connection");
 				th.close();
 			}
-			
-	
-			
 			
 		}
 	}

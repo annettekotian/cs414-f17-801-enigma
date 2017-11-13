@@ -1,18 +1,13 @@
 package edu.colostate.cs.cs414.enigma.servlet;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.persistence.PersistenceException;
 import javax.servlet.ServletException;
@@ -67,133 +62,155 @@ public class ManagerServlet extends HttpServlet {
 		Map<String, Object> values = new HashMap<String, Object>();
 		PrintWriter out = response.getWriter();
 		
-		
-		if(type.equals("searchTrainers")) {
+		switch(type) {
+		case "searchTrainers": {
 			String value = request.getParameter("value");
+			TrainerHandler th = new TrainerHandler();
 			try {
-				List<Trainer> trainers = new TrainerHandler().searchTrainers(value);
+				List<Trainer> trainers = th.searchTrainers(value);
 				response.setContentType("application/json");
 				out.write(new Gson().toJson(trainers));
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				th.close();
 			}
 			return;
-			
 		}
-		else if(type.equals("getAllTrainers")) {
+		
+		case "getAllTrainers": {
+			TrainerHandler th = new TrainerHandler();
 			try {
-				TrainerHandler th = new TrainerHandler();
 				response.setContentType("application/json");
 				out.write(new Gson().toJson(th.getAllTrainers()));
-				th.close();
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				th.close();
 			}
 			return;
-			
 		}
-		else if(type.equals("getTrainerById")) {
+		
+		case "getTrainerById": {
 			Integer trainerId = Integer.parseInt(request.getParameter("trainerId"));
+			TrainerHandler th = new TrainerHandler();
 			try {
-				TrainerHandler th = new TrainerHandler();
 				response.setContentType("application/json");
 				out.write(new Gson().toJson(th.getTrainerById(trainerId)));
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				th.close();
 			}
 			return;
-			
 		}
-		else if(type.equals("getAllQualifications")) {
+		
+		case "getAllQualifications": {
+			TrainerHandler th = new TrainerHandler();
 			try {
-				TrainerHandler th = new TrainerHandler();
 				response.setContentType("application/json");
 				out.write(new Gson().toJson(th.getAllQualifications()));
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				th.close();
 			}
 			return;
-			
-		}	
+		}
 		
-		switch(type) {		
-		case "getHealthInsurances":
+		case "getHealthInsurances": {
+			SystemHandler sh = new SystemHandler();
 			try {
-				SystemHandler sh = new SystemHandler();
 				List<HealthInsurance> healthInsurances = sh.getHealthInsurances();
-				Gson gson = new Gson();
-				String healthInsurancesJson = gson.toJson(healthInsurances);
-				values.put("healthInsurances", healthInsurancesJson);
+				values.put("healthInsurances", new Gson().toJson(healthInsurances));
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(values));
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				sh.close();
 			}
-			response.setContentType("application/json");
-			out.write(new Gson().toJson(values));
 			return;
-			
-		case "getStates":
-			try {	
-				SystemHandler sh = new SystemHandler();
-				List<State> states = sh.getAllStates();
-				Gson gson = new Gson();
-				String statesJson = gson.toJson(states);
-				values.put("states", statesJson);
-			} catch(Exception e) {
-				response.sendError(500, e.toString());
-			}
-			response.setContentType("application/json");
-			out.write(new Gson().toJson(values));
-			return;
+		}
 		
-		case "getAllManagers" :
-			
+		case "getStates": {
+			SystemHandler sh = new SystemHandler();
+			try {	
+				List<State> states = sh.getAllStates();
+				values.put("states", new Gson().toJson(states));
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(values));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			} finally {
+				sh.close();
+			}
+			return;
+		}
+		
+		case "getAllManagers": {
+			ManagerHandler mh = new ManagerHandler();
 			try {
-				List<Manager> managers = new ManagerHandler().getAllManagers();
+				List<Manager> managers = mh.getAllManagers();
 				out.write(new Gson().toJson(managers));
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				mh.close();
 			}
-			
-		return;
+			return;
+		}
 		
-		case "getCustomerModalData":
+		case "getCustomerModalData": {
 			SystemHandler sh = new SystemHandler();
-			values.put("healthInsurances", new Gson().toJson(sh.getHealthInsurances()));
-			values.put("states", new Gson().toJson(sh.getAllStates()));
-			
-			SystemHandler sh1 = new SystemHandler();
-			values.put("membershipType", new Gson().toJson((sh1.getMembershipTypes())));
-			
-			response.setContentType("application/json");
-			out.write(new Gson().toJson(values));
-			
-			return; 
-			
-		case "getAllCustomers": 
 			try {
-				List<Customer> customers = new CustomerHandler().getCustomers();
+				values.put("healthInsurances", new Gson().toJson(sh.getHealthInsurances()));
+				values.put("states", new Gson().toJson(sh.getAllStates()));
+				values.put("membershipType", new Gson().toJson((sh.getMembershipTypes())));
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(values));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			} finally {
+				sh.close();
+			}	
+			return;
+		}
+		
+		case "getAllCustomers": {
+			CustomerHandler ch = new CustomerHandler();
+			try {
+				List<Customer> customers = ch.getCustomers();
 				out.write(new Gson().toJson(customers));
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				ch.close();
 			}
 			return;
-			
-		case "getCustomerById": 
+		}
+		
+		case "getCustomerById": {
+			int customerId = Integer.parseInt(request.getParameter("id"));
+			CustomerHandler ch = new CustomerHandler();
 			try {
-				Customer c  = new CustomerHandler().getCustomerById(Integer.parseInt(request.getParameter("id")));
+				Customer c  = ch.getCustomerById(customerId);
 				values.put("status", "success");
 				values.put("customer", c);
 				out.write(new Gson().toJson(values));
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				ch.close();
 			}
 			return;
-		case "getSearchCustomerResults" :
-			
+		}
+		
+		case "getSearchCustomerResults": {
+			String searchText = request.getParameter("searchText");
+			CustomerHandler ch = new CustomerHandler();
+			List<Customer> customers;
 			try {
-				String searchText = request.getParameter("searchText");
-				CustomerHandler ch = new CustomerHandler();
-				List<Customer> customers = new ArrayList<Customer>();
 				if(searchText.isEmpty() ) {
 					customers = ch.getCustomers();
 				} else  {
@@ -203,91 +220,105 @@ public class ManagerServlet extends HttpServlet {
 				out.write(new Gson().toJson(values));
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				ch.close();
 			}
-			return; 
-			
-		case "getEditManagerData":
-			
-			
-			try {
-				Manager m = new ManagerHandler().getMangerById(request.getParameter("id"));
-				
-				values.put("manager", m);
-				
-				SystemHandler h = new SystemHandler();
-				values.put("healthInsurances", h.getHealthInsurances());
-				values.put("states", h.getAllStates());
-				
-				out.write(new Gson().toJson(values));
-			
-			}catch(Exception ex) {
-				response.sendError(500, ex.toString());
-				
-			}
-			
 			return;
-			
-		case "getSearchManagerResults":
+		}
+		
+		case "getEditManagerData": {
+			String managerId = request.getParameter("id");
+			ManagerHandler mh = new ManagerHandler();
+			SystemHandler sh = new SystemHandler();
 			try {
-				String searchText = request.getParameter("searchText");
-				List<Manager> managers = new ArrayList<Manager>();
-				ManagerHandler mh1 = new ManagerHandler();
+				Manager m = mh.getMangerById(managerId);
+				values.put("manager", m);
+				values.put("healthInsurances", sh.getHealthInsurances());
+				values.put("states", sh.getAllStates());
+				out.write(new Gson().toJson(values));
+			} catch(Exception ex) {
+				response.sendError(500, ex.toString());
+			} finally {
+				mh.close();
+				sh.close();
+			}
+			return;
+		}
+		
+		case "getSearchManagerResults": {
+			String searchText = request.getParameter("searchText");
+			ManagerHandler mh = new ManagerHandler();
+			List<Manager> managers;
+			try {
 				if(searchText.isEmpty()) {
-					managers = mh1.getAllManagers();
+					managers = mh.getAllManagers();
 				} else {
-					managers = mh1.searchManager(request.getParameter("searchText"));
+					managers = mh.searchManager(searchText);
 				}
-				
 				values.put("results", managers);
 				out.write(new Gson().toJson(values));
-			}catch (Exception ex) {
+			} catch (Exception ex) {
 				response.sendError(500, ex.toString());
+			} finally {
+				mh.close();
 			}
 			return;
-			
-		case "getInventory": 
+		}
+		
+		case "getInventory": {
+			SystemHandler sh = new SystemHandler();
 			try {
-				List<Machine> machines = new SystemHandler().getInventory();
+				List<Machine> machines = sh.getInventory();
 				values.put("machines", machines);
 				out.write(new Gson().toJson(values));
-			}catch (Exception e) {
+			} catch (Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				sh.close();
 			}
-			break;
-		case "getMachineById": 
+			return;
+		}
+		
+		case "getMachineById": {
+			String machineId = request.getParameter("id");
+			ManagerHandler mh = new ManagerHandler();
 			try {
-				Machine m = new ManagerHandler().getMachineById(request.getParameter("id"));
+				Machine m = mh.getMachineById(machineId);
 				values.put("machine", m);
 				out.write(new Gson().toJson(values));
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				mh.close();
 			}
-			break;
-		case "getSearchMachineResults": 
-		{
-			try {
-				String searchText = request.getParameter("searchText");
-				SystemHandler sysHandler = new SystemHandler();
-				List<Machine> machines = null;
+			return;
+		}
+		
+		case "getSearchMachineResults": {
+			String searchText = request.getParameter("searchText");
+			SystemHandler sysHandler = new SystemHandler();
+			List<Machine> machines = null;
+			try {				
 				if(searchText.isEmpty()) {
 					machines = sysHandler.getInventory();
 				} else {
 					machines = sysHandler.searchByKeyword(searchText);
 				}
-				
 				values.put("machines", machines);
 				out.write(new Gson().toJson(values));
-				
-			}catch(Exception e) {
+			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				sysHandler.close();
 			}
 		}
-		break;	
-		default:
+		
+		default: {
 			response.sendError(404);
 			break;
+		}
 		
-		}		
+		}	
 	}
 
 	/**
@@ -305,8 +336,9 @@ public class ManagerServlet extends HttpServlet {
 			Part part = request.getPart("machinePic");
 			InputStream content = part.getInputStream();
 			String uploadPath = getServletContext().getInitParameter("path_to_upload");
+			ManagerHandler mh = new ManagerHandler();
 			try {
-				Machine m = new ManagerHandler().addMachine(request.getParameter("machineName"), content, uploadPath,
+				Machine m = mh.addMachine(request.getParameter("machineName"), content, uploadPath,
 						request.getParameter("machineQuantity"));
 				values.put("machine", m);
 				out.println(new Gson().toJson(values));
@@ -316,15 +348,19 @@ public class ManagerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 			} catch (PersistenceException e) {
 				response.sendError(500, e.toString());
+			} finally {
+				mh.close();
 			}
-		}
 			break;
+		}
+			
 		case "updateMachine": {
 			Part part = request.getPart("machinePic");
 			InputStream content = part.getInputStream();
 			String uploadPath = getServletContext().getInitParameter("path_to_upload");
+			ManagerHandler mh = new ManagerHandler();
 			try {
-				Machine m = new ManagerHandler().updateMachine(request.getParameter("machineId") ,request.getParameter("machineName"), 
+				Machine m = mh.updateMachine(request.getParameter("machineId") ,request.getParameter("machineName"), 
 						content, uploadPath, request.getParameter("machineQuantity"));
 				values.put("machine", m);
 				out.println(new Gson().toJson(values));
@@ -334,20 +370,28 @@ public class ManagerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 			} catch (PersistenceException e) {
 				response.sendError(500, e.toString());
+			} finally {
+				mh.close();
 			}
-		}
-			
-		break;
-		case "deleteMachine":
-		{
-				String uploadPath = getServletContext().getInitParameter("path_to_upload");
-				new ManagerHandler().removeMachine(request.getParameter("id"), uploadPath);
+			break;
+		}	
+		
+		case "deleteMachine": {
+			ManagerHandler mh = new ManagerHandler();
+			String uploadPath = getServletContext().getInitParameter("path_to_upload");
+			try {
+				mh.removeMachine(request.getParameter("id"), uploadPath);
 				values.put("status", "success");
 				out.write(new Gson().toJson(values));
+			} catch (Exception e) {
+				response.sendError(500, e.toString());
+			} finally {
+				mh.close();
+			}
+			break;
 		}
-		break;
 			
-		case "createManager":
+		case "createManager": {
 
 			String fName = request.getParameter("fName");
 			String lName = request.getParameter("lName");
@@ -373,29 +417,32 @@ public class ManagerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 			} catch (PersistenceException e) {
 				response.sendError(500, e.toString());
-			}catch (AddressException e) {
+			} catch (AddressException e) {
 				response.sendError(500, e.toString());
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				mh.close();
 			}
 
 			break;
+		}
 			
-		case "createCustomer":
+		case "createCustomer": {
 			String firstName = request.getParameter("fName");
 			String lastName = request.getParameter("lName");
 			String phoneNumber = request.getParameter("phone");
-			email = request.getParameter("email");
+			String email = request.getParameter("email");
 			String streetCustomer = request.getParameter("street");
 			String cityCustomer = request.getParameter("city");
-			state = request.getParameter("state");
+			String state = request.getParameter("state");
 			String zipcode = request.getParameter("zip");
 			String healthInsurance = request.getParameter("healthInsurance");
 			String membershipStatus = request.getParameter("membershipStatus");
 			
+			CustomerHandler ch = new CustomerHandler();
 			try {
-				Customer c = new CustomerHandler().createNewCustomer(email, firstName, lastName, phoneNumber, healthInsurance, streetCustomer, 
+				Customer c = ch.createNewCustomer(email, firstName, lastName, phoneNumber, healthInsurance, streetCustomer, 
 						cityCustomer, zipcode, state, membershipStatus);
 				
 				values.put("customer", c);
@@ -404,33 +451,37 @@ public class ManagerServlet extends HttpServlet {
 					values.put("status", "failure");
 				}
 				out.write(new Gson().toJson(values));
-			}catch (IllegalArgumentException e) {
+			} catch (IllegalArgumentException e) {
 				response.sendError(500, e.toString());
-			}
-			catch(PersistenceException e) {
+			} catch(PersistenceException e) {
 				response.sendError(500, e.toString());
 			} catch (AddressException e) {
 				response.sendError(500, e.toString());
 			} catch (Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				ch.close();
 			}
 			
 			break;
-		case "updateCustomer": 
-			firstName = request.getParameter("fName");
-			lastName = request.getParameter("lName");
-			phoneNumber = request.getParameter("phone");
-			email = request.getParameter("email");
-			streetCustomer = request.getParameter("street");
-			cityCustomer = request.getParameter("city");
-			state = request.getParameter("state");
-			zipcode = request.getParameter("zip");
-			healthInsurance = request.getParameter("healthInsurance");
-			membershipStatus = request.getParameter("membershipStatus");
+		}
+		
+		case "updateCustomer":  {
+			String firstName = request.getParameter("fName");
+			String lastName = request.getParameter("lName");
+			String phoneNumber = request.getParameter("phone");
+			String email = request.getParameter("email");
+			String streetCustomer = request.getParameter("street");
+			String cityCustomer = request.getParameter("city");
+			String state = request.getParameter("state");
+			String zipcode = request.getParameter("zip");
+			String healthInsurance = request.getParameter("healthInsurance");
+			String membershipStatus = request.getParameter("membershipStatus");
 			int id = Integer.parseInt(request.getParameter("id"));
 			
+			CustomerHandler ch = new CustomerHandler();
 			try {
-				Customer c = new CustomerHandler().updateCustomer(id, email, firstName, lastName, phoneNumber, healthInsurance, streetCustomer, 
+				Customer c = ch.updateCustomer(id, email, firstName, lastName, phoneNumber, healthInsurance, streetCustomer, 
 						cityCustomer, zipcode, state, membershipStatus);
 				
 				values.put("customer", c);
@@ -439,22 +490,33 @@ public class ManagerServlet extends HttpServlet {
 					values.put("status", "failure");
 				}
 				out.write(new Gson().toJson(values));
-			}catch(AddressException e) {
+			} catch(AddressException e) {
 				response.sendError(500, e.toString());
-			}catch(Exception e) {
+			} catch(Exception e) {
 				response.sendError(500, e.toString());
+			} finally {
+				ch.close();
 			}
 			
 			break;
-		case "deleteCustomer":
+		}
+		
+		case "deleteCustomer": {
 			String cId = request.getParameter("id");
-			new CustomerHandler().removeCustomer(cId);
-			values.put("status", "success");
-			out.write(new Gson().toJson(values));
+			CustomerHandler ch = new CustomerHandler();
+			try {
+				ch.removeCustomer(cId);
+				values.put("status", "success");
+				out.write(new Gson().toJson(values));
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			} finally {
+				ch.close();
+			}
+			break;
 		}
 		
-		
-		if(type.equals("createTrainer")) {
+		case "createTrainer": {
 			String firstName = request.getParameter("firstName");
 			String lastName = request.getParameter("lastName");
 			String phoneNumber = request.getParameter("phone");
@@ -469,32 +531,33 @@ public class ManagerServlet extends HttpServlet {
 			String confirmPassword = request.getParameter("confirmPassword");
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
+			TrainerHandler th = new TrainerHandler();
 			try {
-				Trainer newTrainer = new TrainerHandler().createNewTrainer(firstName, lastName, phoneNumber, email,
-						street, city, state, zipcode, healthInsurance, userName, password, confirmPassword);	
+				th.createNewTrainer(firstName, lastName, phoneNumber, email,street, city, state,
+						zipcode, healthInsurance, userName, password, confirmPassword);	
 				returnValues.put("rc", "0");
-			}
-			catch(PersistenceException e) {
+			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getCause().getCause().toString());
-			}
-			catch(AddressException e) {
+			} catch(AddressException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e);
-			}
-			catch(IllegalArgumentException e) {
+			} catch(IllegalArgumentException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e);
-			}
-			catch(Exception e) {
+			} catch(Exception e) {
 				response.sendError(500, e.toString());
 				return;
+			} finally {
+				th.close();
 			}
 			
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
+			break;
 		}
-		else if(type.equals("updateTrainer")) {
+		
+		case "updateTrainer": {
 			String firstName = request.getParameter("firstName");
 			String lastName = request.getParameter("lastName");
 			String phoneNumber = request.getParameter("phone");
@@ -510,96 +573,98 @@ public class ManagerServlet extends HttpServlet {
 			int trainerId = Integer.parseInt(request.getParameter("id"));
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
+			TrainerHandler th = new TrainerHandler();
 			try {
-				Trainer newTrainer = new TrainerHandler().modifyTrainer(trainerId, firstName, lastName, phoneNumber,
-						email, street, city, state, zipcode, healthInsurance, userName, password, confirmPassword);	
+				th.modifyTrainer(trainerId, firstName, lastName, phoneNumber, email, street,
+						city, state, zipcode, healthInsurance, userName, password, confirmPassword);	
 				returnValues.put("rc", "0");
-			}
-			catch(PersistenceException e) {
+			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getCause().getCause().toString());
-			}
-			catch(AddressException e) {
+			} catch(AddressException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getMessage());
-			}
-			catch(IllegalArgumentException e) {
+			} catch(IllegalArgumentException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getMessage());
-			}
-			catch(Exception e) {
+			} catch(Exception e) {
 				response.sendError(500, e.toString());
 				return;
+			} finally {
+				th.close();
 			}
 			
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
+			break;
 		}
-		else if(type.equals("deleteTrainer")) {
+		
+		case "deleteTrainer": {
 			int trainerId = Integer.parseInt(request.getParameter("id"));
-			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
+			TrainerHandler th = new TrainerHandler();
 			try {
-				new TrainerHandler().deleteTrainer(trainerId);
+				th.deleteTrainer(trainerId);
 				returnValues.put("rc", "0");
-			}
-			catch(PersistenceException e) {
+			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getCause().getCause().toString());
-			}
-			catch(Exception e) {
+			} catch(Exception e) {
 				response.sendError(500, e.toString());
-			}	
+				return;
+			} finally {
+				th.close();
+			}
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
+			break;
 		}
-		else if(type.equals("addQualification")) {
+		
+		case "addQualification": {
 			int trainerId = Integer.parseInt(request.getParameter("id"));
 			String qualification = request.getParameter("qualification");
-			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			TrainerHandler th = new TrainerHandler();
 			try {
 				th.addQualification(trainerId, qualification);
 				returnValues.put("rc", "0");
-			}
-			catch(PersistenceException e) {
+			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getCause().getCause().toString());
-			}
-			catch(Exception e) {
+			} catch(Exception e) {
 				response.sendError(500, e.toString());
-			}
-			finally {
+				return;
+			} finally {
 				th.close();
 			}
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
+			break;
 		}
-		else if(type.equals("deleteQualification")) {
+		
+		case "deleteQualification": {
 			int trainerId = Integer.parseInt(request.getParameter("id"));
 			String qualification = request.getParameter("qualification");
-			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			TrainerHandler th = new TrainerHandler();
 			try {
 				th.deleteQualification(trainerId, qualification);
 				returnValues.put("rc", "0");
-			}
-			catch(PersistenceException e) {
+			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getCause().getCause().toString());
-			}
-			catch(Exception e) {
+			} catch(Exception e) {
 				response.sendError(500, e.toString());
-			}
-			finally {
+				return;
+			} finally {
 				th.close();
 			}
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
+			break;
 		}
-		else if(type.equals("addWorkHours")) {
+		
+		case "addWorkHours": {
 			int trainerId = Integer.parseInt(request.getParameter("id"));
 			int startYear = Integer.parseInt(request.getParameter("startYear"));
 			int startMonth = Integer.parseInt(request.getParameter("startMonth"));
@@ -620,25 +685,24 @@ public class ManagerServlet extends HttpServlet {
 			try {
 				th.addWorkHours(trainerId, startDatetime, endDatetime);
 				returnValues.put("rc", "0");
-			}
-			catch(PersistenceException e) {
+			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getCause().getCause().toString());
-			}
-			catch(WorkHoursException e) {
+			} catch(WorkHoursException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getMessage());
-			}
-			catch(Exception e) {
+			} catch(Exception e) {
 				response.sendError(500, e.toString());
-			}
-			finally {
+				return;
+			} finally {
 				th.close();
 			}
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
+			break;
 		}
-		else if(type.equals("deleteWorkHours")) {
+		
+		case "deleteWorkHours": {
 			int trainerId = Integer.parseInt(request.getParameter("trainerId"));
 			int workHoursId = Integer.parseInt(request.getParameter("workHoursId"));
 			
@@ -647,19 +711,25 @@ public class ManagerServlet extends HttpServlet {
 			try {
 				th.deleteWorkHours(trainerId, workHoursId);
 				returnValues.put("rc", "0");
-			}
-			catch(PersistenceException e) {
+			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
 				returnValues.put("msg", e.getCause().getCause().toString());
-			}
-			catch(Exception e) {
+			} catch(Exception e) {
 				response.sendError(500, e.toString());
-			}
-			finally {
+				return;
+			} finally {
 				th.close();
 			}
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
+			break;
+		}
+		
+		default: {
+			response.sendError(404);
+			break;
+		}
+		
 		}
 	}
 }
