@@ -89,8 +89,9 @@
 </div>
 <button id="createWorkoutButton" class="workoutButtons">Create Workout</button>
 <button id="editWorkoutButton" class="workoutButtons" disabled>Edit Workout</button>
+<button id="deleteWorkoutButton" class="workoutButtons" disabled>Delete Workout</button>
 <button id="assignWorkoutButton" class="workoutButtons" disabled>Assign Workout</button>
-<button id="unassignWorkoutButton" class="workoutButtons" disabled>Unassign Workout</button>
+<button id="unassignWorkoutButton" class="workoutButtons" disabled>Unassign Workout</button><br/>
 <input id="searchWorkoutInput" class="workoutButtons" type="text" placeholder="Enter workout, exercise name etc "/> 
 <button id="searchWorkoutButton" class="workoutButtons" >Search</button>
 <button id="resetSearchWorkout" class="workoutButtons" >Reset</button>

@@ -628,6 +628,10 @@ public class TrainerHandler extends GymSystemHandler {
 		HashMap<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("id", Integer.parseInt(workoutId));
 		Workout w = (Workout) getDao().querySingle("Workout.findId", map1);
+		List<Exercise> exList = w.getExercises();
+		exList.clear();
+		w.setExercises(exList);
+		getDao().update(w);
 		getDao().remove(w);
 	}
 		

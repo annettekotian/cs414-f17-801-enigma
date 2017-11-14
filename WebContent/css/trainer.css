@@ -5,12 +5,24 @@
 	margin-left: 10%
 }
 
-#customerTable, #exerciseResults  {
+#addExercise {
+	margin-left: 410px;
+}
+#searchExerciseBox {
+	width: 165px;
+}
+
+#customerTable  {
 	display: none;
 	margin-left:165px;
 	margin-top: 20px;
 }
 
+#exerciseResults {
+	display: none;
+	margin-left:410px;
+	margin-top: 20px;
+}
 #workoutResults {
 	margin-left:390px;
 	margin-top: 20px;
@@ -21,11 +33,11 @@
 	margin-left: 395px;
 }
 
-/* #searchWorkoutInput {
+#searchWorkoutInput {
 	margin-left: 395px;
 	margin-top: 20px;
 	width: 220px;
-} */
+}
 
 
 #submitWorkoutChanges {

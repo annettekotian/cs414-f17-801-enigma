@@ -302,6 +302,7 @@ function showWorkoutData () {
 
 function populateWorkoutTable(workoutList) {
 	$("#editWorkoutButton").attr("disabled", true);
+	$("#deleteWorkoutButton").attr("disabled", true);
 	CURRENTLY_EDITED_WORKOUT = 0;
 	$("#workoutResults .tableData").remove();
 	for(var i = 0; i < workoutList.length; i++) {
@@ -335,6 +336,7 @@ $(document).on("click", "#workoutResults .tableData", function(){
 	$("#workoutResults .tableData").css("background-color", "");
 	$(this).css("background-color", "gainsboro");
 	$("#editWorkoutButton").attr("disabled", false);
+	$("#deleteWorkoutButton").attr("disabled", false);
 	$("#assignWorkoutButton").attr("disabled", false);
 	$("#unassignWorkoutButton").attr("disabled", false);
 	CURRENTLY_EDITED_WORKOUT = $(this).data("id");
@@ -572,3 +574,35 @@ function getSearchWorkoutResults(searchText) {
 		async: false
 	});
 }
+
+$("#deleteWorkoutButton").on("click", function(){
+	var workout = WORKOUT_LIST.find(item => item.id == CURRENTLY_EDITED_WORKOUT);
+	var confirmDelete = confirm ("Are you sure you want to delete the workout \"" + workout.name + "\" having id \"" + workout.id + "\"?" );
+	
+	if(confirmDelete == false) {
+		return;
+	}
+	var params = {};
+	params.type = "deleteWorkout";
+	params.workoutId = CURRENTLY_EDITED_WORKOUT;
+	$.ajax({
+		url: "/trainer/ui",
+		method: "POST",
+		data: params,
+		
+		success: function(data) {
+			debugger;
+			for(var i = 0; i < WORKOUT_LIST.length; i++) {
+				if(WORKOUT_LIST[i].id == CURRENTLY_EDITED_WORKOUT) {
+					WORKOUT_LIST.splice(i, 1);
+					break;
+				}
+			}
+			populateWorkoutTable(WORKOUT_LIST);
+		},
+		error: function(error){
+			alert("error " + error)
+		},
+		async: false
+	});
+});

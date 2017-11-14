@@ -314,6 +314,18 @@ public class TrainerServlet extends HttpServlet {
 			out.write(new Gson().toJson(returnValues));
 
 			
+		} else if (type.equals("deleteWorkout")) {
+			TrainerHandler th= new TrainerHandler();
+			try {
+				th.deleteWorkout(request.getParameter("workoutId"));
+				out.write("success");
+			} catch(IllegalArgumentException e) {
+				response.sendError(500, e.toString());
+			} catch(Exception e) {
+				response.sendError(500, e.toString());
+			} finally {
+				th.close();
+			}
 		}
 	}
 
