@@ -683,4 +683,14 @@ public class TrainerHandler extends GymSystemHandler {
 		getDao().update(customer);
 
 	}
+	
+	public List<Workout> getWorkoutsByCustomerId(int customerId) {
+		Map<String, Object> customerParams = new HashMap<String, Object>();
+		customerParams.put("id", customerId);
+		Customer customer = (Customer) getDao().querySingle("Customer.findById", customerParams);
+		if(customer == null) {
+			throw new IllegalArgumentException("Customer does not exist");
+		}
+		return customer.getWorkouts();
+	}
 }

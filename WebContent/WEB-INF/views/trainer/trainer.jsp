@@ -37,6 +37,8 @@
 	</ul>
 </div>
 
+<button id="assignWorkoutButton" class="trainerSearchCustomers" disabled>Assign Workout</button>
+<button id="unassignWorkoutButton" class="trainerSearchCustomers" disabled>Unassign Workout</button>
 <button id="trainerSearchCustomerButton" class="trainerSearchCustomers">Search</button>
 <input id = "trainerSearchCustomerInput" class="trainerSearchCustomers" type="text" placeholder = "enter name, address etc."/>
 <div id="home">
@@ -90,8 +92,7 @@
 <button id="createWorkoutButton" class="workoutButtons">Create Workout</button>
 <button id="editWorkoutButton" class="workoutButtons" disabled>Edit Workout</button>
 <button id="deleteWorkoutButton" class="workoutButtons" disabled>Delete Workout</button>
-<button id="assignWorkoutButton" class="workoutButtons" disabled>Assign Workout</button>
-<button id="unassignWorkoutButton" class="workoutButtons" disabled>Unassign Workout</button><br/>
+
 <input id="searchWorkoutInput" class="workoutButtons" type="text" placeholder="Enter workout, exercise name etc "/> 
 <button id="searchWorkoutButton" class="workoutButtons" >Search</button>
 <button id="resetSearchWorkout" class="workoutButtons" >Reset</button>
@@ -107,9 +108,16 @@
 
 <div id="assignWorkoutModal" class="modal">
 	<h3>Assign Workout</h3><br>
-	<label>Customer</label><br>
+	<label>Workout</label><br>
 	<select id="assignWorkoutCustomerList"></select><br>
 	<button id="assignWorkout">Submit</button>
+</div>
+
+<div id="unassignWorkoutModal" class="modal">
+	<h3>Unassign Workout</h3><br>
+	<label>Workout</label><br>
+	<select id="unassignWorkoutCustomerList"></select><br>
+	<button id="unassignWorkout">Submit</button>
 </div>
 
 <div id="createWorkoutModal" class="modal">
