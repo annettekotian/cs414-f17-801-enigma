@@ -160,8 +160,23 @@ public class TrainerServlet extends HttpServlet {
 			} finally {
 				th.close();
 			}
+			
+		} else if(type.equals("getWorkoutsByCustomerId")) {
+			int customerId = Integer.parseInt(request.getParameter("customerId"));
+			TrainerHandler th = new TrainerHandler();
+			try {
+				List<Workout> wList = th.getWorkoutsByCustomerId(customerId);
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(wList));
+				return;
+			} catch (Exception e) {
+				response.sendError(500, e.toString());
+			} finally {
+				//System.out.println("closed connection");
+				th.close();
+			}
+	
 		}
-		
 	}
 
 	/**
@@ -312,9 +327,7 @@ public class TrainerServlet extends HttpServlet {
 			}
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
-
-			
+	
 		}
 	}
-
 }

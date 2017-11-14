@@ -134,6 +134,10 @@ function populateCustomers() {
  * @returns
  */
 function generateCustomersDisplay(customerData){
+	$("#assignWorkoutButton").attr("disabled", true);
+	$("#unassignWorkoutButton").attr("disabled", true);
+	CURRENTLY_EDITED_CUSTOMER_ID = 0;
+	
 	$("#customerTable").find(".tableData").remove();
 	for (var i = 0; i < customerData.length; i++) {
 		var customer = customerData[i];
@@ -147,7 +151,7 @@ function generateCustomersDisplay(customerData){
 			}
 		}
 		
-		$("#customerTable table").append("<tr class='tableData'> " +
+		$("#customerTable table").append("<tr class='tableData' data-id='" + customer.id + "' > " +
 				"<td>" +  customer.id+"</td> " + 
 				"<td> " + customer.personalInformation.firstName+ "</td> " + 
 				" <td> " + customer.personalInformation.lastName +"</td> " +
@@ -300,6 +304,49 @@ function showWorkoutData () {
 	});
 }
 
+function getAllWorkouts() {
+	var workouts = null;
+	var params = {};
+	params.type = "getAllWorkouts";
+	$.ajax({
+		url: "/trainer/ui",
+		method: "GET",
+		data: params,
+		
+		success: function(data) {
+			//console.log(data);
+			workouts = data;
+		},
+		error: function(exception) {
+			alert("Error: " + exception);
+		},
+		async: false
+	});
+	return workouts;
+}
+
+function getWorkoutsByCustomerId() {
+	var workouts = null;
+	var params = {};
+	params.type = "getWorkoutsByCustomerId";
+	params.customerId = CURRENTLY_EDITED_CUSTOMER_ID;
+	$.ajax({
+		url: "/trainer/ui",
+		method: "GET",
+		data: params,
+		
+		success: function(data) {
+			//console.log(data);
+			workouts = data;
+		},
+		error: function(exception) {
+			alert("Error: " + exception);
+		},
+		async: false
+	});
+	return workouts;
+}
+
 function populateWorkoutTable(workoutList) {
 	$("#editWorkoutButton").attr("disabled", true);
 	CURRENTLY_EDITED_WORKOUT = 0;
@@ -335,9 +382,15 @@ $(document).on("click", "#workoutResults .tableData", function(){
 	$("#workoutResults .tableData").css("background-color", "");
 	$(this).css("background-color", "gainsboro");
 	$("#editWorkoutButton").attr("disabled", false);
+	CURRENTLY_EDITED_WORKOUT = $(this).data("id");
+});
+
+$(document).on("click", "#customerTable .tableData", function(){
+	$("#customerTable .tableData").css("background-color", "");
+	$(this).css("background-color", "gainsboro");
 	$("#assignWorkoutButton").attr("disabled", false);
 	$("#unassignWorkoutButton").attr("disabled", false);
-	CURRENTLY_EDITED_WORKOUT = $(this).data("id");
+	CURRENTLY_EDITED_CUSTOMER_ID = $(this).data("id");
 });
 
 $("#editWorkoutButton").on("click", function(){
@@ -494,17 +547,31 @@ function getAllCustomers() {
 }
 
 $("#assignWorkoutButton").on("click", function(){
-	var customers = getAllCustomers();
+	var workouts = getAllWorkouts();
 	
 	$("#assignWorkoutCustomerList").empty();
 	$("#assignWorkoutCustomerList").append("<option data-id='0'>--None--</option>");
-	if(customers) {
-		for(var i=0; i<customers.length; i++) {
-			$("#assignWorkoutCustomerList").append("<option data-id='" + customers[i].id + "'>" + customers[i].personalInformation.firstName + " " + customers[i].personalInformation.lastName + "</option>");
+	if(workouts) {
+		for(var i=0; i<workouts.length; i++) {
+			$("#assignWorkoutCustomerList").append("<option data-id='" + workouts[i].id + "'>" + workouts[i].name + "</option>");
 		}
 	}
 	
 	$("#assignWorkoutModal").modal();
+});
+
+$("#unassignWorkoutButton").on("click", function(){
+	var workouts = getWorkoutsByCustomerId();
+	
+	$("#unassignWorkoutCustomerList").empty();
+	$("#unassignWorkoutCustomerList").append("<option data-id='0'>--None--</option>");
+	if(workouts) {
+		for(var i=0; i<workouts.length; i++) {
+			$("#unassignWorkoutCustomerList").append("<option data-id='" + workouts[i].id + "'>" + workouts[i].name + "</option>");
+		}
+	}
+	
+	$("#unassignWorkoutModal").modal();
 });
 
 function postTrainerUi(params) {
@@ -526,16 +593,36 @@ function postTrainerUi(params) {
 }
 
 $("#assignWorkout").on("click", function(){
-	var params = {}
+	var params = {};
 	params.type = "assignWorkout";
-	params.workoutId = CURRENTLY_EDITED_WORKOUT;
-	params.customerId = $("#assignWorkoutCustomerList").find(":selected").data("id");
-	if(params.customerId == 0) {
+	params.customerId = CURRENTLY_EDITED_CUSTOMER_ID;
+	params.workoutId = $("#assignWorkoutCustomerList").find(":selected").data("id");
+	if(params.customerId == 0 || params.workoutId == 0) {
 		return;
 	}
 	
 	var data = postTrainerUi(params);
 	if(data.rc == 0) {
+		populateCustomers();
+		$.modal.close();
+	}
+	else {
+		alert("Error: " + data.msg);
+	}
+});
+
+$("#unassignWorkout").on("click", function(){
+	var params = {};
+	params.type = "unassignWorkout";
+	params.customerId = CURRENTLY_EDITED_CUSTOMER_ID;
+	params.workoutId = $("#unassignWorkoutCustomerList").find(":selected").data("id");
+	if(params.customerId == 0 || params.workoutId == 0) {
+		return;
+	}
+	
+	var data = postTrainerUi(params);
+	if(data.rc == 0) {
+		populateCustomers();
 		$.modal.close();
 	}
 	else {
