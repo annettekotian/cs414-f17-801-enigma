@@ -695,9 +695,60 @@ public class TrainerHandlerTest {
 				membershipStatus);
 		persistedObjects.add(c1);
 		
-	
+		// Create a workout
+		String name = "testWorkout123456";
+		TrainerHandler th = new TrainerHandler();
+		Exercise ex1 = th.createExercise("ex1122346", 0, 0, 30, 30, new ArrayList<Integer>());
+		Exercise ex2 = th.createExercise("ex112234567", 0, 0, 30, 30, new ArrayList<Integer>());
+		String[] exList = {ex2.getName(), ex1.getName()}; 
+		persistedObjects.add(ex1);
+		persistedObjects.add(ex2);
+		 th = new TrainerHandler();
+		Workout w = th.createWorkout(name, exList);
+		persistedObjects.add(w);
 		
+		// Assign work-out to customer
+		th.assignWorkout(c1.getId(), w.getId());
 	}
+	
+	@Test
+	public void getWorkoutByCustomerId() throws Exception {
+		// Create a customer
+		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
+		String lName = "Kotian";
+		String email = "ann@email.com";
+		String phone = "999-999-9999";
+		String insurance = "Cigna";
+		String street = "720 City park";
+		String city = "Fort Collins";
+		String state = "Colorado";
+		String zip = "80521";
+		String membershipStatus = "ACTIVE";
+
+		CustomerHandler ch = new CustomerHandler();
+		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
+				membershipStatus);
+		persistedObjects.add(c1);
+		
+		// Create a workout
+		String name = "testWorkout123456";
+		TrainerHandler th = new TrainerHandler();
+		Exercise ex1 = th.createExercise("ex1122346", 0, 0, 30, 30, new ArrayList<Integer>());
+		Exercise ex2 = th.createExercise("ex112234567", 0, 0, 30, 30, new ArrayList<Integer>());
+		String[] exList = {ex2.getName(), ex1.getName()}; 
+		persistedObjects.add(ex1);
+		persistedObjects.add(ex2);
+		 th = new TrainerHandler();
+		Workout w = th.createWorkout(name, exList);
+		persistedObjects.add(w);
+		
+		// Assign work-out to customer
+		th.assignWorkout(c1.getId(), w.getId());
+		
+		List<Workout> workouts = th.getWorkoutsByCustomerId(c1.getId());
+		assertEquals("Failed to get workouts for customer", workouts.size(), 1);
+	}
+	
 	@Test
 	public void unassignWorkout() throws Exception {
 		// Create a customer
