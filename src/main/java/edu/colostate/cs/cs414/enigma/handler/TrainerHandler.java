@@ -557,6 +557,10 @@ public class TrainerHandler extends GymSystemHandler {
 		
 	}
 	
+	/** This method returns all the workouts in the system
+	 * 
+	 * @return
+	 */
 	public List<Workout> getAllWorkouts() {
 		List<?> results = getDao().query("Workout.findAll", null);
 		List<Workout> wList= new ArrayList<Workout>();
@@ -566,7 +570,7 @@ public class TrainerHandler extends GymSystemHandler {
 		return wList;
 	}
 	
-	/**
+	/** Given the id, this method updates a workout
 	 * @param workoutId: String
 	 * @param name: String
 	 * @param exerciseIds: String[], array of exercise names
@@ -601,6 +605,11 @@ public class TrainerHandler extends GymSystemHandler {
 		return w;
 	}
 	
+	/**
+	 * Given a keyword this method returns a list of workouts matching the keyword
+	 * @param keyword: String 
+	 * @return List<Workout>
+	 */
 	public List<Workout> searchWorkouts(String keyword) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("keyword", "%" + keyword + "%");
@@ -610,6 +619,16 @@ public class TrainerHandler extends GymSystemHandler {
 			wList.add((Workout) results.get(i));
 		}
 		return wList;
+	}
+	
+	public void deleteWorkout(String workoutId) {
+		if(workoutId.isEmpty()) {
+			throw new IllegalArgumentException("missing id");
+		}
+		HashMap<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("id", Integer.parseInt(workoutId));
+		Workout w = (Workout) getDao().querySingle("Workout.findId", map1);
+		getDao().remove(w);
 	}
 		
 	public void assignWorkout(int customerId, int workoutId) throws IllegalArgumentException {

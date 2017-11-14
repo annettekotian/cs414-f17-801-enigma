@@ -740,4 +740,26 @@ public class TrainerHandlerTest {
 
 		
 	}
+	
+	//************************* Delete workout ****************************//
+	
+	@Test
+	public void testDeleteWorkout() throws PersistenceException, ExerciseException, ExerciseDurationException, ExerciseSetException {
+		Workout w = createWorkout();
+		String id = Integer.toString(w.getId());
+		HashMap <String, Object> params = new HashMap<>();
+		params.put("id", w.getId() );
+		TrainerHandler th = new TrainerHandler();
+		th.deleteWorkout(id);
+		Workout w2 = (Workout)dao.querySingle("Workout.findId", params);
+		assertNull(w2);
+		
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testDeleteWorkoutWithoutId() throws PersistenceException, ExerciseException, ExerciseDurationException, ExerciseSetException {
+		TrainerHandler th = new TrainerHandler();
+		th.deleteWorkout("");
+			
+	}
 }
