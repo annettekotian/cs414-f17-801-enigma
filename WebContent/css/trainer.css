@@ -14,7 +14,7 @@
 
 #customerTable  {
 	display: none;
-	margin-left:165px;
+	margin-left:100px;
 	margin-top: 20px;
 }
 
@@ -24,7 +24,7 @@
 	margin-top: 20px;
 }
 #workoutResults {
-	margin-left:390px;
+	margin-left:480px;
 	margin-top: 20px;
 }
 
@@ -33,11 +33,12 @@
 	margin-left: 395px;
 }
 
+#searchWorkoutInput {
+	width: 200px;
+}
 
-
-
-#submitWorkoutChanges {
-	margin-top: 10px;
+#addExerciseToWorkout, #addExerciseToEditedWorkout {
+	margin: 6px 0px 6px 0px
 }
 
 #customerTable table, #exerciseResults table, #workoutResults table {
@@ -46,14 +47,15 @@
 	border:1px solid black;
 }
 
-#workoutExercises table, #editWorkoutExercises{
+#workoutExercises table, #editWorkoutExercises, #addWorkoutExercisesTable{
 	font-size:13px;
 	text-align:center;
 	border:1px solid black;
 }
 
 #customerTable th, #customerTable td, #exerciseResults th, #exerciseResults td, #workoutResults th, #workoutResults td,
-#workoutExercises th, #workoutExercises td, #editWorkoutExercises th, #editWorkoutExercises td{
+#workoutExercises th, #workoutExercises td, #editWorkoutExercises th, #editWorkoutExercises td, #addWorkoutExercisesTable th,
+#addWorkoutExercisesTable td{
 	width: 150px;
 	border:1px solid black;
 	
@@ -67,13 +69,17 @@
 	height: 30px;
 }
 
+#assignWorkoutButton {
+	margin-left:100px;
+}
+
 .trainerSearchCustomers {
 	display:none
 }
 
 
 #trainerSearchCustomerButton {
-	margin-left: 166px
+	margin-left: 780px
 }
 
 .exerciseRow:hover{

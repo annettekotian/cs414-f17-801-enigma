@@ -228,10 +228,29 @@ $("#addExerciseToWorkout").on("click", function(){
 			return;
 		}
 		
-		$("#workoutExerciseList").append("<li>"+ $("#workoutExerciseSelect").val() +"</li>");
+		//$("#workoutExerciseList").append("<li>"+ $("#workoutExerciseSelect").val() +"</li>");
 		SELECTED_EXERCISES_LIST.push(exerciseName);
+		populateExerciseTableInAddWorkoutModal(SELECTED_EXERCISES_LIST)
 	}
 })
+
+function populateExerciseTableInAddWorkoutModal(exerciseList){
+	$("#addWorkoutExercisesTable").find(".tableData").remove();
+	for(var i = 0; i< exerciseList.length; i++){
+		$("#addWorkoutExercisesTable").append("<tr class='tableData' data-name='"+ exerciseList[i] + "'>"
+				+ "<td><a class='removeExerciseFromAddModal' href='#'>Remove</a></td>"
+				+ "<td>"+ (i+1) + "</td>"
+				+ "<td>"+ exerciseList[i] + "</td>"
+				+ "</tr");
+	}
+}
+
+$(document).on("click", ".removeExerciseFromAddModal", function(){
+	var exerciseName = $(this).parents('tr').data('name');
+	var index = SELECTED_EXERCISES_LIST.indexOf(exerciseName);
+	SELECTED_EXERCISES_LIST.splice(index, 1);
+	populateExerciseTableInAddWorkoutModal(SELECTED_EXERCISES_LIST);
+});
 
 
 $("#createWorkoutButton").on("click", function(){
@@ -242,7 +261,7 @@ $("#createWorkoutButton").on("click", function(){
 $("#createWorkoutModal").on($.modal.AFTER_CLOSE, function(){
 	$("#workoutName").val("");
 	$("#workoutExerciseSelect").children().remove();
-	$("#workoutExerciseList").children().remove();
+	$("#addWorkoutExercisesTable").find(".tableData").remove();
 	SELECTED_EXERCISES_LIST = [];
 })
 

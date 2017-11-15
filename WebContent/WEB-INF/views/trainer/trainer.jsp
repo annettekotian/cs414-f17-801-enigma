@@ -124,14 +124,17 @@
 	<h3>Create Workout</h3>
 	<label>Workout Name</label><br/>
 	<input id="workoutName" type="text" placeholder="Enter workout name"/> <br>
+	<label>Sequence of exercises</label><br/>
+	<table id="addWorkoutExercisesTable">
+		<th></th>
+		<th>Sequence</th>
+		<th>Name</th>
+	</table>
 	<label>Select Exercise</label><br/>
 	<select id="workoutExerciseSelect">
 	</select> <br/>
 	<button id="addExerciseToWorkout">Add exercise</button><br/>
-	<label>List of exercises added</label><br/>
-	<ol id="workoutExerciseList">
-	</ol>
-	<button id="submitWorkout">Create</button>
+	<button id="submitWorkout">Submit</button>
 </div>
 
 
