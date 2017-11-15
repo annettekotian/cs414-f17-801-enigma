@@ -411,16 +411,16 @@
 	</div>
 	
 	<div id="addMachineModal" class="modal">
-		<h3>Add a machine</h3>
+		<h3>Add an equipment</h3>
 		<form id="addMachineForm" action="/manager/ui" method="post" enctype="multipart/form-data">
 		<input style="display:none" name="type" type="text" name="type" value="addMachine"/>
 		<div class=machineInputDiv>
-			<label>Machine name</label><br/>
+			<label>Equipment name</label><br/>
 			<input id="addMachineName" name="machineName" type="text" placeholder="Enter machine name"/>
 			
 		</div>
 		<div class=machineInputDiv>
-			<label>Machine quantity</label><br/>
+			<label>Equipment quantity</label><br/>
 			<input id="addMachineQuantity" name="machineQuantity" type="number" placeholder="Enter quantity"/>
 		</div>
 		<div class=machineInputDiv>
