@@ -429,7 +429,7 @@
 			<input id="addMachinePic" type="file" name="machinePic" accept=".jpg,.png,.bmp,.tiff"/><br/>
 			<img id="addMachinePreview" src="#"></img>
 		</div>
-		<input id="addMachineButton" type="submit" value="Add machine"/>
+		<input id="addMachineButton" type="submit" value="Add equipment"/>
 		<button id= "cancelMachineButton" >Cancel</button>
 		</form>
 	</div>
