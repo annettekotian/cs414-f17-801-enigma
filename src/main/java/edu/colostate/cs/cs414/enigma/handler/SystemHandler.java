@@ -63,7 +63,7 @@ public class SystemHandler extends GymSystemHandler {
 	}
 	
 	
-	public List<Machine> searchByKeyword(String keyword){
+	public List<Machine> searchInventory(String keyword){
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("keyword", "%" + keyword + "%");
 		//System.out.println("here 1");

@@ -302,7 +302,7 @@ public class ManagerServlet extends HttpServlet {
 				if(searchText.isEmpty()) {
 					machines = sysHandler.getInventory();
 				} else {
-					machines = sysHandler.searchByKeyword(searchText);
+					machines = sysHandler.searchInventory(searchText);
 				}
 				values.put("machines", machines);
 				out.write(new Gson().toJson(values));
@@ -312,7 +312,7 @@ public class ManagerServlet extends HttpServlet {
 				sysHandler.close();
 			}
 		}
-		
+		break;
 		default: {
 			response.sendError(404);
 			break;

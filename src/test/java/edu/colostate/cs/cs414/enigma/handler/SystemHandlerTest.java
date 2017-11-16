@@ -53,7 +53,7 @@ public class SystemHandlerTest {
 		dao.persist(m);
 		persistedObjects.add(m);
 		SystemHandler s = new SystemHandler();
-		List<Machine> list = s.searchByKeyword(name);
+		List<Machine> list = s.searchInventory(name);
 		assertTrue(list.size() == 1 && list.get(0).getName().equals(name));
 	}
 	
@@ -67,7 +67,7 @@ public class SystemHandlerTest {
 		dao.persist(m);
 		persistedObjects.add(m);
 		SystemHandler s = new SystemHandler();
-		List<Machine> list = s.searchByKeyword(name);
+		List<Machine> list = s.searchInventory(name);
 		assertTrue(list.size() > 0);
 	}
 
