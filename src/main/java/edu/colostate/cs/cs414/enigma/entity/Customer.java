@@ -1,14 +1,19 @@
 package edu.colostate.cs.cs414.enigma.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -48,13 +53,19 @@ public class Customer implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="membership_id", nullable=false, updatable=true)
 	private Membership membership;
+	
+	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JoinTable(name="customer_workout_routine",
+			joinColumns=@JoinColumn(name="customer_id", referencedColumnName="id"),
+			inverseJoinColumns=@JoinColumn(name="workout_routine_id", referencedColumnName="id"))
+	private List<Workout> workouts;
 
 	protected Customer() {}
 
 	public Customer(PersonalInformation personalInformation, Membership membership) {
-		super();
 		this.personalInformation = personalInformation;
 		this.membership = membership;
+		this.workouts = new ArrayList<Workout>();
 	}
 
 	public int getId() {
@@ -80,6 +91,28 @@ public class Customer implements Serializable {
 	public void setMembership(Membership membership) {
 		this.membership = membership;
 	}
+	
+	public List<Workout> getWorkouts() {
+		return workouts;
+	}
+
+	public void setWorkouts(List<Workout> workouts) {
+		this.workouts = workouts;
+	}
+	
+	public void addWorkout(Workout workout) {
+		if(!this.workouts.contains(workout)) {
+			this.workouts.add(workout);
+		}
+	}
+	
+	public void removeWorkout(Workout workout) {
+		this.workouts.remove(workout);
+	}
+	
+	public void removeAllWorkouts() {
+		this.workouts.clear();
+	}
 
 	@Override
 	public int hashCode() {
@@ -88,6 +121,7 @@ public class Customer implements Serializable {
 		result = prime * result + id;
 		result = prime * result + ((membership == null) ? 0 : membership.hashCode());
 		result = prime * result + ((personalInformation == null) ? 0 : personalInformation.hashCode());
+		result = prime * result + ((workouts == null) ? 0 : workouts.hashCode());
 		return result;
 	}
 
@@ -112,12 +146,17 @@ public class Customer implements Serializable {
 				return false;
 		} else if (!personalInformation.equals(other.personalInformation))
 			return false;
+		if (workouts == null) {
+			if (other.workouts != null)
+				return false;
+		} else if (!workouts.equals(other.workouts))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", personalInformation=" + personalInformation + ", membership=" + membership
-				+ "]";
+				+ ", workouts=" + workouts + "]";
 	}
 }

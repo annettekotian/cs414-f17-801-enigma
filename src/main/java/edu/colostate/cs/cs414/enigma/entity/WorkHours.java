@@ -18,7 +18,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="work_hours")
 @NamedQueries({
-	@NamedQuery(name="WorkHours.findAll", query="SELECT w FROM WorkHours w")
+	@NamedQuery(name="WorkHours.findAll", query="SELECT w FROM WorkHours w"),
+	@NamedQuery(name="WorkHours.findById", query="SELECT w FROM WorkHours w WHERE w.id = :id")
 })
 public class WorkHours implements Serializable {
 	private static final long serialVersionUID = 1L;

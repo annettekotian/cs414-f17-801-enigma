@@ -57,35 +57,41 @@ public class LoginServlet extends HttpServlet {
 
 		// Build a hashmap used to return information to 
 		Map<String, String> values = new HashMap<String, String>();
-
 		
-		if(LoginHandler.authenticate(userName, password)) {
-			HttpSession session = request.getSession(true);
-			String level = LoginHandler.getUserLevel(userName);
-			// set level and user id in the session
-			session.setAttribute("level", level);
-			int id = LoginHandler.getUserId(userName);
-			session.setAttribute("userid", id);
-			
-			// redirect based on level
-			if(level.equals("TRAINER")) {
-				Trainer t = new TrainerHandler().getTrainerByUserId(id);
-				request.setAttribute("trainer", new Gson().toJson(t));
+		LoginHandler lh = new LoginHandler();
+		TrainerHandler th = new TrainerHandler();
+		ManagerHandler mh = new ManagerHandler();
+		try {
+			if(lh.authenticate(userName, password)) {
+				HttpSession session = request.getSession(true);
+				String level = lh.getUserLevel(userName);
+				// set level and user id in the session
+				session.setAttribute("level", level);
+				int id = lh.getUserId(userName);
+				session.setAttribute("userid", id);
 				
-				request.getRequestDispatcher("/WEB-INF/views/trainer/trainer.jsp").forward(request, response);
+				// redirect based on level
+				if(level.equals("TRAINER")) {
+					Trainer t = th.getTrainerByUserId(id);
+					request.setAttribute("trainer", new Gson().toJson(t));
+					
+					request.getRequestDispatcher("/WEB-INF/views/trainer/trainer.jsp").forward(request, response);
+				} else {
+
+					// get all manager data to display in the ui
+					
+					List<Manager> managers = mh.getAllManagers();			
+					request.setAttribute("level", level);
+					request.setAttribute("managerData", new Gson().toJson(managers));
+					request.getRequestDispatcher("/WEB-INF/views/manager/manager.jsp").forward(request, response);
+				}
 			} else {
-
-				// get all manager data to display in the ui
-				
-				List<Manager> managers = new ManagerHandler().getAllManagers();			
-				request.setAttribute("level", level);
-				request.setAttribute("managerData", new Gson().toJson(managers));
-				request.getRequestDispatcher("/WEB-INF/views/manager/manager.jsp").forward(request, response);
-			}	
-		} else {
-			response.sendRedirect("/index.jsp");
-		}
-		
+				response.sendRedirect("/index.jsp");
+			}
+		} finally {
+			lh.close();
+			th.close();
+			mh.close();
+		}	
 	}
-
 }

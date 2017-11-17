@@ -10,7 +10,8 @@
 <script src="/js/jquery-3.2.1.min.js"></script>
 <script src="/js/jquery.modal.min.js"></script>
 <script src="/js/globalVariables.js"></script>
-
+<script src="/js/trainerTab.js"></script>
+<script src="/js/systemFunctions.js"></script>
 
 </head>
 <body>
@@ -39,16 +40,20 @@
 	<button id="modifyTrainer" class="addButtons" onclick="modifyTrainerInformation()" disabled>Modify Trainer</button>
 	<button id="deleteTrainer" class="addButtons" onclick="deleteTrainer()" disabled>Delete Trainer</button>
 	<button id="addQualification" class="addButtons" onclick="addTrainerQualification()" disabled>Add Qualification</button>
+	<button id="removeQualification" class="addButtons" onclick="removeTrainerQualificationForm()" disabled>Remove Qualification</button>
 	<button id="addWorkHours" class="addButtons" onclick="addTrainerWorkHours()" disabled>Add Work Hours</button>
+	<button id="deleteWorkHours" class="addButtons" onclick="deleteTrainerWorkHours()" disabled>Delete Work Hours</button>
 	<input id ="searchTrainerInput" class="searchTrainer" type="text" placeholder="Search"/> 
 	<button id="searchTrainerButton" class="searchTrainer" onclick="populateSearchTrainers()">Search</button>
 	<button id="searchTrainerButton" class="searchTrainer" onclick="resetSearchTrainers()">Reset</button>
-	
 	<button id="addCustomer" class="addButtons">Add Customer</button>
 	<input id = "searchCustomerInput" class="searchCustomer" type="text" placeholder="enter name, address etc" /> 
 	<button id="searchCustomerButton" class="searchCustomer">Search</button>
 	<button id = "resetCustomerSearch" class="searchCustomer">Reset</button>
 	<button id="addMachine" class="addButtons">Add Equipment</button>
+	<input id = "searchMachineInput" class="searchMachine" type="text" placeholder="enter name, quantity etc" /> 
+	<button id="searchMachineButton" class="searchMachine">Search</button>
+	<button id = "resetMachineSearch" class="searchMachine">Reset</button>
 	<div id="managerResults">
 		<table>
 			<tr class = "tableHeader">
@@ -81,7 +86,19 @@
 	</div>
 	
 	<div id="trainerResults">
-		<table id="trainerTable"></table>
+		<table id="trainerTable">
+			<tr>
+				<th>Trainer Id</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Address</th>
+				<th>Email</th>
+				<th>Phone Number</th>
+				<th>Health Insurance</th>
+				<th>Qualifications</th>
+				<th>Work Schedule</th>
+			</tr>
+		</table>
 	</div>
 
 	<div id="customerResults">
@@ -125,6 +142,9 @@
 					
 				</th>
 				<th>
+					Id
+				</th>
+				<th>
 					Name
 				</th>
 				<th>
@@ -136,30 +156,7 @@
 			
 				
 			</tr>
-			<tr>
-				<td><a href="">Edit</a></td>
-				<td>Machine 1</td>
-				<td><img src="../images/treadmill.jpg"></img></td>
-				<td>1</td>
-				
-				
-			</tr>
-			<tr>
-				<td><a href="">Edit</a></td>
-				<td>Machine 2</td>
-				<td><img src="../images/treadmill.jpg"></img></td>
-				<td>2</</td>
-				
-				
-			</tr>
-			<tr>
-				<td><a href="">Edit</a></td>
-				<td>Machine 3</td>
-				<td><img src="../images/treadmill.jpg"></img></td>
-				<td>3</</td>
-				
-				
-			</tr>
+			
 		</table>
 	</div>
 
@@ -200,10 +197,21 @@
 <div id="addQualificationForm" class="modal">
 	<h3>Add Trainer Qualification</h3>
 	<form id="qualificationForm">
-		<label>Qualification Name</label><br>
-		<input id="qualificationName" type="text"><br>
+		<label>Qualifications</label><br>
+		<select id="qualifications" onchange="checkNewQualification()"></select><br>
+		<label>New Qualification</label><br>
+		<input id="newQualification" type="text" disabled><br>
 	</form>
 	<button onclick="submitTrainerQualification()">Submit</button>
+</div>
+
+<div id="removeQualificationModal" class="modal">
+	<h3>Remove Trainer Qualification</h3>
+	<form id="removeQualificationForm">
+		<label>Qualifications</label><br>
+		<select id="removeQualificationsList"></select><br>
+	</form>
+	<button onclick="removeTrainerQualification()">Submit</button>
 </div>
 
 <div id="addWorkHoursForm" class="modal">
@@ -264,6 +272,15 @@
 		</select><br>
 	</form>
 	<button onclick="submitWorkHours()">Submit</button>
+</div>
+
+<div id="removeWorkHoursModal" class="modal">
+	<h3>Remove Trainer Work Hours</h3>
+	<form id="removeWorkHoursForm">
+		<label>Qualifications</label><br>
+		<select id="removeWorkHoursList"></select><br>
+	</form>
+	<button onclick="deleteWorkHours()">Submit</button>
 </div>
 
 	<div id="addManagerModal" class="modal">
@@ -331,8 +348,6 @@
 		</div>	
 	</div>
 	
-	
-
 
 <div id="customerModal" class="modal">
 		<h3 id="createCustomerHeader">Add a Customer</h3>
@@ -393,11 +408,55 @@
 			<button id="editCustomerButton">Submit changes</button>
 			<button id="cancelCustomerButton">Cancel</button>
 		</div>
+	</div>
 	
+	<div id="addMachineModal" class="modal">
+		<h3>Add an equipment</h3>
+		<form id="addMachineForm" action="/manager/ui" method="post" enctype="multipart/form-data">
+		<input style="display:none" name="type" type="text" name="type" value="addMachine"/>
+		<div class=machineInputDiv>
+			<label>Equipment name</label><br/>
+			<input id="addMachineName" name="machineName" type="text" placeholder="Enter machine name"/>
+			
+		</div>
+		<div class=machineInputDiv>
+			<label>Equipment quantity</label><br/>
+			<input id="addMachineQuantity" name="machineQuantity" type="number" placeholder="Enter quantity"/>
+		</div>
+		<div class=machineInputDiv>
+			
+			<label>Choose picture</label><br/>
+			<input id="addMachinePic" type="file" name="machinePic" accept=".jpg,.png,.bmp,.tiff"/><br/>
+			<img id="addMachinePreview" src="#"></img>
+		</div>
+		<input id="addMachineButton" type="submit" value="Add equipment"/>
+		<button id= "cancelMachineButton" >Cancel</button>
+		</form>
+	</div>
 	
-	
-	
-	
+	<div id="editMachineModal" class="modal">
+		<h3>Add a machine</h3>
+		<form id="editMachineForm" action="/manager/ui" method="post" enctype="multipart/form-data">
+		<input style="display:none" name="type" type="text" name="type" value="updateMachine"/>
+		<input style="display:none" id = "machineId" name="machineId" type="text"  value=""/>
+		<div class=machineInputDiv>
+			<label>Machine name</label><br/>
+			<input id="editMachineName" name="machineName" type="text" placeholder="Enter machine name"/>
+			
+		</div>
+		<div class=machineInputDiv>
+			<label>Machine quantity</label><br/>
+			<input id="editMachineQuantity" name="machineQuantity" type="number" placeholder="Enter quantity"/>
+		</div>
+		<div class=machineInputDiv>
+			
+			<label>Choose picture</label><br/>
+			<input id="editMachinePic" type="file" name="machinePic" accept=".jpg,.png,.bmp,.tiff"/><br/>
+			<img id="editMachinePreview" src="#"></img>
+		</div>
+		<input id="editMachineButton" type="submit" value="Submit Changes"/>
+		<button id= "cancelEditMachine" >Cancel</button>
+		</form>
 	</div>
 </body>
 

@@ -44,224 +44,55 @@ $("#inventoryLi").on("click", function(){
 	showInventoryData();
 })
 
-function showTrainerData() {
-	populateAllTrainers();
-	
-	$("#addManager").hide();
-	$(".searchManager").hide();
-	$(".searchTrainer").show();
-	$("#addCustomer").hide()
-	$(".searchCustomer").hide();
-	$("#addMachine").hide();
-	$("#managerResults").hide();
-	$("#customerResults").hide();
-	$("#inventoryResults").hide();
+function showTrainerElements() {
 	$("#addTrainer").show();
 	$("#modifyTrainer").show();
 	$("#trainerResults").show();
 	$("#deleteTrainer").show();
 	$("#addQualification").show();
 	$("#addWorkHours").show();
+	$("#removeQualification").show();
+	$(".searchTrainer").show();
+	$("#deleteWorkHours").show();
 }
 
-function getAllTrainers() {
-	var trainers = null;
-	$.ajax({
-		url: "/manager/ui",
-		data: {
-			type: "getAllTrainers"
-		},
-		method: "GET",
-		success: function(data, textStatus, jqXHR) {
-			trainers = data;
-		},
-		error: function(exception) {
-			alert("Exception" + exception);
-		},
-		async: false
-	});
-	return trainers;
-}
-
-function searchTrainers(searchValue) {
-	var trainers = null;
-	$.ajax({
-		url: "/manager/ui",
-		data: {
-			type: "searchTrainers",
-			value: searchValue
-		},
-		method: "GET",
-		success: function(data, textStatus, jqXHR) {
-			trainers = data;
-		},
-		error: function(exception) {
-			alert("Exception" + exception);
-		},
-		async: false
-	});
-	return trainers;
-}
-
-function resetSearchTrainers() {
-	$("#searchTrainerInput").val("");
-	populateAllTrainers();
-}
-
-function populateSearchTrainers() {
-	var searchValue = $("#searchTrainerInput").val();
-	var trainers = searchTrainers(searchValue);
-	populateTrainerTable(trainers);
-}
-
-function populateAllTrainers() {
-	var trainers = getAllTrainers();
-	populateTrainerTable(trainers);
-}
-
-var selectedTrainerRow = null;
-function populateTrainerTable(trainers) {	
-
-	selectedTrainerRow = null;
-	document.getElementById("modifyTrainer").disabled = true;
-	document.getElementById("deleteTrainer").disabled = true;
-	document.getElementById("addQualification").disabled = true;
-	document.getElementById("addWorkHours").disabled = true;
-	
-	var trainerTable = document.getElementById("trainerTable");
-	while(trainerTable.rows.length > 0) {
-		trainerTable.deleteRow(0);
-	}
-	
-	var trainerTableRow = document.createElement("tr");
-	
-	var trainerTableColumn = document.createElement("th");
-	trainerTableColumn.appendChild(document.createTextNode("Trainer ID"));
-	trainerTableRow.appendChild(trainerTableColumn);
-	
-	trainerTableColumn = document.createElement("th");
-	trainerTableColumn.appendChild(document.createTextNode("First Name"));
-	trainerTableRow.appendChild(trainerTableColumn)
-	
-	trainerTableColumn = document.createElement("th");
-	trainerTableColumn.appendChild(document.createTextNode("Last Name"));
-	trainerTableRow.appendChild(trainerTableColumn)
-	
-	trainerTableColumn = document.createElement("th");
-	trainerTableColumn.appendChild(document.createTextNode("Address"));
-	trainerTableRow.appendChild(trainerTableColumn)
-	
-	trainerTableColumn = document.createElement("th");
-	trainerTableColumn.appendChild(document.createTextNode("Email"));
-	trainerTableRow.appendChild(trainerTableColumn);
-	
-	trainerTableColumn = document.createElement("th");
-	trainerTableColumn.appendChild(document.createTextNode("Phone"));
-	trainerTableRow.appendChild(trainerTableColumn);
-	
-	trainerTableColumn = document.createElement("th");
-	trainerTableColumn.appendChild(document.createTextNode("Health Insurance"));
-	trainerTableRow.appendChild(trainerTableColumn);
-	
-	trainerTableColumn = document.createElement("th");
-	trainerTableColumn.appendChild(document.createTextNode("Qualifications"));
-	trainerTableRow.appendChild(trainerTableColumn);
-
-	trainerTableColumn = document.createElement("th");
-	trainerTableColumn.appendChild(document.createTextNode("Work Schedule"));
-	trainerTableRow.appendChild(trainerTableColumn);
-
-	trainerTable.appendChild(trainerTableRow);
-	
-	for(var i=0; i<trainers.length; i++) {
-		trainerTableRow = document.createElement("tr");
-		trainerTableRow.classList.add("trainerTableRow");
-		
-		trainerTableRow.addEventListener("click", function selectTrainerFow(event) {
-			if(selectedTrainerRow != null) {
-				selectedTrainerRow.id = "";
-			}
-			selectedTrainerRow = event.target.parentElement;
-			selectedTrainerRow.id = "trainerTableRowSelected";
-			document.getElementById("modifyTrainer").disabled = false;
-			document.getElementById("deleteTrainer").disabled = false;
-			document.getElementById("addQualification").disabled = false;
-			document.getElementById("addWorkHours").disabled = false;
-		});
-		trainerTableRow.dataset.trainer = JSON.stringify(trainers[i]);
-		
-		trainerTableColumn = document.createElement("td");
-		trainerTableColumn.appendChild(document.createTextNode(trainers[i].id));
-		trainerTableColumn.classList.add("trainerTableCol");
-		trainerTableRow.appendChild(trainerTableColumn);
-		
-		trainerTableColumn = document.createElement("td");
-		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.firstName));
-		trainerTableColumn.classList.add("trainerTableCol");
-		trainerTableRow.appendChild(trainerTableColumn);
-		
-		trainerTableColumn = document.createElement("td");
-		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.lastName));
-		trainerTableColumn.classList.add("trainerTableCol");
-		trainerTableRow.appendChild(trainerTableColumn);
-		
-		trainerTableColumn = document.createElement("td");
-		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.address.street + " " + trainers[i].personalInformation.address.city + ", " 
-				+ trainers[i].personalInformation.address.state.stateAbbrev + " " + trainers[i].personalInformation.address.zipcode));
-		trainerTableColumn.classList.add("trainerTableCol");
-		trainerTableRow.appendChild(trainerTableColumn);
-		
-		trainerTableColumn = document.createElement("td");
-		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.email));
-		trainerTableColumn.classList.add("trainerTableCol");
-		trainerTableRow.appendChild(trainerTableColumn);
-		
-		trainerTableColumn = document.createElement("td");
-		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.phoneNumber));
-		trainerTableColumn.classList.add("trainerTableCol");
-		trainerTableRow.appendChild(trainerTableColumn);
-		
-		trainerTableColumn = document.createElement("td");
-		trainerTableColumn.appendChild(document.createTextNode(trainers[i].personalInformation.healthInsurance.name));
-		trainerTableColumn.classList.add("trainerTableCol");
-		trainerTableRow.appendChild(trainerTableColumn);
-		
-		trainerTableColumn = document.createElement("td");
-		var qualifications = "";
-		for(var j=0; j<trainers[i].qualifications.length; j++) {
-			qualifications += trainers[i].qualifications[j].name + "\n";
-		}
-		trainerTableColumn.appendChild(document.createTextNode(qualifications));
-		trainerTableColumn.classList.add("trainerTableCol");
-		trainerTableRow.appendChild(trainerTableColumn);
-		
-		trainerTableColumn = document.createElement("td");
-		var workSchedule = "";
-		for(var j=0; j<trainers[i].workHours.length; j++) {
-			var startDateTime = trainers[i].workHours[j].startDateTime;
-			var endDateTime = trainers[i].workHours[j].endDateTime;
-			workSchedule += startDateTime + " - " + endDateTime + "\n";
-		}
-		trainerTableColumn.appendChild(document.createTextNode(workSchedule));
-		trainerTableColumn.classList.add("trainerTableCol");
-		trainerTableRow.appendChild(trainerTableColumn);
-
-		trainerTable.appendChild(trainerTableRow);
-	}
-}
-
-function showManagerData() {
+function hideTrainerElements() {
 	$("#addTrainer").hide();
 	$("#modifyTrainer").hide();
+	$("#trainerResults").hide();
 	$("#deleteTrainer").hide();
 	$("#addQualification").hide();
 	$("#addWorkHours").hide();
+	$("#removeQualification").hide();
+	$(".searchTrainer").hide();
+	$("#deleteWorkHours").hide();
+}
+
+function showTrainerData() {
+	showTrainerElements();
+	
+	$("#addManager").hide();
+	$(".searchManager").hide();
+	$("#addCustomer").hide()
+	$(".searchCustomer").hide();
+	$("#addMachine").hide();
+	$(".searchMachine").hide();
+	$("#managerResults").hide();
+	$("#customerResults").hide();
+	$("#inventoryResults").hide();
+	
+	populateAllTrainers();
+}
+
+function showManagerData() {
+	hideTrainerElements();
+	
 	$("#addCustomer").hide();
 	$("#addMachine").hide();
 	$(".searchCustomer").hide();
 	$(".searchManager").show();
 	$(".searchTrainer").hide();
-	$("#trainerResults").hide();
+	$(".searchMachine").hide();
 	$("#customerResults").hide();
 	$("#inventoryResults").hide();
 	$("#addManager").show();
@@ -305,19 +136,14 @@ function populateManagerTable(managerData) {
 }
 
 function showCustomerData() {
+	hideTrainerElements();
 	getAllCustomers();
 	$("#addManager").hide();
 	$(".searchManager").hide();
-	$(".searchTrainer").hide();
-	$("#addQualification").hide();
-	$("#addWorkHours").hide();
-	$("#addTrainer").hide();
-	$("#modifyTrainer").hide();
-	$("#deleteTrainer").hide();
 	$("#addMachine").hide();
+	$(".searchMachine").hide();
 	$("#addCustomer").show();
 	$("#managerResults").hide();
-	$("#trainerResults").hide();
 	$("#inventoryResults").hide();
 	$("#customerResults").show();
 	$(".searchCustomer").show();
@@ -369,22 +195,57 @@ function populateCustomerTable(customerData){
 	
 
 function showInventoryData() {
+	hideTrainerElements();
 	$("#addManager").hide();
 	$(".searchManager").hide();
-	$(".searchTrainer").hide();
 	$(".searchCustomer").hide();
 	$("#addQualification").hide();
 	$("#addWorkHours").hide();
 	$("#addTrainer").hide();
+	$("#deleteTrainer").hide();
 	$("#modifyTrainer").hide();
 	$("#addCustomer").hide();
 	$("#addMachine").show();
+	$(".searchMachine").show();
 	$("#managerResults").hide();
-	$("#trainerResults").hide();
 	$("#customerResults").hide();
+	// send ajax call to get inventory data
+	
+	$.ajax({
+		url: "/manager/ui",
+		method: "GET",
+		data: {
+			type: "getInventory"
+		},
+		success: function(data) {
+			data = JSON.parse(data);
+			var machineList = data.machines; 
+			populateInventoryTable(machineList);
+					
+		},
+		error: function(exception) {
+			alert("Error: " + exception);
+		}
+	
+	});
+	
 	$("#inventoryResults").show();
 }
 
+
+function populateInventoryTable(machineList){
+	$("#inventoryResults .tableData").remove();
+	for (var i = 0 ; i<machineList.length; i++) {
+		var machine = machineList[i];
+		$("#inventoryResults table").append("<tr class='tableData' data-id='"+ machine.id + "'>" 
+				+"<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
+				
+				 +"<td>" + machine.id + "</td>"
+				+ "<td>" + machine.name + "</td>" 
+				+ "<td><img src='/machineImages/"+ machine.pictureLocation + "?v="+ new Date().getTime()+"'></img></td>"
+				+ "<td>"+ machine.quantity + "</td></tr>");
+	}
+}
 
 /**
  * send ajax call to get Health insurance details and state list before opening modal
@@ -921,358 +782,209 @@ function getSearchCustomerResults(keywords) {
 }
 
 
+$("#addMachine").on("click", function(){
+	$("#addMachineModal").modal();
+});
 
-/* Functions used to create/modify trainers */
-var trainerFormType = null;
-var trainerId = null;
+$("#addMachinePic").on("change", function(){
 
-function getStates() {
-	var states = null;
+	if (this.files && this.files[0]) {
+	    var reader = new FileReader();
+
+	    reader.onload = function(e) {
+	      $('#addMachinePreview').attr('src', e.target.result);
+	    }
+
+	    reader.readAsDataURL(this.files[0]);
+	  }
+})
+
+$("#addMachineForm").on("submit", function(e){
+	e.preventDefault();
+	var data = new FormData(this);
 	$.ajax({
 		url: "/manager/ui",
-		data: {
-			type: "getStates"
+		type: "POST",
+		data:  data,
+		contentType: false,
+		cache: false,
+		processData:false,
+		success: function(data){
+			$.modal.close();
+			data = JSON.parse(data);
+			var machine = data.machine;
+			$("#inventoryResults table").append("<tr class='tableData' data-id='"+ machine.id + "' class='.tableData'>" 
+					+ "<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
+					+"<td>" + machine.id + "</td>"
+					+ "<td>" + machine.name + "</td>" 
+					+ "<td><img src='/machineImages/"+ machine.pictureLocation + "?v="+new Date().getTime()+"'></img></td>"
+					+ "<td>"+ machine.quantity + "</td></tr>");
 		},
-		method: "GET",
-		success: function(data, textStatus, jqXHR) {
-			states = JSON.parse(data.states);
+		error: function(error){
+			if(error.responseText.indexOf("missing input") >= 0) {
+				alert("Could not add machine to the inventory. Some input fields were missing");
+			} else if(error.responseText.indexOf("not image file") >= 0){
+				alert("The file selected is not an image file");
+			} else if (error.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0){
+				alert("Machine name already exists. Please use another name");
+			} else {
+				alert("Error: " + error);
+			}
+		} 
+	});
+})
+
+
+$("#addMachineModal").on($.modal.AFTER_CLOSE, function() {
+	$("#addMachineName, #addMachineQuantity, #addMachinePic").val("");
+	$("#addMachinePreview").attr("src", "#");
+});
+
+$(document).on("click", ".editMachine", function(){	
+	 CURRENTLY_EDITED_MACHINE_ID = $(this).parents("tr").data("id");
+	 $("#machineId").val(CURRENTLY_EDITED_MACHINE_ID);
+		$.ajax({
+			url: "/manager/ui",
+			type: "GET",
+			data:  {
+				type: "getMachineById",
+				id: CURRENTLY_EDITED_MACHINE_ID
+			},
+			
+			success: function(data){
+				data = JSON.parse(data);
+				var machine = data.machine
+				$("#editMachineName").val(machine.name);
+				$("#editMachineQuantity").val(machine.quantity);
+				$("#editMachinePreview").attr("src", "/machineImages/"+ machine.pictureLocation);
+				$("#editMachineModal").modal();
+				
+			},
+			error: function(error){
+				alert("Error: " + error);
+			} 
+		})
+});
+$("#cancelMachineButton, #cancelEditMachine").on("click", function(e){
+	e.preventDefault();
+	$.modal.close();
+})
+
+
+$("#editMachinePic").on("change", function(){
+	if (this.files && this.files[0]) {
+	    var reader = new FileReader();
+
+	    reader.onload = function(e) {
+	      $('#editMachinePreview').attr('src', e.target.result);
+	    }
+
+	    reader.readAsDataURL(this.files[0]);
+	  }
+})
+
+$(document).on("click", ".deleteMachine", function(){
+	var id = $(this).parents("tr").data('id');
+	var deleteBool = confirm("Do you want to delete the customer having id " + id + "?");
+	if(deleteBool === false) {
+		return;
+	}
+	$.ajax({
+		url: "/manager/ui",
+		method: "POST",
+		data: {
+			"type": "deleteMachine",
+			"id": id
+		},
+		
+		success: function(data) {
+			data = JSON.parse(data);
+			if(data.status == "success") {
+				$("tr[data-id='" + id + "']").remove();
+			}
+			
+			
+
 		},
 		error: function(exception) {
-			alert("Exception" + exception);
-		},
-		async: false
+			
+			alert("Error" + exception);
+		}
+	
 	});
-	return states;
-}
+})
 
-function getHealthInsurances() {
-	var healthInsurances = null;
+
+$("#editMachineForm").on("submit", function(e){
+
+	console.log("here");
+	e.preventDefault();
+	var data = new FormData(this);
 	$.ajax({
 		url: "/manager/ui",
-		data: {
-			type: "getHealthInsurances"
+		type: "POST",
+		data:  data,
+		contentType: false,
+		cache: false,
+		processData:false,
+		success: function(data){
+			$.modal.close();
+			data = JSON.parse(data);
+			var machine = data.machine
+			
+			var tr = $("#inventoryResults table").find("tr[data-id='" + machine.id+"']");
+			tr.empty();
+			var machine = data.machine;
+			tr.append("<td><a class='editMachine' href='#'>Edit</a><span>&nbsp;</span><a class='deleteMachine' href='#'>Delete</a></td>"
+					+"<td>" + machine.id + "</td>"
+					+ "<td>" + machine.name + "</td>" 
+					+ "<td><img src='/machineImages/"+ machine.pictureLocation + "?v="+ new Date().getTime()+"'></img></td>"
+					+ "<td>"+ machine.quantity + "</td>");
 		},
+		error: function(error){
+			if(error.responseText.indexOf("missing input") >= 0) {
+				alert("Could not add machine to the inventory. Some input fields were missing");
+			} else if(error.responseText.indexOf("not image file") >= 0){
+				alert("The file selected is not an image file");
+			} else if (error.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0){
+				alert("Machine name already exists. Please use another name");
+			} else {
+				alert("Error: " + error);
+			}
+		} 
+	});
+})
+
+$("#searchMachineButton").on("click", function(){
+	getSearchMachineResults($("#searchMachineInput").val());
+});
+
+$("#resetMachineSearch").on("click", function(){
+	$("#searchMachineInput").val("");
+	getSearchMachineResults("");
+});
+
+function getSearchMachineResults(keywords) {
+	var params = {};
+	params.type = "getSearchMachineResults";
+	params.searchText = keywords;
+	$.ajax({
+		url: "/manager/ui",
 		method: "GET",
-		success: function(data, textStatus, jqXHR) {
-			healthInsurances = JSON.parse(data.healthInsurances);
+		data: params,
+		
+		success: function(data) {
+
+			data = JSON.parse(data);
+			var machineList = data.machines;
+			
+			populateInventoryTable(machineList);
 		},
 		error: function(exception) {
-			alert("Exception" + exception);
-		},
-		async: false
-	});
-	return healthInsurances;
-}
-
-function modifyTrainerForm() {
-	populateTrainerSelectList();
-	modifyTrainerInformation();
-}
-
-function checkNewHealthInsurance() {
-	if(document.getElementById("modifyHealthInsurance").selectedIndex == 0) {
-		document.getElementById("modifyOtherHealthInsurance").value = "";
-		document.getElementById("modifyOtherHealthInsurance").disabled = false;
-	}
-	else {
-		document.getElementById("modifyOtherHealthInsurance").disabled = true;
-	}
-}
-
-function createTrainerForm() {
-	
-	// Set the form type
-	trainerFormType = "create";
-	
-	// Set the trainer ID to zero since there is not ID yet
-	trainerId = 0;
-	
-	// Clear the form
-	document.getElementById("trainerForm").reset();
-	
-	// Populate the state select list
-	var states = getStates();
-	var stateList = $("#modifyState");
-	stateList.empty();
-	for (var i = 0; i< states.length; i++) {
-		stateList.append("<option>" + states[i].state + "</option>");
-	}
-	
-	// Populate the health insurance list
-	var healthInsurances = getHealthInsurances();
-	var healthInsuranceList = $("#modifyHealthInsurance");
-	healthInsuranceList.empty();
-	healthInsuranceList.append("<option>--Other--</option>")
-	for (var i = 0; i< healthInsurances.length; i++) {
-		healthInsuranceList.append("<option>" + healthInsurances[i].name + "</option>");
-	}
-	document.getElementById("modifyOtherHealthInsurance").disabled = false;
-	
-	document.getElementById("modifyTrainerHeader").style.display = "none";
-	document.getElementById("newTrainerHeader").style.display = "block";
-	
-	$("#modifyTrainerForm").modal();
-}
-
-function modifyTrainerInformation() {
-	
-	// Set the form type
-	trainerFormType = "update";
-	
-	// Clear the form
-	document.getElementById("trainerForm").reset();
-	
-	// Get the specific trainer
-	var trainer = JSON.parse(selectedTrainerRow.dataset.trainer);
-	trainerId = trainer.id;
-	
-	// Populate the state select list
-	var states = getStates();
-	var stateList = $("#modifyState");
-	stateList.empty();
-	var selectIndex = 0;
-	for (var i = 0; i< states.length; i++) {
-		stateList.append("<option>" + states[i].state + "</option>");
-		if(states[i].state == trainer.personalInformation.address.state.state) {
-			selectIndex = i;
-		}
-	}
-	document.getElementById("modifyState").options[selectIndex].selected = true;
-	
-	// Populate the health insurance list
-	var healthInsurances = getHealthInsurances();
-	var healthInsuranceList = $("#modifyHealthInsurance");
-	healthInsuranceList.empty();
-	selectIndex = 0;
-	healthInsuranceList.append("<option>--Other--</option>")
-	for (var i = 0; i< healthInsurances.length; i++) {
-		healthInsuranceList.append("<option>" + healthInsurances[i].name + "</option>");
-		if(healthInsurances[i].name == trainer.personalInformation.healthInsurance.name) {
-			selectIndex = (i+1);
-		}
-	}
-	document.getElementById("modifyHealthInsurance").options[selectIndex].selected = true;
-	
-	document.getElementById("modifyOtherHealthInsurance").disabled = true;
-	
-	document.getElementById("modifyFirstName").value = trainer.personalInformation.firstName;
-	document.getElementById("modifyLastName").value = trainer.personalInformation.lastName;
-	document.getElementById("modifyPhoneNumber").value = trainer.personalInformation.phoneNumber;
-	document.getElementById("modifyEmail").value = trainer.personalInformation.email;
-	document.getElementById("modifyStreet").value = trainer.personalInformation.address.street;
-	document.getElementById("modifyCity").value = trainer.personalInformation.address.city;
-	document.getElementById("modifyZipcode").value = trainer.personalInformation.address.zipcode;
-	document.getElementById("modifyUserName").value = trainer.user.username;
-	document.getElementById("modifyPassword").value = trainer.user.password;
-	document.getElementById("modifyConfirmPassword").value = trainer.user.password;
-	
-	document.getElementById("modifyTrainerHeader").style.display = "block";
-	document.getElementById("newTrainerHeader").style.display = "none";
-	
-	$("#modifyTrainerForm").modal();
-}
-
-function submitTrainerForm() {
-	
-	var postParams = {};
-	postParams.id = trainerId;
-	postParams.firstName = $("#modifyFirstName").val();
-	postParams.lastName = $("#modifyLastName").val();
-	postParams.userName = $("#modifyUserName").val();
-	postParams.password = $("#modifyPassword").val();
-	postParams.confirmPassword = $("#modifyConfirmPassword").val();
-	postParams.email = $("#modifyEmail").val();
-	postParams.phone = $("#modifyPhoneNumber").val();
-	postParams.street = $("#modifyStreet").val();
-	postParams.city = $("#modifyCity").val();
-	postParams.state = $("#modifyState").val();
-	postParams.zip = $("#modifyZipcode").val();
-	
-	if(document.getElementById("modifyHealthInsurance").selectedIndex == 0) {
-		postParams.healthInsurance = $("#modifyOtherHealthInsurance").val();
-	}
-	else {
-		postParams.healthInsurance = $("#modifyHealthInsurance").val();
-	}
-	
-	if(trainerFormType == "create") {
-		postParams.type = "createTrainer";
-	}
-	else {
-		postParams.type = "updateTrainer";
-	}
-	
-	$.ajax({
-		url: "/manager/ui",
-		method: "POST",
-		data: postParams,
-		
-		success: function(data) {
-			if(data.rc == 0) {
-				populateAllTrainers();
-				$.modal.close();
-			}
-			else {
-				alert("Error: " + data.msg);
-			}
-		},
-		error: function(jqXHR, textStatus, errorThrown){
-			$(document.body).html(jqXHR.responseText);
+			
+			alert("Error: " + exception);
 		}
 	});
 }
 
-function deleteTrainer() {
 
-	var trainer = JSON.parse(selectedTrainerRow.dataset.trainer);
-	
-	var postParams = {};
-	postParams.id = trainer.id;
-	postParams.type = "deleteTrainer";
-	
-	$.ajax({
-		url: "/manager/ui",
-		method: "POST",
-		data: postParams,
-		
-		success: function(data) {
-			if(data.rc == 0) {
-				populateAllTrainers();
-				$.modal.close();
-			}
-			else {
-				alert("Error: " + data.msg);
-			}
-		},
-		error: function(jqXHR, textStatus, errorThrown){
-			$(document.body).html(jqXHR.responseText);
-		}
-	});
-}
-
-function addTrainerQualification() {
-	document.getElementById("qualificationForm").reset();
-	$("#addQualificationForm").modal();
-}
-
-function submitTrainerQualification() {
-	var trainer = JSON.parse(selectedTrainerRow.dataset.trainer);
-	var qualification = $("#qualificationName").val()
-	var postParams = {};
-	postParams.id = trainer.id;
-	postParams.qualification = qualification;
-	postParams.type = "addQualification";
-	
-	$.ajax({
-		url: "/manager/ui",
-		method: "POST",
-		data: postParams,
-		
-		success: function(data) {
-			if(data.rc == 0) {
-				populateAllTrainers();
-				$.modal.close();
-			}
-			else {
-				alert("Error: " + data.msg);
-			}
-		},
-		error: function(jqXHR, textStatus, errorThrown){
-			$(document.body).html(jqXHR.responseText);
-		}
-	});
-}
-
-function populateStartDay() {
-	var year = parseInt($("#startYear").find(":selected").text());
-	var month = $("#startMonth")[0].selectedIndex + 1;
-	var numberOfDays = new Date(year, month, 0).getDate();
-	
-	var startDayList = $("#startDay");
-	startDayList.empty();
-	for(var i=1; i<=numberOfDays; i++) {
-		startDayList.append("<option>" + i + "</option>");
-	}
-}
-
-function populateEndDay() {
-	var year = parseInt($("#endYear").find(":selected").text());
-	var month = $("#endMonth")[0].selectedIndex + 1;
-	var numberOfDays = new Date(year, month, 0).getDate();
-	
-	var endDayList = $("#endDay");
-	endDayList.empty();
-	for(var i=1; i<=numberOfDays; i++) {
-		endDayList.append("<option>" + i + "</option>");
-	}
-}
-
-function addTrainerWorkHours() {
-	var date = new Date();
-	
-	var startYearList = $("#startYear");
-	startYearList.empty();
-	for (var i = 0; i< 5; i++) {
-		startYearList.append("<option>" + (date.getFullYear() + i) + "</option>");
-	}
-	
-	var endYearList = $("#endYear");
-	endYearList.empty();
-	for (var i = 0; i< 5; i++) {
-		endYearList.append("<option>" + (date.getFullYear() + i) + "</option>");
-	}
-	
-	populateStartDay();
-	populateEndDay();
-	
-	$("#addWorkHoursForm").modal();
-}
-
-function submitWorkHours() {
-	var trainer = JSON.parse(selectedTrainerRow.dataset.trainer);
-	var startYear = parseInt($("#startYear").find(":selected").text());
-	var startMonth = parseInt($("#startMonth")[0].selectedIndex);
-	var startDay = parseInt($("#startDay")[0].selectedIndex);
-	var startHour = parseInt($("#startHour").val());
-	var startMinute = parseInt($("#startMinute").val());
-	var startPeriod = parseInt($("#startPeriod")[0].selectedIndex);
-	var endYear = parseInt($("#endYear").find(":selected").text());
-	var endMonth = parseInt($("#endMonth")[0].selectedIndex);
-	var endDay = parseInt($("#endDay")[0].selectedIndex);
-	var endHour = parseInt($("#endHour").val());
-	var endMinute = parseInt($("#endMinute").val());
-	var endPeriod = parseInt($("#endPeriod")[0].selectedIndex);
-	
-	var postParams = {};
-	postParams.id = trainer.id;
-	postParams.startYear = startYear;
-	postParams.startMonth = startMonth;
-	postParams.startDay = startDay + 1;
-	postParams.startHour = startHour + startPeriod * 12;
-	postParams.startMinute = startMinute;
-	postParams.endYear = endYear;
-	postParams.endMonth = endMonth;
-	postParams.endDay = endDay + 1;
-	postParams.endHour = endHour + startPeriod * 12;
-	postParams.endMinute = endMinute;
-	postParams.type = "addWorkHours";
-	
-	$.ajax({
-		url: "/manager/ui",
-		method: "POST",
-		data: postParams,
-		
-		success: function(data) {
-			if(data.rc == 0) {
-				populateAllTrainers();
-				$.modal.close();
-			}
-			else {
-				alert("Error: " + data.msg);
-			}
-		},
-		error: function(jqXHR, textStatus, errorThrown){
-			$(document.body).html(jqXHR.responseText);
-		}
-	});
-}

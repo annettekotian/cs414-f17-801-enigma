@@ -70,10 +70,14 @@ margin-top:3%;
 	color:black;
 }
 
-#addManager, #addCustomer, #addMachine {
+#addManager, #addCustomer {
 		margin-left: 170px;
 		display:none;
 	
+}
+
+#addMachine {
+	margin-left: 355px;
 }
 
 #addTrainer {
@@ -99,7 +103,12 @@ margin-top:3%;
 }
 
 #searchTrainerInput{
-	margin-left:280px;
+	margin-left:240px;
+}
+
+#searchMachineInput{
+	margin-left:437px;
+	width:200px;
 }
 
 /*********************** all results tables *********************/
@@ -173,7 +182,7 @@ margin-top:3%;
 }
 
 #inventoryResults {
-	margin-left:165px;
+	margin-left:355px;
 	margin-top: 20px;
 	display:none;
 	
@@ -196,14 +205,19 @@ margin-top:3%;
 }
 
 
-/**************add manager, customer modal ****/
+#inventoryResults table img{
+	max-height: 250px;
+	max-width: 250px;
+}
+
+/**************add manager, customer modal, machine modal ****/
 #managerFirstNameDiv, #managerEmailDiv, #managerStreetDiv, #managerStateDiv, #managerUserNameDiv, #managerHealthInuranceDiv,
 #customerFirstNameDiv, #customerEmailDiv, #customerStreetDiv , #customerStateDiv, #customerHealthInuranceDiv{
 	/* float:left; */
 	
 }
 
-.managerInputDiv, .customerInputDiv{
+.managerInputDiv, .customerInputDiv, .machineInputDiv{
 	padding-bottom: 3px;
 }
 
@@ -211,11 +225,7 @@ margin-top:3%;
 	width: 198px;
 }
 
-.modal a {
-	text-decoration: inherit;
-    color: inherit;
-    cursor: auto;
-}
+
 
 #createManagerButton, #createCustomerButton, #editCustomerButton {
 	margin: 0px;
@@ -229,4 +239,10 @@ margin-top:3%;
 
 #confirmManagerPasswordDiv, #customerMembershipDiv{
 	padding-bottom: 10px;
+}
+
+
+#addMachinePreview, #editMachinePreview {
+	max-height:150px;
+	max-width:150px;
 }

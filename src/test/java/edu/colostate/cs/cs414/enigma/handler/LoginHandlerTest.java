@@ -12,24 +12,20 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
-import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
 
 public class LoginHandlerTest {
 
 	private EntityManagerDao dao;
-	private static EntityManagerFactoryListener emfl;
 	private List<Object> persistedObjects = new ArrayList<Object>();	
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		emfl = new EntityManagerFactoryListener();
-		emfl.contextInitialized(null);
+		new EntityManagerDao().close();
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		emfl.contextDestroyed(null);
-		emfl = null;
+		new EntityManagerDao().shutdown();
 	}
 
 	@Before
@@ -48,42 +44,40 @@ public class LoginHandlerTest {
 
 	@Test
 	public void testAuthenicateWithWrongPass() {
-		
-		boolean isValid = LoginHandler.authenticate("admin", "pass123");
+		LoginHandler lh = new LoginHandler();
+		boolean isValid = lh.authenticate("admin", "pass123");
+		lh.close();
 		assertFalse(isValid);
 	}
 	
 	@Test
 	public void testAuthenicateWithCorrectPass() {
-		
-		boolean isValid = LoginHandler.authenticate("admin", "password");
+		LoginHandler lh = new LoginHandler();
+		boolean isValid = lh.authenticate("admin", "password");
+		lh.close();
 		assertTrue(isValid);
 	}
 	
 	@Test
 	public void testAuthenicateWithWrongUsername() {
-		
-		boolean isValid = LoginHandler.authenticate("admin123", "password");
+		LoginHandler lh = new LoginHandler();
+		boolean isValid = lh.authenticate("admin123", "password");
+		lh.close();
 		assertFalse(isValid);
 	}
 	
 	@Test
 	public void testGetUserLevel() {
-		
-		String level = LoginHandler.getUserLevel("admin");
+		LoginHandler lh = new LoginHandler();
+		String level = lh.getUserLevel("admin");
+		lh.close();
 		assertEquals("ADMIN", level);
 	}
-	
-	
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetUserLevelForIllegalArgumentException() {
-		
-		String level = LoginHandler.getUserLevel("admin123");
+		LoginHandler lh = new LoginHandler();
+		String level = lh.getUserLevel("admin123");
 		assertEquals("ADMIN", level);
 	}
-	
-	
-
-
 }

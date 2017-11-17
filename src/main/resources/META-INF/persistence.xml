@@ -5,11 +5,24 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
 	<persistence-unit name="GymSystem" transaction-type="RESOURCE_LOCAL">
-		<class>edu.colostate.cs.cs414.enigma.entity.User</class>
-		<class>edu.colostate.cs.cs414.enigma.entity.Trainer</class>
-		<class>edu.colostate.cs.cs414.enigma.entity.UserLevel</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.Address</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.Customer</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.Exercise</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.ExerciseDuration</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.ExerciseSet</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.GymSystemUser</class>
 		<class>edu.colostate.cs.cs414.enigma.entity.HealthInsurance</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.Machine</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.Manager</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.Membership</class>
 		<class>edu.colostate.cs.cs414.enigma.entity.PersonalInformation</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.Qualification</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.State</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.Trainer</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.User</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.UserLevel</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.WorkHours</class>
+		<class>edu.colostate.cs.cs414.enigma.entity.Workout</class>
 		
 		
 		<properties>

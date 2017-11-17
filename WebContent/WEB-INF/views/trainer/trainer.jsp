@@ -6,7 +6,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="/css/gymSystem.css">
 <link rel="stylesheet" type="text/css" href="/css/trainer.css">
+<link rel="stylesheet" type="text/css" href="/css/jquery.modal.min.css">
 <script src="/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="/js/jquery.modal.min.js"></script>
+<script src="/js/globalVariables.js"></script>
 <title>Trainer UI</title>
 </head>
 <body>
@@ -32,8 +35,10 @@
 		<li id="workoutsLi">Workouts</li>
 		<li id="exerciseLi">Exercises</li>
 	</ul>
-	</div>
+</div>
 
+<button id="assignWorkoutButton" class="trainerSearchCustomers" disabled>Assign Workout</button>
+<button id="unassignWorkoutButton" class="trainerSearchCustomers" disabled>Unassign Workout</button>
 <button id="trainerSearchCustomerButton" class="trainerSearchCustomers">Search</button>
 <input id = "trainerSearchCustomerInput" class="trainerSearchCustomers" type="text" placeholder = "enter name, address etc."/>
 <div id="home">
@@ -68,26 +73,144 @@
 	</table>
 </div>
 
-	<div id="customerTable">
-		<table>
-			<tr class="tableHeader">
+<div id="customerTable">
+	<table>
+		<tr class="tableHeader">
+			<th>Id</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Address</th>
+			<th>Email</th>
+			<th>Phone No</th>
+			<th>Health Insurance</th>
+			<th>Membership</th>
+			<th>Workouts</th>
+		</tr>
+
+	</table>
+</div>
+<button id="createWorkoutButton" class="workoutButtons">Create Workout</button>
+<button id="editWorkoutButton" class="workoutButtons" disabled>Edit Workout</button>
+<button id="deleteWorkoutButton" class="workoutButtons" disabled>Delete Workout</button>
+
+<input id="searchWorkoutInput" class="workoutButtons" type="text" placeholder="Enter workout, exercise name etc "/> 
+<button id="searchWorkoutButton" class="workoutButtons" >Search</button>
+<button id="resetSearchWorkout" class="workoutButtons" >Reset</button>
+<div id="workoutResults">
+	<table >
+		<tr class="tableHeader">
 				<th>Id</th>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>Address</th>
-				<th>Email</th>
-				<th>Phone No</th>
-				<th>Health Insurance</th>
-				<th>Membership</th>
+				<th>Workout Name</th>
+				<th>Exercises</th>
+		</tr>
+	</table>
+</div>
 
-			</tr>
+<div id="assignWorkoutModal" class="modal">
+	<h3>Assign Workout</h3><br>
+	<label>Workout</label><br>
+	<select id="assignWorkoutCustomerList"></select><br>
+	<button id="assignWorkout">Submit</button>
+</div>
 
+<div id="unassignWorkoutModal" class="modal">
+	<h3>Unassign Workout</h3><br>
+	<label>Workout</label><br>
+	<select id="unassignWorkoutCustomerList"></select><br>
+	<button id="unassignWorkout">Submit</button>
+</div>
+
+<div id="createWorkoutModal" class="modal">
+	<h3>Create Workout</h3>
+	<label>Workout Name</label><br/>
+	<input id="workoutName" type="text" placeholder="Enter workout name"/> <br>
+	<label>Sequence of exercises</label><br/>
+	<table id="addWorkoutExercisesTable">
+		<th></th>
+		<th>Sequence</th>
+		<th>Name</th>
+	</table>
+	<label>Select Exercise</label><br/>
+	<select id="workoutExerciseSelect">
+	</select> <br/>
+	<button id="addExerciseToWorkout">Add exercise</button><br/>
+	<button id="submitWorkout">Submit</button>
+</div>
+
+
+<div id="editWorkoutModal" class="modal">
+	<h3>Edit Workout</h3>
+	<label>Workout Name</label><br/>
+	<input id="editWorkoutName" type="text" placeholder="Enter workout name"/> <br>
+	<label>Sequence of exercises</label><br/>
+	<table id="editWorkoutExercises">
+		<th></th>
+		<th>Sequence</th>
+		<th>Name</th>
+	</table>
+	
+	<label>Select Exercise</label><br/>
+	<select id="editWorkoutExerciseSelect">
+	</select> <br/>
+	<button id="addExerciseToEditedWorkout">Add exercise</button><br/>
+	<button id="submitWorkoutChanges">Submit Changes</button>
+</div>
+
+
+<div id="workoutExercisesModal" class="modal">
+	<h3>Workout Exercises</h3>
+	<div id="workoutExercises">
+		<table>
+			<th>Sequence</th>
+			<th>id</th>
+			<th>Name</th>
 		</table>
 	</div>
 	
-	
-	<script src="../js/trainer.js">
-</script>
+</div>
+
+<button id="addExercise" class="addButtons" onclick="addExerciseModal()">Add Exercise</button>
+<button id="modifyExercise" class="addButtons" onclick="modifyExerciseModal()" disabled>Modify Exercise</button>
+<button id="deleteExercise" class="addButtons" onclick="deleteExercise()" disabled>Delete Exercise</button>
+<input id="searchExerciseBox" type="text" placeholder="Search Exercises">
+<button id="searchExercise" class="addButtons" onclick="searchExercise()">Search</button>
+<button id="resetExercise" class="addButtons" onclick="populateAllExercises()">Reset</button>
+<div id="exerciseResults">
+	<table id="exerciseTable">
+		<tr class="tableHeader">
+			<th>Exercise Name</th>
+			<th>Duration</th>
+			<th>Sets</th>
+			<th>Machine</th>
+		</tr>
+	</table>
+</div>
+
+<div id="exerciseModal" class="modal">
+	<h3 id="addExerciseHeader">Add Exercise</h3>
+	<h3 id="modifyExerciseHeader">Modify Exercise</h3>
+	<label>Name</label><br>
+	<input id="exerciseName" type="text" placeholder="Name"><br>
+	<label>Duration Hours</label><br>
+	<input id="exerciseDurationHours" type="number" placeholder="Hours"><br>
+	<label>Duration Minutes</label><br>
+	<input id="exerciseDurationMinutes" type="number" placeholder="Minutes"><br>
+	<label>Duration Seconds</label><br>
+	<input id="exerciseDurationSeconds" type="number" placeholder="Seconds"><br>
+	<label>Sets</label><br>
+	<ul id="exerciseSetList"></ul>
+	<input id="exerciseSetRepetition" type="number" placeholder="Repetitions"><br>
+	<button type="button" id="addExerciseSet" class="addButtons" onclick="addExerciseSet()" >Add Set</button>
+	<button type="button" id="deleteExerciseSet" class="addButtons" onclick="deleteExerciseSet()" >Delete Set</button><br>
+	<label>Machine</label><br>
+	<select id="exerciseMachine"></select><br>
+	<button id="submitAddExercise" class="addButtons" onclick="addExercise()">Submit</button><br>
+	<button id="submitModifyExercise" class="addButtons" onclick="modifyExercise()">Submit</button><br>
+</div>
+
+
+<script src="/js/trainer/trainer.js" type="text/javascript"></script>
+<script src="/js/trainer/exercise.js" type="text/javascript"></script>
 <script>
 var trainerData = <%=request.getAttribute("trainer")%>
 focusHome(trainerData);

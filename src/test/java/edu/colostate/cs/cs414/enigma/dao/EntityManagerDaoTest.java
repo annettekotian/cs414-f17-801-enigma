@@ -18,34 +18,35 @@ import org.junit.Test;
 
 import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
+import edu.colostate.cs.cs414.enigma.entity.ExerciseDuration;
+import edu.colostate.cs.cs414.enigma.entity.Exercise;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
+import edu.colostate.cs.cs414.enigma.entity.Machine;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.Qualification;
+import edu.colostate.cs.cs414.enigma.entity.ExerciseSet;
 import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
 import edu.colostate.cs.cs414.enigma.entity.WorkHours;
-import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
+import edu.colostate.cs.cs414.enigma.entity.Workout;
 
 public class EntityManagerDaoTest {
 	
-	private static EntityManagerFactoryListener emfl;
 	private EntityManagerDao dao;
 	private List<Object> persistedObjects;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		emfl = new EntityManagerFactoryListener();
-		emfl.contextInitialized(null);
+		new EntityManagerDao().close();
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		emfl.contextDestroyed(null);
-		emfl = null;
+		new EntityManagerDao().shutdown();
 	}
 
 	@Before
@@ -64,7 +65,7 @@ public class EntityManagerDaoTest {
 
 	@Test
 	public void getAllUserLevels() {
-		List userLevels = dao.query("UserLevel.findAll", null);
+		List<?> userLevels = dao.query("UserLevel.findAll", null);
 		assertNotNull("Failed to get user levels", userLevels);
 	}
 	
@@ -94,7 +95,7 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void getAllUsers() {
-		List users = dao.query("User.findAll", null);
+		List<?> users = dao.query("User.findAll", null);
 		assertNotNull("Failed to get users", users);
 	}
 	
@@ -127,7 +128,7 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void getAllStates() {
-		List states = dao.query("State.findAll", null);
+		List<?> states = dao.query("State.findAll", null);
 		assertEquals("Failed to get all 50 states from lookup table", states.size(), 50);
 	}
 	
@@ -141,7 +142,7 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void getAllHealthInsurances() {
-		List insurances = dao.query("HealthInsurance.findAll", null);
+		List<?> insurances = dao.query("HealthInsurance.findAll", null);
 		assertNotNull("Failed to get health insurances", insurances);
 	}
 	
@@ -162,7 +163,7 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void getAllMembershipStatus() {
-		List memberships = dao.query("Membership.findAll", null);
+		List<?> memberships = dao.query("Membership.findAll", null);
 		assertNotNull("Failed to get all memebrship statuses", memberships);
 	}
 	
@@ -314,7 +315,7 @@ public class EntityManagerDaoTest {
 			trainer.addWorkHours(workHours);
 			dao.update(trainer);
 			
-			trainer.deleteWorkHours();
+			trainer.removeAllWorkHours();
 			dao.update(trainer);
 		}
 		finally {
@@ -328,5 +329,165 @@ public class EntityManagerDaoTest {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", trainer.getId());
 		trainer = (Trainer) dao.querySingle("Trainer.findById", params);
+	}
+	
+	@Test
+	public void persistNewMachine() throws Exception {
+		Machine machine = new Machine("Treadmill", "/images/treadmill.png", 1);
+		dao.persist(machine);
+		persistedObjects.add(machine);
+	}
+	
+	@Test
+	public void persistNewExercise() throws Exception {
+		Exercise exercise = new Exercise("Push-ups");
+		dao.persist(exercise);
+		persistedObjects.add(exercise);
+	}
+	
+	@Test
+	public void persistNewExerciseMachine() throws Exception {
+		Machine machine = new Machine("Treadmill", "/images/treadmill.png", 1);
+		Exercise exercise = new Exercise("Push-ups");
+		exercise.setMachine(machine);
+		dao.persist(exercise);
+		persistedObjects.add(exercise);
+		persistedObjects.add(exercise.getMachine());
+	}
+	
+	@Test
+	public void persistNewExerciseDuration() throws Exception {
+		ExerciseDuration duration = new ExerciseDuration(5, 5, 5);
+		Exercise exercise = new Exercise("Push-ups");
+		exercise.setDuration(duration);
+		dao.persist(exercise);
+		persistedObjects.add(exercise);
+	}
+	
+	@Test
+	public void persistNewExerciseSet() throws Exception {
+		Exercise exercise = new Exercise("Push-ups");
+		dao.persist(exercise);
+		
+		ExerciseSet set = new ExerciseSet(5);
+		exercise.addSet(set);
+		dao.update(exercise);
+		
+		exercise.deleteSets();
+		dao.update(exercise);
+		
+		persistedObjects.add(set);
+		persistedObjects.add(exercise);
+	}
+	
+	@Test
+	public void persisNewWorkout() throws Exception {
+		Exercise exercise = new Exercise("Push-ups");
+		
+		Workout workout =  new Workout("Extreme Workout");
+		workout.addExercise(exercise);
+		
+		dao.persist(workout);
+		
+		persistedObjects.add(exercise);
+		persistedObjects.add(workout);
+	}
+	
+	@Test
+	public void persisNewWorkoutMultipleExercises() throws Exception {
+		Exercise exercise1 = new Exercise("Push-ups");
+		Exercise exercise2 = new Exercise("Jumping Jacks");
+		
+		Workout workout =  new Workout("Extreme Workout");
+		workout.addExercise(exercise1);
+		workout.addExercise(exercise2);
+		dao.persist(workout);
+		
+		persistedObjects.add(exercise1);
+		persistedObjects.add(exercise2);
+		persistedObjects.add(workout);
+	}
+	
+	@Test
+	public void removeSingleExerciseFromWorkout() throws Exception {
+		Exercise exercise1 = new Exercise("Push-ups");
+		Exercise exercise2 = new Exercise("Jumping Jacks");
+		
+		Workout workout =  new Workout("Extreme Workout");
+		workout.addExercise(exercise1);
+		workout.addExercise(exercise2);
+		dao.persist(workout);
+		
+		workout.removeExercise(exercise2);
+		dao.update(workout);
+		assertEquals("Failed to remove exercise from workout", workout.getExercises().size(), 1);
+		
+		persistedObjects.add(exercise1);
+		persistedObjects.add(exercise2);
+		persistedObjects.add(workout);
+	}
+	
+	@Test
+	public void addWorkoutToCustomer() throws Exception {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("type", "ACTIVE");
+		Membership membership = (Membership) dao.querySingle("Membership.findType", parameters);
+		parameters = new HashMap<String, Object>();
+		parameters.put("state", "Colorado");
+		State colorado = (State) dao.querySingle("State.findState", parameters);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
+		HealthInsurance insurance = new HealthInsurance("Free Insurance");
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		Customer customer = new Customer(personalInformation, membership);
+		dao.persist(customer);
+		persistedObjects.add(customer);
+		persistedObjects.add(insurance);
+		
+		Exercise exercise1 = new Exercise("Push-ups");
+		Exercise exercise2 = new Exercise("Jumping Jacks");
+		Workout workout =  new Workout("Extreme Workout");
+		workout.addExercise(exercise1);
+		workout.addExercise(exercise2);
+		dao.persist(workout);
+		persistedObjects.add(exercise1);
+		persistedObjects.add(exercise2);
+		persistedObjects.add(workout);
+		
+		customer.addWorkout(workout);
+		dao.update(customer);
+	}
+	
+	@Test
+	public void removeWorkoutFromCustomer() throws Exception {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("type", "ACTIVE");
+		Membership membership = (Membership) dao.querySingle("Membership.findType", parameters);
+		parameters = new HashMap<String, Object>();
+		parameters.put("state", "Colorado");
+		State colorado = (State) dao.querySingle("State.findState", parameters);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
+		HealthInsurance insurance = new HealthInsurance("Free Insurance");
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		Customer customer = new Customer(personalInformation, membership);
+		dao.persist(customer);
+		persistedObjects.add(customer);
+		persistedObjects.add(insurance);
+		
+		Exercise exercise1 = new Exercise("Push-ups");
+		Exercise exercise2 = new Exercise("Jumping Jacks");
+		Workout workout =  new Workout("Extreme Workout");
+		workout.addExercise(exercise1);
+		workout.addExercise(exercise2);
+		dao.persist(workout);
+		persistedObjects.add(exercise1);
+		persistedObjects.add(exercise2);
+		persistedObjects.add(workout);
+		
+		customer.addWorkout(workout);
+		dao.update(customer);
+		
+		customer.removeWorkout(workout);
+		dao.update(customer);
+		assertEquals("Failed to remove workout from customer", customer.getWorkouts().size(), 0);
 	}
 }
