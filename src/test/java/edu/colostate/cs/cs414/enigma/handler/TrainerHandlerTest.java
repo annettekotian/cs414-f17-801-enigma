@@ -17,7 +17,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import edu.colostate.cs.cs414.enigma.builder.TrainerBuilder;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
@@ -33,6 +32,8 @@ import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
 import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
+import edu.colostate.cs.cs414.enigma.handler.builder.CustomerBuilder;
+import edu.colostate.cs.cs414.enigma.handler.builder.TrainerBuilder;
 
 public class TrainerHandlerTest {
 
@@ -295,7 +296,7 @@ public class TrainerHandlerTest {
 		
 		tb.setFirstName("Bob");
 		tb.setId(newTrainer.getId());
-		tb.modifyTrainer();
+		tb.modifyTrainer(newTrainer.getId());
 		tb.close();
 	}
 	
@@ -337,7 +338,7 @@ public class TrainerHandlerTest {
 		Trainer newTrainer = tb.createTrainer();
 		persistedObjects.add(newTrainer);
 		tb.setId(newTrainer.getId());
-		tb.deleteTrainer();
+		tb.deleteTrainer(newTrainer.getId());
 		tb.close();
 	}
 	
@@ -702,22 +703,20 @@ public class TrainerHandlerTest {
 	
 	@Test
 	public void assignWorkout() throws Exception {
-		// Create a customer
-		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
-		String lName = "Kotian";
-		String email = "ann@email.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-
-		CustomerHandler ch = new CustomerHandler();
-		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
-				membershipStatus);
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("999-999-9999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
+		cb.close();
 		
 		// Create a workout
 		String name = "testWorkout123456";
@@ -737,22 +736,20 @@ public class TrainerHandlerTest {
 	
 	@Test
 	public void getWorkoutByCustomerId() throws Exception {
-		// Create a customer
-		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
-		String lName = "Kotian";
-		String email = "ann@email.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-
-		CustomerHandler ch = new CustomerHandler();
-		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
-				membershipStatus);
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("999-999-9999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
+		cb.close();
 		
 		// Create a workout
 		String name = "testWorkout123456";
@@ -775,22 +772,20 @@ public class TrainerHandlerTest {
 	
 	@Test
 	public void unassignWorkout() throws Exception {
-		// Create a customer
-		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
-		String lName = "Kotian";
-		String email = "ann@email.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-
-		CustomerHandler ch = new CustomerHandler();
-		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
-				membershipStatus);
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("999-999-9999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
+		cb.close();
 		
 		// Create a workout
 		String name = "testWorkout123456";
@@ -811,8 +806,9 @@ public class TrainerHandlerTest {
 		th.unassignWorkout(c1.getId(), w.getId());
 		
 		// Verify workout was added
+		CustomerHandler ch = new CustomerHandler();
 		assertEquals("Failled to assign workout to customer", ch.getCustomerById(c1.getId()).getWorkouts().size(), 0);
-
+		ch.close();
 		
 	}
 	

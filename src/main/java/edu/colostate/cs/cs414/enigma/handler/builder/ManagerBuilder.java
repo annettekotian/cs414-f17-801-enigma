@@ -1,4 +1,4 @@
-package edu.colostate.cs.cs414.enigma.builder;
+package edu.colostate.cs.cs414.enigma.handler.builder;
 
 import javax.mail.internet.AddressException;
 

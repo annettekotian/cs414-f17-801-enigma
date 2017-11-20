@@ -24,7 +24,7 @@ import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
 import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
-import edu.colostate.cs.cs414.enigma.builder.TrainerBuilder;
+import edu.colostate.cs.cs414.enigma.handler.builder.TrainerBuilder;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.Customer;

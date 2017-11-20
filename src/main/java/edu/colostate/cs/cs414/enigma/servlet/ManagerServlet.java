@@ -20,8 +20,6 @@ import javax.servlet.http.Part;
 
 import com.google.gson.Gson;
 
-import edu.colostate.cs.cs414.enigma.builder.ManagerBuilder;
-import edu.colostate.cs.cs414.enigma.builder.TrainerBuilder;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
 import edu.colostate.cs.cs414.enigma.entity.Machine;
@@ -37,6 +35,9 @@ import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
 import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
 
 import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
+import edu.colostate.cs.cs414.enigma.handler.builder.CustomerBuilder;
+import edu.colostate.cs.cs414.enigma.handler.builder.ManagerBuilder;
+import edu.colostate.cs.cs414.enigma.handler.builder.TrainerBuilder;
 
 /**
  * Servlet implementation class Manager
@@ -430,22 +431,20 @@ public class ManagerServlet extends HttpServlet {
 		}
 			
 		case "createCustomer": {
-			String firstName = request.getParameter("fName");
-			String lastName = request.getParameter("lName");
-			String phoneNumber = request.getParameter("phone");
-			String email = request.getParameter("email");
-			String streetCustomer = request.getParameter("street");
-			String cityCustomer = request.getParameter("city");
-			String state = request.getParameter("state");
-			String zipcode = request.getParameter("zip");
-			String healthInsurance = request.getParameter("healthInsurance");
-			String membershipStatus = request.getParameter("membershipStatus");
+			CustomerBuilder cb = new CustomerBuilder();
+			cb.setFirstName(request.getParameter("fName"));
+			cb.setLastName(request.getParameter("lName"));
+			cb.setPhoneNumber(request.getParameter("phone"));
+			cb.setEmail(request.getParameter("email"));
+			cb.setStreet(request.getParameter("street"));
+			cb.setCity(request.getParameter("city"));
+			cb.setState(request.getParameter("state"));
+			cb.setZipcode(request.getParameter("zip"));
+			cb.setHealthInsurance(request.getParameter("healthInsurance"));
+			cb.setMembershipStatus(request.getParameter("membershipStatus"));
 			
-			CustomerHandler ch = new CustomerHandler();
 			try {
-				Customer c = ch.createNewCustomer(email, firstName, lastName, phoneNumber, healthInsurance, streetCustomer, 
-						cityCustomer, zipcode, state, membershipStatus);
-				
+				Customer c = cb.createCustomer();				
 				values.put("customer", c);
 				values.put("status", "success");
 				if(c == null) {
@@ -461,30 +460,27 @@ public class ManagerServlet extends HttpServlet {
 			} catch (Exception e) {
 				response.sendError(500, e.toString());
 			} finally {
-				ch.close();
+				cb.close();
 			}
 			
 			break;
 		}
 		
-		case "updateCustomer":  {
-			String firstName = request.getParameter("fName");
-			String lastName = request.getParameter("lName");
-			String phoneNumber = request.getParameter("phone");
-			String email = request.getParameter("email");
-			String streetCustomer = request.getParameter("street");
-			String cityCustomer = request.getParameter("city");
-			String state = request.getParameter("state");
-			String zipcode = request.getParameter("zip");
-			String healthInsurance = request.getParameter("healthInsurance");
-			String membershipStatus = request.getParameter("membershipStatus");
-			int id = Integer.parseInt(request.getParameter("id"));
+		case "updateCustomer":  {			
+			CustomerBuilder cb = new CustomerBuilder();
+			cb.setFirstName(request.getParameter("fName"));
+			cb.setLastName(request.getParameter("lName"));
+			cb.setPhoneNumber(request.getParameter("phone"));
+			cb.setEmail(request.getParameter("email"));
+			cb.setStreet(request.getParameter("street"));
+			cb.setCity(request.getParameter("city"));
+			cb.setState(request.getParameter("state"));
+			cb.setZipcode(request.getParameter("zip"));
+			cb.setHealthInsurance(request.getParameter("healthInsurance"));
+			cb.setMembershipStatus(request.getParameter("membershipStatus"));
 			
-			CustomerHandler ch = new CustomerHandler();
 			try {
-				Customer c = ch.updateCustomer(id, email, firstName, lastName, phoneNumber, healthInsurance, streetCustomer, 
-						cityCustomer, zipcode, state, membershipStatus);
-				
+				Customer c = cb.modifyCustomer(Integer.parseInt(request.getParameter("id")));
 				values.put("customer", c);
 				values.put("status", "success");
 				if(c == null) {
@@ -496,7 +492,7 @@ public class ManagerServlet extends HttpServlet {
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
 			} finally {
-				ch.close();
+				cb.close();
 			}
 			
 			break;
@@ -571,11 +567,10 @@ public class ManagerServlet extends HttpServlet {
 			tb.setUsername(request.getParameter("userName"));
 			tb.setPassword(request.getParameter("password"));
 			tb.setConfirmPassword(request.getParameter("confirmPassword"));
-			tb.setId(Integer.parseInt(request.getParameter("id")));
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			try {
-				tb.modifyTrainer();
+				tb.modifyTrainer(Integer.parseInt(request.getParameter("id")));
 				returnValues.put("rc", "0");
 			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
@@ -601,9 +596,8 @@ public class ManagerServlet extends HttpServlet {
 		case "deleteTrainer": {
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			TrainerBuilder tb = new TrainerBuilder();
-			tb.setId(Integer.parseInt(request.getParameter("id")));
 			try {
-				tb.deleteTrainer();
+				tb.deleteTrainer(Integer.parseInt(request.getParameter("id")));
 				returnValues.put("rc", "0");
 			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");

@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
+import edu.colostate.cs.cs414.enigma.handler.builder.CustomerBuilder;
 
 public class CustomerHandlerTest {
 
@@ -49,21 +50,20 @@ public class CustomerHandlerTest {
 	
 	@Test
 	public void testSearchCustomerByKeyword() throws AddressException {
-
 		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
-		String lName = "Kotian";
-		String email = "ann@email.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-
-		CustomerHandler ch = new CustomerHandler();
-		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
-				membershipStatus);
+		
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName(fName);
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("999-999-9999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
 
 		List<Customer> list = new CustomerHandler().getCustomerByKeyword(fName);
@@ -75,324 +75,287 @@ public class CustomerHandlerTest {
 
 	@Test
 	public void testCreateCustomer() throws AddressException {
-		
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch = new CustomerHandler();
-		Customer persistedC  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		persistedObjects.add(persistedC);
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("999-999-9999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
+		cb.close();
 		
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("id", persistedC.getId());
+		params.put("id", c1.getId());
 		
 		Customer c = (Customer) dao.querySingle("Customer.findById", params);
-		assertTrue(c.getId() == persistedC.getId());
+		assertTrue(c.getId() == c1.getId());
 	}
 	
-	@Test
+	/*@Test
 	public void testCreateDuplicateCustomer() throws AddressException {
-		
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch = new CustomerHandler();
-		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		persistedObjects.add(persistedC1);
-		Customer persistedC2  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		persistedObjects.add(persistedC2);
-		assertTrue(persistedC1.getId() != persistedC2.getId());
-		
-		
-	}
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("999-999-9999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
+		cb.createCustomer();
+	}*/
 	
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoEmail() throws AddressException{
-		
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "";
-		String phone = "99889988834";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch = new CustomerHandler();
-		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("");
+		cb.setPhoneNumber("999-999-9999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
 	}
 	
 	@Test (expected = AddressException.class)
 	public void testCreateCustomerWithInvalidEmail() throws AddressException{
-		
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann";
-		String phone = "99889988834";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch = new CustomerHandler();
-		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		
-		
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann");
+		cb.setPhoneNumber("999-999-9999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoFirstName() throws AddressException{
-		
-		String fName = "";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "99889988834";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch = new CustomerHandler();
-		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("999-999-9999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoLastName() throws AddressException {
-		
-		String fName = "Annette";
-		String lName = "";
-		String  email = "ann@email.com";
-		String phone = "99889988834";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch = new CustomerHandler();
-		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		
-		
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("999-999-9999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoPhone() throws AddressException{
-		
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch = new CustomerHandler();
-		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-	
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithWrongPhoneFormat() throws AddressException{
-		
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "88888888";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch = new CustomerHandler();
-		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		
-		
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("9999999999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoInsurance() throws AddressException{
-		
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "99889988834";
-		String insurance = "";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch = new CustomerHandler();
-		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("9999999999");
+		cb.setHealthInsurance("");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoStreet() throws AddressException{
-		
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "99889988834";
-		String insurance = "Cigna";
-		String street = "";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch = new CustomerHandler();
-		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("9999999999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoCity() throws AddressException {
-		
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "99889988834";
-		String insurance = "Cigna";
-		String street = "";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch = new CustomerHandler();
-		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("9999999999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoState() throws AddressException {
-		
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "99889988834";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch = new CustomerHandler();
-		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("9999999999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoZip() throws AddressException{
-		
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "99889988834";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch = new CustomerHandler();
-		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("9999999999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
 	}
 
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithIncorrectZipFormat() throws AddressException{
-		
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "99889988834";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "88888888";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch = new CustomerHandler();
-		ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("9999999999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("805214566875");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
 	}
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoMembership() throws AddressException{
-		
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "99889988834";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "";
-		
-		CustomerHandler ch = new CustomerHandler();
-		Customer persistedC1  = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("9999999999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("");
+		Customer c1 = cb.createCustomer();
+		persistedObjects.add(c1);
 	}
 	
 	
 	@Test
 	public void testSearchCustomerEmptyKeyword() throws AddressException{
-		
-		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
-		String lName = "Kotian";
-		String email = "ann@email.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-
-		CustomerHandler ch = new CustomerHandler();
-		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
-				membershipStatus);
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("999-999-9999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
-		Customer c2 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
-				membershipStatus);
-		persistedObjects.add(c2);
+
+		cb.setFirstName("asdfasf");
+		Customer c2 = cb.createCustomer();
+		cb.close();
 		
 		List<Customer> list = new CustomerHandler().getCustomerByKeyword("");
 		assertTrue(list.size() >=2);
@@ -400,321 +363,192 @@ public class CustomerHandlerTest {
 	
 	@Test
 	public void testGetCustomerById() throws AddressException{
-		
-		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
-		String lName = "Kotian";
-		String email = "ann@email.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-
-		CustomerHandler ch= new CustomerHandler();
-		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
-				membershipStatus);
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("999-999-9999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
+		cb.close();
 		
-		Customer c2 = ch.getCustomerById(c1.getId());
+		Customer c2 = new CustomerHandler().getCustomerById(c1.getId());
 		assertTrue(c1.getId() == c2.getId());
 	}
 	
 	// ******************* Tests for update customer ***************************/
 	
 	private Customer createCustomer() throws AddressException {
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "annette@gmail.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		
-		CustomerHandler ch= new CustomerHandler();
-		return ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
+		cb.setLastName("Kotian");
+		cb.setEmail("ann@email.com");
+		cb.setPhoneNumber("999-999-9999");
+		cb.setHealthInsurance("Cigna");
+		cb.setStreet("720 City park");
+		cb.setCity("Fort Collins");
+		cb.setState("Colorado");
+		cb.setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		Customer c1 = cb.createCustomer();
+		cb.close();
+		return c1;
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoEmail() throws AddressException {
-		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
 		
-		
+		CustomerBuilder cb = new CustomerBuilder(c1);
+		cb.setEmail("");
+		cb.modifyCustomer(c1.getId());
 	}
+	
 	@Test (expected = AddressException.class)
 	public void testUpdateCustomerWithInvalideEmail() throws AddressException {
-		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		
+		CustomerBuilder cb = new CustomerBuilder(c1);
+		cb.setEmail("asdf");
+		cb.modifyCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoFirstName() throws AddressException{
-		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		String fName = "";
-		String lName = "Kotian";
-		String  email = "annette@gmail.com";
-		String phone = "999-999-9999";;
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
 		
+		CustomerBuilder cb = new CustomerBuilder(c1);
+		cb.setFirstName("");
+		cb.modifyCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoLastName() throws AddressException{
-		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		String fName = "Annette";
-		String lName = "";
-		String  email = "annette@gmail.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
 		
-		
+		CustomerBuilder cb = new CustomerBuilder(c1);
+		cb.setLastName("");
+		cb.modifyCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoPhone() throws AddressException {
-		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "annette@gmail.com";
-		String phone = "";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
+		
+		CustomerBuilder cb = new CustomerBuilder(c1);
+		cb.setPhoneNumber("");
+		cb.modifyCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithInvalidPhone() throws AddressException {
-		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "annette@gmail.com";
-		String phone = "999-9999999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-			
+		
+		CustomerBuilder cb = new CustomerBuilder(c1);
+		cb.setPhoneNumber("5555555555");
+		cb.modifyCustomer(c1.getId());
 	}
 	
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoInsurance() throws AddressException{
-		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "annette@gmail.com";
-		String phone = "999-999-9999";
-		String insurance = "";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(c2);
 		
-		
+		CustomerBuilder cb = new CustomerBuilder(c1);
+		cb.setHealthInsurance("");
+		cb.modifyCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoStreet() throws AddressException{
-		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "annette@gmail.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(c2);
 		
+		CustomerBuilder cb = new CustomerBuilder(c1);
+		cb.setStreet("");
+		cb.modifyCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoCity() throws AddressException {
-		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "annette@gmail.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City Park";
-		String city = "";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(c2);
 		
+		CustomerBuilder cb = new CustomerBuilder(c1);
+		cb.setCity("");
+		cb.modifyCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoState() throws AddressException {
-		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "annette@gmail.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City Park";
-		String city = "Fort Collins";
-		String state = "";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(c2);
 		
+		CustomerBuilder cb = new CustomerBuilder(c1);
+		cb.setState("");
+		cb.modifyCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoZip() throws AddressException{
-		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "annette@gmail.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City Park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "";
-		String membershipStatus = "ACTIVE";
-		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(c2);;
+		
+		CustomerBuilder cb = new CustomerBuilder(c1);
+		cb.setZipcode("");
+		cb.modifyCustomer(c1.getId());
 	}
 
 	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithInvalidZip() throws AddressException{
-		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "annette@gmail.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City Park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "88888888";
-		String membershipStatus = "ACTIVE";
-		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(c2);;
+		
+		CustomerBuilder cb = new CustomerBuilder(c1);
+		cb.setZipcode("5555555555");
+		cb.modifyCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testUpdateCustomerWithNoMembership() throws AddressException {
-		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "annette@gmail.com";
-		String phone = "98765465";
-		String insurance = "Cigna";
-		String street = "720 City Park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "";
-		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertNull(c2);
 		
+		CustomerBuilder cb = new CustomerBuilder(c1);
+		cb.setMembershipStatus("");
+		cb.modifyCustomer(c1.getId());
 	}
 
 	@Test
 	public void testUpdateCustomer() throws AddressException{
-		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		String fName = "Annette123";
-		String lName = "Kotian123";
-		String  email = "annett123e@gmail.com";
-		String phone = "999-999-9999";
-		String insurance = "Blue Cross Blue Shield";
-		String street = "720 City Park123";
-		String city = "Fort Collins123";
-		String state = "California";
-		String zip = "80522";
-		String membershipStatus = "INACTIVE";
-		Customer c2 = new CustomerHandler().updateCustomer(c1.getId(), email, fName, lName, phone, insurance, street, city, zip, state, membershipStatus);
-		assertTrue(c2.getId() == c1.getId()&& c2.getPersonalInformation().getFirstName().equals(fName) && c2.getPersonalInformation().getLastName().equals(lName)
-				&& c2.getPersonalInformation().getEmail().equals(email) && c2.getMembership().getType().equals(membershipStatus) 
-				&& c2.getPersonalInformation().getAddress().getCity().equals(city) && c2.getPersonalInformation().getAddress().getState().getState().equals(state)
-				&& c2.getPersonalInformation().getAddress().getStreet().equals(street) && c2.getPersonalInformation().getAddress().getZipcode().equals(zip)
-				&& c2.getPersonalInformation().getHealthInsurance().getName().equals(insurance));
 		
+		CustomerBuilder cb = new CustomerBuilder(c1);
+		cb.setFirstName("asdfasfdasdf");
+		cb.setLastName("asfasdfas");
+		cb.setEmail("asdfa@email.com");
+		cb.setPhoneNumber("123-456-7890");
+		cb.setHealthInsurance("Java Insurance");
+		cb.setStreet("720 ark");
+		cb.setCity("St. Paul");
+		cb.setState("Minnesota");
+		cb.setZipcode("55555");
+		cb.setMembershipStatus("INACTIVE");
+		cb.modifyCustomer(c1.getId());
 	}
 	
 	
