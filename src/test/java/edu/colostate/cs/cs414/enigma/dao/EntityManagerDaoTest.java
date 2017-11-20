@@ -189,7 +189,7 @@ public class EntityManagerDaoTest {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);
-		Address newAddress = new Address("12345 Ave", "My Town", "55555-5555", colorado);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		dao.persist(newAddress);
 		persistedObjects.add(newAddress);
 	}
@@ -199,9 +199,9 @@ public class EntityManagerDaoTest {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);
-		Address newAddress = new Address("12345 Ave", "My Town", "55555-5555", colorado);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
-		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
 		dao.persist(personalInformation);
 		persistedObjects.add(personalInformation);
 		persistedObjects.add(insurance);
@@ -215,9 +215,9 @@ public class EntityManagerDaoTest {
 		parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);
-		Address newAddress = new Address("12345 Ave", "My Town", "55555-5555", colorado);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
-		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
 		Customer customer = new Customer(personalInformation, membership);
 		dao.persist(customer);
 		persistedObjects.add(customer);
@@ -229,9 +229,9 @@ public class EntityManagerDaoTest {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);
-		Address newAddress = new Address("12345 Ave", "My Town", "55555-5555", colorado);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
-		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
 		parameters = new HashMap<String, Object>();
 		parameters.put("level", "TRAINER");
 		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
@@ -247,9 +247,9 @@ public class EntityManagerDaoTest {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);
-		Address newAddress = new Address("12345 Ave", "My Town", "55555-5555", colorado);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
-		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
 		parameters = new HashMap<String, Object>();
 		parameters.put("level", "MANAGER");
 		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
@@ -276,9 +276,9 @@ public class EntityManagerDaoTest {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);
-		Address newAddress = new Address("12345 Ave", "My Town", "55555-5555", colorado);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
-		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
 		parameters = new HashMap<String, Object>();
 		parameters.put("level", "TRAINER");
 		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
@@ -299,9 +299,9 @@ public class EntityManagerDaoTest {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);
-		Address newAddress = new Address("12345 Ave", "My Town", "55555-5555", colorado);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
-		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
 		parameters = new HashMap<String, Object>();
 		parameters.put("level", "TRAINER");
 		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
@@ -438,7 +438,7 @@ public class EntityManagerDaoTest {
 		State colorado = (State) dao.querySingle("State.findState", parameters);
 		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
-		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
 		Customer customer = new Customer(personalInformation, membership);
 		dao.persist(customer);
 		persistedObjects.add(customer);
@@ -468,7 +468,7 @@ public class EntityManagerDaoTest {
 		State colorado = (State) dao.querySingle("State.findState", parameters);
 		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
-		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "5555555555", insurance, newAddress);
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
 		Customer customer = new Customer(personalInformation, membership);
 		dao.persist(customer);
 		persistedObjects.add(customer);
