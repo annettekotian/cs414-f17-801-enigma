@@ -112,7 +112,7 @@ public class TrainerHandlerTest {
 	}
 	
 	
-	public Trainer createArbitraryTrainer() {
+	public Trainer createArbitraryTrainer() throws AddressException {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);
@@ -131,7 +131,7 @@ public class TrainerHandlerTest {
 	}
 
 	@Test
-	public void addQualification() {
+	public void addQualification() throws AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		int trainerId = trainer.getId();
 		String qualification = "Iron Man";
@@ -143,7 +143,7 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
-	public void removeQualification() {
+	public void removeQualification() throws AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		int trainerId = trainer.getId();
 		String qualification = "Iron Man";
@@ -155,7 +155,7 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
-	public void addWorkHours() throws WorkHoursException {
+	public void addWorkHours() throws WorkHoursException, AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		int trainerId = trainer.getId();
 		
@@ -173,7 +173,7 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
-	public void deleteSingleWorkHours() throws WorkHoursException {
+	public void deleteSingleWorkHours() throws WorkHoursException, AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		int trainerId = trainer.getId();
 		
@@ -242,7 +242,7 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
-	public void searchForTrainer() {
+	public void searchForTrainer() throws AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		TrainerHandler th = new TrainerHandler();
 		List<Trainer> searchTrainers = th.searchTrainers(trainer.getPersonalInformation().getLastName());
@@ -251,7 +251,7 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
-	public void getAllTrainers() {
+	public void getAllTrainers() throws AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		TrainerHandler th = new TrainerHandler();
 		List<Trainer> trainers = th.getAllTrainers();
@@ -260,7 +260,7 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
-	public void getTrainerById() {
+	public void getTrainerById() throws AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		TrainerHandler th = new TrainerHandler();
 		Trainer searchTrainer = th.getTrainerById(trainer.getId());
@@ -269,7 +269,7 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
-	public void getTrainerByUserId() {
+	public void getTrainerByUserId() throws AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		TrainerHandler th = new TrainerHandler();
 		Trainer searchTrainer = th.getTrainerByUserId(trainer.getUser().getId());

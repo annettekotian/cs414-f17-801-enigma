@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.AddressException;
 import javax.persistence.PersistenceException;
 
 import org.junit.After;
@@ -194,7 +195,7 @@ public class EntityManagerDaoTest {
 	}
 	
 	@Test
-	public void persistPersonalInformation() {
+	public void persistPersonalInformation() throws AddressException {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);
@@ -207,7 +208,7 @@ public class EntityManagerDaoTest {
 	}
 	
 	@Test
-	public void persistCustomer() {
+	public void persistCustomer() throws AddressException {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("type", "INACTIVE");
 		Membership membership = (Membership) dao.querySingle("Membership.findType", parameters);
@@ -224,7 +225,7 @@ public class EntityManagerDaoTest {
 	}
 	
 	@Test
-	public void persistTrainer() {
+	public void persistTrainer() throws AddressException {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);
@@ -242,7 +243,7 @@ public class EntityManagerDaoTest {
 	}
 	
 	@Test
-	public void persistManager() {
+	public void persistManager() throws AddressException {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);
@@ -260,7 +261,7 @@ public class EntityManagerDaoTest {
 	}
 	
 	@Test
-	public void getManagerByFirstLastName() {
+	public void getManagerByFirstLastName() throws AddressException {
 		persistManager();
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("firstName", "John");
@@ -271,7 +272,7 @@ public class EntityManagerDaoTest {
 	}
 	
 	@Test
-	public void persistQualification() {
+	public void persistQualification() throws AddressException {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);
@@ -294,7 +295,7 @@ public class EntityManagerDaoTest {
 	}
 	
 	@Test
-	public void persistWorkHours() {
+	public void persistWorkHours() throws AddressException {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);

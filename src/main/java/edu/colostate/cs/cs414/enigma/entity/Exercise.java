@@ -22,7 +22,9 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
+import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
 
 @Entity
 @Table(name="exercise")
@@ -100,6 +102,20 @@ public class Exercise implements Serializable {
 	public void deleteDuration() {
 		this.duration = null;
 	}
+	
+	public void setDuration(int hours, int minutes, int seconds) throws ExerciseDurationException {
+		if(hours != 0 || minutes != 0 || seconds != 0) {
+			if(this.duration == null) {
+				this.duration = new ExerciseDuration(hours, minutes, seconds);
+			} else {
+				this.duration.setHours(hours);
+				this.duration.setMinutes(minutes);
+				this.duration.setSeconds(seconds);
+			}
+		} else {
+			this.duration = null;
+		}
+	}
 
 	public List<ExerciseSet> getSets() {
 		return sets;
@@ -120,6 +136,30 @@ public class Exercise implements Serializable {
 	
 	public void deleteSets() {
 		this.sets.clear();
+	}
+	
+	public void setSets(List<Integer> sets) throws ExerciseSetException {
+		boolean rebuildSets = false;
+		if(this.getSets().size() == sets.size()) {
+			for(int i=0; i<this.getSets().size(); i++) {
+				if(this.getSets().get(i).getRepetitions() != sets.get(i)) {
+					rebuildSets = true;
+					break;
+				}
+			}
+		} else if(sets.size() != 0) {
+			rebuildSets = true;
+		} else {
+			this.deleteSets();
+		}
+		
+		if(rebuildSets) {
+			this.deleteSets();
+			for(int i=0; i<sets.size(); i++) {
+				ExerciseSet set = new ExerciseSet(sets.get(i));
+				this.addSet(set);
+			}
+		}
 	}
 	
 	public String searchString() {

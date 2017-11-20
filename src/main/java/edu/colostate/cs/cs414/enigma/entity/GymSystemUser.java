@@ -1,5 +1,6 @@
 package edu.colostate.cs.cs414.enigma.entity;
 
+import javax.mail.internet.AddressException;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -26,8 +27,8 @@ public abstract class GymSystemUser {
 	private User user;
 
 	public GymSystemUser(PersonalInformation personalInformation, User user) {
-		this.personalInformation = personalInformation;
-		this.user = user;
+		this.setPersonalInformation(personalInformation);
+		this.setUser(user);
 	}
 	
 	protected GymSystemUser() {}
@@ -45,7 +46,23 @@ public abstract class GymSystemUser {
 	}
 
 	public void setPersonalInformation(PersonalInformation personalInformation) {
+		if(personalInformation == null) {
+			throw new IllegalArgumentException("Personal Information cannot be empty");
+		}
 		this.personalInformation = personalInformation;
+	}
+	
+	public void setPersonalInformation(String firstName, String lastName, String phoneNumber, String email,
+			String street, String city, State state, String zipcode, HealthInsurance healthInsurance) throws AddressException {
+		this.getPersonalInformation().setFirstName(firstName);
+		this.getPersonalInformation().setFirstName(lastName);
+		this.getPersonalInformation().setPhoneNumber(phoneNumber);
+		this.getPersonalInformation().setEmail(email);
+		this.getPersonalInformation().getAddress().setStreet(street);
+		this.getPersonalInformation().getAddress().setCity(city);
+		this.getPersonalInformation().getAddress().setZipcode(zipcode);
+		this.getPersonalInformation().getAddress().setState(state);
+		this.getPersonalInformation().setHealthInsurance(healthInsurance);
 	}
 
 	public User getUser() {
@@ -53,7 +70,15 @@ public abstract class GymSystemUser {
 	}
 
 	public void setUser(User user) {
+		if(user == null) {
+			throw new IllegalArgumentException("User cannot be empty");
+		}
 		this.user = user;
+	}
+	
+	public void setUser(String username, String password) {
+		this.getUser().setUsername(username);
+		this.getUser().setPassword(password);
 	}
 
 	@Override

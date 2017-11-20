@@ -44,10 +44,10 @@ public class Address implements Serializable {
 
 	public Address(String street, String city, String zipcode, State state) {
 		super();
-		this.street = street;
-		this.city = city;
-		this.zipcode = zipcode;
-		this.state = state;
+		this.setStreet(street);
+		this.setCity(city);
+		this.setZipcode(zipcode);
+		this.setState(state);
 	}
 
 	public int getId() {
@@ -63,6 +63,9 @@ public class Address implements Serializable {
 	}
 
 	public void setStreet(String street) {
+		if(street == null) {
+			throw new IllegalArgumentException("Street cannot be empty");
+		}
 		this.street = street;
 	}
 
@@ -71,6 +74,9 @@ public class Address implements Serializable {
 	}
 
 	public void setCity(String city) {
+		if(street == null) {
+			throw new IllegalArgumentException("City cannot be empty");
+		}
 		this.city = city;
 	}
 
@@ -79,6 +85,12 @@ public class Address implements Serializable {
 	}
 
 	public void setZipcode(String zipcode) {
+		if(zipcode == null) {
+			throw new IllegalArgumentException("Zipcode cannot be empty");
+		}
+		if(!zipcode.matches("^[0-9]{5}$")) {
+			throw new IllegalArgumentException("Zipcode must be 5 digits");
+		}
 		this.zipcode = zipcode;
 	}
 
@@ -87,6 +99,9 @@ public class Address implements Serializable {
 	}
 
 	public void setState(State state) {
+		if(state == null) {
+			throw new IllegalArgumentException("State cannot be empty");
+		}
 		this.state = state;
 	}
 
