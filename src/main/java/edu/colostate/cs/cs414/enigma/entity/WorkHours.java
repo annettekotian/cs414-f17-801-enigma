@@ -15,6 +15,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
+
 @Entity
 @Table(name="work_hours")
 @NamedQueries({
@@ -40,9 +42,9 @@ public class WorkHours implements Serializable {
 	
 	protected WorkHours() {}
 
-	public WorkHours(Date startDateTime, Date endDateTime) {
-		this.startDateTime = startDateTime;
-		this.endDateTime = endDateTime;
+	public WorkHours(Date startDateTime, Date endDateTime) throws WorkHoursException {
+		this.setEndDateTime(endDateTime);
+		this.setStartDateTime(startDateTime);
 	}
 
 	public int getId() {
@@ -57,7 +59,18 @@ public class WorkHours implements Serializable {
 		return startDateTime;
 	}
 
-	public void setStartDateTime(Date startDateTime) {
+	public void setStartDateTime(Date startDateTime) throws WorkHoursException {
+		// Verify the start date time is not before the current date time
+		Date currentDateTime = new Date();
+		if(startDateTime.compareTo(currentDateTime) < 0) {
+			throw new WorkHoursException("Start date time cannot occur in the past");
+		}
+		
+		// Verify the start date time is before the end date time
+		if(startDateTime.compareTo(this.endDateTime) > 0) {
+			throw new WorkHoursException("Start date time cannot be after end data time");
+		}
+		
 		this.startDateTime = startDateTime;
 	}
 	
@@ -65,7 +78,12 @@ public class WorkHours implements Serializable {
 		return endDateTime;
 	}
 
-	public void setEndDateTime(Date endDateTime) {
+	public void setEndDateTime(Date endDateTime) throws WorkHoursException {
+		// Verify the start date time is not before the current date time
+		Date currentDateTime = new Date();
+		if(endDateTime.compareTo(currentDateTime) < 0) {
+			throw new WorkHoursException("End date time cannot occur in the past");
+		}
 		this.endDateTime = endDateTime;
 	}
 

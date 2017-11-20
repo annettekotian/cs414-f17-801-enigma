@@ -34,6 +34,7 @@ import edu.colostate.cs.cs414.enigma.entity.User;
 import edu.colostate.cs.cs414.enigma.entity.UserLevel;
 import edu.colostate.cs.cs414.enigma.entity.WorkHours;
 import edu.colostate.cs.cs414.enigma.entity.Workout;
+import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
 
 public class EntityManagerDaoTest {
 	
@@ -295,7 +296,7 @@ public class EntityManagerDaoTest {
 	}
 	
 	@Test
-	public void persistWorkHours() throws AddressException {
+	public void persistWorkHours() throws AddressException, WorkHoursException {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);

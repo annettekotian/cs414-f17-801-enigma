@@ -188,17 +188,6 @@ public class TrainerHandler extends GymSystemHandler {
 	
 	public void addWorkHours(int trainerId, Date startDateTime, Date endDateTime) throws WorkHoursException {
 		
-		// Verify the start date time is before the end date time
-		if(startDateTime.compareTo(endDateTime) > 0) {
-			throw new WorkHoursException("Start date time cannot be after end data time");
-		}
-		
-		// Verify the start date time is not before the current date time
-		Date currentDateTime = new Date();
-		if(startDateTime.compareTo(currentDateTime) < 0) {
-			throw new WorkHoursException("Start date time cannot occur in the past");
-		}
-		
 		// Create new work hours
 		WorkHours workHours = new WorkHours(startDateTime, endDateTime);
 		
@@ -315,12 +304,7 @@ public class TrainerHandler extends GymSystemHandler {
 		
 		// Create a new exercise
 		Exercise exercise = new Exercise(name);
-		
-		// Only add a duration if hours, minutes, and seconds are non-null
-		if(durationHours != 0 || durationMinutes != 0 || durationSeconds != 0) {
-			ExerciseDuration duration = new ExerciseDuration(durationHours, durationMinutes, durationSeconds);
-			exercise.setDuration(duration);
-		}
+		exercise.setDuration(durationHours, durationMinutes, durationSeconds);
 		
 		// Only add a machine if the ID is not zero
 		if(machineId > 0) {
@@ -328,17 +312,12 @@ public class TrainerHandler extends GymSystemHandler {
 			exercise.setMachine(machine);
 		}
 		
-		// Persist the new exercise
+		// Persist the new exercise in order for any sets to be added
 		getDao().persist(exercise);
 		
 		// Check to see if repetitions need to be added
-		for(int i=0; i<sets.size(); i++) {
-			ExerciseSet set = new ExerciseSet(sets.get(i));
-			exercise.addSet(set);
-		}
-		if(sets.size() > 0) {
-			getDao().update(exercise);
-		}
+		exercise.setSets(sets);
+		getDao().update(exercise);
 		
 		return exercise;
 	}
