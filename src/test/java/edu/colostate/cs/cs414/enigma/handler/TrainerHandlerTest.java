@@ -323,7 +323,7 @@ public class TrainerHandlerTest {
 		TrainerBuilder tb = new TrainerBuilder();
 		tb.setFirstName("John");
 		tb.setLastName("Doe");
-		tb.setEmail("johndoe");
+		tb.setEmail("johndoe@email.com");
 		tb.setPhoneNumber("555-555-5555");
 		tb.setHealthInsurance("Cigna");
 		tb.setStreet("720 City park");
