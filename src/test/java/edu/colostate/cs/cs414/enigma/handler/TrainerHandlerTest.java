@@ -285,7 +285,7 @@ public class TrainerHandlerTest {
 		tb.setStreet("720 City park");
 		tb.setCity("Fort Collins");
 		tb.setState("Colorado");
-		tb.setZipcode("");
+		tb.setZipcode("55555");
 		tb.setUsername("johndoe");
 		tb.setPassword("password");
 		tb.setConfirmPassword("password");
@@ -329,7 +329,7 @@ public class TrainerHandlerTest {
 		tb.setStreet("720 City park");
 		tb.setCity("Fort Collins");
 		tb.setState("Colorado");
-		tb.setZipcode("");
+		tb.setZipcode("55555");
 		tb.setUsername("johndoe");
 		tb.setPassword("password");
 		tb.setConfirmPassword("password");
