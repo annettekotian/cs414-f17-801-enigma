@@ -71,6 +71,9 @@ public class User implements Serializable {
 		if(username == null) {
 			throw new IllegalArgumentException("Username cannot be empty");
 		}
+		if(username.isEmpty()) {
+			throw new IllegalArgumentException("Username cannot be empty");
+		}
 		this.username = username;
 	}
 

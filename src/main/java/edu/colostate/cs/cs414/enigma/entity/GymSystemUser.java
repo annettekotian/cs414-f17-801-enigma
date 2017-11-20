@@ -51,19 +51,6 @@ public abstract class GymSystemUser {
 		}
 		this.personalInformation = personalInformation;
 	}
-	
-	public void setPersonalInformation(String firstName, String lastName, String phoneNumber, String email,
-			String street, String city, State state, String zipcode, HealthInsurance healthInsurance) throws AddressException {
-		this.getPersonalInformation().setFirstName(firstName);
-		this.getPersonalInformation().setFirstName(lastName);
-		this.getPersonalInformation().setPhoneNumber(phoneNumber);
-		this.getPersonalInformation().setEmail(email);
-		this.getPersonalInformation().getAddress().setStreet(street);
-		this.getPersonalInformation().getAddress().setCity(city);
-		this.getPersonalInformation().getAddress().setZipcode(zipcode);
-		this.getPersonalInformation().getAddress().setState(state);
-		this.getPersonalInformation().setHealthInsurance(healthInsurance);
-	}
 
 	public User getUser() {
 		return user;
@@ -74,11 +61,6 @@ public abstract class GymSystemUser {
 			throw new IllegalArgumentException("User cannot be empty");
 		}
 		this.user = user;
-	}
-	
-	public void setUser(String username, String password) {
-		this.getUser().setUsername(username);
-		this.getUser().setPassword(password);
 	}
 
 	@Override

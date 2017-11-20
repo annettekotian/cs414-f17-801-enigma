@@ -130,8 +130,17 @@ public class TrainerHandler extends GymSystemHandler {
 		State stateEntity = (State) getDao().querySingle("State.findState", stateParams);
 		
 		// Update the trainer entity
-		trainer.setPersonalInformation(firstName, lastName, phoneNumber, email, street, city, stateEntity, zipcode, healthInsuranceEntity);
-		trainer.setUser(username, password);
+		trainer.getPersonalInformation().setFirstName(firstName);
+		trainer.getPersonalInformation().setFirstName(lastName);
+		trainer.getPersonalInformation().setPhoneNumber(phoneNumber);
+		trainer.getPersonalInformation().setEmail(email);
+		trainer.getPersonalInformation().getAddress().setStreet(street);
+		trainer.getPersonalInformation().getAddress().setCity(city);
+		trainer.getPersonalInformation().getAddress().setZipcode(zipcode);
+		trainer.getPersonalInformation().getAddress().setState(stateEntity);
+		trainer.getPersonalInformation().setHealthInsurance(healthInsuranceEntity);
+		trainer.getUser().setUsername(username);
+		trainer.getUser().setPassword(password);
 		
 		// Modify/update the trainers information with the db
 		getDao().update(trainer);
