@@ -17,6 +17,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.colostate.cs.cs414.enigma.builder.TrainerBuilder;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
@@ -64,51 +65,44 @@ public class TrainerHandlerTest {
 	/********* Test for new trainer **************/ 
 	@Test
 	public void presistNewTrainer() throws Exception {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe@email.com";
-		String phone = "555-555-5555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String userName = "johndoe";
-		String password = "password";
-		TrainerHandler th = new TrainerHandler();
-		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+		TrainerBuilder tb = new TrainerBuilder();
+		tb.setFirstName("John");
+		tb.setLastName("Doe");
+		tb.setEmail("johndoe@email.com");
+		tb.setPhoneNumber("555-555-5555");
+		tb.setHealthInsurance("Cigna");
+		tb.setStreet("720 City park");
+		tb.setCity("Fort Collins");
+		tb.setState("Colorado");
+		tb.setZipcode("80521");
+		tb.setUsername("johndoe");
+		tb.setPassword("password");
+		tb.setConfirmPassword("password");
+
+		Trainer newTrainer = tb.createTrainer();
 		persistedObjects.add(newTrainer);
+		tb.close();
 	}
 	
 	@Test(expected = PersistenceException.class)
 	public void presistNewTrainerDuplicateUsername() throws Exception {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe@email.com";
-		String phone = "555-555-5555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String userName = "johndoe";
-		String password = "password";
-		TrainerHandler th = new TrainerHandler();
-		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+		TrainerBuilder tb = new TrainerBuilder();
+		tb.setFirstName("John");
+		tb.setLastName("Doe");
+		tb.setEmail("johndoe@email.com");
+		tb.setPhoneNumber("555-555-5555");
+		tb.setHealthInsurance("Cigna");
+		tb.setStreet("720 City park");
+		tb.setCity("Fort Collins");
+		tb.setState("Colorado");
+		tb.setZipcode("80521");
+		tb.setUsername("johndoe");
+		tb.setPassword("password");
+		tb.setConfirmPassword("password");
+
+		Trainer newTrainer = tb.createTrainer();
 		persistedObjects.add(newTrainer);
-		
-		firstName = "John";
-		lastName = "Doe";
-		email = "johndoe@email.com";
-		phone = "555-555-5555";
-		insurance = "Cigna";
-		street = "720 City park";
-		city = "Fort Collins";
-		state = "Colorado";
-		zip = "80521";
-		userName = "johndoe";
-		password = "password";
-		newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+		newTrainer = tb.createTrainer();
 	}
 	
 	
@@ -192,53 +186,56 @@ public class TrainerHandlerTest {
 	
 	@Test(expected = AddressException.class)
 	public void incorrectEmailAddressFormat() throws Exception {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe";
-		String phone = "555-555-5555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String userName = "johndoe";
-		String password = "password";
-		TrainerHandler th = new TrainerHandler();
-		th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+		TrainerBuilder tb = new TrainerBuilder();
+		tb.setFirstName("John");
+		tb.setLastName("Doe");
+		tb.setEmail("johndoe");
+		tb.setPhoneNumber("555-555-5555");
+		tb.setHealthInsurance("Cigna");
+		tb.setStreet("720 City park");
+		tb.setCity("Fort Collins");
+		tb.setState("Colorado");
+		tb.setZipcode("80521");
+		tb.setUsername("johndoe");
+		tb.setPassword("password");
+		tb.setConfirmPassword("password");
+		tb.createTrainer();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void incorrectZipcodeFormat() throws Exception {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe";
-		String phone = "555-555-5555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "805adsfasdf21";
-		String userName = "johndoe";
-		String password = "password";
-		TrainerHandler th = new TrainerHandler();
-		th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+		TrainerBuilder tb = new TrainerBuilder();
+		tb.setFirstName("John");
+		tb.setLastName("Doe");
+		tb.setEmail("johndoe");
+		tb.setPhoneNumber("555-555-5555");
+		tb.setHealthInsurance("Cigna");
+		tb.setStreet("720 City park");
+		tb.setCity("Fort Collins");
+		tb.setState("Colorado");
+		tb.setZipcode("8052");
+		tb.setUsername("johndoe");
+		tb.setPassword("password");
+		tb.setConfirmPassword("password");
+		tb.createTrainer();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void emptyCreateTrainerParameters() throws Exception {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe";
-		String phone = "555-555-5555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "";
-		String userName = "johndoe";
-		String password = "password";
-		TrainerHandler th = new TrainerHandler();
-		th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+		TrainerBuilder tb = new TrainerBuilder();
+		tb.setFirstName("John");
+		tb.setLastName("Doe");
+		tb.setEmail("johndoe");
+		tb.setPhoneNumber("555-555-5555");
+		tb.setHealthInsurance("Cigna");
+		tb.setStreet("720 City park");
+		tb.setCity("Fort Collins");
+		tb.setState("Colorado");
+		tb.setZipcode("");
+		tb.setUsername("johndoe");
+		tb.setPassword("password");
+		tb.setConfirmPassword("password");
+		tb.createTrainer();
 	}
 	
 	@Test
@@ -279,42 +276,69 @@ public class TrainerHandlerTest {
 	
 	@Test
 	public void modifyTrainer() throws Exception {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe@email.com";
-		String phone = "555-555-5555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String userName = "johndoe";
-		String password = "password";
-		TrainerHandler th = new TrainerHandler();
-		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+		TrainerBuilder tb = new TrainerBuilder();
+		tb.setFirstName("John");
+		tb.setLastName("Doe");
+		tb.setEmail("johndoe");
+		tb.setPhoneNumber("555-555-5555");
+		tb.setHealthInsurance("Cigna");
+		tb.setStreet("720 City park");
+		tb.setCity("Fort Collins");
+		tb.setState("Colorado");
+		tb.setZipcode("");
+		tb.setUsername("johndoe");
+		tb.setPassword("password");
+		tb.setConfirmPassword("password");
+
+		Trainer newTrainer = tb.createTrainer();
 		persistedObjects.add(newTrainer);
-		th.modifyTrainer(newTrainer.getId(), "Bob", lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
-		th.close();
+		
+		tb.setFirstName("Bob");
+		tb.setId(newTrainer.getId());
+		tb.modifyTrainer();
+		tb.close();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void trainerPasswordsDoNotMatch() throws Exception {
+		TrainerBuilder tb = new TrainerBuilder();
+		tb.setFirstName("John");
+		tb.setLastName("Doe");
+		tb.setEmail("johndoe");
+		tb.setPhoneNumber("555-555-5555");
+		tb.setHealthInsurance("Cigna");
+		tb.setStreet("720 City park");
+		tb.setCity("Fort Collins");
+		tb.setState("Colorado");
+		tb.setZipcode("");
+		tb.setUsername("johndoe");
+		tb.setPassword("password");
+		tb.setConfirmPassword("asdfasd");
+
+		Trainer newTrainer = tb.createTrainer();
 	}
 	
 	@Test
 	public void deleteTrainer() throws Exception {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe@email.com";
-		String phone = "555-555-5555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String userName = "johndoe";
-		String password = "password";
-		TrainerHandler th = new TrainerHandler();
-		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+		TrainerBuilder tb = new TrainerBuilder();
+		tb.setFirstName("John");
+		tb.setLastName("Doe");
+		tb.setEmail("johndoe");
+		tb.setPhoneNumber("555-555-5555");
+		tb.setHealthInsurance("Cigna");
+		tb.setStreet("720 City park");
+		tb.setCity("Fort Collins");
+		tb.setState("Colorado");
+		tb.setZipcode("");
+		tb.setUsername("johndoe");
+		tb.setPassword("password");
+		tb.setConfirmPassword("password");
+
+		Trainer newTrainer = tb.createTrainer();
 		persistedObjects.add(newTrainer);
-		th.deleteTrainer(newTrainer.getId());
-		th.close();
+		tb.setId(newTrainer.getId());
+		tb.deleteTrainer();
+		tb.close();
 	}
 	
 	@Test

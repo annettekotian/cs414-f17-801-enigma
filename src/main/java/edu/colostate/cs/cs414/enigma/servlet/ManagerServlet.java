@@ -20,6 +20,8 @@ import javax.servlet.http.Part;
 
 import com.google.gson.Gson;
 
+import edu.colostate.cs.cs414.enigma.builder.ManagerBuilder;
+import edu.colostate.cs.cs414.enigma.builder.TrainerBuilder;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.HealthInsurance;
 import edu.colostate.cs.cs414.enigma.entity.Machine;
@@ -393,23 +395,22 @@ public class ManagerServlet extends HttpServlet {
 			
 		case "createManager": {
 
-			String fName = request.getParameter("fName");
-			String lName = request.getParameter("lName");
-			String uName = request.getParameter("uName");
-			String password = request.getParameter("password");
-			String confirmPassword = request.getParameter("confirmPassword");
-			String email = request.getParameter("email");
-			String phone = request.getParameter("phone");
-			String street = request.getParameter("street");
-			String city = request.getParameter("city");
-			String state = request.getParameter("state");
-			String zip = request.getParameter("zip");
-			String insurance = request.getParameter("insurance");
+			ManagerBuilder mb = new ManagerBuilder();
+			mb.setFirstName(request.getParameter("fName"));
+			mb.setLastName(request.getParameter("lName"));
+			mb.setUsername(request.getParameter("uName"));
+			mb.setPassword(request.getParameter("password"));
+			mb.setConfirmPassword(request.getParameter("confirmPassword"));
+			mb.setEmail(request.getParameter("email"));
+			mb.setPhoneNumber(request.getParameter("phone"));
+			mb.setStreet(request.getParameter("street"));
+			mb.setCity(request.getParameter("city"));
+			mb.setState(request.getParameter("state"));
+			mb.setZipcode(request.getParameter("zip"));
+			mb.setHealthInsurance(request.getParameter("insurance"));
 
-			ManagerHandler mh = new ManagerHandler();
 			try {
-				Manager m = mh.createManager(email, fName, lName, phone, insurance, uName, password, confirmPassword, street, city, zip,
-						state);
+				Manager m = mb.createManager();
 				values.put("manager", m);
 				values.put("status", "success");
 				out.write(new Gson().toJson(values));
@@ -422,7 +423,7 @@ public class ManagerServlet extends HttpServlet {
 			} catch (Exception e) {
 				response.sendError(500, e.toString());
 			} finally {
-				mh.close();
+				mb.close();
 			}
 
 			break;
@@ -517,24 +518,23 @@ public class ManagerServlet extends HttpServlet {
 		}
 		
 		case "createTrainer": {
-			String firstName = request.getParameter("firstName");
-			String lastName = request.getParameter("lastName");
-			String phoneNumber = request.getParameter("phone");
-			String email = request.getParameter("email");
-			String street = request.getParameter("street");
-			String city = request.getParameter("city");
-			String state = request.getParameter("state");
-			String zipcode = request.getParameter("zip");
-			String healthInsurance = request.getParameter("healthInsurance");
-			String userName = request.getParameter("userName");
-			String password = request.getParameter("password");
-			String confirmPassword = request.getParameter("confirmPassword");
+			TrainerBuilder tb = new TrainerBuilder();
+			tb.setFirstName(request.getParameter("firstName"));
+			tb.setLastName(request.getParameter("lastName"));
+			tb.setPhoneNumber(request.getParameter("phone"));
+			tb.setEmail(request.getParameter("email"));
+			tb.setStreet(request.getParameter("street"));
+			tb.setCity(request.getParameter("city"));
+			tb.setState(request.getParameter("state"));
+			tb.setZipcode(request.getParameter("zip"));
+			tb.setHealthInsurance(request.getParameter("healthInsurance"));
+			tb.setUsername(request.getParameter("userName"));
+			tb.setPassword(request.getParameter("password"));
+			tb.setConfirmPassword(request.getParameter("confirmPassword"));
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
-			TrainerHandler th = new TrainerHandler();
 			try {
-				th.createNewTrainer(firstName, lastName, phoneNumber, email,street, city, state,
-						zipcode, healthInsurance, userName, password, confirmPassword);	
+				tb.createTrainer();
 				returnValues.put("rc", "0");
 			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
@@ -549,7 +549,7 @@ public class ManagerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 				return;
 			} finally {
-				th.close();
+				tb.close();
 			}
 			
 			response.setContentType("application/json");
@@ -558,25 +558,24 @@ public class ManagerServlet extends HttpServlet {
 		}
 		
 		case "updateTrainer": {
-			String firstName = request.getParameter("firstName");
-			String lastName = request.getParameter("lastName");
-			String phoneNumber = request.getParameter("phone");
-			String email = request.getParameter("email");
-			String street = request.getParameter("street");
-			String city = request.getParameter("city");
-			String state = request.getParameter("state");
-			String zipcode = request.getParameter("zip");
-			String healthInsurance = request.getParameter("healthInsurance");
-			String userName = request.getParameter("userName");
-			String password = request.getParameter("password");
-			String confirmPassword = request.getParameter("confirmPassword");
-			int trainerId = Integer.parseInt(request.getParameter("id"));
+			TrainerBuilder tb = new TrainerBuilder();
+			tb.setFirstName(request.getParameter("firstName"));
+			tb.setLastName(request.getParameter("lastName"));
+			tb.setPhoneNumber(request.getParameter("phone"));
+			tb.setEmail(request.getParameter("email"));
+			tb.setStreet(request.getParameter("street"));
+			tb.setCity(request.getParameter("city"));
+			tb.setState(request.getParameter("state"));
+			tb.setZipcode(request.getParameter("zip"));
+			tb.setHealthInsurance(request.getParameter("healthInsurance"));
+			tb.setUsername(request.getParameter("userName"));
+			tb.setPassword(request.getParameter("password"));
+			tb.setConfirmPassword(request.getParameter("confirmPassword"));
+			tb.setId(Integer.parseInt(request.getParameter("id")));
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
-			TrainerHandler th = new TrainerHandler();
 			try {
-				th.modifyTrainer(trainerId, firstName, lastName, phoneNumber, email, street,
-						city, state, zipcode, healthInsurance, userName, password, confirmPassword);	
+				tb.modifyTrainer();
 				returnValues.put("rc", "0");
 			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
@@ -591,7 +590,7 @@ public class ManagerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 				return;
 			} finally {
-				th.close();
+				tb.close();
 			}
 			
 			response.setContentType("application/json");
@@ -600,11 +599,11 @@ public class ManagerServlet extends HttpServlet {
 		}
 		
 		case "deleteTrainer": {
-			int trainerId = Integer.parseInt(request.getParameter("id"));
 			Map<String, Object> returnValues = new HashMap<String, Object>();
-			TrainerHandler th = new TrainerHandler();
+			TrainerBuilder tb = new TrainerBuilder();
+			tb.setId(Integer.parseInt(request.getParameter("id")));
 			try {
-				th.deleteTrainer(trainerId);
+				tb.deleteTrainer();
 				returnValues.put("rc", "0");
 			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
@@ -613,7 +612,7 @@ public class ManagerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 				return;
 			} finally {
-				th.close();
+				tb.close();
 			}
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));

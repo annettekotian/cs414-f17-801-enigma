@@ -24,6 +24,7 @@ import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
 import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
+import edu.colostate.cs.cs414.enigma.builder.TrainerBuilder;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
@@ -32,121 +33,6 @@ import edu.colostate.cs.cs414.enigma.entity.ExerciseDuration;
 import edu.colostate.cs.cs414.enigma.entity.ExerciseSet;
 
 public class TrainerHandler extends GymSystemHandler {
-	
-	/**
-	 * Manager specific function to create a new trainer.
-	 * @param firstName First name of trainer.
-	 * @param lastName Last name of the trainer.
-	 * @param phoneNumber Phone number of trainer.
-	 * @param email Email of trainer.
-	 * @param street Street of the trainer.
-	 * @param city City of the trainer.
-	 * @param state State of the trainer.
-	 * @param zipcode Zipcode of the trainer.
-	 * @param healthInsurance Health insurance of the trainer.
-	 * @param userName Unique user name of the trainer.
-	 * @param password Password of the trainer.
-	 * @param confirmPassword Password of the trainer.
-	 * @return Trainer
-	 * @throws PersistenceException
-	 */
-	public Trainer createNewTrainer(String firstName, String lastName, String phoneNumber, String email, String street,
-			String city, String state, String zipcode, String healthInsurance, String userName, String password,
-			String confirmPassword) throws PersistenceException, AddressException, IllegalArgumentException {
-		
-		// Get a state entity/object
-		Map<String, Object> stateParams = new HashMap<String, Object>();
-		stateParams.put("state", state);
-		State stateEntity = (State) getDao().querySingle("State.findState", stateParams);
-		
-		// Create an address for the new trainer
-		Address addressEntity = new Address(street, city, zipcode, stateEntity);
-		
-		// Attempt to get a healthInsurance object
-		Map<String, Object> healthInsuranceParams = new HashMap<String, Object>();
-		healthInsuranceParams.put("name", healthInsurance);
-		HealthInsurance healthInsuranceEntity = (HealthInsurance) getDao().querySingle("HealthInsurance.findByName", healthInsuranceParams);
-		if(healthInsuranceEntity == null) {
-			healthInsuranceEntity = new HealthInsurance(healthInsurance);
-		}
-		
-		// Create a personalInformation for the new trainer
-		PersonalInformation personalInformationEntity = new PersonalInformation(email, firstName, lastName, phoneNumber,
-				healthInsuranceEntity, addressEntity);
-		
-		// Get the trainer userLevel object for the new trainer
-		Map<String, Object> userLevelParams = new HashMap<String, Object>();
-		userLevelParams.put("level", "TRAINER");
-		UserLevel userLevelEntity = (UserLevel) getDao().querySingle("UserLevel.findLevel", userLevelParams);
-		
-		// Create a user for the new trainer
-		User userEntity = new User(userName, password, userLevelEntity);
-		
-		// Create the new trainer
-		Trainer trainer = new Trainer(personalInformationEntity, userEntity);
-		
-		// Persist the new trainers information with the db
-		getDao().persist(trainer);
-		
-		return trainer;
-	}
-	
-	/**
-	 * Modify a trainer based of a specific trainer ID.
-	 * @param id ID of trainer to be modified.
-	 * @param firstName Modified first name of trainer.
-	 * @param lastName Modified last name of the trainer.
-	 * @param phoneNumber Modified phone number of trainer.
-	 * @param email Modified email of trainer.
-	 * @param street Modified street of the trainer.
-	 * @param city Modified city of the trainer.
-	 * @param state Modified state of the trainer.
-	 * @param zipcode Modified zipcode of the trainer.
-	 * @param healthInsurance Modified health insurance of the trainer.
-	 * @param userName Modified unique user name of the trainer.
-	 * @param password Modified password of the trainer.
-	 * @return Trainer
-	 * @throws PersistenceException
-	 */
-	public Trainer modifyTrainer(int id, String firstName, String lastName, String phoneNumber, String email,
-			String street, String city, String state, String zipcode, String healthInsurance, String username,
-			String password, String confirmPassword) throws PersistenceException, AddressException, IllegalArgumentException {
-		
-		// Get the trainer entity to be updated
-		Trainer trainer = this.getTrainerById(id);
-		
-		// Need to get or create health insurance object
-		Map<String, Object> healthInsuranceParams = new HashMap<String, Object>();
-		healthInsuranceParams.put("name", healthInsurance);
-		HealthInsurance healthInsuranceEntity = (HealthInsurance) getDao().querySingle("HealthInsurance.findByName", healthInsuranceParams);
-		if(healthInsuranceEntity == null) {
-			healthInsuranceEntity = new HealthInsurance(healthInsurance);
-			getDao().persist(healthInsuranceEntity);
-		}
-		
-		// Need to get state object
-		Map<String, Object> stateParams = new HashMap<String, Object>();
-		stateParams.put("state", state);
-		State stateEntity = (State) getDao().querySingle("State.findState", stateParams);
-		
-		// Update the trainer entity
-		trainer.getPersonalInformation().setFirstName(firstName);
-		trainer.getPersonalInformation().setFirstName(lastName);
-		trainer.getPersonalInformation().setPhoneNumber(phoneNumber);
-		trainer.getPersonalInformation().setEmail(email);
-		trainer.getPersonalInformation().getAddress().setStreet(street);
-		trainer.getPersonalInformation().getAddress().setCity(city);
-		trainer.getPersonalInformation().getAddress().setZipcode(zipcode);
-		trainer.getPersonalInformation().getAddress().setState(stateEntity);
-		trainer.getPersonalInformation().setHealthInsurance(healthInsuranceEntity);
-		trainer.getUser().setUsername(username);
-		trainer.getUser().setPassword(password);
-		
-		// Modify/update the trainers information with the db
-		getDao().update(trainer);
-		
-		return trainer;
-	}
 	
 	private Qualification getQualificationByName(String name) {
 		// Attempt to get the Qualification entity from the DB
@@ -281,22 +167,6 @@ public class TrainerHandler extends GymSystemHandler {
 			}
 		}
 		return matchedTrainers;
-	}
-	
-	/**
-	 * Delete a trainer based on a specific trainer ID.
-	 * @param id ID of trainer to be deleted.
-	 */
-	public void deleteTrainer(int id) {
-		
-		// Get the trainer entity to be updated
-		Map<String, Object> trainerParams = new HashMap<String, Object>();
-		trainerParams.put("id", id);
-		Trainer trainer = (Trainer) getDao().querySingle("Trainer.findById", trainerParams);
-		trainer.removeAllWorkHours();
-		
-		// Delete the trainer
-		getDao().remove(trainer);
 	}
 	
 	public Exercise createExercise(String name, int machineId, int durationHours, int durationMinutes,

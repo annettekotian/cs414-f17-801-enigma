@@ -66,6 +66,9 @@ public class Address implements Serializable {
 		if(street == null) {
 			throw new IllegalArgumentException("Street cannot be empty");
 		}
+		if(street.isEmpty()) {
+			throw new IllegalArgumentException("Street cannot be empty");
+		}
 		this.street = street;
 	}
 
@@ -74,7 +77,10 @@ public class Address implements Serializable {
 	}
 
 	public void setCity(String city) {
-		if(street == null) {
+		if(city == null) {
+			throw new IllegalArgumentException("City cannot be empty");
+		}
+		if(city.isEmpty()) {
 			throw new IllegalArgumentException("City cannot be empty");
 		}
 		this.city = city;
