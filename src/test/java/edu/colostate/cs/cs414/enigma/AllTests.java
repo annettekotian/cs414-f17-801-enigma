@@ -9,10 +9,11 @@ import edu.colostate.cs.cs414.enigma.handler.CustomerHandlerTest;
 import edu.colostate.cs.cs414.enigma.handler.LoginHandlerTest;
 import edu.colostate.cs.cs414.enigma.handler.ManagerHandlerTest;
 import edu.colostate.cs.cs414.enigma.handler.SystemHandlerTest;
+import edu.colostate.cs.cs414.enigma.handler.TrainerHandlerTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ManagerHandlerTest.class, EntityManagerDaoTest.class, CustomerHandlerTest.class, 
-	LoginHandlerTest.class, SystemHandlerTest.class})
+	LoginHandlerTest.class, SystemHandlerTest.class, TrainerHandlerTest.class})
 public class AllTests {
 
 }
