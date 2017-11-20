@@ -1,5 +1,6 @@
 package edu.colostate.cs.cs414.enigma.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,9 @@ import javax.persistence.Table;
 			+ " JOIN w.exercises e where w.name LIKE :keyword or e.name LIKE :keyword"
 			+ " OR e.id LIKE :keyword")
 })
-public class Workout {
+public class Workout implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
