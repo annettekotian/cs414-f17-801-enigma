@@ -310,8 +310,8 @@ public class EntityManagerDaoTest {
 		Trainer trainer = new Trainer(personalInformation, user);
 		dao.persist(trainer);
 		
-		Date startDateTime = new Date(117, 9, 1, 12, 30, 00);
-		Date endDateTime = new Date(117, 9, 1, 120, 30, 00);
+		Date startDateTime = new Date(127, 9, 1, 12, 30, 00);
+		Date endDateTime = new Date(127, 9, 1, 120, 30, 00);
 		WorkHours workHours = new WorkHours(startDateTime, endDateTime);
 		try {
 			trainer.addWorkHours(workHours);
