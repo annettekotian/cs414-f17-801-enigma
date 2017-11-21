@@ -216,8 +216,7 @@ public class PersonalInformation implements Serializable {
 
 	@Override
 	public String toString() {
-		return "PersonalInformation [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", phoneNumber=" + phoneNumber + ", healthInsurance=" + healthInsurance + ", address="
-				+ address + "]";
+		return "" + email + " " + firstName + " " + lastName + " " + phoneNumber
+				+ " " + healthInsurance + " " + address;
 	}
 }

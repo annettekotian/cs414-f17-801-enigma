@@ -95,36 +95,7 @@ public class Trainer extends GymSystemUser implements Serializable {
 	}
 	
 	public String searchString() {
-		String email = this.getPersonalInformation().getEmail();
-		String firstName = this.getPersonalInformation().getFirstName();
-		String lastName = this.getPersonalInformation().getLastName();
-		String phoneNumber = this.getPersonalInformation().getPhoneNumber();
-		String address = this.getPersonalInformation().getAddress().getStreet()
-				+ " " + this.getPersonalInformation().getAddress().getCity()
-				+ ", " + this.getPersonalInformation().getAddress().getState().getStateAbbrev()
-				+ " " + this.getPersonalInformation().getAddress().getZipcode();
-		String healthInsurance = this.getPersonalInformation().getHealthInsurance().getName();
-		String qualifications = "";
-		for(int i=0; i<this.getQualifications().size(); i++) {
-			if(i == 0) {
-				qualifications += this.getQualifications().get(i);
-			}
-			else {
-				qualifications += " " + this.getQualifications().get(i);
-			}
-		}	
-		String workHours = "";
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy h:mm:ss aaa");
-		for(int i=0; i<this.getWorkHours().size(); i++) {
-			if(i == 0) {
-				workHours += dateFormat.format(this.getWorkHours().get(i).getStartDateTime()) + " - " + dateFormat.format(this.getWorkHours().get(i).getEndDateTime());
-			}
-			else {
-				workHours += " " + dateFormat.format(this.getWorkHours().get(i).getStartDateTime()) + " - " + dateFormat.format(this.getWorkHours().get(i).getEndDateTime());
-			}
-		}
-		
-		return email + firstName + lastName + phoneNumber + address + healthInsurance + qualifications + workHours;
+		return this.toString();
 	}
 
 	@Override
@@ -160,6 +131,15 @@ public class Trainer extends GymSystemUser implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Trainer [qualifications=" + qualifications + ", workHours=" + workHours + "] " + super.toString();
+		String toString = this.getPersonalInformation().toString();
+		for(int i=0; i<this.getQualifications().size(); i++) {
+			toString += " " + this.getQualifications().get(i).toString();
+		}
+		for(int i=0; i<this.getWorkHours().size(); i++) {
+
+			toString += " " + this.getWorkHours().get(i).toString();
+		}
+		toString += " " + this.getId();
+		return toString;
 	}
 }

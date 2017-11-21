@@ -1,6 +1,7 @@
 package edu.colostate.cs.cs414.enigma.entity;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -134,7 +135,8 @@ public class WorkHours implements Serializable {
 
 	@Override
 	public String toString() {
-		return "WorkHours [id=" + id + ", startDateTime=" + startDateTime + ", endDateTime=" + endDateTime
-				+ ", trainerId=" + trainerId + "]";
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy h:mm:ss aaa");
+		String workHours = dateFormat.format(this.getStartDateTime()) + " - " + dateFormat.format(this.getEndDateTime());
+		return workHours;
 	}
 }

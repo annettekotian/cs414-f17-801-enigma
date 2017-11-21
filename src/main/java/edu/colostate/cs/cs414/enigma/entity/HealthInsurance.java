@@ -91,6 +91,6 @@ public class HealthInsurance implements Serializable {
 
 	@Override
 	public String toString() {
-		return "HealthInsurance [id=" + id + ", description=" + name + "]";
+		return name;
 	}
 }

@@ -159,7 +159,6 @@ public class Address implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Address [id=" + id + ", street=" + street + ", town=" + city + ", zipcode=" + zipcode + ", state="
-				+ state + "]";
+		return "" + street + " " + city + ", " + state.getStateAbbrev() + " " + zipcode;
 	}
 }
