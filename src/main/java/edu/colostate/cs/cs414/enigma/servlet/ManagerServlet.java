@@ -537,10 +537,10 @@ public class ManagerServlet extends HttpServlet {
 				returnValues.put("msg", e.getCause().getCause().toString());
 			} catch(AddressException e) {
 				returnValues.put("rc", "1");
-				returnValues.put("msg", e);
+				returnValues.put("msg", e.getMessage());
 			} catch(IllegalArgumentException e) {
 				returnValues.put("rc", "1");
-				returnValues.put("msg", e);
+				returnValues.put("msg", e.getMessage());
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
 				return;
