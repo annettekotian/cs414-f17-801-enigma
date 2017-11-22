@@ -85,7 +85,7 @@ public abstract class PersonalInformationBuilder extends GymSystemHandler {
 		return personalInformationEntity;
 	}
 	
-	protected void modifyPersonalInformation(PersonalInformation info) throws AddressException {
+	protected void updatePersonalInformation(PersonalInformation info) throws AddressException {
 		// Need to get state object
 		Map<String, Object> stateParams = new HashMap<String, Object>();
 		stateParams.put("state", this.state);

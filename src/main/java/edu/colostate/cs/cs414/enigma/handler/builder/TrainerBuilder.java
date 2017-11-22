@@ -32,8 +32,8 @@ public class TrainerBuilder extends GymSystemUserBuilder {
 		return trainer;
 	}
 	
-	public Trainer modifyTrainer(int trainerId) throws AddressException {
-		return (Trainer) this.modifyGymSystemUser(this.getTrainer(trainerId));
+	public Trainer updateTrainer(int trainerId) throws AddressException {
+		return (Trainer) this.updateGymSystemUser(this.getTrainer(trainerId));
 	}
 
 	public void deleteTrainer(int trainerId) {

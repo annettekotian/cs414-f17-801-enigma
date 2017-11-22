@@ -57,9 +57,9 @@ public class CustomerBuilder extends PersonalInformationBuilder {
 		return customer;
 	}
 	
-	public Customer modifyCustomer(int customerId) throws AddressException {
+	public Customer updateCustomer(int customerId) throws AddressException {
 		Customer customer = this.getCustomer(customerId);
-		this.modifyPersonalInformation(customer.getPersonalInformation());
+		this.updatePersonalInformation(customer.getPersonalInformation());
 		customer.setMembership(this.getMembership());
 		this.getDao().persist(customer);
 		return customer;

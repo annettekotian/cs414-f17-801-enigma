@@ -459,7 +459,7 @@ public class ManagerHandlerTest {
 		String name = "";
 		String quantity = "4";
 		String uploadPath = System.getProperty("user.home");
-		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+		Machine m = new ManagerHandler().createMachine(name, in, uploadPath, quantity);
 	}
 	
 	
@@ -469,7 +469,7 @@ public class ManagerHandlerTest {
 		String name = "Machine1234";
 		String quantity = "";
 		String uploadPath = System.getProperty("user.home");
-		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+		Machine m = new ManagerHandler().createMachine(name, in, uploadPath, quantity);
 	}
 	
 	
@@ -480,7 +480,7 @@ public class ManagerHandlerTest {
 		String name = "Machine1234";
 		String quantity = "4";
 		String uploadPath = System.getProperty("user.home");
-		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+		Machine m = new ManagerHandler().createMachine(name, in, uploadPath, quantity);
 	}
 	
 	
@@ -490,7 +490,7 @@ public class ManagerHandlerTest {
 		String name = "Machine1234";
 		String quantity = "4";
 		String uploadPath = "";
-		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+		Machine m = new ManagerHandler().createMachine(name, in, uploadPath, quantity);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -499,7 +499,7 @@ public class ManagerHandlerTest {
 		String name = "Machine1234";
 		String quantity = "4";
 		String uploadPath = System.getProperty("user.home");
-		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+		Machine m = new ManagerHandler().createMachine(name, in, uploadPath, quantity);
 	}
 	
 	

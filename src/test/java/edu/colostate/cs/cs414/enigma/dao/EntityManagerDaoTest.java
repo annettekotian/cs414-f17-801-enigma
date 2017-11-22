@@ -335,7 +335,7 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void persistNewMachine() throws Exception {
-		Machine machine = new Machine("Treadmill", "/images/treadmill.png", 1);
+		Machine machine = new Machine("Treadmill123456", "/images/treadmill.png", 1);
 		dao.persist(machine);
 		persistedObjects.add(machine);
 	}
@@ -349,7 +349,7 @@ public class EntityManagerDaoTest {
 	
 	@Test
 	public void persistNewExerciseMachine() throws Exception {
-		Machine machine = new Machine("Treadmill", "/images/treadmill.png", 1);
+		Machine machine = new Machine("Treadmill123456", "/images/treadmill.png", 1);
 		Exercise exercise = new Exercise("Push-ups");
 		exercise.setMachine(machine);
 		dao.persist(exercise);

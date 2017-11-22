@@ -84,7 +84,7 @@ public class ManagerHandler extends GymSystemHandler {
 	 * @throws IOException
 	 * @throws MachineException
 	 */
-	public Machine addMachine(String name, InputStream fileContent, String uploadPath, String quantity) throws IOException, MachineException {
+	public Machine createMachine(String name, InputStream fileContent, String uploadPath, String quantity) throws IOException, MachineException {
 		
 		// validations
 		if(name.isEmpty() || fileContent == null || fileContent.available()==0 || uploadPath.isEmpty() || quantity.isEmpty()) {
@@ -185,7 +185,7 @@ public class ManagerHandler extends GymSystemHandler {
 	}
 
 	
-	public void removeMachine(String id, String uploadPath) {
+	public void deleteMachine(String id, String uploadPath) {
 		int mId = Integer.parseInt(id);
 		
 		HashMap<String, Object> params = new HashMap<>();

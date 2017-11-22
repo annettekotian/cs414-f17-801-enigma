@@ -341,7 +341,7 @@ public class ManagerServlet extends HttpServlet {
 			String uploadPath = getServletContext().getInitParameter("path_to_upload");
 			ManagerHandler mh = new ManagerHandler();
 			try {
-				Machine m = mh.addMachine(request.getParameter("machineName"), content, uploadPath,
+				Machine m = mh.createMachine(request.getParameter("machineName"), content, uploadPath,
 						request.getParameter("machineQuantity"));
 				values.put("machine", m);
 				out.println(new Gson().toJson(values));
@@ -383,7 +383,7 @@ public class ManagerServlet extends HttpServlet {
 			ManagerHandler mh = new ManagerHandler();
 			String uploadPath = getServletContext().getInitParameter("path_to_upload");
 			try {
-				mh.removeMachine(request.getParameter("id"), uploadPath);
+				mh.deleteMachine(request.getParameter("id"), uploadPath);
 				values.put("status", "success");
 				out.write(new Gson().toJson(values));
 			} catch (Exception e) {
@@ -480,7 +480,7 @@ public class ManagerServlet extends HttpServlet {
 			cb.setMembershipStatus(request.getParameter("membershipStatus"));
 			
 			try {
-				Customer c = cb.modifyCustomer(Integer.parseInt(request.getParameter("id")));
+				Customer c = cb.updateCustomer(Integer.parseInt(request.getParameter("id")));
 				values.put("customer", c);
 				values.put("status", "success");
 				if(c == null) {
@@ -502,7 +502,7 @@ public class ManagerServlet extends HttpServlet {
 			String cId = request.getParameter("id");
 			CustomerHandler ch = new CustomerHandler();
 			try {
-				ch.removeCustomer(cId);
+				ch.deleteCustomer(cId);
 				values.put("status", "success");
 				out.write(new Gson().toJson(values));
 			} catch(Exception e) {
@@ -570,7 +570,7 @@ public class ManagerServlet extends HttpServlet {
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			try {
-				tb.modifyTrainer(Integer.parseInt(request.getParameter("id")));
+				tb.updateTrainer(Integer.parseInt(request.getParameter("id")));
 				returnValues.put("rc", "0");
 			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");

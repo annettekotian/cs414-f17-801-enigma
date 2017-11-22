@@ -355,6 +355,7 @@ public class CustomerHandlerTest {
 
 		cb.setFirstName("asdfasf");
 		Customer c2 = cb.createCustomer();
+		persistedObjects.add(c2);
 		cb.close();
 		
 		List<Customer> list = new CustomerHandler().getCustomerByKeyword("");
@@ -408,7 +409,7 @@ public class CustomerHandlerTest {
 		
 		CustomerBuilder cb = new CustomerBuilder(c1);
 		cb.setEmail("");
-		cb.modifyCustomer(c1.getId());
+		cb.updateCustomer(c1.getId());
 	}
 	
 	@Test (expected = AddressException.class)
@@ -418,7 +419,7 @@ public class CustomerHandlerTest {
 		
 		CustomerBuilder cb = new CustomerBuilder(c1);
 		cb.setEmail("asdf");
-		cb.modifyCustomer(c1.getId());
+		cb.updateCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -428,7 +429,7 @@ public class CustomerHandlerTest {
 		
 		CustomerBuilder cb = new CustomerBuilder(c1);
 		cb.setFirstName("");
-		cb.modifyCustomer(c1.getId());
+		cb.updateCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -438,7 +439,7 @@ public class CustomerHandlerTest {
 		
 		CustomerBuilder cb = new CustomerBuilder(c1);
 		cb.setLastName("");
-		cb.modifyCustomer(c1.getId());
+		cb.updateCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -448,7 +449,7 @@ public class CustomerHandlerTest {
 		
 		CustomerBuilder cb = new CustomerBuilder(c1);
 		cb.setPhoneNumber("");
-		cb.modifyCustomer(c1.getId());
+		cb.updateCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -458,7 +459,7 @@ public class CustomerHandlerTest {
 		
 		CustomerBuilder cb = new CustomerBuilder(c1);
 		cb.setPhoneNumber("5555555555");
-		cb.modifyCustomer(c1.getId());
+		cb.updateCustomer(c1.getId());
 	}
 	
 	
@@ -469,7 +470,7 @@ public class CustomerHandlerTest {
 		
 		CustomerBuilder cb = new CustomerBuilder(c1);
 		cb.setHealthInsurance("");
-		cb.modifyCustomer(c1.getId());
+		cb.updateCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -479,7 +480,7 @@ public class CustomerHandlerTest {
 		
 		CustomerBuilder cb = new CustomerBuilder(c1);
 		cb.setStreet("");
-		cb.modifyCustomer(c1.getId());
+		cb.updateCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -489,7 +490,7 @@ public class CustomerHandlerTest {
 		
 		CustomerBuilder cb = new CustomerBuilder(c1);
 		cb.setCity("");
-		cb.modifyCustomer(c1.getId());
+		cb.updateCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -499,7 +500,7 @@ public class CustomerHandlerTest {
 		
 		CustomerBuilder cb = new CustomerBuilder(c1);
 		cb.setState("");
-		cb.modifyCustomer(c1.getId());
+		cb.updateCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -509,7 +510,7 @@ public class CustomerHandlerTest {
 		
 		CustomerBuilder cb = new CustomerBuilder(c1);
 		cb.setZipcode("");
-		cb.modifyCustomer(c1.getId());
+		cb.updateCustomer(c1.getId());
 	}
 
 	@Test (expected = IllegalArgumentException.class)
@@ -519,7 +520,7 @@ public class CustomerHandlerTest {
 		
 		CustomerBuilder cb = new CustomerBuilder(c1);
 		cb.setZipcode("5555555555");
-		cb.modifyCustomer(c1.getId());
+		cb.updateCustomer(c1.getId());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -529,7 +530,7 @@ public class CustomerHandlerTest {
 		
 		CustomerBuilder cb = new CustomerBuilder(c1);
 		cb.setMembershipStatus("");
-		cb.modifyCustomer(c1.getId());
+		cb.updateCustomer(c1.getId());
 	}
 
 	@Test
@@ -548,7 +549,7 @@ public class CustomerHandlerTest {
 		cb.setState("Minnesota");
 		cb.setZipcode("55555");
 		cb.setMembershipStatus("INACTIVE");
-		cb.modifyCustomer(c1.getId());
+		cb.updateCustomer(c1.getId());
 	}
 	
 	
@@ -557,7 +558,7 @@ public class CustomerHandlerTest {
 		
 		Customer c1 = createCustomer();
 		persistedObjects.add(c1);
-		new CustomerHandler().removeCustomer(Integer.toString(c1.getId()));
+		new CustomerHandler().deleteCustomer(Integer.toString(c1.getId()));
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("id", c1.getId());
 		Customer c = (Customer) dao.querySingle("Customer.findById", params);

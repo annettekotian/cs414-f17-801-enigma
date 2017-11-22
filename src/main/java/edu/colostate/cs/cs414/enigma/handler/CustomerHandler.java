@@ -62,7 +62,7 @@ public class CustomerHandler extends GymSystemHandler {
 	}
 
 	
-	public void removeCustomer(String id) {
+	public void deleteCustomer(String id) {
 		int cId = Integer.parseInt(id);
 		
 		HashMap<String, Object> params = new HashMap<>();

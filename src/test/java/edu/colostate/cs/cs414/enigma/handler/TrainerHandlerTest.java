@@ -296,7 +296,7 @@ public class TrainerHandlerTest {
 		
 		tb.setFirstName("Bob");
 		tb.setId(newTrainer.getId());
-		tb.modifyTrainer(newTrainer.getId());
+		tb.updateTrainer(newTrainer.getId());
 		tb.close();
 	}
 	
@@ -419,7 +419,7 @@ public class TrainerHandlerTest {
 		Exercise exercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 		
 		int updatedHours = 10;
-		exercise = th.modifyExercise(exercise.getId(), name, machineId, updatedHours, minutes, seconds, repetitions);
+		exercise = th.updateExercise(exercise.getId(), name, machineId, updatedHours, minutes, seconds, repetitions);
 		assertEquals("Failed to update duration", exercise.getDuration().getHours(), updatedHours);
 		
 		th.deleteExercise(exercise.getId());
@@ -444,7 +444,7 @@ public class TrainerHandlerTest {
 		repetitions.add(5);
 		repetitions.add(10);
 		repetitions.add(20);
-		th.modifyExercise(exercise.getId(), name, machineId, hours, minutes, seconds, repetitions);
+		th.updateExercise(exercise.getId(), name, machineId, hours, minutes, seconds, repetitions);
 		
 		
 		th.deleteExercise(exercise.getId());
@@ -466,7 +466,7 @@ public class TrainerHandlerTest {
 		Exercise exercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 		
 		name = "mega push-ups";
-		exercise = th.modifyExercise(exercise.getId(), name, machineId, hours, minutes, seconds, repetitions);
+		exercise = th.updateExercise(exercise.getId(), name, machineId, hours, minutes, seconds, repetitions);
 		assertEquals("Failed to update name", exercise.getName(), name);
 		
 		th.deleteExercise(exercise.getId());
@@ -487,7 +487,7 @@ public class TrainerHandlerTest {
 		TrainerHandler th = new TrainerHandler();
 		Exercise exercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 		
-		exercise = th.modifyExercise(exercise.getId(), name, machineId, 0, 0, 0, repetitions);
+		exercise = th.updateExercise(exercise.getId(), name, machineId, 0, 0, 0, repetitions);
 		assertNull("Failed to delete duration", exercise.getDuration());
 		
 		th.deleteExercise(exercise.getId());
@@ -508,7 +508,7 @@ public class TrainerHandlerTest {
 		TrainerHandler th = new TrainerHandler();
 		Exercise exercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 		
-		exercise = th.modifyExercise(exercise.getId(), name, machineId, hours, minutes, seconds, new ArrayList<Integer>());
+		exercise = th.updateExercise(exercise.getId(), name, machineId, hours, minutes, seconds, new ArrayList<Integer>());
 		assertEquals("Failed to delete sets", exercise.getSets().size(), 0);
 		
 		th.deleteExercise(exercise.getId());

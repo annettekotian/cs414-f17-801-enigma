@@ -52,8 +52,8 @@ public abstract class GymSystemUserBuilder extends PersonalInformationBuilder {
 		return userEntity;
 	}
 	
-	protected GymSystemUser modifyGymSystemUser(GymSystemUser user) throws AddressException {
-		this.modifyPersonalInformation(user.getPersonalInformation());
+	protected GymSystemUser updateGymSystemUser(GymSystemUser user) throws AddressException {
+		this.updatePersonalInformation(user.getPersonalInformation());
 		
 		user.getUser().setUsername(this.username);
 		user.getUser().setPassword(this.password);

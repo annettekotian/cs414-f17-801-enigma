@@ -192,7 +192,7 @@ public class TrainerHandler extends GymSystemHandler {
 		return exercise;
 	}
 	
-	public Exercise modifyExercise(int exerciseId, String name, int machineId, int durationHours, int durationMinutes,
+	public Exercise updateExercise(int exerciseId, String name, int machineId, int durationHours, int durationMinutes,
 			int durationSeconds, List<Integer> sets) throws PersistenceException, ExerciseDurationException, ExerciseSetException, ExerciseException {
 		Exercise exercise = this.getExerciseById(exerciseId);
 		exercise.setName(name);

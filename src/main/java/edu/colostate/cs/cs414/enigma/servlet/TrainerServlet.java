@@ -209,7 +209,7 @@ public class TrainerServlet extends HttpServlet {
 				if(type.equals("createExercise")) {
 					th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 				} else if(type.equals("modifyExercise")) {
-					th.modifyExercise(exerciseId, name, machineId, hours, minutes, seconds, repetitions);
+					th.updateExercise(exerciseId, name, machineId, hours, minutes, seconds, repetitions);
 				}
 				returnValues.put("rc", "0");
 			} catch(PersistenceException e) {
