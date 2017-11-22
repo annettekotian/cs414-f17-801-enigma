@@ -514,80 +514,17 @@ public class ManagerServlet extends HttpServlet {
 		}
 		
 		case "createTrainer": {
-			TrainerBuilder tb = new TrainerBuilder();
-			tb.setFirstName(request.getParameter("firstName"));
-			tb.setLastName(request.getParameter("lastName"));
-			tb.setPhoneNumber(request.getParameter("phone"));
-			tb.setEmail(request.getParameter("email"));
-			tb.setStreet(request.getParameter("street"));
-			tb.setCity(request.getParameter("city"));
-			tb.setState(request.getParameter("state"));
-			tb.setZipcode(request.getParameter("zip"));
-			tb.setHealthInsurance(request.getParameter("healthInsurance"));
-			tb.setUsername(request.getParameter("userName"));
-			tb.setPassword(request.getParameter("password"));
-			tb.setConfirmPassword(request.getParameter("confirmPassword"));
 			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
-			try {
-				tb.createTrainer();
-				returnValues.put("rc", "0");
-			} catch(PersistenceException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getCause().getCause().toString());
-			} catch(AddressException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getMessage());
-			} catch(IllegalArgumentException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getMessage());
-			} catch(Exception e) {
-				response.sendError(500, e.toString());
-				return;
-			} finally {
-				tb.close();
-			}
-			
+			createUpdateTrainer(request, response, "create", returnValues);
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
 			break;
 		}
 		
 		case "updateTrainer": {
-			TrainerBuilder tb = new TrainerBuilder();
-			tb.setFirstName(request.getParameter("firstName"));
-			tb.setLastName(request.getParameter("lastName"));
-			tb.setPhoneNumber(request.getParameter("phone"));
-			tb.setEmail(request.getParameter("email"));
-			tb.setStreet(request.getParameter("street"));
-			tb.setCity(request.getParameter("city"));
-			tb.setState(request.getParameter("state"));
-			tb.setZipcode(request.getParameter("zip"));
-			tb.setHealthInsurance(request.getParameter("healthInsurance"));
-			tb.setUsername(request.getParameter("userName"));
-			tb.setPassword(request.getParameter("password"));
-			tb.setConfirmPassword(request.getParameter("confirmPassword"));
-			
 			Map<String, Object> returnValues = new HashMap<String, Object>();
-			try {
-				tb.updateTrainer(Integer.parseInt(request.getParameter("id")));
-				returnValues.put("rc", "0");
-			} catch(PersistenceException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getCause().getCause().toString());
-			} catch(AddressException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getMessage());
-			} catch(IllegalArgumentException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getMessage());
-			} catch(Exception e) {
-				response.sendError(500, e.toString());
-				return;
-			} finally {
-				tb.close();
-			}
-			
+			createUpdateTrainer(request, response, "update", returnValues);	
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
 			break;
@@ -725,4 +662,51 @@ public class ManagerServlet extends HttpServlet {
 		
 		}
 	}
+	
+	private TrainerBuilder getTrainerBuilderFromRequest(HttpServletRequest request) {
+		TrainerBuilder tb = new TrainerBuilder();
+		tb.setFirstName(request.getParameter("firstName"));
+		tb.setLastName(request.getParameter("lastName"));
+		tb.setPhoneNumber(request.getParameter("phone"));
+		tb.setEmail(request.getParameter("email"));
+		tb.setStreet(request.getParameter("street"));
+		tb.setCity(request.getParameter("city"));
+		tb.setState(request.getParameter("state"));
+		tb.setZipcode(request.getParameter("zip"));
+		tb.setHealthInsurance(request.getParameter("healthInsurance"));
+		tb.setUsername(request.getParameter("userName"));
+		tb.setPassword(request.getParameter("password"));
+		tb.setConfirmPassword(request.getParameter("confirmPassword"));
+		return tb;
+	}
+	
+	private void createUpdateTrainer(HttpServletRequest request, HttpServletResponse response, String type, Map<String, Object> returnValues) throws IOException {
+		TrainerBuilder tb = getTrainerBuilderFromRequest(request);
+		try {
+			if(type.equals("create"))
+			{
+				tb.createTrainer();
+			} else {
+				tb.updateTrainer(Integer.parseInt(request.getParameter("id")));
+			}
+			
+			returnValues.put("rc", "0");
+		} catch(PersistenceException e) {
+			returnValues.put("rc", "1");
+			returnValues.put("msg", e.getCause().getCause().toString());
+		} catch(AddressException e) {
+			returnValues.put("rc", "1");
+			returnValues.put("msg", e.getMessage());
+		} catch(IllegalArgumentException e) {
+			returnValues.put("rc", "1");
+			returnValues.put("msg", e.getMessage());
+		} catch(Exception e) {
+			response.sendError(500, e.toString());
+			return;
+		} finally {
+			tb.close();
+		}
+		
+	}
+	
 }
