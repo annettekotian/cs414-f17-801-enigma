@@ -289,8 +289,8 @@ $("#managerHIList").on("change", function() {
 
 $("#createManagerButton").on("click", function (){
 	var postParams = {};
-	postParams.fName = $("#managerFName").val();
-	postParams.lName = $("#managerLName").val();
+	postParams.firstName = $("#managerFName").val();
+	postParams.lastName = $("#managerLName").val();
 	postParams.uName = $("#managerUName").val();
 	postParams.password = $("#managerPassword").val();
 	postParams.confirmPassword = $("#confirmManagerPassword").val();
@@ -304,9 +304,9 @@ $("#createManagerButton").on("click", function (){
 	
 	var hiIndex = $("#managerHIList").find(":selected").index();
 	if(hiIndex == 0) {
-		postParams.insurance = $("#managerOtherHI").val();
+		postParams.healthInsurance = $("#managerOtherHI").val();
 	} else {
-		postParams.insurance = $("#managerHIList").val();
+		postParams.healthInsurance = $("#managerHIList").val();
 	}
 	
 	if(postParams.password != postParams.confirmPassword) {
@@ -320,8 +320,8 @@ $("#createManagerButton").on("click", function (){
 	}
 	
 	
-	if(!postParams.fName || !postParams.lName || !postParams.uName || !postParams.password || !postParams.email || !postParams.phone 
-			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip || !postParams.insurance) {
+	if(!postParams.firstName || !postParams.lastName || !postParams.uName || !postParams.password || !postParams.email || !postParams.phone 
+			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip || !postParams.healthInsurance) {
 		alert("Could not create manager! Some input fields were missing");
 		return;
 	}
@@ -489,8 +489,8 @@ $("#customerHIList").on("change", function() {
  */
 $("#createCustomerButton").on("click", function (){
 	var postParams = {};
-	postParams.fName = $("#customerFName").val();
-	postParams.lName = $("#customerLName").val();
+	postParams.firstName = $("#customerFName").val();
+	postParams.lastName = $("#customerLName").val();
 	postParams.email = $("#customerEmail").val();
 	postParams.phone = $("#customerPhone").val();
 	postParams.street = $("#customerStreet").val();
@@ -509,7 +509,7 @@ $("#createCustomerButton").on("click", function (){
 	postParams.type = "createCustomer";
 	
 	
-	if(!postParams.fName || !postParams.lName || !postParams.email || !postParams.phone || !postParams.healthInsurance || !postParams.membershipStatus
+	if(!postParams.firstName || !postParams.lastName || !postParams.email || !postParams.phone || !postParams.healthInsurance || !postParams.membershipStatus
 			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip) {
 		alert("Could not create customer! Some input fields were missing");
 		return;
@@ -624,8 +624,8 @@ $(document).on('click', '.editCustomer', function() {
 		//console.log("editCustomerButton called");
 		var postParams = {};
 		postParams.id = CURRENTLY_EDITED_CUSTOMER_ID;
-		postParams.fName = $("#customerFName").val();
-		postParams.lName = $("#customerLName").val();
+		postParams.firstName = $("#customerFName").val();
+		postParams.lastName = $("#customerLName").val();
 		postParams.email = $("#customerEmail").val();
 		postParams.phone = $("#customerPhone").val();
 		postParams.street = $("#customerStreet").val();
@@ -642,7 +642,7 @@ $(document).on('click', '.editCustomer', function() {
 		postParams.type = "updateCustomer";
 		
 		
-		if(!postParams.fName || !postParams.lName || !postParams.email || !postParams.phone || !postParams.healthInsurance || !postParams.membershipStatus
+		if(!postParams.firstName || !postParams.lastName || !postParams.email || !postParams.phone || !postParams.healthInsurance || !postParams.membershipStatus
 				|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip) {
 			alert("Could not edit customer! Some input fields were missing");
 			return;
