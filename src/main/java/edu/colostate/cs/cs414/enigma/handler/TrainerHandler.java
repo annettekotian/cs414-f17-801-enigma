@@ -279,7 +279,7 @@ public class TrainerHandler extends GymSystemHandler {
 	public Workout createWorkout(String name, String[] exerciseNames) throws ExerciseException {
 		
 		//validations
-		if(name.isEmpty() || exerciseNames.length == 0) {
+		if(name.isEmpty() || exerciseNames == null || exerciseNames.length == 0) {
 			throw new IllegalArgumentException("missing input");
 		}
 		

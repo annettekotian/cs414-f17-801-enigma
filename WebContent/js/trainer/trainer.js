@@ -292,7 +292,9 @@ $("#submitWorkout").on("click", function(){
 		error: function(exception) {
 			if(exception.responseText.indexOf("missing input") >=0) {
 				alert("Could not create workout! Some input fields were missing");
-			} else {
+			} else if (exception.responseText.indexOf("ConstraintViolationException") >= 0) {
+				alert("Workout already exists!");
+			}else {
 				alert("Error: " + exception);
 			}
 			
@@ -539,6 +541,8 @@ $("#submitWorkoutChanges").on("click", function(){
 		error: function(exception) {
 			if(exception.responseText.indexOf("missing input") >=0) {
 				alert("Could not create workout! Some input fields were missing");
+			} else if (exception.responseText.indexOf("RollbackException") >= 0) {
+				alert("Workout already exists!");
 			} else {
 				alert("Error: " + exception);
 			}

@@ -13,9 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.Workout;
@@ -203,7 +201,6 @@ public class TrainerServlet extends HttpServlet {
 				}
 			}
 			
-			Map<String, Object> returnValues = new HashMap<String, Object>();
 			TrainerHandler th = new TrainerHandler();
 			try {
 				if(type.equals("createExercise")) {
@@ -211,19 +208,19 @@ public class TrainerServlet extends HttpServlet {
 				} else if(type.equals("modifyExercise")) {
 					th.updateExercise(exerciseId, name, machineId, hours, minutes, seconds, repetitions);
 				}
-				returnValues.put("rc", "0");
+				values.put("rc", "0");
 			} catch(PersistenceException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getCause().getCause().toString());
+				values.put("rc", "1");
+				values.put("msg", e.getCause().getCause().toString());
 			} catch(ExerciseDurationException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getMessage());
+				values.put("rc", "1");
+				values.put("msg", e.getMessage());
 			} catch(ExerciseSetException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getMessage());
+				values.put("rc", "1");
+				values.put("msg", e.getMessage());
 			} catch(ExerciseException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getMessage());
+				values.put("rc", "1");
+				values.put("msg", e.getMessage());
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
 			}
@@ -231,19 +228,18 @@ public class TrainerServlet extends HttpServlet {
 				th.close();
 			}
 			response.setContentType("application/json");
-			out.write(new Gson().toJson(returnValues));
+			out.write(new Gson().toJson(values));
 			
 		} else if(type.equals("deleteExercise")) {
 			int exerciseId = Integer.parseInt(request.getParameter("id"));
 			
-			Map<String, Object> returnValues = new HashMap<String, Object>();
 			TrainerHandler th = new TrainerHandler();
 			try {
 				th.deleteExercise(exerciseId);
-				returnValues.put("rc", "0");
+				values.put("rc", "0");
 			} catch(PersistenceException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getCause().getCause().toString());
+				values.put("rc", "1");
+				values.put("msg", e.getCause().getCause().toString());
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
 			}
@@ -251,60 +247,43 @@ public class TrainerServlet extends HttpServlet {
 				th.close();
 			}
 			response.setContentType("application/json");
-			out.write(new Gson().toJson(returnValues));
+			out.write(new Gson().toJson(values));
 			
-		} else if (type.equals("createWorkout")) {
+		} else if (type.equals("createWorkout") || type.equals("updateWorkout")) {
 			
 			String name = request.getParameter("name");
 			String[] exerciseList = request.getParameterValues("exerciseList[]");
-			Map<String, Object> returnValues = new HashMap<String, Object>();
 			TrainerHandler th = new TrainerHandler();
 			try {
+				Workout w = null;
+				if(type.equals("createWorkout")) {
+					w = th.createWorkout(name, exerciseList);
+				} else {
+					w = th.updateWorkout(request.getParameter("id"), name, exerciseList);
+				}
 				
-				Workout w = th.createWorkout(name, exerciseList);
 				
 				response.setContentType("application/json");
 				out.write(new Gson().toJson(w));
 				out.println();
 			} catch(IllegalArgumentException e) {
 				response.sendError(500, e.toString());
-			}catch (ExerciseException e) {
-				// TODO Auto-generated catch block
+			} catch (ExerciseException e) {
+				response.sendError(500, e.toString());
+			} catch (PersistenceException e) {
+				response.sendError(500, e.toString());
+			} catch (Exception e) {
 				response.sendError(500, e.toString());
 			}finally {
 				th.close();
 			}
 			
 			
-		} else if (type.equals("updateWorkout")) {
-			
-			String id = request.getParameter("id");
-			String name = request.getParameter("name");
-			String[] exerciseList = request.getParameterValues("exerciseList[]");
-			Map<String, Object> returnValues = new HashMap<String, Object>();
-			TrainerHandler th = new TrainerHandler();
-			try {
-				
-				Workout w = th.updateWorkout(id, name, exerciseList);
-				
-				response.setContentType("application/json");
-				out.write(new Gson().toJson(w));
-				out.println();
-			} catch(IllegalArgumentException e) {
-				response.sendError(500, e.toString());
-			}catch (ExerciseException e) {
-				// TODO Auto-generated catch block
-				response.sendError(500, e.toString());
-			}finally {
-				th.close();
-			}
-
 		} else if(type.equals("assignWorkout") || type.equals("unassignWorkout")) {
 			
 			int customerId = Integer.parseInt(request.getParameter("customerId"));
 			int workoutId = Integer.parseInt(request.getParameter("workoutId"));
 
-			Map<String, Object> returnValues = new HashMap<String, Object>();
 			TrainerHandler th = new TrainerHandler();
 			try {
 				if(type.equals("assignWorkout")) {
@@ -312,13 +291,13 @@ public class TrainerServlet extends HttpServlet {
 				} else if(type.equals("unassignWorkout")){
 					th.unassignWorkout(customerId, workoutId);
 				}
-				returnValues.put("rc", "0");
+				values.put("rc", "0");
 			} catch(PersistenceException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getCause().getCause().toString());
+				values.put("rc", "1");
+				values.put("msg", e.getCause().getCause().toString());
 			} catch(IllegalArgumentException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getMessage());
+				values.put("rc", "1");
+				values.put("msg", e.getMessage());
 			} catch(Exception e) {
 				response.sendError(500, e.toString());
 			}
@@ -326,7 +305,7 @@ public class TrainerServlet extends HttpServlet {
 				th.close();
 			}
 			response.setContentType("application/json");
-			out.write(new Gson().toJson(returnValues));
+			out.write(new Gson().toJson(values));
 
 			
 		} else if (type.equals("deleteWorkout")) {
