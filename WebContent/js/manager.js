@@ -930,7 +930,7 @@ $("#editMachineForm").on("submit", function(e){
 		success: function(data){
 			$.modal.close();
 			data = JSON.parse(data);
-			var machine = data.machine
+			var machine = data.machine;
 			
 			var tr = $("#inventoryResults table").find("tr[data-id='" + machine.id+"']");
 			tr.empty();

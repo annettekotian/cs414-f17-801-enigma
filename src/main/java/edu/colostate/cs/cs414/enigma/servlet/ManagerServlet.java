@@ -337,46 +337,12 @@ public class ManagerServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		switch (type) {
 		case "addMachine": {
-			Part part = request.getPart("machinePic");
-			InputStream content = part.getInputStream();
-			String uploadPath = getServletContext().getInitParameter("path_to_upload");
-			ManagerHandler mh = new ManagerHandler();
-			try {
-				Machine m = mh.createMachine(request.getParameter("machineName"), content, uploadPath,
-						request.getParameter("machineQuantity"));
-				values.put("machine", m);
-				out.println(new Gson().toJson(values));
-			} catch (MachineException e) {
-				response.sendError(500, e.toString());
-			} catch (IllegalArgumentException e) {
-				response.sendError(500, e.toString());
-			} catch (PersistenceException e) {
-				response.sendError(500, e.toString());
-			} finally {
-				mh.close();
-			}
+			createUpdateMachine(request, response, "create", values);
 			break;
 		}
 			
 		case "updateMachine": {
-			Part part = request.getPart("machinePic");
-			InputStream content = part.getInputStream();
-			String uploadPath = getServletContext().getInitParameter("path_to_upload");
-			ManagerHandler mh = new ManagerHandler();
-			try {
-				Machine m = mh.updateMachine(request.getParameter("machineId") ,request.getParameter("machineName"), 
-						content, uploadPath, request.getParameter("machineQuantity"));
-				values.put("machine", m);
-				out.println(new Gson().toJson(values));
-			} catch (MachineException e) {
-				response.sendError(500, e.toString());
-			} catch (IllegalArgumentException e) {
-				response.sendError(500, e.toString());
-			} catch (PersistenceException e) {
-				response.sendError(500, e.toString());
-			} finally {
-				mh.close();
-			}
+			createUpdateMachine(request, response, "update", values);
 			break;
 		}	
 		
@@ -675,6 +641,34 @@ public class ManagerServlet extends HttpServlet {
 			response.sendError(500, e.toString());
 		} finally {
 			cb.close();
+		}
+	}
+	
+	private void createUpdateMachine(HttpServletRequest request, HttpServletResponse response, String type, Map<String, Object> returnValues) throws IOException, ServletException {
+		Part part = request.getPart("machinePic");
+		InputStream content = part.getInputStream();
+		String uploadPath = getServletContext().getInitParameter("path_to_upload");
+		String quantity = request.getParameter("machineQuantity");
+		String machineName = request.getParameter("machineName");
+		ManagerHandler mh = new ManagerHandler();
+		Machine m = null;
+		try {
+			if(type.equals("create")) {
+				m = mh.createMachine(machineName, content, uploadPath, quantity);
+			} else {
+				m = mh.updateMachine(request.getParameter("machineId") , machineName, content, uploadPath, quantity);
+			}
+			
+			returnValues.put("machine", m);
+			response.getWriter().println(new Gson().toJson(returnValues));
+		} catch (MachineException e) {
+			response.sendError(500, e.toString());
+		} catch (IllegalArgumentException e) {
+			response.sendError(500, e.toString());
+		} catch (PersistenceException e) {
+			response.sendError(500, e.toString());
+		} finally {
+			mh.close();
 		}
 	}
 	
