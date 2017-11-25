@@ -77,7 +77,7 @@ public class Exercise implements Serializable {
 	}
 
 	public void setName(String name) throws ExerciseException {
-		if(name == "") {
+		if(name == null || name.isEmpty()) {
 			throw new ExerciseException("Exercise name cannot be empty");
 		}
 		this.name = name;
