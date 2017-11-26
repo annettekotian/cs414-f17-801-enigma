@@ -35,9 +35,7 @@ public class TrainerFilter implements Filter {
 					response.sendRedirect(request.getContextPath() + "/index.jsp");
 					return;
 				}	
-			}
-			
-			if(!(level.equals("TRAINER") || level.equals("ADMIN"))) {
+			} else if(!(level.equals("TRAINER") || level.equals("ADMIN"))) {
 				if(!request.getRequestURI().contains("index")) {
 					response.sendRedirect(request.getContextPath() + "/index.jsp");
 					return;

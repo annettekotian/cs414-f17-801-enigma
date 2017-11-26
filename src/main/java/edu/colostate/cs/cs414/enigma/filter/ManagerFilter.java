@@ -31,9 +31,7 @@ public class ManagerFilter implements Filter {
 					response.sendRedirect(request.getContextPath() + "/index.jsp");
 					return;
 				}	
-			}
-			
-			if(!(level.equals("MANAGER") || level.equals("ADMIN"))) {
+			} else if(!(level.equals("MANAGER") || level.equals("ADMIN"))) {
 				if(!request.getRequestURI().contains("index")) {
 					response.sendRedirect(request.getContextPath() + "/index.jsp");
 					return;
