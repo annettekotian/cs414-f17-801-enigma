@@ -23,40 +23,49 @@ public abstract class PersonalInformationBuilder extends GymSystemHandler {
 	protected String zipcode;
 	protected String healthInsurance;
 	
-	public void setFirstName(String firstName) {
+	public PersonalInformationBuilder setFirstName(String firstName) {
 		this.firstName = firstName;
+		return this;
 	}
 
-	public void setLastName(String lastName) {
+	public PersonalInformationBuilder setLastName(String lastName) {
 		this.lastName = lastName;
+		return this;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
+	public PersonalInformationBuilder setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+		return this;
 	}
 
-	public void setEmail(String email) {
+	public PersonalInformationBuilder setEmail(String email) {
 		this.email = email;
+		return this;
 	}
 
-	public void setStreet(String street) {
+	public PersonalInformationBuilder setStreet(String street) {
 		this.street = street;
+		return this;
 	}
 
-	public void setCity(String city) {
+	public PersonalInformationBuilder setCity(String city) {
 		this.city = city;
+		return this;
 	}
 
-	public void setState(String state) {
+	public PersonalInformationBuilder setState(String state) {
 		this.state = state;
+		return this;
 	}
 
-	public void setZipcode(String zipcode) {
+	public PersonalInformationBuilder setZipcode(String zipcode) {
 		this.zipcode = zipcode;
+		return this;
 	}
 
-	public void setHealthInsurance(String healthInsurance) {
+	public PersonalInformationBuilder setHealthInsurance(String healthInsurance) {
 		this.healthInsurance = healthInsurance;
+		return this;
 	}
 
 	protected HealthInsurance getHealthInsurance() {

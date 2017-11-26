@@ -365,9 +365,7 @@ public class ManagerServlet extends HttpServlet {
 
 			ManagerBuilder mb = new ManagerBuilder();
 			buildPersonalInformation(mb, request);
-			mb.setUsername(request.getParameter("uName"));
-			mb.setPassword(request.getParameter("password"));
-			mb.setConfirmPassword(request.getParameter("confirmPassword"));
+			mb.setUsername(request.getParameter("uName")).setPassword(request.getParameter("password")).setConfirmPassword(request.getParameter("confirmPassword"));
 			try {
 				Manager m = mb.createManager();
 				values.put("manager", m);
@@ -564,15 +562,9 @@ public class ManagerServlet extends HttpServlet {
 	}
 	
 	private void buildPersonalInformation (PersonalInformationBuilder pb, HttpServletRequest request) {
-		pb.setFirstName(request.getParameter("firstName"));
-		pb.setLastName(request.getParameter("lastName"));
-		pb.setPhoneNumber(request.getParameter("phone"));
-		pb.setEmail(request.getParameter("email"));
-		pb.setStreet(request.getParameter("street"));
-		pb.setCity(request.getParameter("city"));
-		pb.setState(request.getParameter("state"));
-		pb.setZipcode(request.getParameter("zip"));
-		pb.setHealthInsurance(request.getParameter("healthInsurance"));
+		pb.setFirstName(request.getParameter("firstName")).setLastName(request.getParameter("lastName")).setPhoneNumber(request.getParameter("phone"))
+		.setEmail(request.getParameter("email")).setStreet(request.getParameter("street")).setCity(request.getParameter("city"))
+		.setState(request.getParameter("state")).setZipcode(request.getParameter("zip")).setHealthInsurance(request.getParameter("healthInsurance"));
 	
 	}
 	

@@ -29,8 +29,9 @@ public class CustomerBuilder extends PersonalInformationBuilder {
 		this.membershipStatus = customer.getMembership().getType();
 	}
 
-	public void setMembershipStatus(String membershipStatus) {
+	public CustomerBuilder setMembershipStatus(String membershipStatus) {
 		this.membershipStatus = membershipStatus;
+		return this;
 	}
 	
 	private Membership getMembership() {

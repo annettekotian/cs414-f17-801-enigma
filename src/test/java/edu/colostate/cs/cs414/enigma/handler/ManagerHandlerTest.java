@@ -62,18 +62,9 @@ public class ManagerHandlerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithNoEmail() throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("Kotian");
-		mb.setEmail("");
-		mb.setPhoneNumber("998-899-8834");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("55555");
-		mb.setUsername("annKot");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("Annette").setLastName("Kotian").setEmail("").setPhoneNumber("998-899-8834").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annKot").setPassword("12345678").setConfirmPassword("12345678");
 		mb.createManager();
 	}
 	
