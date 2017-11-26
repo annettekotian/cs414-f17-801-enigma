@@ -674,7 +674,7 @@ public class TrainerHandlerTest {
 		Workout w = createWorkout();
 		TrainerHandler th = new TrainerHandler();
 		List<Workout> list = th.searchWorkouts("");
-		assertTrue(list.size() >= 0);
+		assertTrue(list.size() >= 1);
 	}
 	
 	
