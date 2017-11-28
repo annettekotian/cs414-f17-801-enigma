@@ -71,18 +71,9 @@ public class ManagerHandlerTest {
 	@Test(expected = AddressException.class)
 	public void testCreateManagerWithInvalidEmail() throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("Kotian");
-		mb.setEmail("abc");
-		mb.setPhoneNumber("998-899-8834");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("55555");
-		mb.setUsername("annKot");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("Annette").setLastName("Kotian").setEmail("abc").setPhoneNumber("998-899-8834").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annKot").setPassword("12345678").setConfirmPassword("12345678");
 		mb.createManager();
 	}
 
@@ -90,54 +81,30 @@ public class ManagerHandlerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithNoFirstName() throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("");
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8834");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("55555");
-		mb.setUsername("annKot");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8834").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annKot").setPassword("12345678").setConfirmPassword("12345678");
+		
 		mb.createManager();
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithNoLastName() throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8834");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("55555");
-		mb.setUsername("annKot");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("Annette").setLastName("").setEmail("ann@email.com").setPhoneNumber("998-899-8834").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annKot").setPassword("12345678").setConfirmPassword("12345678");
+		
 		mb.createManager();			
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithNoPhone() throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("55555");
-		mb.setUsername("annKot");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("Annette").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annKot").setPassword("12345678").setConfirmPassword("12345678");
+		
 		mb.createManager();
 	}
 	
@@ -145,179 +112,93 @@ public class ManagerHandlerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithWrongPhoneformat() throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("88888888");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("55555");
-		mb.setUsername("annKot");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("Annette").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("88888888").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annKot").setPassword("12345678").setConfirmPassword("12345678");
+		
 		mb.createManager();
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithNoHI() throws AddressException{
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8884");
-		mb.setHealthInsurance("");
-		mb.setStreet("720 City park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("55555");
-		mb.setUsername("annKot");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("Annette").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annKot").setPassword("12345678").setConfirmPassword("12345678");
+		
 		mb.createManager();			
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithNoUserName() throws AddressException{
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8884");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("55555");
-		mb.setUsername("");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("Annette").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("").setPassword("12345678").setConfirmPassword("12345678");
+		
 		mb.createManager();
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithNoPass() throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8884");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("55555");
-		mb.setUsername("annKot1");
-		mb.setPassword("");
+		mb.setFirstName("Annette").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annkot1").setPassword("").setConfirmPassword("");
 		mb.createManager();
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithDifferentPasses()throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8884");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("55555");
-		mb.setUsername("annKot1");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("123456781234567812345678");
+		mb.setFirstName("Annette").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annkot1").setPassword("12345678").setConfirmPassword("123456778");
 		mb.createManager();
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithNoStreet() throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8884");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("55555");
-		mb.setUsername("annKot1");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("Annette").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annkot1").setPassword("12345678").setConfirmPassword("12345678");
 		mb.createManager();
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithNoCity() throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8884");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City Park");
-		mb.setCity("");
-		mb.setState("Colorado");
-		mb.setZipcode("55555");
-		mb.setUsername("annKot1");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("Annette").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annkot1").setPassword("12345678").setConfirmPassword("12345678");
 		mb.createManager();
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithNoZip() throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8884");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City Park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("");
-		mb.setUsername("annKot1");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("Annette").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("");
+		mb.setUsername("annkot1").setPassword("12345678").setConfirmPassword("12345678");
 		mb.createManager();
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithIncorrectZipFormat() throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8884");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City Park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("54656545646465");
-		mb.setUsername("annKot1");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("Annette").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("5555885");
+		mb.setUsername("annkot1").setPassword("12345678").setConfirmPassword("12345678");
 		mb.createManager();
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateManagerWithNoState() throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8884");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City Park");
-		mb.setCity("Fort Collins");
-		mb.setState("");
-		mb.setZipcode("80521");
-		mb.setUsername("annKot1");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("Annette").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("").setZipcode("55555");
+		mb.setUsername("annkot1").setPassword("12345678").setConfirmPassword("12345678");
 		mb.createManager();
 	}
 	
@@ -327,18 +208,10 @@ public class ManagerHandlerTest {
 		String lName = "Kotian";
 		
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName(fName);
-		mb.setLastName(lName);
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8884");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City Park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("80521");
-		mb.setUsername("annKot1");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName(fName).setLastName(lName).setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annkot1").setPassword("12345678").setConfirmPassword("12345678");
+		
 		Manager persistedM = mb.createManager();
 		persistedObjects.add(persistedM);
 		
@@ -352,18 +225,9 @@ public class ManagerHandlerTest {
 	@Test(expected = PersistenceException.class)
 	public void testCreateDuplicateManager() throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("Annette");
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8884");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City Park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("80521");
-		mb.setUsername("annKot1");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("Annette").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annkot1").setPassword("12345678").setConfirmPassword("12345678");
 		Manager persistedM = mb.createManager();
 		persistedObjects.add(persistedM);
 		mb.createManager();
@@ -374,18 +238,9 @@ public class ManagerHandlerTest {
 	public void testSearchManagerByKeyword() throws AddressException {
 		String fName = "AnnetteRachel123456yeyeteyety";
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName(fName);
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8884");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City Park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("80521");
-		mb.setUsername("annKot1");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName(fName).setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annkot1").setPassword("12345678").setConfirmPassword("12345678");
 		Manager persistedM = mb.createManager();
 		persistedObjects.add(persistedM);
 		mb.close();
@@ -398,25 +253,22 @@ public class ManagerHandlerTest {
 	@Test
 	public void testSearchManagerEmptyKeyword()throws AddressException {
 		ManagerBuilder mb = new ManagerBuilder();
-		mb.setFirstName("AnnetteRachel123456yeyeteyety");
-		mb.setLastName("Kotian");
-		mb.setEmail("ann@email.com");
-		mb.setPhoneNumber("998-899-8884");
-		mb.setHealthInsurance("Cigna");
-		mb.setStreet("720 City Park");
-		mb.setCity("Fort Collins");
-		mb.setState("Colorado");
-		mb.setZipcode("80521");
-		mb.setUsername("annKot1");
-		mb.setPassword("12345678");
-		mb.setConfirmPassword("12345678");
+		mb.setFirstName("Annette123").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annkot1").setPassword("12345678").setConfirmPassword("12345678");
 		Manager persistedM = mb.createManager();
 		persistedObjects.add(persistedM);
+	
 		
-		mb.setUsername("annKot11`2314");
-		persistedM = mb.createManager();
-		persistedObjects.add(persistedM);
 		mb.close();
+		
+		ManagerBuilder mb2 = new ManagerBuilder();
+		mb2.setFirstName("Annette22123").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb2.setUsername("annkot123").setPassword("12345678").setConfirmPassword("12345678");
+		Manager persistedM2 = mb2.createManager();
+		persistedObjects.add(persistedM2);
+		mb2.close();
 		
 		ManagerHandler mh = new ManagerHandler();
 		List<Manager> list = mh.searchManager("");
