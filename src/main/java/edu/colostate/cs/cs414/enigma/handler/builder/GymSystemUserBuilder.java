@@ -17,20 +17,24 @@ public abstract class GymSystemUserBuilder extends PersonalInformationBuilder {
 	protected String confirmPassword;
 	protected int id;
 
-	public void setUsername(String username) {
+	public GymSystemUserBuilder setUsername(String username) {
 		this.username = username;
+		return this;
 	}
 
-	public void setPassword(String password) {
+	public GymSystemUserBuilder setPassword(String password) {
 		this.password = password;
+		return this;
 	}
 	
-	public void setConfirmPassword(String confirmPassword) {
+	public GymSystemUserBuilder setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
+		return this;
 	}
 
-	public void setId(int id) {
+	public GymSystemUserBuilder setId(int id) {
 		this.id = id;
+		return this;
 	}
 	
 	protected User createUser() {
