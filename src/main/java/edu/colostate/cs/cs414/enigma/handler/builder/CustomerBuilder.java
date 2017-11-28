@@ -39,6 +39,10 @@ public class CustomerBuilder extends PersonalInformationBuilder {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("type", membershipStatus);
 		Membership membership = (Membership) getDao().querySingle("Membership.findType", parameters);
+		if(membership == null) {
+			throw new IllegalArgumentException("Membership name cannot be empty");
+		}
+		
 		return membership;
 	}
 	

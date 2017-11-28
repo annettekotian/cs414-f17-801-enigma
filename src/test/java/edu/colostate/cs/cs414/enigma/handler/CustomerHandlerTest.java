@@ -50,18 +50,11 @@ public class CustomerHandlerTest {
 	
 	@Test
 	public void testSearchCustomerByKeyword() throws AddressException {
-		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
+		String fName = "Annetteqweqwepoqweqwpfjjjsdfoqased";
 		
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName(fName);
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("999-999-9999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName(fName).setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -76,15 +69,8 @@ public class CustomerHandlerTest {
 	@Test
 	public void testCreateCustomer() throws AddressException {
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("999-999-9999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -97,37 +83,31 @@ public class CustomerHandlerTest {
 		assertTrue(c.getId() == c1.getId());
 	}
 	
-	/*@Test
+	@Test
 	public void testCreateDuplicateCustomer() throws AddressException {
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("999-999-9999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
-		cb.createCustomer();
-	}*/
+				
+		CustomerBuilder cb2 = new CustomerBuilder();
+		cb2.setFirstName("Annetteqweqwepoqweqwsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
+		cb2.setMembershipStatus("ACTIVE");
+		Customer c2 = cb2.createCustomer();
+		persistedObjects.add(c2);
+		
+		assertTrue(c2.getPersonalInformation().getFirstName().equals(c1.getPersonalInformation().getFirstName())  && c2.getId() != c1.getId());
+	}
 	
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoEmail() throws AddressException{
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("");
-		cb.setPhoneNumber("999-999-9999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwsdfoqased").setLastName("Kotian").setEmail("").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -136,32 +116,19 @@ public class CustomerHandlerTest {
 	@Test (expected = AddressException.class)
 	public void testCreateCustomerWithInvalidEmail() throws AddressException{
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann");
-		cb.setPhoneNumber("999-999-9999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwsdfoqased").setLastName("Kotian").setEmail("ann").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
+		
 		persistedObjects.add(c1);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoFirstName() throws AddressException{
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("999-999-9999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("").setLastName("Kotian").setEmail("ann@gmail.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -170,15 +137,8 @@ public class CustomerHandlerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoLastName() throws AddressException {
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("999-999-9999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwsdfoqased").setLastName("").setEmail("ann@gmail.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -187,15 +147,8 @@ public class CustomerHandlerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoPhone() throws AddressException{
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -204,15 +157,8 @@ public class CustomerHandlerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithWrongPhoneFormat() throws AddressException{
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("9999999999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("9999999999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -221,15 +167,8 @@ public class CustomerHandlerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoInsurance() throws AddressException{
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("9999999999");
-		cb.setHealthInsurance("");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -238,15 +177,8 @@ public class CustomerHandlerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoStreet() throws AddressException{
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("9999999999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -255,15 +187,8 @@ public class CustomerHandlerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoCity() throws AddressException {
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("9999999999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -272,15 +197,8 @@ public class CustomerHandlerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoState() throws AddressException {
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("9999999999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -289,15 +207,8 @@ public class CustomerHandlerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoZip() throws AddressException{
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("9999999999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -306,15 +217,8 @@ public class CustomerHandlerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithIncorrectZipFormat() throws AddressException{
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("9999999999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("805214566875");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521000");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -322,15 +226,8 @@ public class CustomerHandlerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void testCreateCustomerWithNoMembership() throws AddressException{
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("9999999999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -340,15 +237,8 @@ public class CustomerHandlerTest {
 	@Test
 	public void testSearchCustomerEmptyKeyword() throws AddressException{
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("999-999-9999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -365,15 +255,8 @@ public class CustomerHandlerTest {
 	@Test
 	public void testGetCustomerById() throws AddressException{
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("999-999-9999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
@@ -387,15 +270,8 @@ public class CustomerHandlerTest {
 	
 	private Customer createCustomer() throws AddressException {
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("999-999-9999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
 		Customer c1 = cb.createCustomer();
 		cb.close();
@@ -539,17 +415,13 @@ public class CustomerHandlerTest {
 		persistedObjects.add(c1);
 		
 		CustomerBuilder cb = new CustomerBuilder(c1);
-		cb.setFirstName("asdfasfdasdf");
-		cb.setLastName("asfasdfas");
-		cb.setEmail("asdfa@email.com");
-		cb.setPhoneNumber("123-456-7890");
-		cb.setHealthInsurance("Java Insurance");
-		cb.setStreet("720 ark");
-		cb.setCity("St. Paul");
-		cb.setState("Minnesota");
-		cb.setZipcode("55555");
+		String fName = "asdfasfdasdf";
+		cb.setFirstName(fName).setLastName("asfasdfas").setEmail("asdfa@email.com").setPhoneNumber("123-456-7890").setHealthInsurance("Cigna")
+		.setStreet("720 ark").setCity("St. Paul").setState("Minnesota").setZipcode("55555");
 		cb.setMembershipStatus("INACTIVE");
-		cb.updateCustomer(c1.getId());
+		c1 = cb.updateCustomer(c1.getId());
+		assertTrue(c1.getPersonalInformation().getFirstName().equals(fName));
+		
 	}
 	
 	
