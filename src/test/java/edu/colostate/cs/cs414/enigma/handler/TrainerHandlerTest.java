@@ -63,30 +63,8 @@ public class TrainerHandlerTest {
 		}
 		dao.close();
 	}
-	/********* Test for new trainer **************/ 
-	@Test
-	public void presistNewTrainer() throws Exception {
-		TrainerBuilder tb = new TrainerBuilder();
-		tb.setFirstName("John").setLastName("Doe").setEmail("johndoe@email.com").setPhoneNumber("555-555-5555").setHealthInsurance("Cigna")
-		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
-		tb.setUsername("johndoe").setPassword("password").setConfirmPassword("password");
-
-		Trainer newTrainer = tb.createTrainer();
-		persistedObjects.add(newTrainer);
-		tb.close();
-	}
+	/********* Test for new trainer qualifications and workours **************/ 
 	
-	@Test(expected = PersistenceException.class)
-	public void presistNewTrainerDuplicateUsername() throws Exception {
-		TrainerBuilder tb = new TrainerBuilder();
-		tb.setFirstName("John").setLastName("Doe").setEmail("johndoe@email.com").setPhoneNumber("555-555-5555").setHealthInsurance("Cigna")
-		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
-		tb.setUsername("johndoe").setPassword("password").setConfirmPassword("password");
-
-		Trainer newTrainer = tb.createTrainer();
-		persistedObjects.add(newTrainer);
-		newTrainer = tb.createTrainer();
-	}
 	
 	
 	public Trainer createArbitraryTrainer() throws AddressException {
@@ -167,31 +145,6 @@ public class TrainerHandlerTest {
 		th.deleteWorkHours(trainerId, trainer.getWorkHours().get(0).getId());
 	}
 	
-	@Test(expected = AddressException.class)
-	public void incorrectEmailAddressFormat() throws Exception {
-		TrainerBuilder tb = new TrainerBuilder();
-		tb.setFirstName("John").setLastName("Doe").setEmail("johndoe").setPhoneNumber("555-555-5555").setHealthInsurance("Cigna")
-		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
-		tb.createTrainer();
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void incorrectZipcodeFormat() throws Exception {
-		TrainerBuilder tb = new TrainerBuilder();
-		tb.setFirstName("John").setLastName("Doe").setEmail("johndoe@email.com").setPhoneNumber("555-555-5555").setHealthInsurance("Cigna")
-		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("8052");
-		tb.setUsername("johndoe").setPassword("password").setConfirmPassword("password");
-		tb.createTrainer();
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void emptyZipCreateTrainerParameters() throws Exception {
-		TrainerBuilder tb = new TrainerBuilder();
-		tb.setFirstName("John").setLastName("Doe").setEmail("johndoe@email.com").setPhoneNumber("555-555-5555").setHealthInsurance("Cigna")
-		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("");
-		tb.setUsername("johndoe").setPassword("password").setConfirmPassword("password");
-		tb.createTrainer();
-	}
 	
 	@Test
 	public void searchForTrainer() throws AddressException {
@@ -229,45 +182,8 @@ public class TrainerHandlerTest {
 		th.close();
 	}
 	
-	@Test
-	public void modifyTrainer() throws Exception {
-		TrainerBuilder tb = new TrainerBuilder();
-		tb.setFirstName("John").setLastName("Doe").setEmail("johndoe@email.com").setPhoneNumber("555-555-5555").setHealthInsurance("Cigna")
-		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
-		tb.setUsername("johndoe").setPassword("password").setConfirmPassword("password");
-
-		Trainer newTrainer = tb.createTrainer();
-		persistedObjects.add(newTrainer);
-		
-		tb.setFirstName("Bob");
-		tb.setId(newTrainer.getId());
-		tb.updateTrainer(newTrainer.getId());
-		tb.close();
-	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void trainerPasswordsDoNotMatch() throws Exception {
-		TrainerBuilder tb = new TrainerBuilder();
-		tb.setFirstName("John").setLastName("Doe").setEmail("johndoe@email.com").setPhoneNumber("555-555-5555").setHealthInsurance("Cigna")
-		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
-		tb.setUsername("johndoe").setPassword("password").setConfirmPassword("12345678");
-
-		Trainer newTrainer = tb.createTrainer();
-	}
 	
-	@Test
-	public void deleteTrainer() throws Exception {
-		TrainerBuilder tb = new TrainerBuilder();
-		tb.setFirstName("John").setLastName("Doe").setEmail("johndoe@email.com").setPhoneNumber("555-555-5555").setHealthInsurance("Cigna")
-		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
-		tb.setUsername("johndoe").setPassword("password").setConfirmPassword("password");
-
-		Trainer newTrainer = tb.createTrainer();
-		persistedObjects.add(newTrainer);
-		tb.setId(newTrainer.getId());
-		tb.deleteTrainer(newTrainer.getId());
-		tb.close();
-	}
 	
 	@Test
 	public void createDeleteExerciseNoDurationNoSetsNoMachine() throws Exception {
