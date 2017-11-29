@@ -56,6 +56,7 @@ public class CustomerHandlerTest {
 		cb.setFirstName(fName).setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
+		cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
 
@@ -68,6 +69,7 @@ public class CustomerHandlerTest {
 		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
+		cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 		Customer c1 = cb.createCustomer();
 		cb.close();
 		return c1;

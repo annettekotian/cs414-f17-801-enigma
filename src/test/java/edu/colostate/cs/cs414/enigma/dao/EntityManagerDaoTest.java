@@ -219,7 +219,11 @@ public class EntityManagerDaoTest {
 		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
 		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
-		Customer customer = new Customer(personalInformation, membership);
+		parameters = new HashMap<String, Object>();
+		parameters.put("level", "CUSTOMER");
+		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
+		User user = new User("testUser", "password", userLevel);
+		Customer customer = new Customer(personalInformation, membership, user);
 		dao.persist(customer);
 		persistedObjects.add(customer);
 		persistedObjects.add(insurance);
@@ -440,7 +444,11 @@ public class EntityManagerDaoTest {
 		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
 		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
-		Customer customer = new Customer(personalInformation, membership);
+		parameters = new HashMap<String, Object>();
+		parameters.put("level", "CUSTOMER");
+		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
+		User user = new User("testUser", "password", userLevel);
+		Customer customer = new Customer(personalInformation, membership, user);
 		dao.persist(customer);
 		persistedObjects.add(customer);
 		persistedObjects.add(insurance);
@@ -470,7 +478,11 @@ public class EntityManagerDaoTest {
 		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
 		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
-		Customer customer = new Customer(personalInformation, membership);
+		parameters = new HashMap<String, Object>();
+		parameters.put("level", "CUSTOMER");
+		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
+		User user = new User("testUser", "password", userLevel);
+		Customer customer = new Customer(personalInformation, membership, user);
 		dao.persist(customer);
 		persistedObjects.add(customer);
 		persistedObjects.add(insurance);

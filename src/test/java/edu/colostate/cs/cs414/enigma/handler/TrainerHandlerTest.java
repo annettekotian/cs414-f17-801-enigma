@@ -547,16 +547,10 @@ public class TrainerHandlerTest {
 	@Test
 	public void assignWorkout() throws Exception {
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("999-999-9999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
+		cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
 		cb.close();
@@ -580,9 +574,10 @@ public class TrainerHandlerTest {
 	@Test
 	public void getWorkoutByCustomerId() throws Exception {
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999")
-		.setHealthInsurance("Cigna").setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
+		cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
 		cb.close();
@@ -609,9 +604,10 @@ public class TrainerHandlerTest {
 	@Test
 	public void unassignWorkout() throws Exception {
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999")
-		.setHealthInsurance("Cigna").setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
+		cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
 		cb.close();

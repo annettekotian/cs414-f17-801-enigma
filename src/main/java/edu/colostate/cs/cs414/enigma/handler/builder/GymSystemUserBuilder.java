@@ -37,7 +37,7 @@ public abstract class GymSystemUserBuilder extends PersonalInformationBuilder {
 		return this;
 	}
 	
-	protected User createUser() {
+	protected User createUser(String userLevel) {
 		
 		if(this.confirmPassword != null) {
 			if(!this.confirmPassword.equals(this.password)) {
@@ -47,7 +47,7 @@ public abstract class GymSystemUserBuilder extends PersonalInformationBuilder {
 		
 		// Get the trainer userLevel object for the new trainer
 		Map<String, Object> userLevelParams = new HashMap<String, Object>();
-		userLevelParams.put("level", "TRAINER");
+		userLevelParams.put("level", userLevel);
 		UserLevel userLevelEntity = (UserLevel) getDao().querySingle("UserLevel.findLevel", userLevelParams);
 		
 		// Create a user for the new trainer

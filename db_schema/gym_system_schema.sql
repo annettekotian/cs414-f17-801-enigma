@@ -210,12 +210,19 @@ CREATE TABLE IF NOT EXISTS `GymSystem`.`customer` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `membership_id` INT UNSIGNED NOT NULL,
   `personal_information_id` INT UNSIGNED NOT NULL,
+  `user_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`, `membership_id`, `personal_information_id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   INDEX `fk_customer_membership1_idx` (`membership_id` ASC),
+  INDEX `fk_trainer_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_customer_personal_information1`
     FOREIGN KEY (`personal_information_id`)
     REFERENCES `GymSystem`.`personal_information` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_customer_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `GymSystem`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_customer_membership1`
@@ -223,6 +230,7 @@ CREATE TABLE IF NOT EXISTS `GymSystem`.`customer` (
     REFERENCES `GymSystem`.`membership` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+    
 ENGINE = InnoDB;
 
 

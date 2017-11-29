@@ -8,7 +8,7 @@ import javax.mail.internet.AddressException;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.Membership;
 
-public class CustomerBuilder extends PersonalInformationBuilder {
+public class CustomerBuilder extends GymSystemUserBuilder {
 
 	private String membershipStatus;
 
@@ -57,7 +57,7 @@ public class CustomerBuilder extends PersonalInformationBuilder {
 	}
 	
 	public Customer createCustomer() throws AddressException {
-		Customer customer = new Customer(this.createPersonalInformation(), this.getMembership());
+		Customer customer = new Customer(this.createPersonalInformation(), this.getMembership(), this.createUser("CUSTOMER"));
 		getDao().persist(customer);
 		return customer;
 	}
@@ -65,8 +65,10 @@ public class CustomerBuilder extends PersonalInformationBuilder {
 	public Customer updateCustomer(int customerId) throws AddressException {
 		Customer customer = this.getCustomer(customerId);
 		this.updatePersonalInformation(customer.getPersonalInformation());
+		customer.getUser().setUsername(this.username);
+		customer.getUser().setPassword(this.password);
 		customer.setMembership(this.getMembership());
-		this.getDao().persist(customer);
+		this.getDao().update(customer);
 		return customer;
 	}
 }
