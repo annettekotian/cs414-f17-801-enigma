@@ -70,11 +70,12 @@ public class CustomerBuilderTest {
 			assertTrue(c.getId() == c1.getId());
 		}
 		
-		/*@Test
+		@Test
 		public void testCreateDuplicateCustomer() throws AddressException {
 			CustomerBuilder cb = new CustomerBuilder();
 			cb.setFirstName("Annetteqweqwepoqweqwsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			cb.setMembershipStatus("ACTIVE");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
@@ -82,6 +83,7 @@ public class CustomerBuilderTest {
 			CustomerBuilder cb2 = new CustomerBuilder();
 			cb2.setFirstName("Annetteqweqwepoqweqwsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
+			cb2.setUsername("annkot123788839").setPassword("password").setConfirmPassword("password");
 			cb2.setMembershipStatus("ACTIVE");
 			Customer c2 = cb2.createCustomer();
 			persistedObjects.add(c2);
@@ -96,6 +98,7 @@ public class CustomerBuilderTest {
 			cb.setFirstName("Annetteqweqwepoqweqwsdfoqased").setLastName("Kotian").setEmail("").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
 		}
@@ -106,6 +109,7 @@ public class CustomerBuilderTest {
 			cb.setFirstName("Annetteqweqwepoqweqwsdfoqased").setLastName("Kotian").setEmail("ann").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			
 			persistedObjects.add(c1);
@@ -117,6 +121,7 @@ public class CustomerBuilderTest {
 			cb.setFirstName("").setLastName("Kotian").setEmail("ann@gmail.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
 		}
@@ -127,6 +132,7 @@ public class CustomerBuilderTest {
 			cb.setFirstName("Annetteqweqwepoqweqwsdfoqased").setLastName("").setEmail("ann@gmail.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
 		}
@@ -137,6 +143,7 @@ public class CustomerBuilderTest {
 			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
 		}
@@ -147,6 +154,7 @@ public class CustomerBuilderTest {
 			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("9999999999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
 		}
@@ -157,6 +165,7 @@ public class CustomerBuilderTest {
 			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
 		}
@@ -167,6 +176,7 @@ public class CustomerBuilderTest {
 			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
 		}
@@ -177,6 +187,7 @@ public class CustomerBuilderTest {
 			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("").setState("Colorado").setZipcode("80521");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
 		}
@@ -187,6 +198,7 @@ public class CustomerBuilderTest {
 			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("").setZipcode("80521");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
 		}
@@ -197,6 +209,7 @@ public class CustomerBuilderTest {
 			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
 		}
@@ -207,15 +220,29 @@ public class CustomerBuilderTest {
 			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521000");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
 		}
+		
 		@Test (expected = IllegalArgumentException.class)
 		public void testCreateCustomerWithNoMembership() throws AddressException{
 			CustomerBuilder cb = new CustomerBuilder();
 			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 			cb.setMembershipStatus("");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
+			Customer c1 = cb.createCustomer();
+			persistedObjects.add(c1);
+		}
+		
+		@Test (expected = IllegalArgumentException.class)
+		public void testCreateCustomerWithNoUserName() throws AddressException{
+			CustomerBuilder cb = new CustomerBuilder();
+			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
+			cb.setMembershipStatus("");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
 		}
@@ -227,9 +254,11 @@ public class CustomerBuilderTest {
 			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
-
+			
+			cb.setUsername("test123423");
 			cb.setFirstName("asdfasf");
 			Customer c2 = cb.createCustomer();
 			persistedObjects.add(c2);
@@ -245,13 +274,14 @@ public class CustomerBuilderTest {
 			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			persistedObjects.add(c1);
 			cb.close();
 			
 			Customer c2 = new CustomerHandler().getCustomerById(c1.getId());
 			assertTrue(c1.getId() == c2.getId());
-		}*/
+		}
 		
 		// ******************* Tests for update customer ***************************/
 		
@@ -260,12 +290,13 @@ public class CustomerBuilderTest {
 			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
 			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 			cb.setMembershipStatus("ACTIVE");
+			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 			Customer c1 = cb.createCustomer();
 			cb.close();
 			return c1;
 		}
 		
-		/*@Test (expected = IllegalArgumentException.class)
+		@Test (expected = IllegalArgumentException.class)
 		public void testUpdateCustomerWithNoEmail() throws AddressException {
 			Customer c1 = createCustomer();
 			persistedObjects.add(c1);
@@ -395,7 +426,7 @@ public class CustomerBuilderTest {
 			cb.setMembershipStatus("");
 			cb.updateCustomer(c1.getId());
 		}
-
+		
 		@Test
 		public void testUpdateCustomer() throws AddressException{
 			Customer c1 = createCustomer();
@@ -403,12 +434,14 @@ public class CustomerBuilderTest {
 			
 			CustomerBuilder cb = new CustomerBuilder(c1);
 			String fName = "asdfasfdasdf";
+			String uName = "annkot12373999";
 			cb.setFirstName(fName).setLastName("asfasdfas").setEmail("asdfa@email.com").setPhoneNumber("123-456-7890").setHealthInsurance("Cigna")
 			.setStreet("720 ark").setCity("St. Paul").setState("Minnesota").setZipcode("55555");
 			cb.setMembershipStatus("INACTIVE");
+			cb.setUsername(uName).setPassword("password").setConfirmPassword("password");
 			c1 = cb.updateCustomer(c1.getId());
-			assertTrue(c1.getPersonalInformation().getFirstName().equals(fName));
+			assertTrue(c1.getPersonalInformation().getFirstName().equals(fName) && c1.getUser().getUsername().equals(uName));
 			
-		}*/
+		}
 
 }
