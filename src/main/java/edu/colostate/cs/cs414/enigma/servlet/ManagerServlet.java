@@ -36,6 +36,7 @@ import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
 
 import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
 import edu.colostate.cs.cs414.enigma.handler.builder.CustomerBuilder;
+import edu.colostate.cs.cs414.enigma.handler.builder.GymSystemUserBuilder;
 import edu.colostate.cs.cs414.enigma.handler.builder.ManagerBuilder;
 import edu.colostate.cs.cs414.enigma.handler.builder.PersonalInformationBuilder;
 import edu.colostate.cs.cs414.enigma.handler.builder.TrainerBuilder;
@@ -365,7 +366,7 @@ public class ManagerServlet extends HttpServlet {
 
 			ManagerBuilder mb = new ManagerBuilder();
 			buildPersonalInformation(mb, request);
-			mb.setUsername(request.getParameter("uName")).setPassword(request.getParameter("password")).setConfirmPassword(request.getParameter("confirmPassword"));
+			buildGymSystemUser(mb, request);
 			try {
 				Manager m = mb.createManager();
 				values.put("manager", m);
@@ -568,12 +569,14 @@ public class ManagerServlet extends HttpServlet {
 	
 	}
 	
+	private void buildGymSystemUser(GymSystemUserBuilder gb, HttpServletRequest request) {
+		gb.setUsername(request.getParameter("userName")).setPassword(request.getParameter("password")).setConfirmPassword(request.getParameter("confirmPassword"));
+	}
+	
 	private TrainerBuilder getTrainerBuilderFromRequest(HttpServletRequest request) {
 		TrainerBuilder tb = new TrainerBuilder();
 		buildPersonalInformation(tb, request);
-		tb.setUsername(request.getParameter("userName"));
-		tb.setPassword(request.getParameter("password"));
-		tb.setConfirmPassword(request.getParameter("confirmPassword"));
+		buildGymSystemUser(tb, request);
 		return tb;
 	}
 	
@@ -609,6 +612,7 @@ public class ManagerServlet extends HttpServlet {
 	private void createUpdateCustomer(HttpServletRequest request, HttpServletResponse response, String type, Map<String, Object> returnValues) throws IOException {
 		CustomerBuilder cb = new CustomerBuilder();
 		buildPersonalInformation(cb, request);
+		buildGymSystemUser(cb, request);
 		cb.setMembershipStatus(request.getParameter("membershipStatus"));
 		
 		try {

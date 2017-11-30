@@ -76,10 +76,13 @@ public class LoginServlet extends HttpServlet {
 					request.setAttribute("trainer", new Gson().toJson(t));
 					
 					request.getRequestDispatcher("/WEB-INF/views/trainer/trainer.jsp").forward(request, response);
-				} else {
+				} else if (level.equals("CUSTOMER")) {
 
-					// get all manager data to display in the ui
+					request.setAttribute("level", level);
+					System.out.println("customer login");
 					
+				} else {
+					// get all manager data to display in the ui
 					List<Manager> managers = mh.getAllManagers();			
 					request.setAttribute("level", level);
 					request.setAttribute("managerData", new Gson().toJson(managers));

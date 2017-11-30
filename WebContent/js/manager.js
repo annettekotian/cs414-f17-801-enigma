@@ -291,7 +291,7 @@ $("#createManagerButton").on("click", function (){
 	var postParams = {};
 	postParams.firstName = $("#managerFName").val();
 	postParams.lastName = $("#managerLName").val();
-	postParams.uName = $("#managerUName").val();
+	postParams.userName = $("#managerUName").val();
 	postParams.password = $("#managerPassword").val();
 	postParams.confirmPassword = $("#confirmManagerPassword").val();
 	postParams.email = $("#managerEmail").val();
@@ -320,7 +320,7 @@ $("#createManagerButton").on("click", function (){
 	}
 	
 	
-	if(!postParams.firstName || !postParams.lastName || !postParams.uName || !postParams.password || !postParams.email || !postParams.phone 
+	if(!postParams.firstName || !postParams.lastName || !postParams.userName || !postParams.password || !postParams.email || !postParams.phone 
 			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip || !postParams.healthInsurance) {
 		alert("Could not create manager! Some input fields were missing");
 		return;
@@ -498,6 +498,9 @@ $("#createCustomerButton").on("click", function (){
 	postParams.state = $("#customerState").val();
 	postParams.zip = $("#customerZip").val();
 	postParams.membershipStatus = $("#customerMembership").val();
+	postParams.userName = $("#customerUserName").val();
+	postParams.password = $("#customerPassword").val();
+	postParams.confirmPassword = $("#customerConfirmPassword").val();
 	var hiIndex = $("#customerHIList").find(":selected").index();
 	if(hiIndex == 0) {
 		postParams.healthInsurance = $("#customerOtherHI").val();
@@ -510,7 +513,7 @@ $("#createCustomerButton").on("click", function (){
 	
 	
 	if(!postParams.firstName || !postParams.lastName || !postParams.email || !postParams.phone || !postParams.healthInsurance || !postParams.membershipStatus
-			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip) {
+			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip || !postParams.userName || !postParams.password || !postParams.confirmPassword) {
 		alert("Could not create customer! Some input fields were missing");
 		return;
 	}
@@ -605,6 +608,9 @@ $(document).on('click', '.editCustomer', function() {
 				$("#customerHIList").val(customer.personalInformation.healthInsurance.name);
 				$("#customerOtherHI").attr("disabled", true);
 				$("#customerMembership").val(customer.membership.type);
+				$("#customerUserName").val(customer.user.username);
+				$("#customerPassword").val(customer.user.password);
+				$("#customerConfirmPassword").val(customer.user.password);
 				$("#customerModal").modal();
 				
 			} else {
@@ -632,6 +638,9 @@ $(document).on('click', '.editCustomer', function() {
 		postParams.city = $("#customerCity").val();
 		postParams.state = $("#customerState").val();
 		postParams.zip = $("#customerZip").val();
+		postParams.userName = $("#customerUserName").val();
+		postParams.password = $("#customerPassword").val();
+		postParams.confirmPassword = $("#customerConfirmPassword").val();
 		var hiIndex = $("#customerHIList").find(":selected").index();
 		if(hiIndex == 0) {
 			postParams.healthInsurance = $("#customerOtherHI").val();
@@ -643,7 +652,7 @@ $(document).on('click', '.editCustomer', function() {
 		
 		
 		if(!postParams.firstName || !postParams.lastName || !postParams.email || !postParams.phone || !postParams.healthInsurance || !postParams.membershipStatus
-				|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip) {
+				|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip || !postParams.userName || !postParams.password || !postParams.confirmPassword) {
 			alert("Could not edit customer! Some input fields were missing");
 			return;
 		}
