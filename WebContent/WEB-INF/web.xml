@@ -25,7 +25,15 @@
     <filter-name>TrainerFilter</filter-name>
     <url-pattern>/trainer/*</url-pattern>
   </filter-mapping>
-    <filter>
+  <filter>
+    <filter-name>CustomerFilter</filter-name>
+    <filter-class>edu.colostate.cs.cs414.enigma.filter.CustomerFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CustomerFilter</filter-name>
+    <url-pattern>/customer/*</url-pattern>
+  </filter-mapping>
+  <filter>
     <filter-name>DisableCache</filter-name>
     <filter-class>edu.colostate.cs.cs414.enigma.filter.DisableCacheFilter</filter-class>
   </filter>
@@ -37,7 +45,5 @@
     <listener-class>edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener</listener-class>
   </listener>
   <context-param>
-  	<param-name>path_to_upload</param-name>
-  	<param-value>/images</param-value>
   </context-param>
 </web-app>

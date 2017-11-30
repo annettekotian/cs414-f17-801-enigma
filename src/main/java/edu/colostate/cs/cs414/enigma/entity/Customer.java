@@ -34,7 +34,8 @@ import javax.persistence.Table;
 			+ " OR c.personalInformation.healthInsurance.name LIKE :keyword OR c.personalInformation.address.city LIKE :keyword"
 			+ " OR c.personalInformation.address.street LIKE :keyword OR c.personalInformation.address.zipcode LIKE :keyword"
 			+ " OR c.personalInformation.address.state.state LIKE :keyword OR c.id LIKE :keyword"
-			+ " OR c.membership.type LIKE :keyword") 
+			+ " OR c.membership.type LIKE :keyword") ,
+	@NamedQuery(name="Customer.findByUserId", query="Select c FROM Customer c where c.user.id = :id")
 	
 })
 public class Customer extends GymSystemUser implements Serializable {

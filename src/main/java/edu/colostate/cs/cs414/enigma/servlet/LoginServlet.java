@@ -12,9 +12,11 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
+import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
 import edu.colostate.cs.cs414.enigma.handler.LoginHandler;
 import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
 import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
@@ -77,9 +79,10 @@ public class LoginServlet extends HttpServlet {
 					
 					request.getRequestDispatcher("/WEB-INF/views/trainer/trainer.jsp").forward(request, response);
 				} else if (level.equals("CUSTOMER")) {
-
+					Customer c = new CustomerHandler().getCustomerByUserId(id);
 					request.setAttribute("level", level);
-					System.out.println("customer login");
+					request.setAttribute("customerData", new Gson().toJson(c) );
+					request.getRequestDispatcher("/WEB-INF/views/customer/customer.jsp").forward(request, response);
 					
 				} else {
 					// get all manager data to display in the ui

@@ -60,6 +60,12 @@ public class CustomerHandler extends GymSystemHandler {
 		params.put("id", id);
 		return (Customer) getDao().querySingle("Customer.findById", params);
 	}
+	
+	public Customer getCustomerByUserId(int userId) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", userId);
+		return (Customer) getDao().querySingle("Customer.findByUserId", params);
+	}
 
 	
 	public void deleteCustomer(String id) {
