@@ -24,6 +24,7 @@ public class TrainerBuilder extends GymSystemUserBuilder {
 	
 	public Trainer createTrainer() throws AddressException {
 		// Create the new trainer
+		this.setUserLevel("TRAINER");
 		Trainer trainer = new Trainer(this.createPersonalInformation(), this.createUser());
 		
 		// Persist the new trainers information with the db
