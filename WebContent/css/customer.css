@@ -1,0 +1,47 @@
+@charset "ISO-8859-1";
+
+#customerMenuBarDiv{
+background: gainsboro;	
+width: 24%;
+margin-left:32.5%;
+margin-top:3%;
+}
+
+#customerMenuBarDiv li{
+	padding:15px;
+	display:inline-block; 	
+	
+}
+
+#customerMenuBarDiv li:hover{
+	color:steelblue 	
+	
+}
+
+.menuLi{
+	float:left;
+	color:black;
+}
+
+#customerMenuBar {
+	padding:0px;	
+}
+
+#home{
+	margin-left: 300px;
+}
+
+#workoutResults{
+	margin-left: 435px;
+}
+
+#workoutResults table {
+	font-size:13px;
+	text-align:center;
+	border:1px solid black;
+}
+
+#workoutResults th, #workoutResults td {
+	width: 150px;
+	border:1px solid black;
+}
