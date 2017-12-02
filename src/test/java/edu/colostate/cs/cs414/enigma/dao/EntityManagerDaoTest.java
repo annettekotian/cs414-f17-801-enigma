@@ -539,8 +539,10 @@ public class EntityManagerDaoTest {
 		customer.addWorkout(workout);
 		dao.update(customer);
 		
-		Feedback feedback = new Feedback(customer, workout, "Excellent workout!");
-		dao.persist(feedback);
-		persistedObjects.add(feedback);
+		workout.addFeedback(customer, "Excellent workout!");
+		dao.update(workout);
+		
+		workout.removeAllFeedback();
+		dao.update(workout);
 	}
 }

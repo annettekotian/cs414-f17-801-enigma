@@ -16,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
@@ -47,6 +48,10 @@ public class Workout implements Serializable {
 			inverseJoinColumns=@JoinColumn(name="exercise_id", referencedColumnName="id"))
 	@OrderColumn(name="exercise_order")
 	private List<Exercise> exercises;
+	
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
+	@JoinColumn(name="workout_routine_id", referencedColumnName="id")
+	private List<Feedback> feedback = new ArrayList<Feedback>();
 	
 	protected Workout() {}
 	
@@ -91,6 +96,24 @@ public class Workout implements Serializable {
 	
 	public void removeAllExercises() {
 		this.exercises.clear();
+	}
+	
+	public List<Feedback> getFeedback() {
+		return this.feedback;
+	}
+	
+	public void addFeedback(Customer customer, String feedback) {
+		this.feedback.add(new Feedback(customer, this, feedback));
+	}
+	
+	public void removeFeedback(Feedback removeFeedback) {
+		if(this.feedback.contains(removeFeedback)) {
+			this.feedback.remove(removeFeedback);
+		}
+	}
+	
+	public void removeAllFeedback() {
+		this.feedback.clear();
 	}
 
 	@Override
