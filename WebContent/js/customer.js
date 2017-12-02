@@ -5,10 +5,10 @@ $("#customerHomeLi, #customerWorkoutLi, #feedbackLi").on("click", function(){
 
 $("#customerHomeLi").on("click", focusHome);
 $("#customerWorkoutLi").on("click", focusWorkouts);
-$("#feedbackLi").on("click", focusFeedback);
 
 function focusHome() {
 	$("#workoutResults").hide();
+	$(".workoutButtons").hide();
 	$("#home").show();
 	$("#homeFName").text(customerData.personalInformation.firstName);
 	$("#homeLName").text(customerData.personalInformation.lastName);
@@ -22,14 +22,10 @@ function focusHome() {
 
 
 function focusWorkouts() {
+	$(".workoutButtons").show();
 	$("#home").hide();
 	$("#workoutResults").show();
 	populateWorkoutTable();
-}
-
-function focusFeedback() {
-	$("#home").hide();
-	$("#workoutResults").hide();
 }
 
 function populateWorkoutTable() {
@@ -40,6 +36,29 @@ function populateWorkoutTable() {
 		$("#workoutResults table").append("<tr data-id='"+ workout.id +  "' class='tableData'>" +
 				"<td> "+ workout.id + "</td>" +
 				"<td>" + workout.name + "</td>" +
-				"<td> <a href='#' class='viewExercise'>View Exercises</a></td></tr>")
+				"<td> <a href='#' class='viewExercise'>View Exercises</a></td>" +
+				"<td>"  + "</td>" + 
+				"</tr>")
 	}
 }
+
+
+$(document).on("click", ".viewExercise", function() {
+	debugger;
+	var workoutId = $(this).parents("tr").data("id");
+	var workout = customerData.workouts.find(element => element.id == workoutId);
+	$("#workoutExercises").find(".tableData").remove();
+	for(var i = 0; i< workout.exercises.length; i++) {
+		var exercise = workout.exercises[i];
+		$("#workoutExercises table").append("<tr class='tableData'>" +
+				"<td>" + (i+1) + "</td>" +
+				"<td>" + exercise.id + "</td>" +
+				"<td>" + exercise.name + "</td>" +
+				"</tr>")
+	}
+	$("#workoutExercisesModal").modal();
+})
+
+
+
+

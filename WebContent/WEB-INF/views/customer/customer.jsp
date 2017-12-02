@@ -27,10 +27,9 @@
 		<ul id="customerMenuBar">
 			<li id="customerHomeLi" class="menuLi">Home</li>
 			<li id="customerWorkoutLi">Workouts</li>
-			<li id="feedbackLi">Feedback??</li>
 		</ul>
 	</div>
-
+	<button id="addFeedback" class="workoutButtons">Add Feedback</button>
 	<div id="home">
 		<table>
 			<tr>
@@ -73,10 +72,23 @@
 				<th>Id</th>
 				<th>Name</th>
 				<th>Exercises</th>
+				<th>Feedback</th>
 			</tr>
 			
 			
 		</table>
+	</div>
+	
+	<div id="workoutExercisesModal" class="modal">
+		<h3>Workout Exercises</h3>
+		<div id="workoutExercises">
+			<table>
+				<th>Sequence</th>
+				<th>id</th>
+				<th>Name</th>
+			</table>
+		</div>
+
 	</div>
 </body>
 <script src="/js/customer.js"></script>
