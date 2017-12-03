@@ -373,11 +373,17 @@ public class ManagerServlet extends HttpServlet {
 				values.put("status", "success");
 				out.write(new Gson().toJson(values));
 			} catch (IllegalArgumentException e) {
-				response.sendError(500, e.toString());
+				values.put("status", "failure");
+				values.put("message", e.getMessage());
+				out.write(new Gson().toJson(values));
 			} catch (PersistenceException e) {
-				response.sendError(500, e.toString());
+				values.put("status", "failure");
+				values.put("message", e.getMessage());
+				out.write(new Gson().toJson(values));
 			} catch (AddressException e) {
-				response.sendError(500, e.toString());
+				values.put("status", "failure");
+				values.put("message", e.getMessage());
+				out.write(new Gson().toJson(values));
 			} catch (Exception e) {
 				response.sendError(500, e.toString());
 			} finally {
@@ -628,11 +634,17 @@ public class ManagerServlet extends HttpServlet {
 			response.getWriter().write(new Gson().toJson(returnValues));
 					
 		} catch (IllegalArgumentException e) {
-			response.sendError(500, e.toString());
+			returnValues.put("status", "failure");
+			returnValues.put("message",e.getMessage());
+			response.getWriter().write(new Gson().toJson(returnValues));
 		} catch(PersistenceException e) {
-			response.sendError(500, e.toString());
+			returnValues.put("status", "failure");
+			returnValues.put("message", e.getCause().getCause().toString());
+			response.getWriter().write(new Gson().toJson(returnValues));
 		} catch (AddressException e) {
-			response.sendError(500, e.toString());
+			returnValues.put("status", "failure");
+			returnValues.put("message",e.getMessage());
+			response.getWriter().write(new Gson().toJson(returnValues));
 		} catch (Exception e) {
 			response.sendError(500, e.toString());
 		} finally {

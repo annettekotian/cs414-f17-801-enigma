@@ -63,8 +63,16 @@ public class CustomerBuilder extends GymSystemUserBuilder {
 	}
 	
 	public Customer updateCustomer(int customerId) throws AddressException {
+		if(this.confirmPassword != null) {
+			if(!this.confirmPassword.equals(this.password)) {
+				throw new IllegalArgumentException("Passwords do not match");
+			}
+		}
+		
 		Customer customer = this.getCustomer(customerId);
 		this.updatePersonalInformation(customer.getPersonalInformation());
+		
+			
 		customer.getUser().setUsername(this.username);
 		customer.getUser().setPassword(this.password);
 		customer.setMembership(this.getMembership());

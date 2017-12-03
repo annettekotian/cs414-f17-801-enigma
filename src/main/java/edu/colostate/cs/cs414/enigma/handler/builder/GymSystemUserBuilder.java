@@ -57,6 +57,12 @@ public abstract class GymSystemUserBuilder extends PersonalInformationBuilder {
 	}
 	
 	protected GymSystemUser updateGymSystemUser(GymSystemUser user) throws AddressException {
+		if(this.confirmPassword != null) {
+			if(!this.confirmPassword.equals(this.password)) {
+				throw new IllegalArgumentException("Passwords do not match");
+			}
+		}
+		
 		this.updatePersonalInformation(user.getPersonalInformation());
 		
 		user.getUser().setUsername(this.username);

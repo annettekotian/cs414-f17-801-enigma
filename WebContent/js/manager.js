@@ -332,14 +332,15 @@ $("#createManagerButton").on("click", function (){
 		data: postParams,
 		
 		success: function(data) {
-			$.modal.close();
 			var data = JSON.parse(data);
 			var manager = data.manager;
 			var status = data.status;
 			if(status != "success") {
-				alert("Could not create manager! Some error occured");
+				alert("Error: " + data.message);
 				return;
 			}
+			
+			$.modal.close();
 			$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'>"  +
 					"<td>" +  manager.id+"</td> " + 
 					"<td> " + manager.personalInformation.firstName+ "</td> " + 
@@ -352,37 +353,6 @@ $("#createManagerButton").on("click", function (){
 
 		},
 		error: function(exception) {
-			if(exception.responseText.indexOf("Missing Input") >=0) {
-				alert("Could not create manager! Some input fields were missing");
-				return;
-			}
-			
-			if(exception.responseText.indexOf("Password error") >=0) {
-				alert("Passwords entered are not the same!");
-				return;
-			}
-			
-			if(exception.responseText.indexOf("Password short")>=0) {
-				alert("Password must be atleast 8 characters in length");
-				return;
-			}
-			
-			if(exception.responseText.indexOf(" javax.mail.internet.AddressException") >=0 ) {
-				alert("Invalid email address");
-				return;
-			}
-			if(exception.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0) {
-				alert("Username already exists");
-				return;
-			}
-			if(exception.responseText.indexOf("Zipcode") >= 0) {
-				alert("Zipcode must be 5 digits");
-				return;
-			}
-			if(exception.responseText.indexOf("Phone") >= 0) {
-				alert("Phone number must be 10 digits in format ###-###-####");
-				return;
-			}
 			alert("Error: " + exception);
 		}
 	});
@@ -526,15 +496,15 @@ $("#createCustomerButton").on("click", function (){
 		data: postParams,
 		
 		success: function(data) {
-			$.modal.close();
 			var data = JSON.parse(data);
-			var customer = data.customer;
+			
 			var status = data.status;
 			if(status == "failure") {
-				alert("Could not create customer! Some input fields were missing");
+				alert("Error:"  + data.message);
 				return;
 			}
-			
+			$.modal.close();
+			var customer = data.customer;
 			$("#customerResults table").append("<tr data-id='" + customer.id + "' class='tableData'> <td><a class='editCustomer' href='#'>Edit</a>" +
 					"<span>&nbsp;</span><a class='deleteCustomer' href='#'>Delete</a></td>" +
 					"<td>" +  customer.id+"</td> " + 
@@ -549,22 +519,7 @@ $("#createCustomerButton").on("click", function (){
 
 		},
 		error: function(exception) {
-			if(exception.responseText.indexOf("Missing input") >= 0) {
-				alert("Could not create customer! Some input fields were missing");
-				return;
-			}
-			if (exception.responseText.indexOf(" javax.mail.internet.AddressException") >=0 ) {
-				alert("Invalid email address");
-				return;
-			}
-			if(exception.responseText.indexOf("Zipcode") >= 0) {
-				alert("Zipcode must be 5 digits");
-				return;
-			}
-			if(exception.responseText.indexOf("Phone") >= 0) {
-				alert("Phone number must be 10 digits in format ###-###-####");
-				return;
-			}
+			
 			alert("Error" + exception);
 		}
 	
@@ -664,14 +619,16 @@ $(document).on('click', '.editCustomer', function() {
 			data: postParams,
 			
 			success: function(data) {
-				$.modal.close();
 				var data = JSON.parse(data);
-				var customer = data.customer;
 				var status = data.status;
 				if(status == "failure") {
-					alert("Could not create customer! Some input fields were missing");
+					alert("Error: "  + data.message);
 					return;
 				}
+				$.modal.close();
+				var customer = data.customer;
+				
+				
 				
 				var tr = $("#customerResults table").find("tr[data-id='" + customer.id+"']");
 				tr.empty();
