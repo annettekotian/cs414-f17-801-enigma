@@ -63,13 +63,15 @@ public class LoginServlet extends HttpServlet {
 		LoginHandler lh = new LoginHandler();
 		TrainerHandler th = new TrainerHandler();
 		ManagerHandler mh = new ManagerHandler();
+		CustomerHandler ch = new CustomerHandler();
 		try {
 			if(lh.authenticate(userName, password)) {
 				HttpSession session = request.getSession(true);
-				String level = lh.getUserLevel(userName);
+				User user = lh.getUserByUsername(userName);
 				// set level and user id in the session
+				String level = user.getUserLevel().getDescription();
 				session.setAttribute("level", level);
-				int id = lh.getUserId(userName);
+				int id = user.getId();
 				session.setAttribute("userid", id);
 				
 				// redirect based on level
@@ -79,7 +81,7 @@ public class LoginServlet extends HttpServlet {
 					
 					request.getRequestDispatcher("/WEB-INF/views/trainer/trainer.jsp").forward(request, response);
 				} else if (level.equals("CUSTOMER")) {
-					Customer c = new CustomerHandler().getCustomerByUserId(id);
+					Customer c = ch.getCustomerByUserId(id);
 					request.setAttribute("level", level);
 					request.setAttribute("customerData", new Gson().toJson(c) );
 					request.getRequestDispatcher("/WEB-INF/views/customer/customer.jsp").forward(request, response);
@@ -98,6 +100,7 @@ public class LoginServlet extends HttpServlet {
 			lh.close();
 			th.close();
 			mh.close();
+			ch.close();
 		}	
 	}
 }

@@ -7,7 +7,7 @@ import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.User;
 
 public class LoginHandler extends GymSystemHandler {
-	private User getUserByUsername(String username) {
+	public User getUserByUsername(String username) {
 
 		// Issued a named query for a specific username
 		Map<String, Object> parameters = new HashMap<String, Object>();
