@@ -102,6 +102,7 @@
 				<th>Id</th>
 				<th>Workout Name</th>
 				<th>Exercises</th>
+				<th>Feedback</th>
 		</tr>
 	</table>
 </div>
@@ -164,6 +165,18 @@
 			<th>Sequence</th>
 			<th>id</th>
 			<th>Name</th>
+		</table>
+	</div>
+	
+</div>
+
+<div id="workoutFeedbackModal" class="modal">
+	<h3>Workout Feedback</h3>
+	<div id="workoutFeedback">
+		<table>
+			<th>Customer Details</th>
+			<th>id</th>
+			<th>Feedback</th>
 		</table>
 	</div>
 	
