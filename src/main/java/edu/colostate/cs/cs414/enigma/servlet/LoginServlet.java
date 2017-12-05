@@ -84,6 +84,7 @@ public class LoginServlet extends HttpServlet {
 					Customer c = ch.getCustomerByUserId(id);
 					request.setAttribute("level", level);
 					request.setAttribute("customerData", new Gson().toJson(c) );
+					session.setAttribute("customerId", c.getId());
 					request.getRequestDispatcher("/WEB-INF/views/customer/customer.jsp").forward(request, response);
 					
 				} else {

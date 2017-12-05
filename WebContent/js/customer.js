@@ -33,15 +33,36 @@ function focusWorkouts() {
 function populateWorkoutTable() {
 	$("#workoutResults .tableData").remove();
 	
-	for(var i=0; i< customerData.workouts.length; i++) {
-		var workout = customerData.workouts[i];
-		$("#workoutResults table").append("<tr data-id='" + workout.id + "' class='tableData'>" +
-				"<td> "+ workout.id + "</td>" +
-				"<td>" + workout.name + "</td>" +
-				"<td> <a href='#' class='viewExercise'>View Exercises</a></td>" +
-				"<td>"  + "</td>" + 
-				"</tr>")
-	}
+	var params = {};
+	params.type = "getCustomerInfo";
+	
+	$.ajax({
+		url: "/CustomerServlet/ui",
+		method: "GET",
+		data: params,
+		
+		success: function(data) {
+			customerData = data;
+			for(var i=0; i< customerData.workouts.length; i++) {
+				var workout = customerData.workouts[i];
+				
+				var feedback = "";
+				for(var j=0; j<workout.feedback.length; j++) {
+					feedback += workout.feedback[j].feedback + "</br>";
+				}
+				
+				$("#workoutResults table").append("<tr data-id='" + workout.id + "' class='tableData'>" +
+						"<td> "+ workout.id + "</td>" +
+						"<td>" + workout.name + "</td>" +
+						"<td> <a href='#' class='viewExercise'>View Exercises</a></td>" +
+						"<td>" + feedback + "</td>" + 
+						"</tr>")
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			$(document.body).html(jqXHR.responseText);
+		},
+	});
 }
 
 $(document).on("click", "#workoutResults .tableData", function(){

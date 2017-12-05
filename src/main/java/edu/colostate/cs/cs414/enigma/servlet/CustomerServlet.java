@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.Workout;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
@@ -57,6 +58,18 @@ public class CustomerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 			} finally {
 				th.close();
+			}
+		} else if(type.equals("getCustomerInfo")) {
+			Integer customerId = (Integer) request.getSession().getAttribute("customerId");
+			CustomerHandler ch = new CustomerHandler();
+			try {
+				Customer customer = ch.getCustomerById(customerId);
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(customer));
+			} catch (Exception e) {
+				response.sendError(500, e.toString());
+			} finally {
+				ch.close();
 			}
 		}
 	}
