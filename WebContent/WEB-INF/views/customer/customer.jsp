@@ -29,7 +29,7 @@
 			<li id="customerWorkoutLi">Workouts</li>
 		</ul>
 	</div>
-	<button id="addFeedback" class="workoutButtons">Add Feedback</button>
+	<button id="addFeedback" class="workoutButtons" disabled>Add Feedback</button>
 	<div id="home">
 		<table>
 			<tr>
@@ -88,6 +88,14 @@
 				<th>Name</th>
 			</table>
 		</div>
+
+	</div>
+	
+	<div id="feedbackModal" class="modal">
+		<h3>Workout Feedback</h3>
+		<input id="feedbackText" type="text" placeholder="feedback"/></br>
+		<button id="submitFeedback">Submit</button>
+	</div>
 
 	</div>
 </body>

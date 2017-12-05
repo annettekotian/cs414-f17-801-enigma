@@ -18,6 +18,11 @@ margin-top:3%;
 	
 }
 
+.tableData td:hover {
+	color:steelblue;
+	cursor: pointer;
+}
+
 .menuLi{
 	float:left;
 	color:black;

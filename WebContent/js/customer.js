@@ -1,3 +1,5 @@
+var workoutId = null;
+
 $("#customerHomeLi, #customerWorkoutLi, #feedbackLi").on("click", function(){
 	$("#customerHomeLi, #customerWorkoutLi, #feedbackLi").css("background", "none");
 	$(this).css("background", "darkgrey");
@@ -33,7 +35,7 @@ function populateWorkoutTable() {
 	
 	for(var i=0; i< customerData.workouts.length; i++) {
 		var workout = customerData.workouts[i];
-		$("#workoutResults table").append("<tr data-id='"+ workout.id +  "' class='tableData'>" +
+		$("#workoutResults table").append("<tr data-id='" + workout.id + "' class='tableData'>" +
 				"<td> "+ workout.id + "</td>" +
 				"<td>" + workout.name + "</td>" +
 				"<td> <a href='#' class='viewExercise'>View Exercises</a></td>" +
@@ -42,6 +44,50 @@ function populateWorkoutTable() {
 	}
 }
 
+$(document).on("click", "#workoutResults .tableData", function(){
+	console.log("here");
+	$("#workoutResults .tableData").css("background-color", "");
+	$(this).css("background-color", "gainsboro");
+	$("#addFeedback").attr("disabled", false);
+	workoutId = $(this).data("id");
+});
+
+$("#addFeedback").on("click", function(){
+	$("#feedbackText").val("");
+	$("#feedbackModal").modal();
+	
+});
+
+$("#submitFeedback").on("click", function(){
+	var feedback = $("#feedbackText").val();
+	if(feedback == "") {
+		return;
+	}
+	
+	var params = {};
+	params.type = "addFeedback";
+	params.customerId = customerData.id;
+	params.workoutId = workoutId;
+	params.feedback = feedback;
+	
+	$.ajax({
+		url: "/CustomerServlet/ui",
+		method: "POST",
+		data: params,
+		
+		success: function(data) {
+			if(data.rc == 0) {
+				$.modal.close();
+				populateWorkoutTable();
+			} else {
+				alert("Error: " + data.msg);
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			$(document.body).html(jqXHR.responseText);
+		},
+	});
+});
 
 $(document).on("click", ".viewExercise", function() {
 	debugger;
