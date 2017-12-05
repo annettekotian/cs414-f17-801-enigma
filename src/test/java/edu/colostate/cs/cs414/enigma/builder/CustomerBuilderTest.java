@@ -248,40 +248,7 @@ public class CustomerBuilderTest {
 		}
 		
 		
-		@Test
-		public void testSearchCustomerEmptyKeyword() throws AddressException{
-			CustomerBuilder cb = new CustomerBuilder();
-			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
-			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
-			cb.setMembershipStatus("ACTIVE");
-			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
-			Customer c1 = cb.createCustomer();
-			persistedObjects.add(c1);
-			
-			cb.setUsername("test123423");
-			cb.setFirstName("asdfasf");
-			Customer c2 = cb.createCustomer();
-			persistedObjects.add(c2);
-			cb.close();
-			
-			List<Customer> list = new CustomerHandler().getCustomerByKeyword("");
-			assertTrue(list.size() >=2);
-		}
 		
-		@Test
-		public void testGetCustomerById() throws AddressException{
-			CustomerBuilder cb = new CustomerBuilder();
-			cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
-			.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
-			cb.setMembershipStatus("ACTIVE");
-			cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
-			Customer c1 = cb.createCustomer();
-			persistedObjects.add(c1);
-			cb.close();
-			
-			Customer c2 = new CustomerHandler().getCustomerById(c1.getId());
-			assertTrue(c1.getId() == c2.getId());
-		}
 		
 		// ******************* Tests for update customer ***************************/
 		
