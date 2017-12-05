@@ -117,7 +117,8 @@ public class TrainerBuilderTest {
 		
 		tb.setFirstName("Bob");
 		tb.setId(newTrainer.getId());
-		tb.updateTrainer(newTrainer.getId());
+		Trainer updatedTrainer = tb.updateTrainer(newTrainer.getId());
+		assertTrue(updatedTrainer.getPersonalInformation().getFirstName().equals("Bob"));
 		tb.close();
 	}
 	
@@ -140,8 +141,13 @@ public class TrainerBuilderTest {
 
 		Trainer newTrainer = tb.createTrainer();
 		persistedObjects.add(newTrainer);
-		tb.setId(newTrainer.getId());
-		tb.deleteTrainer(newTrainer.getId());
+		int id = newTrainer.getId();
+		tb.setId(id);
+		tb.deleteTrainer(id);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", params);
+		assertNull(trainer);
 		tb.close();
 	}
 }
