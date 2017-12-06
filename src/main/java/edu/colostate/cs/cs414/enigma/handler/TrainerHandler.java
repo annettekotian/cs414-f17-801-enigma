@@ -149,6 +149,14 @@ public class TrainerHandler extends GymSystemHandler {
 		
 		return trainers;
 	}
+	
+	public void deleteTrainer(int trainerId) {
+		Trainer trainer = this.getTrainerById(trainerId);
+		trainer.removeAllWorkHours();
+		
+		// Delete the trainer
+		getDao().remove(trainer);
+	}
 
 	/**
 	 * Return a list of trainers matching a specific search value.

@@ -23,9 +23,7 @@ public class TrainerBuilder extends GymSystemUserBuilder {
 	}
 	
 	public Trainer createTrainer() throws AddressException {
-		// Create the new trainer
-		this.setUserLevel("TRAINER");
-		Trainer trainer = new Trainer(this.createPersonalInformation(), this.createUser());
+		Trainer trainer = new Trainer(this.createPersonalInformation(), this.createUser("TRAINER"));
 		
 		// Persist the new trainers information with the db
 		getDao().persist(trainer);
@@ -37,11 +35,5 @@ public class TrainerBuilder extends GymSystemUserBuilder {
 		return (Trainer) this.updateGymSystemUser(this.getTrainer(trainerId));
 	}
 
-	public void deleteTrainer(int trainerId) {
-		Trainer trainer = this.getTrainer(trainerId);
-		trainer.removeAllWorkHours();
-		
-		// Delete the trainer
-		getDao().remove(trainer);
-	}
+	
 }

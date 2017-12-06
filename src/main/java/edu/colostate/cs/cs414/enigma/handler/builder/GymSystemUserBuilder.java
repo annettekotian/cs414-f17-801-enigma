@@ -38,12 +38,7 @@ public abstract class GymSystemUserBuilder extends PersonalInformationBuilder {
 		return this;
 	}
 	
-	public GymSystemUserBuilder setUserLevel(String userLevel) {
-		this.userLevel = userLevel;
-		return this;
-	}
-	
-	protected User createUser() {
+	protected User createUser(String userLevel) {
 		
 		if(this.confirmPassword != null) {
 			if(!this.confirmPassword.equals(this.password)) {
@@ -53,7 +48,7 @@ public abstract class GymSystemUserBuilder extends PersonalInformationBuilder {
 		
 		// Get the trainer userLevel object for the new trainer
 		Map<String, Object> userLevelParams = new HashMap<String, Object>();
-		userLevelParams.put("level", this.userLevel);
+		userLevelParams.put("level", userLevel);
 		UserLevel userLevelEntity = (UserLevel) getDao().querySingle("UserLevel.findLevel", userLevelParams);
 		
 		// Create a user for the new trainer
@@ -63,6 +58,12 @@ public abstract class GymSystemUserBuilder extends PersonalInformationBuilder {
 	}
 	
 	protected GymSystemUser updateGymSystemUser(GymSystemUser user) throws AddressException {
+		if(this.confirmPassword != null) {
+			if(!this.confirmPassword.equals(this.password)) {
+				throw new IllegalArgumentException("Passwords do not match");
+			}
+		}
+		
 		this.updatePersonalInformation(user.getPersonalInformation());
 		
 		user.getUser().setUsername(this.username);

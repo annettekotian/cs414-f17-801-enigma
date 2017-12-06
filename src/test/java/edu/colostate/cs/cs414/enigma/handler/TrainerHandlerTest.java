@@ -63,10 +63,31 @@ public class TrainerHandlerTest {
 		}
 		dao.close();
 	}
+
+	
+	
+	@Test
+	public void deleteTrainer() throws Exception {
+		TrainerBuilder tb = new TrainerBuilder();
+		tb.setFirstName("John").setLastName("Doe").setEmail("johndoe@email.com").setPhoneNumber("555-555-5555").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
+		tb.setUsername("johndoe").setPassword("password").setConfirmPassword("password");
+
+		Trainer newTrainer = tb.createTrainer();
+		persistedObjects.add(newTrainer);
+		int id = newTrainer.getId();
+		TrainerHandler th = new TrainerHandler();
+		th.deleteTrainer(id);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		
+		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", params);
+		assertNull(trainer);
+		tb.close();
+		th.close();
+	}
+	
 	/********* Test for new trainer qualifications and workours **************/ 
-	
-	
-	
 	public Trainer createArbitraryTrainer() throws AddressException {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
@@ -547,16 +568,10 @@ public class TrainerHandlerTest {
 	@Test
 	public void assignWorkout() throws Exception {
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased");
-		cb.setLastName("Kotian");
-		cb.setEmail("ann@email.com");
-		cb.setPhoneNumber("999-999-9999");
-		cb.setHealthInsurance("Cigna");
-		cb.setStreet("720 City park");
-		cb.setCity("Fort Collins");
-		cb.setState("Colorado");
-		cb.setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
+		cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
 		cb.close();
@@ -580,9 +595,10 @@ public class TrainerHandlerTest {
 	@Test
 	public void getWorkoutByCustomerId() throws Exception {
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999")
-		.setHealthInsurance("Cigna").setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
+		cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
 		cb.close();
@@ -609,9 +625,10 @@ public class TrainerHandlerTest {
 	@Test
 	public void unassignWorkout() throws Exception {
 		CustomerBuilder cb = new CustomerBuilder();
-		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999")
-		.setHealthInsurance("Cigna").setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
 		cb.setMembershipStatus("ACTIVE");
+		cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
 		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
 		cb.close();

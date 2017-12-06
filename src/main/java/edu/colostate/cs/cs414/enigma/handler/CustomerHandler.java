@@ -16,6 +16,7 @@ import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.State;
+import edu.colostate.cs.cs414.enigma.entity.Workout;
 
 public class CustomerHandler extends GymSystemHandler {
 	
@@ -60,6 +61,18 @@ public class CustomerHandler extends GymSystemHandler {
 		params.put("id", id);
 		return (Customer) getDao().querySingle("Customer.findById", params);
 	}
+	
+	public Customer getCustomerByUserId(int userId) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", userId);
+		return (Customer) getDao().querySingle("Customer.findByUserId", params);
+	}
+	
+	public Workout getWorkoutById(int id) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		return (Workout) getDao().querySingle("Workout.findId", params);
+	}
 
 	
 	public void deleteCustomer(String id) {
@@ -72,5 +85,12 @@ public class CustomerHandler extends GymSystemHandler {
 			return;
 		}
 		getDao().remove(c);
+	}
+	
+	public void addFeedback(int customerId, int workoutId, String feedback) {
+		Customer customer = this.getCustomerById(customerId);
+		Workout workout = this.getWorkoutById(workoutId);
+		workout.addFeedback(customer, feedback);
+		this.getDao().update(workout);
 	}
 }

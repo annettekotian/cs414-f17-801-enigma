@@ -80,6 +80,22 @@ public class TrainerServlet extends HttpServlet {
 					customers = ch.getCustomerByKeyword(searchText);
 				}
 				values.put("results", customers);
+				response.setContentType("application/json");
+				out.write(new Gson().toJson(values));
+			} catch (Exception e) {
+				response.sendError(500, e.toString());
+			} finally {
+				ch.close();
+			}
+			return;
+			
+		} else if (type.equals("getCustomerById")) {
+			CustomerHandler ch = new CustomerHandler();
+			Customer c =  null;
+			try {
+				
+				c = ch.getCustomerById(Integer.parseInt(request.getParameter("customerId")));
+				values.put("customer", c);
 				out.write(new Gson().toJson(values));
 			} catch (Exception e) {
 				response.sendError(500, e.toString());

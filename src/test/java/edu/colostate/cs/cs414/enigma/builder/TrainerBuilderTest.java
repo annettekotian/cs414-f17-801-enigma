@@ -117,7 +117,8 @@ public class TrainerBuilderTest {
 		
 		tb.setFirstName("Bob");
 		tb.setId(newTrainer.getId());
-		tb.updateTrainer(newTrainer.getId());
+		Trainer updatedTrainer = tb.updateTrainer(newTrainer.getId());
+		assertTrue(updatedTrainer.getPersonalInformation().getFirstName().equals("Bob"));
 		tb.close();
 	}
 	
@@ -131,17 +132,5 @@ public class TrainerBuilderTest {
 		Trainer newTrainer = tb.createTrainer();
 	}
 	
-	@Test
-	public void deleteTrainer() throws Exception {
-		TrainerBuilder tb = new TrainerBuilder();
-		tb.setFirstName("John").setLastName("Doe").setEmail("johndoe@email.com").setPhoneNumber("555-555-5555").setHealthInsurance("Cigna")
-		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
-		tb.setUsername("johndoe").setPassword("password").setConfirmPassword("password");
-
-		Trainer newTrainer = tb.createTrainer();
-		persistedObjects.add(newTrainer);
-		tb.setId(newTrainer.getId());
-		tb.deleteTrainer(newTrainer.getId());
-		tb.close();
-	}
+	
 }

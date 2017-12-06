@@ -150,7 +150,7 @@ public class PersonalInformation implements Serializable {
 	}
 
 	public void setAddress(Address address) {
-		if(healthInsurance == null) {
+		if(address == null) {
 			throw new IllegalArgumentException("Addres cannot be empty");
 		}
 		this.address = address;

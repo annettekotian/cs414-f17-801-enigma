@@ -28,6 +28,7 @@ import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.Qualification;
 import edu.colostate.cs.cs414.enigma.entity.ExerciseSet;
+import edu.colostate.cs.cs414.enigma.entity.Feedback;
 import edu.colostate.cs.cs414.enigma.entity.State;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
@@ -219,7 +220,11 @@ public class EntityManagerDaoTest {
 		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
 		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
-		Customer customer = new Customer(personalInformation, membership);
+		parameters = new HashMap<String, Object>();
+		parameters.put("level", "CUSTOMER");
+		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
+		User user = new User("testUser", "password", userLevel);
+		Customer customer = new Customer(personalInformation, membership, user);
 		dao.persist(customer);
 		persistedObjects.add(customer);
 		persistedObjects.add(insurance);
@@ -440,7 +445,11 @@ public class EntityManagerDaoTest {
 		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
 		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
-		Customer customer = new Customer(personalInformation, membership);
+		parameters = new HashMap<String, Object>();
+		parameters.put("level", "CUSTOMER");
+		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
+		User user = new User("testUser", "password", userLevel);
+		Customer customer = new Customer(personalInformation, membership, user);
 		dao.persist(customer);
 		persistedObjects.add(customer);
 		persistedObjects.add(insurance);
@@ -470,7 +479,11 @@ public class EntityManagerDaoTest {
 		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
 		HealthInsurance insurance = new HealthInsurance("Free Insurance");
 		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
-		Customer customer = new Customer(personalInformation, membership);
+		parameters = new HashMap<String, Object>();
+		parameters.put("level", "CUSTOMER");
+		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
+		User user = new User("testUser", "password", userLevel);
+		Customer customer = new Customer(personalInformation, membership, user);
 		dao.persist(customer);
 		persistedObjects.add(customer);
 		persistedObjects.add(insurance);
@@ -491,5 +504,45 @@ public class EntityManagerDaoTest {
 		customer.removeWorkout(workout);
 		dao.update(customer);
 		assertEquals("Failed to remove workout from customer", customer.getWorkouts().size(), 0);
+	}
+	
+	@Test
+	public void generateFeedback() throws Exception {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("type", "ACTIVE");
+		Membership membership = (Membership) dao.querySingle("Membership.findType", parameters);
+		parameters = new HashMap<String, Object>();
+		parameters.put("state", "Colorado");
+		State colorado = (State) dao.querySingle("State.findState", parameters);
+		Address newAddress = new Address("12345 Ave", "My Town", "55555", colorado);
+		HealthInsurance insurance = new HealthInsurance("Free Insurance");
+		PersonalInformation personalInformation = new PersonalInformation("johndoe@gmail.com", "John", "Doe", "555-555-5555", insurance, newAddress);
+		parameters = new HashMap<String, Object>();
+		parameters.put("level", "CUSTOMER");
+		UserLevel userLevel = (UserLevel) dao.querySingle("UserLevel.findLevel", parameters);
+		User user = new User("testUser", "password", userLevel);
+		Customer customer = new Customer(personalInformation, membership, user);
+		dao.persist(customer);
+		persistedObjects.add(customer);
+		persistedObjects.add(insurance);
+		
+		Exercise exercise1 = new Exercise("Push-ups");
+		Exercise exercise2 = new Exercise("Jumping Jacks");
+		Workout workout =  new Workout("Extreme Workout");
+		workout.addExercise(exercise1);
+		workout.addExercise(exercise2);
+		dao.persist(workout);
+		persistedObjects.add(exercise1);
+		persistedObjects.add(exercise2);
+		persistedObjects.add(workout);
+		
+		customer.addWorkout(workout);
+		dao.update(customer);
+		
+		workout.addFeedback(customer, "Excellent workout!");
+		dao.update(workout);
+		
+		workout.removeAllFeedback();
+		dao.update(workout);
 	}
 }

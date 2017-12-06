@@ -36,6 +36,7 @@ import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
 
 import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
 import edu.colostate.cs.cs414.enigma.handler.builder.CustomerBuilder;
+import edu.colostate.cs.cs414.enigma.handler.builder.GymSystemUserBuilder;
 import edu.colostate.cs.cs414.enigma.handler.builder.ManagerBuilder;
 import edu.colostate.cs.cs414.enigma.handler.builder.PersonalInformationBuilder;
 import edu.colostate.cs.cs414.enigma.handler.builder.TrainerBuilder;
@@ -365,18 +366,24 @@ public class ManagerServlet extends HttpServlet {
 
 			ManagerBuilder mb = new ManagerBuilder();
 			buildPersonalInformation(mb, request);
-			mb.setUsername(request.getParameter("uName")).setPassword(request.getParameter("password")).setConfirmPassword(request.getParameter("confirmPassword"));
+			buildGymSystemUser(mb, request);
 			try {
 				Manager m = mb.createManager();
 				values.put("manager", m);
 				values.put("status", "success");
 				out.write(new Gson().toJson(values));
 			} catch (IllegalArgumentException e) {
-				response.sendError(500, e.toString());
+				values.put("status", "failure");
+				values.put("message", e.getMessage());
+				out.write(new Gson().toJson(values));
 			} catch (PersistenceException e) {
-				response.sendError(500, e.toString());
+				values.put("status", "failure");
+				values.put("message", e.getMessage());
+				out.write(new Gson().toJson(values));
 			} catch (AddressException e) {
-				response.sendError(500, e.toString());
+				values.put("status", "failure");
+				values.put("message", e.getMessage());
+				out.write(new Gson().toJson(values));
 			} catch (Exception e) {
 				response.sendError(500, e.toString());
 			} finally {
@@ -430,9 +437,9 @@ public class ManagerServlet extends HttpServlet {
 		
 		case "deleteTrainer": {
 			Map<String, Object> returnValues = new HashMap<String, Object>();
-			TrainerBuilder tb = new TrainerBuilder();
+			TrainerHandler th = new TrainerHandler();
 			try {
-				tb.deleteTrainer(Integer.parseInt(request.getParameter("id")));
+				th.deleteTrainer(Integer.parseInt(request.getParameter("id")));
 				returnValues.put("rc", "0");
 			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
@@ -441,7 +448,7 @@ public class ManagerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 				return;
 			} finally {
-				tb.close();
+				th.close();
 			}
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
@@ -568,12 +575,14 @@ public class ManagerServlet extends HttpServlet {
 	
 	}
 	
+	private void buildGymSystemUser(GymSystemUserBuilder gb, HttpServletRequest request) {
+		gb.setUsername(request.getParameter("userName")).setPassword(request.getParameter("password")).setConfirmPassword(request.getParameter("confirmPassword"));
+	}
+	
 	private TrainerBuilder getTrainerBuilderFromRequest(HttpServletRequest request) {
 		TrainerBuilder tb = new TrainerBuilder();
 		buildPersonalInformation(tb, request);
-		tb.setUsername(request.getParameter("userName"));
-		tb.setPassword(request.getParameter("password"));
-		tb.setConfirmPassword(request.getParameter("confirmPassword"));
+		buildGymSystemUser(tb, request);
 		return tb;
 	}
 	
@@ -609,6 +618,7 @@ public class ManagerServlet extends HttpServlet {
 	private void createUpdateCustomer(HttpServletRequest request, HttpServletResponse response, String type, Map<String, Object> returnValues) throws IOException {
 		CustomerBuilder cb = new CustomerBuilder();
 		buildPersonalInformation(cb, request);
+		buildGymSystemUser(cb, request);
 		cb.setMembershipStatus(request.getParameter("membershipStatus"));
 		
 		try {
@@ -624,11 +634,17 @@ public class ManagerServlet extends HttpServlet {
 			response.getWriter().write(new Gson().toJson(returnValues));
 					
 		} catch (IllegalArgumentException e) {
-			response.sendError(500, e.toString());
+			returnValues.put("status", "failure");
+			returnValues.put("message",e.getMessage());
+			response.getWriter().write(new Gson().toJson(returnValues));
 		} catch(PersistenceException e) {
-			response.sendError(500, e.toString());
+			returnValues.put("status", "failure");
+			returnValues.put("message", e.getCause().getCause().toString());
+			response.getWriter().write(new Gson().toJson(returnValues));
 		} catch (AddressException e) {
-			response.sendError(500, e.toString());
+			returnValues.put("status", "failure");
+			returnValues.put("message",e.getMessage());
+			response.getWriter().write(new Gson().toJson(returnValues));
 		} catch (Exception e) {
 			response.sendError(500, e.toString());
 		} finally {
