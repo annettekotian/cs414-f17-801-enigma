@@ -36,11 +36,5 @@ public class TrainerBuilder extends GymSystemUserBuilder {
 		return (Trainer) this.updateGymSystemUser(this.getTrainer(trainerId));
 	}
 
-	public void deleteTrainer(int trainerId) {
-		Trainer trainer = this.getTrainer(trainerId);
-		trainer.removeAllWorkHours();
-		
-		// Delete the trainer
-		getDao().remove(trainer);
-	}
+	
 }

@@ -132,22 +132,5 @@ public class TrainerBuilderTest {
 		Trainer newTrainer = tb.createTrainer();
 	}
 	
-	@Test
-	public void deleteTrainer() throws Exception {
-		TrainerBuilder tb = new TrainerBuilder();
-		tb.setFirstName("John").setLastName("Doe").setEmail("johndoe@email.com").setPhoneNumber("555-555-5555").setHealthInsurance("Cigna")
-		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
-		tb.setUsername("johndoe").setPassword("password").setConfirmPassword("password");
-
-		Trainer newTrainer = tb.createTrainer();
-		persistedObjects.add(newTrainer);
-		int id = newTrainer.getId();
-		tb.setId(id);
-		tb.deleteTrainer(id);
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("id", id);
-		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", params);
-		assertNull(trainer);
-		tb.close();
-	}
+	
 }

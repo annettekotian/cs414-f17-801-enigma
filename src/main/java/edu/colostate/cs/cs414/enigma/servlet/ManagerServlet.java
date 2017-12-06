@@ -437,9 +437,9 @@ public class ManagerServlet extends HttpServlet {
 		
 		case "deleteTrainer": {
 			Map<String, Object> returnValues = new HashMap<String, Object>();
-			TrainerBuilder tb = new TrainerBuilder();
+			TrainerHandler th = new TrainerHandler();
 			try {
-				tb.deleteTrainer(Integer.parseInt(request.getParameter("id")));
+				th.deleteTrainer(Integer.parseInt(request.getParameter("id")));
 				returnValues.put("rc", "0");
 			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
@@ -448,7 +448,7 @@ public class ManagerServlet extends HttpServlet {
 				response.sendError(500, e.toString());
 				return;
 			} finally {
-				tb.close();
+				th.close();
 			}
 			response.setContentType("application/json");
 			out.write(new Gson().toJson(returnValues));
