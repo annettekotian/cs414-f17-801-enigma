@@ -8,6 +8,7 @@ public class ManagerBuilder extends GymSystemUserBuilder {
 
 	public Manager createManager() throws AddressException {
 		Manager manager = new Manager(this.createPersonalInformation(), this.createUser("MANAGER"));
+
 		getDao().persist(manager);
 		return manager;
 	}

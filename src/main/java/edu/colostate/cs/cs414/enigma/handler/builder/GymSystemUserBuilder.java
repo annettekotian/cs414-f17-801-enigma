@@ -15,6 +15,7 @@ public abstract class GymSystemUserBuilder extends PersonalInformationBuilder {
 	protected String username;
 	protected String password;
 	protected String confirmPassword;
+	protected String userLevel;
 	protected int id;
 
 	public GymSystemUserBuilder setUsername(String username) {
