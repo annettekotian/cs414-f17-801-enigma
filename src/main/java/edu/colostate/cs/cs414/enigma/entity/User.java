@@ -33,9 +33,9 @@ public class User implements Serializable {
 	private UserLevel userLevel;
 
 	public User(String username, String password, UserLevel userLevel) {
-		this.password = password;
-		this.username = username;
-		this.userLevel = userLevel;
+		this.setPassword(password);
+		this.setUsername(username);
+		this.setUserLevel(userLevel);
 	}
 	
 	protected User() {
@@ -54,6 +54,12 @@ public class User implements Serializable {
 	}
 
 	public void setPassword(String password) {
+		if(password == null) {
+			throw new IllegalArgumentException("Password cannot be empty");
+		}
+		if(password.length() < 8) {
+			throw new IllegalArgumentException("Password must be 8 characters");
+		}
 		this.password = password;
 	}
 
@@ -62,6 +68,12 @@ public class User implements Serializable {
 	}
 
 	public void setUsername(String username) {
+		if(username == null) {
+			throw new IllegalArgumentException("Username cannot be empty");
+		}
+		if(username.isEmpty()) {
+			throw new IllegalArgumentException("Username cannot be empty");
+		}
 		this.username = username;
 	}
 
@@ -70,6 +82,9 @@ public class User implements Serializable {
 	}
 
 	public void setUserLevel(UserLevel userLevel) {
+		if(userLevel == null) {
+			throw new IllegalArgumentException("User level cannot be empty");
+		}
 		this.userLevel = userLevel;
 	}
 	

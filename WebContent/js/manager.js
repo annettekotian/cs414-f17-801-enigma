@@ -289,9 +289,9 @@ $("#managerHIList").on("change", function() {
 
 $("#createManagerButton").on("click", function (){
 	var postParams = {};
-	postParams.fName = $("#managerFName").val();
-	postParams.lName = $("#managerLName").val();
-	postParams.uName = $("#managerUName").val();
+	postParams.firstName = $("#managerFName").val();
+	postParams.lastName = $("#managerLName").val();
+	postParams.userName = $("#managerUName").val();
 	postParams.password = $("#managerPassword").val();
 	postParams.confirmPassword = $("#confirmManagerPassword").val();
 	postParams.email = $("#managerEmail").val();
@@ -304,9 +304,9 @@ $("#createManagerButton").on("click", function (){
 	
 	var hiIndex = $("#managerHIList").find(":selected").index();
 	if(hiIndex == 0) {
-		postParams.insurance = $("#managerOtherHI").val();
+		postParams.healthInsurance = $("#managerOtherHI").val();
 	} else {
-		postParams.insurance = $("#managerHIList").val();
+		postParams.healthInsurance = $("#managerHIList").val();
 	}
 	
 	if(postParams.password != postParams.confirmPassword) {
@@ -320,8 +320,8 @@ $("#createManagerButton").on("click", function (){
 	}
 	
 	
-	if(!postParams.fName || !postParams.lName || !postParams.uName || !postParams.password || !postParams.email || !postParams.phone 
-			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip || !postParams.insurance) {
+	if(!postParams.firstName || !postParams.lastName || !postParams.userName || !postParams.password || !postParams.email || !postParams.phone 
+			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip || !postParams.healthInsurance) {
 		alert("Could not create manager! Some input fields were missing");
 		return;
 	}
@@ -332,14 +332,15 @@ $("#createManagerButton").on("click", function (){
 		data: postParams,
 		
 		success: function(data) {
-			$.modal.close();
 			var data = JSON.parse(data);
 			var manager = data.manager;
 			var status = data.status;
 			if(status != "success") {
-				alert("Could not create manager! Some error occured");
+				alert("Error: " + data.message);
 				return;
 			}
+			
+			$.modal.close();
 			$("#managerResults table").append("<tr data-id='"+ manager.id + "' class='tableData'>"  +
 					"<td>" +  manager.id+"</td> " + 
 					"<td> " + manager.personalInformation.firstName+ "</td> " + 
@@ -352,37 +353,6 @@ $("#createManagerButton").on("click", function (){
 
 		},
 		error: function(exception) {
-			if(exception.responseText.indexOf("Missing Input") >=0) {
-				alert("Could not create manager! Some input fields were missing");
-				return;
-			}
-			
-			if(exception.responseText.indexOf("Password error") >=0) {
-				alert("Passwords entered are not the same!");
-				return;
-			}
-			
-			if(exception.responseText.indexOf("Password short")>=0) {
-				alert("Password must be atleast 8 characters in length");
-				return;
-			}
-			
-			if(exception.responseText.indexOf(" javax.mail.internet.AddressException") >=0 ) {
-				alert("Invalid email address");
-				return;
-			}
-			if(exception.responseText.indexOf("org.hibernate.exception.ConstraintViolationException") >= 0) {
-				alert("Username already exists");
-				return;
-			}
-			if(exception.responseText.indexOf("Zipcode") >= 0) {
-				alert("Zipcode must be 5 digits");
-				return;
-			}
-			if(exception.responseText.indexOf("Phone") >= 0) {
-				alert("Phone number must be 10 digits in format ###-###-####");
-				return;
-			}
 			alert("Error: " + exception);
 		}
 	});
@@ -489,8 +459,8 @@ $("#customerHIList").on("change", function() {
  */
 $("#createCustomerButton").on("click", function (){
 	var postParams = {};
-	postParams.fName = $("#customerFName").val();
-	postParams.lName = $("#customerLName").val();
+	postParams.firstName = $("#customerFName").val();
+	postParams.lastName = $("#customerLName").val();
 	postParams.email = $("#customerEmail").val();
 	postParams.phone = $("#customerPhone").val();
 	postParams.street = $("#customerStreet").val();
@@ -498,6 +468,9 @@ $("#createCustomerButton").on("click", function (){
 	postParams.state = $("#customerState").val();
 	postParams.zip = $("#customerZip").val();
 	postParams.membershipStatus = $("#customerMembership").val();
+	postParams.userName = $("#customerUserName").val();
+	postParams.password = $("#customerPassword").val();
+	postParams.confirmPassword = $("#customerConfirmPassword").val();
 	var hiIndex = $("#customerHIList").find(":selected").index();
 	if(hiIndex == 0) {
 		postParams.healthInsurance = $("#customerOtherHI").val();
@@ -509,8 +482,8 @@ $("#createCustomerButton").on("click", function (){
 	postParams.type = "createCustomer";
 	
 	
-	if(!postParams.fName || !postParams.lName || !postParams.email || !postParams.phone || !postParams.healthInsurance || !postParams.membershipStatus
-			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip) {
+	if(!postParams.firstName || !postParams.lastName || !postParams.email || !postParams.phone || !postParams.healthInsurance || !postParams.membershipStatus
+			|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip || !postParams.userName || !postParams.password || !postParams.confirmPassword) {
 		alert("Could not create customer! Some input fields were missing");
 		return;
 	}
@@ -523,15 +496,15 @@ $("#createCustomerButton").on("click", function (){
 		data: postParams,
 		
 		success: function(data) {
-			$.modal.close();
 			var data = JSON.parse(data);
-			var customer = data.customer;
+			
 			var status = data.status;
 			if(status == "failure") {
-				alert("Could not create customer! Some input fields were missing");
+				alert("Error:"  + data.message);
 				return;
 			}
-			
+			$.modal.close();
+			var customer = data.customer;
 			$("#customerResults table").append("<tr data-id='" + customer.id + "' class='tableData'> <td><a class='editCustomer' href='#'>Edit</a>" +
 					"<span>&nbsp;</span><a class='deleteCustomer' href='#'>Delete</a></td>" +
 					"<td>" +  customer.id+"</td> " + 
@@ -546,22 +519,7 @@ $("#createCustomerButton").on("click", function (){
 
 		},
 		error: function(exception) {
-			if(exception.responseText.indexOf("Missing input") >= 0) {
-				alert("Could not create customer! Some input fields were missing");
-				return;
-			}
-			if (exception.responseText.indexOf(" javax.mail.internet.AddressException") >=0 ) {
-				alert("Invalid email address");
-				return;
-			}
-			if(exception.responseText.indexOf("Zipcode") >= 0) {
-				alert("Zipcode must be 5 digits");
-				return;
-			}
-			if(exception.responseText.indexOf("Phone") >= 0) {
-				alert("Phone number must be 10 digits in format ###-###-####");
-				return;
-			}
+			
 			alert("Error" + exception);
 		}
 	
@@ -605,6 +563,9 @@ $(document).on('click', '.editCustomer', function() {
 				$("#customerHIList").val(customer.personalInformation.healthInsurance.name);
 				$("#customerOtherHI").attr("disabled", true);
 				$("#customerMembership").val(customer.membership.type);
+				$("#customerUserName").val(customer.user.username);
+				$("#customerPassword").val(customer.user.password);
+				$("#customerConfirmPassword").val(customer.user.password);
 				$("#customerModal").modal();
 				
 			} else {
@@ -624,14 +585,17 @@ $(document).on('click', '.editCustomer', function() {
 		//console.log("editCustomerButton called");
 		var postParams = {};
 		postParams.id = CURRENTLY_EDITED_CUSTOMER_ID;
-		postParams.fName = $("#customerFName").val();
-		postParams.lName = $("#customerLName").val();
+		postParams.firstName = $("#customerFName").val();
+		postParams.lastName = $("#customerLName").val();
 		postParams.email = $("#customerEmail").val();
 		postParams.phone = $("#customerPhone").val();
 		postParams.street = $("#customerStreet").val();
 		postParams.city = $("#customerCity").val();
 		postParams.state = $("#customerState").val();
 		postParams.zip = $("#customerZip").val();
+		postParams.userName = $("#customerUserName").val();
+		postParams.password = $("#customerPassword").val();
+		postParams.confirmPassword = $("#customerConfirmPassword").val();
 		var hiIndex = $("#customerHIList").find(":selected").index();
 		if(hiIndex == 0) {
 			postParams.healthInsurance = $("#customerOtherHI").val();
@@ -642,8 +606,8 @@ $(document).on('click', '.editCustomer', function() {
 		postParams.type = "updateCustomer";
 		
 		
-		if(!postParams.fName || !postParams.lName || !postParams.email || !postParams.phone || !postParams.healthInsurance || !postParams.membershipStatus
-				|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip) {
+		if(!postParams.firstName || !postParams.lastName || !postParams.email || !postParams.phone || !postParams.healthInsurance || !postParams.membershipStatus
+				|| !postParams.street || !postParams.city || !postParams.state || !postParams.zip || !postParams.userName || !postParams.password || !postParams.confirmPassword) {
 			alert("Could not edit customer! Some input fields were missing");
 			return;
 		}
@@ -655,14 +619,16 @@ $(document).on('click', '.editCustomer', function() {
 			data: postParams,
 			
 			success: function(data) {
-				$.modal.close();
 				var data = JSON.parse(data);
-				var customer = data.customer;
 				var status = data.status;
 				if(status == "failure") {
-					alert("Could not create customer! Some input fields were missing");
+					alert("Error: "  + data.message);
 					return;
 				}
+				$.modal.close();
+				var customer = data.customer;
+				
+				
 				
 				var tr = $("#customerResults table").find("tr[data-id='" + customer.id+"']");
 				tr.empty();
@@ -930,7 +896,7 @@ $("#editMachineForm").on("submit", function(e){
 		success: function(data){
 			$.modal.close();
 			data = JSON.parse(data);
-			var machine = data.machine
+			var machine = data.machine;
 			
 			var tr = $("#inventoryResults table").find("tr[data-id='" + machine.id+"']");
 			tr.empty();

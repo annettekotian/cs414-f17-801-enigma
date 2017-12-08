@@ -9,11 +9,9 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import edu.colostate.cs.cs414.enigma.listener.EntityManagerFactoryListener;
-
 public class EntityManagerDao implements GymSystemDao {
 
-	private static EntityManagerFactory emf = null;
+	private volatile static EntityManagerFactory emf = null;
 	
 	private EntityManager em;
 	
@@ -28,7 +26,7 @@ public class EntityManagerDao implements GymSystemDao {
 		return emf;
 	}
 	
-	public void shutdown() {
+	public synchronized void shutdown() {
 		if(emf != null) {
 			emf.close();
 			emf = null;
@@ -71,7 +69,7 @@ public class EntityManagerDao implements GymSystemDao {
 	}
 
 	@Override
-	public List query(String query, Map<String, Object> parameters) {
+	public List<?> query(String query, Map<String, Object> parameters) {
 		Query emQuery = em.createNamedQuery(query);
 		if(parameters != null) {
 			for(String key: parameters.keySet()) {
@@ -84,7 +82,7 @@ public class EntityManagerDao implements GymSystemDao {
 	@Override
 	public Object querySingle(String query, Map<String, Object> parameters)
 	{
-		List rawResults = query(query, parameters);
+		List<?> rawResults = query(query, parameters);
 		if(rawResults.size() == 0) {
 			return null;
 		}

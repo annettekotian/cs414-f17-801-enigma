@@ -278,7 +278,6 @@ $("#submitWorkout").on("click", function(){
 		data: params,
 		
 		success: function(workout) {
-			
 			//console.log(data);
 			SELECTED_EXERCISES_LIST = [];
 			WORKOUT_LIST.push(workout);
@@ -286,13 +285,17 @@ $("#submitWorkout").on("click", function(){
 			$("#workoutResults table").append("<tr data-id='"+ workout.id + "' class='tableData'> " +
 					"<td>" +  workout.id+"</td> " + 
 					"<td> " + workout.name+ "</td> " + 
-					"<td> <a class='viewWorkoutExercises' href='#'>View Exercises</a></td></tr>");
+					"<td> <a class='viewWorkoutExercises' href='#'>View Exercises</a></td>" +
+					"<td> None </td> " + 
+					"</tr>");
 
 		},
 		error: function(exception) {
 			if(exception.responseText.indexOf("missing input") >=0) {
 				alert("Could not create workout! Some input fields were missing");
-			} else {
+			} else if (exception.responseText.indexOf("ConstraintViolationException") >= 0) {
+				alert("Workout already exists!");
+			}else {
 				alert("Error: " + exception);
 			}
 			
@@ -373,10 +376,16 @@ function populateWorkoutTable(workoutList) {
 	$("#workoutResults .tableData").remove();
 	for(var i = 0; i < workoutList.length; i++) {
 		workout = workoutList[i];
+		var feedbackStr = "None";
+		if(workout.feedback.length > 0) {
+			feedbackStr = "<a class='viewFeedback' href='#'>View Feedback</a>";
+		}
 		$("#workoutResults table").append("<tr data-id='"+ workout.id + "' class='tableData'> " +
 				"<td>" +  workout.id+"</td> " + 
 				"<td> " + workout.name+ "</td> " + 
-				"<td> <a class='viewWorkoutExercises' href='#'>View Exercises</a></td></tr>");
+				"<td> <a class='viewWorkoutExercises' href='#'>View Exercises</a></td>" +
+				"<td> " + feedbackStr + "</td>" +
+				"</tr>");
 	}
 }
 
@@ -396,6 +405,47 @@ $(document).on("click", ".viewWorkoutExercises", function(){
 	$("#workoutExercisesModal").modal();
 })
 
+$(document).on("click", ".viewFeedback", function(){
+	var workoutId = $(this).parents('tr').data('id');
+	var workout = WORKOUT_LIST.find(item => item.id == workoutId);
+	var feedbackList = workout.feedback;
+	$("#workoutFeedback .tableData").remove();
+	for(var i = 0; i< feedbackList.length; i++) {
+		var feedback = feedbackList[i];
+		var customerData = getCustomerById(feedback.customerId);
+		$("#workoutFeedback table").append("<tr data-id='"+ feedback.id + "' class='tableData'>" 
+				+ "<td> Customer id: " + customerData.id + " </br>Name: " + customerData.personalInformation.firstName 
+				+ " " + customerData.personalInformation.lastName + "</td>" 
+				+ "<td> " + feedback.id + "</td>" 
+				+ "<td>" + feedback.feedback + "</td>"  
+				+ "</tr>")
+	}
+	$("#workoutFeedbackModal").modal();
+});
+
+function getCustomerById(customerId) {
+	var customerData = null;
+	$.ajax({
+		url: "/trainer/ui",
+		method: "GET",
+		customerId: customerId,
+		data: {
+			type: "getCustomerById",
+			customerId: customerId
+		},
+		async:false,
+		success: function(data) {
+			data = JSON.parse(data);
+			customerData = data.customer;
+
+		},
+		error: function(exception) {
+			
+			alert("Error: " + exception);
+		}
+	});
+	return customerData;
+}
 
 $(document).on("click", "#workoutResults .tableData", function(){
 	console.log("here");
@@ -539,6 +589,8 @@ $("#submitWorkoutChanges").on("click", function(){
 		error: function(exception) {
 			if(exception.responseText.indexOf("missing input") >=0) {
 				alert("Could not create workout! Some input fields were missing");
+			} else if (exception.responseText.indexOf("RollbackException") >= 0) {
+				alert("Workout already exists!");
 			} else {
 				alert("Error: " + exception);
 			}
@@ -698,7 +750,6 @@ $("#deleteWorkoutButton").on("click", function(){
 		data: params,
 		
 		success: function(data) {
-			debugger;
 			for(var i = 0; i < WORKOUT_LIST.length; i++) {
 				if(WORKOUT_LIST[i].id == CURRENTLY_EDITED_WORKOUT) {
 					WORKOUT_LIST.splice(i, 1);

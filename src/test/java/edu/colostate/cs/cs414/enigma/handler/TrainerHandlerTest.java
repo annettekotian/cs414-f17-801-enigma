@@ -32,6 +32,8 @@ import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
 import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
+import edu.colostate.cs.cs414.enigma.handler.builder.CustomerBuilder;
+import edu.colostate.cs.cs414.enigma.handler.builder.TrainerBuilder;
 
 public class TrainerHandlerTest {
 
@@ -61,58 +63,32 @@ public class TrainerHandlerTest {
 		}
 		dao.close();
 	}
-	/********* Test for new trainer **************/ 
+
+	
+	
 	@Test
-	public void presistNewTrainer() throws Exception {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe@email.com";
-		String phone = "555-555-5555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String userName = "johndoe";
-		String password = "password";
-		TrainerHandler th = new TrainerHandler();
-		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+	public void deleteTrainer() throws Exception {
+		TrainerBuilder tb = new TrainerBuilder();
+		tb.setFirstName("John").setLastName("Doe").setEmail("johndoe@email.com").setPhoneNumber("555-555-5555").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
+		tb.setUsername("johndoe").setPassword("password").setConfirmPassword("password");
+
+		Trainer newTrainer = tb.createTrainer();
 		persistedObjects.add(newTrainer);
-	}
-	
-	@Test(expected = PersistenceException.class)
-	public void presistNewTrainerDuplicateUsername() throws Exception {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe@email.com";
-		String phone = "555-555-5555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String userName = "johndoe";
-		String password = "password";
+		int id = newTrainer.getId();
 		TrainerHandler th = new TrainerHandler();
-		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
-		persistedObjects.add(newTrainer);
+		th.deleteTrainer(id);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
 		
-		firstName = "John";
-		lastName = "Doe";
-		email = "johndoe@email.com";
-		phone = "555-555-5555";
-		insurance = "Cigna";
-		street = "720 City park";
-		city = "Fort Collins";
-		state = "Colorado";
-		zip = "80521";
-		userName = "johndoe";
-		password = "password";
-		newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
+		Trainer trainer = (Trainer) dao.querySingle("Trainer.findById", params);
+		assertNull(trainer);
+		tb.close();
+		th.close();
 	}
 	
-	
-	public Trainer createArbitraryTrainer() {
+	/********* Test for new trainer qualifications and workours **************/ 
+	public Trainer createArbitraryTrainer() throws AddressException {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("state", "Colorado");
 		State colorado = (State) dao.querySingle("State.findState", parameters);
@@ -131,7 +107,7 @@ public class TrainerHandlerTest {
 	}
 
 	@Test
-	public void addQualification() {
+	public void addQualification() throws AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		int trainerId = trainer.getId();
 		String qualification = "Iron Man";
@@ -143,7 +119,7 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
-	public void removeQualification() {
+	public void removeQualification() throws AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		int trainerId = trainer.getId();
 		String qualification = "Iron Man";
@@ -155,7 +131,7 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
-	public void addWorkHours() throws WorkHoursException {
+	public void addWorkHours() throws WorkHoursException, AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		int trainerId = trainer.getId();
 		
@@ -173,7 +149,7 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
-	public void deleteSingleWorkHours() throws WorkHoursException {
+	public void deleteSingleWorkHours() throws WorkHoursException, AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		int trainerId = trainer.getId();
 		
@@ -190,59 +166,9 @@ public class TrainerHandlerTest {
 		th.deleteWorkHours(trainerId, trainer.getWorkHours().get(0).getId());
 	}
 	
-	@Test(expected = AddressException.class)
-	public void incorrectEmailAddressFormat() throws Exception {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe";
-		String phone = "555-555-5555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String userName = "johndoe";
-		String password = "password";
-		TrainerHandler th = new TrainerHandler();
-		th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void incorrectZipcodeFormat() throws Exception {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe";
-		String phone = "555-555-5555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "805adsfasdf21";
-		String userName = "johndoe";
-		String password = "password";
-		TrainerHandler th = new TrainerHandler();
-		th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void emptyCreateTrainerParameters() throws Exception {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe";
-		String phone = "555-555-5555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "";
-		String userName = "johndoe";
-		String password = "password";
-		TrainerHandler th = new TrainerHandler();
-		th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
-	}
 	
 	@Test
-	public void searchForTrainer() {
+	public void searchForTrainer() throws AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		TrainerHandler th = new TrainerHandler();
 		List<Trainer> searchTrainers = th.searchTrainers(trainer.getPersonalInformation().getLastName());
@@ -251,7 +177,7 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
-	public void getAllTrainers() {
+	public void getAllTrainers() throws AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		TrainerHandler th = new TrainerHandler();
 		List<Trainer> trainers = th.getAllTrainers();
@@ -260,7 +186,7 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
-	public void getTrainerById() {
+	public void getTrainerById() throws AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		TrainerHandler th = new TrainerHandler();
 		Trainer searchTrainer = th.getTrainerById(trainer.getId());
@@ -269,7 +195,7 @@ public class TrainerHandlerTest {
 	}
 	
 	@Test
-	public void getTrainerByUserId() {
+	public void getTrainerByUserId() throws AddressException {
 		Trainer trainer = createArbitraryTrainer();
 		TrainerHandler th = new TrainerHandler();
 		Trainer searchTrainer = th.getTrainerByUserId(trainer.getUser().getId());
@@ -277,45 +203,8 @@ public class TrainerHandlerTest {
 		th.close();
 	}
 	
-	@Test
-	public void modifyTrainer() throws Exception {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe@email.com";
-		String phone = "555-555-5555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String userName = "johndoe";
-		String password = "password";
-		TrainerHandler th = new TrainerHandler();
-		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
-		persistedObjects.add(newTrainer);
-		th.modifyTrainer(newTrainer.getId(), "Bob", lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
-		th.close();
-	}
 	
-	@Test
-	public void deleteTrainer() throws Exception {
-		String firstName = "John";
-		String lastName = "Doe";
-		String email = "johndoe@email.com";
-		String phone = "555-555-5555";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String userName = "johndoe";
-		String password = "password";
-		TrainerHandler th = new TrainerHandler();
-		Trainer newTrainer = th.createNewTrainer(firstName, lastName, phone, email, street, city, state, zip, insurance, userName, password, password);
-		persistedObjects.add(newTrainer);
-		th.deleteTrainer(newTrainer.getId());
-		th.close();
-	}
+	
 	
 	@Test
 	public void createDeleteExerciseNoDurationNoSetsNoMachine() throws Exception {
@@ -394,7 +283,7 @@ public class TrainerHandlerTest {
 		Exercise exercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 		
 		int updatedHours = 10;
-		exercise = th.modifyExercise(exercise.getId(), name, machineId, updatedHours, minutes, seconds, repetitions);
+		exercise = th.updateExercise(exercise.getId(), name, machineId, updatedHours, minutes, seconds, repetitions);
 		assertEquals("Failed to update duration", exercise.getDuration().getHours(), updatedHours);
 		
 		th.deleteExercise(exercise.getId());
@@ -419,7 +308,7 @@ public class TrainerHandlerTest {
 		repetitions.add(5);
 		repetitions.add(10);
 		repetitions.add(20);
-		th.modifyExercise(exercise.getId(), name, machineId, hours, minutes, seconds, repetitions);
+		th.updateExercise(exercise.getId(), name, machineId, hours, minutes, seconds, repetitions);
 		
 		
 		th.deleteExercise(exercise.getId());
@@ -441,7 +330,7 @@ public class TrainerHandlerTest {
 		Exercise exercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 		
 		name = "mega push-ups";
-		exercise = th.modifyExercise(exercise.getId(), name, machineId, hours, minutes, seconds, repetitions);
+		exercise = th.updateExercise(exercise.getId(), name, machineId, hours, minutes, seconds, repetitions);
 		assertEquals("Failed to update name", exercise.getName(), name);
 		
 		th.deleteExercise(exercise.getId());
@@ -462,7 +351,7 @@ public class TrainerHandlerTest {
 		TrainerHandler th = new TrainerHandler();
 		Exercise exercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 		
-		exercise = th.modifyExercise(exercise.getId(), name, machineId, 0, 0, 0, repetitions);
+		exercise = th.updateExercise(exercise.getId(), name, machineId, 0, 0, 0, repetitions);
 		assertNull("Failed to delete duration", exercise.getDuration());
 		
 		th.deleteExercise(exercise.getId());
@@ -483,7 +372,7 @@ public class TrainerHandlerTest {
 		TrainerHandler th = new TrainerHandler();
 		Exercise exercise = th.createExercise(name, machineId, hours, minutes, seconds, repetitions);
 		
-		exercise = th.modifyExercise(exercise.getId(), name, machineId, hours, minutes, seconds, new ArrayList<Integer>());
+		exercise = th.updateExercise(exercise.getId(), name, machineId, hours, minutes, seconds, new ArrayList<Integer>());
 		assertEquals("Failed to delete sets", exercise.getSets().size(), 0);
 		
 		th.deleteExercise(exercise.getId());
@@ -649,7 +538,7 @@ public class TrainerHandlerTest {
 		Workout w = createWorkout();
 		TrainerHandler th = new TrainerHandler();
 		List<Workout> list = th.searchWorkouts("");
-		assertTrue(list.size() >= 0);
+		assertTrue(list.size() >= 1);
 	}
 	
 	
@@ -678,22 +567,14 @@ public class TrainerHandlerTest {
 	
 	@Test
 	public void assignWorkout() throws Exception {
-		// Create a customer
-		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
-		String lName = "Kotian";
-		String email = "ann@email.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-
-		CustomerHandler ch = new CustomerHandler();
-		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
-				membershipStatus);
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
+		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
+		cb.close();
 		
 		// Create a workout
 		String name = "testWorkout123456";
@@ -713,22 +594,14 @@ public class TrainerHandlerTest {
 	
 	@Test
 	public void getWorkoutByCustomerId() throws Exception {
-		// Create a customer
-		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
-		String lName = "Kotian";
-		String email = "ann@email.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-
-		CustomerHandler ch = new CustomerHandler();
-		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
-				membershipStatus);
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
+		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
+		cb.close();
 		
 		// Create a workout
 		String name = "testWorkout123456";
@@ -751,22 +624,14 @@ public class TrainerHandlerTest {
 	
 	@Test
 	public void unassignWorkout() throws Exception {
-		// Create a customer
-		String fName = "Annetteqweqwepoqweqwpfsdfoqased";
-		String lName = "Kotian";
-		String email = "ann@email.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		String membershipStatus = "ACTIVE";
-
-		CustomerHandler ch = new CustomerHandler();
-		Customer c1 = ch.createNewCustomer(email, fName, lName, phone, insurance, street, city, zip, state,
-				membershipStatus);
+		CustomerBuilder cb = new CustomerBuilder();
+		cb.setFirstName("Annetteqweqwepoqweqwpfsdfoqased").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("999-999-9999").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("80521");
+		cb.setMembershipStatus("ACTIVE");
+		cb.setUsername("annkot123739").setPassword("password").setConfirmPassword("password");
+		Customer c1 = cb.createCustomer();
 		persistedObjects.add(c1);
+		cb.close();
 		
 		// Create a workout
 		String name = "testWorkout123456";
@@ -787,8 +652,9 @@ public class TrainerHandlerTest {
 		th.unassignWorkout(c1.getId(), w.getId());
 		
 		// Verify workout was added
+		CustomerHandler ch = new CustomerHandler();
 		assertEquals("Failled to assign workout to customer", ch.getCustomerById(c1.getId()).getWorkouts().size(), 0);
-
+		ch.close();
 		
 	}
 	

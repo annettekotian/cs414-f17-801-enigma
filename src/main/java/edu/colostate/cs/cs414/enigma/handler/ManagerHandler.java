@@ -31,80 +31,6 @@ import edu.colostate.cs.cs414.enigma.entity.exception.MachineException;
 
 public class ManagerHandler extends GymSystemHandler {	
 	
-	/**
-	 * 
-	 * @param email: String
-	 * @param firstName: String:
-	 * @param lastName: String
-	 * @param phoneNumber: String
-	 * @param hiId: String health insruance id
-	 * @param userName: String username of the manager using which he will log in
-	 * @param userPass: String password for the username
-	 * @param street: String password for the username
-	 * @param city: String city
-	 * @param zip: String zipcode
-	 * @param state: String state
-	 * @return
-	 */
-	public Manager createManager(String email, String firstName, String lastName, String phoneNumber, String insurance, String userName, String userPass,
-			String confirmPassword, String street, String city, String zip, String state) throws AddressException  {
-		
-			
-
-		// validations
-		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || insurance.isEmpty() || userName.isEmpty()
-				|| userPass.isEmpty() || street.isEmpty() || city.isEmpty() || zip.isEmpty() || state.isEmpty()) {
-			
-			throw new IllegalArgumentException("Missing Input");
-		}
-		if(userPass.length()<8) {
-			throw new IllegalArgumentException("Password short");
-		}
-		
-		// password validations	
-		if(!userPass.equals(confirmPassword) || userPass.length() < 8) {
-			throw new IllegalArgumentException("Password error");
-		}
-		if(!zip.matches("^[0-9]{5}$")) {
-			throw new IllegalArgumentException("Zipcode must be 5 digits");
-		}
-		if(!phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
-			throw new IllegalArgumentException("Phone number must be 10 digits in format ###-###-####");
-		}
-		
-		// validate email
-		try {
-			InternetAddress emailAddr = new InternetAddress(email);
-			emailAddr.validate();
-		} catch (AddressException e) {
-			throw e;
-		}
-		
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("name", insurance);
-		HealthInsurance hiDB = (HealthInsurance) getDao().querySingle("HealthInsurance.findByName", parameters);
-		if(hiDB == null) {
-			hiDB = new HealthInsurance(insurance);
-		}
-		
-		Map<String, Object> stateParams = new HashMap<String, Object>();
-		stateParams.put("state", state);
-		State stateDB = (State) getDao().querySingle("State.findState", stateParams);
-		Address address = new Address(street, city, zip, stateDB);
-		
-		PersonalInformation p = new PersonalInformation(email, firstName, lastName, phoneNumber, hiDB, address);
-		Map<String, Object> userLevelParams = new HashMap<String, Object>(); 
-		userLevelParams.put("level", "MANAGER");
-		UserLevel ul = (UserLevel) getDao().querySingle("UserLevel.findLevel", userLevelParams);
-		User user = new User( userName, userPass, ul);
-		Manager manager= new Manager(p, user);
-		
-		// Persist the manager with the database
-		getDao().persist(manager);
-		
-		return manager;		
-	}
-	
 	public List<Manager> getAllManagers() {
 			
 		// Issue a query to get all the customers
@@ -158,7 +84,7 @@ public class ManagerHandler extends GymSystemHandler {
 	 * @throws IOException
 	 * @throws MachineException
 	 */
-	public Machine addMachine(String name, InputStream fileContent, String uploadPath, String quantity) throws IOException, MachineException {
+	public Machine createMachine(String name, InputStream fileContent, String uploadPath, String quantity) throws IOException, MachineException {
 		
 		// validations
 		if(name.isEmpty() || fileContent == null || fileContent.available()==0 || uploadPath.isEmpty() || quantity.isEmpty()) {
@@ -259,7 +185,7 @@ public class ManagerHandler extends GymSystemHandler {
 	}
 
 	
-	public void removeMachine(String id, String uploadPath) {
+	public void deleteMachine(String id, String uploadPath) {
 		int mId = Integer.parseInt(id);
 		
 		HashMap<String, Object> params = new HashMap<>();

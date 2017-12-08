@@ -33,7 +33,7 @@ public class HealthInsurance implements Serializable {
 	private String name;
 
 	public HealthInsurance(String name) {
-		this.name = name;
+		this.setName(name);
 	}
 	
 	protected HealthInsurance() {
@@ -52,6 +52,12 @@ public class HealthInsurance implements Serializable {
 	}
 
 	public void setName(String name) {
+		if(name == null) {
+			throw new IllegalArgumentException("Health Insurance name cannot be empty");
+		}
+		if(name.isEmpty()) {
+			throw new IllegalArgumentException("Health Insurance name cannot be empty");
+		}
 		this.name = name;
 	}
 
@@ -85,6 +91,6 @@ public class HealthInsurance implements Serializable {
 
 	@Override
 	public String toString() {
-		return "HealthInsurance [id=" + id + ", description=" + name + "]";
+		return name;
 	}
 }

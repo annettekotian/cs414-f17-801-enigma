@@ -45,6 +45,12 @@ public class UserLevel implements Serializable {
 	}
 
 	public void setDescription(String description) {
+		if(description == null) {
+			throw new IllegalArgumentException("User level description cannot be empty");
+		}
+		if(description.isEmpty()) {
+			throw new IllegalArgumentException("User level description be empty");
+		}
 		this.description = description;
 	}
 	

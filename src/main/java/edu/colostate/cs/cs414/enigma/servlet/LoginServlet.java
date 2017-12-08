@@ -12,9 +12,11 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import edu.colostate.cs.cs414.enigma.entity.Customer;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.User;
+import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
 import edu.colostate.cs.cs414.enigma.handler.LoginHandler;
 import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
 import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
@@ -61,13 +63,15 @@ public class LoginServlet extends HttpServlet {
 		LoginHandler lh = new LoginHandler();
 		TrainerHandler th = new TrainerHandler();
 		ManagerHandler mh = new ManagerHandler();
+		CustomerHandler ch = new CustomerHandler();
 		try {
 			if(lh.authenticate(userName, password)) {
 				HttpSession session = request.getSession(true);
-				String level = lh.getUserLevel(userName);
+				User user = lh.getUserByUsername(userName);
 				// set level and user id in the session
+				String level = user.getUserLevel().getDescription();
 				session.setAttribute("level", level);
-				int id = lh.getUserId(userName);
+				int id = user.getId();
 				session.setAttribute("userid", id);
 				
 				// redirect based on level
@@ -76,10 +80,15 @@ public class LoginServlet extends HttpServlet {
 					request.setAttribute("trainer", new Gson().toJson(t));
 					
 					request.getRequestDispatcher("/WEB-INF/views/trainer/trainer.jsp").forward(request, response);
-				} else {
-
-					// get all manager data to display in the ui
+				} else if (level.equals("CUSTOMER")) {
+					Customer c = ch.getCustomerByUserId(id);
+					request.setAttribute("level", level);
+					request.setAttribute("customerData", new Gson().toJson(c) );
+					session.setAttribute("customerId", c.getId());
+					request.getRequestDispatcher("/WEB-INF/views/customer/customer.jsp").forward(request, response);
 					
+				} else {
+					// get all manager data to display in the ui
 					List<Manager> managers = mh.getAllManagers();			
 					request.setAttribute("level", level);
 					request.setAttribute("managerData", new Gson().toJson(managers));
@@ -92,6 +101,7 @@ public class LoginServlet extends HttpServlet {
 			lh.close();
 			th.close();
 			mh.close();
+			ch.close();
 		}	
 	}
 }

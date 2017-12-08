@@ -403,7 +403,21 @@
 				<select id="customerMembership"  class="customerInput">
 				</select>
 			</div>
-		
+			<div id="customerUsernameDiv" class="customerInputDiv" > 	
+				<label>Username</label><br/>
+				<input id="customerUserName" class="customerInput" type="text"/>
+				
+			</div>
+			<div id="customerPasswordDiv" class="customerInputDiv" > 	
+				<label>Password</label><br/>
+				<input id="customerPassword" class="customerInput" type="password"/>
+			</div>
+			<div id="customerConfirmPasswordDiv" class="customerInputDiv" > 	
+				<label>Confirm Password</label><br/>
+				<input id="customerConfirmPassword" class="customerInput" type="password"/>
+			</div>
+			
+			
 			<button id="createCustomerButton">Create</button>
 			<button id="editCustomerButton">Submit changes</button>
 			<button id="cancelCustomerButton">Cancel</button>

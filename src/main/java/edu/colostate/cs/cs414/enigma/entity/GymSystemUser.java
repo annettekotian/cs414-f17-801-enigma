@@ -1,5 +1,6 @@
 package edu.colostate.cs.cs414.enigma.entity;
 
+import javax.mail.internet.AddressException;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -26,8 +27,8 @@ public abstract class GymSystemUser {
 	private User user;
 
 	public GymSystemUser(PersonalInformation personalInformation, User user) {
-		this.personalInformation = personalInformation;
-		this.user = user;
+		this.setPersonalInformation(personalInformation);
+		this.setUser(user);
 	}
 	
 	protected GymSystemUser() {}
@@ -45,6 +46,9 @@ public abstract class GymSystemUser {
 	}
 
 	public void setPersonalInformation(PersonalInformation personalInformation) {
+		if(personalInformation == null) {
+			throw new IllegalArgumentException("Personal Information cannot be empty");
+		}
 		this.personalInformation = personalInformation;
 	}
 
@@ -53,6 +57,9 @@ public abstract class GymSystemUser {
 	}
 
 	public void setUser(User user) {
+		if(user == null) {
+			throw new IllegalArgumentException("User cannot be empty");
+		}
 		this.user = user;
 	}
 

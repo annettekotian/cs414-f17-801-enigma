@@ -16,6 +16,7 @@ import edu.colostate.cs.cs414.enigma.entity.Manager;
 import edu.colostate.cs.cs414.enigma.entity.Membership;
 import edu.colostate.cs.cs414.enigma.entity.PersonalInformation;
 import edu.colostate.cs.cs414.enigma.entity.State;
+import edu.colostate.cs.cs414.enigma.entity.Workout;
 
 public class CustomerHandler extends GymSystemHandler {
 	
@@ -61,162 +62,20 @@ public class CustomerHandler extends GymSystemHandler {
 		return (Customer) getDao().querySingle("Customer.findById", params);
 	}
 	
-	/** This method creates a new customer in the db
-	 * 
-	 * @param email: String
-	 * @param firstName: String
-	 * @param lastName: String
-	 * @param phoneNumber: String
-	 * @param insurance: String
-	 * @param userName: String
-	 * @param userPass: String
-	 * @param street: String
-	 * @param city: String
-	 * @param zip: String
-	 * @param state: String
-	 * @return Customer: String
-	 * @throws AddressException 
-	 */
-	public Customer createNewCustomer(String email, String firstName, String lastName, String phoneNumber,
-			String insurance, String street, String city, String zip, String state, String membershipStatus) throws AddressException {
-
-		
-		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || insurance.isEmpty() || 
-				street.isEmpty() || city.isEmpty() || zip.isEmpty() || state.isEmpty() || membershipStatus.isEmpty()) {
-			
-			throw new IllegalArgumentException("Missing input");
-		}
-		try {
-			InternetAddress emailAddr = new InternetAddress(email);
-			emailAddr.validate();
-		} catch (AddressException e) {
-			throw e;
-		}
-		if(!zip.matches("^[0-9]{5}$")) {
-			throw new IllegalArgumentException("Zipcode must be 5 digits");
-		}
-		if(!phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
-			throw new IllegalArgumentException("Phone number must be 10 digits in format ###-###-####");
-		}
-
-		// Get/generate the health insurance object
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("description", insurance);
-		HealthInsurance healthInsurance = (HealthInsurance) getDao().querySingle("HealthInsurance.findDescription",
-				parameters);
-		if(healthInsurance == null) {
-			healthInsurance = new HealthInsurance(insurance);
-		}
-		
-		// Get the membership object based on type
-		parameters = new HashMap<String, Object>();
-		parameters.put("type", membershipStatus);
-		Membership membership = (Membership) getDao().querySingle("Membership.findType", parameters);
-		
-		// get the state based on the state name
-		Map<String, Object> stateParams = new HashMap<String, Object>();
-		stateParams.put("state", state);
-		State stateDB = (State) getDao().querySingle("State.findState", stateParams);
-		Address address = new Address(street, city, zip, stateDB);
-		
-
-		// Create a new personal information for the customer
-		PersonalInformation personalInformation = new PersonalInformation(email, firstName, lastName,  phoneNumber, healthInsurance,
-				address);
-		Customer customer = new Customer(personalInformation, membership);
-
-		// Persist the customer with the database
-		getDao().persist(customer);
-		
-		return customer;
+	public Customer getCustomerByUserId(int userId) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", userId);
+		return (Customer) getDao().querySingle("Customer.findByUserId", params);
 	}
 	
-	/** This method edits a customer already in the db
-	 * 
-	 * @param email: String
-	 * @param firstName: String
-	 * @param lastName: String
-	 * @param phoneNumber: String
-	 * @param insurance: String
-	 * @param userName: String
-	 * @param userPass: String
-	 * @param street: String
-	 * @param city: String
-	 * @param zip: String
-	 * @param state: String
-	 * @param membershipStatus: String
-	 * @return Customer: String
-	 * @throws AddressException 
-	 */
-	
-	public Customer updateCustomer(int id, String email, String firstName, String lastName, String phoneNumber,
-			String insurance, String street, String city, String zip, String state, String membershipStatus) throws AddressException {
-
-		
-		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || insurance.isEmpty() || 
-				street.isEmpty() || city.isEmpty() || zip.isEmpty() || state.isEmpty() || membershipStatus.isEmpty()) {
-			
-			throw new IllegalArgumentException("Missing input");
-		}
-		
-		try {
-			InternetAddress emailAddr = new InternetAddress(email);
-			emailAddr.validate();
-		} catch (AddressException e) {
-			throw e;
-		}
-		
-		if(!zip.matches("^[0-9]{5}$")) {
-			throw new IllegalArgumentException("Zipcode must be 5 digits");
-		}
-		if(!phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
-			throw new IllegalArgumentException("Phone number must be 10 digits in format ###-###-####");
-		}
-
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("id", id);
-		Customer c = (Customer) getDao().querySingle("Customer.findById", parameters);
-		// update personal information
-		PersonalInformation p = c.getPersonalInformation();
-		p.setFirstName(firstName);
-		p.setLastName(lastName);
-		p.setEmail(email);
-		p.setPhoneNumber(phoneNumber);
-		
-		// update membership
-		parameters = new HashMap<String, Object>();
-		parameters.put("type", membershipStatus);
-		Membership m = (Membership) getDao().querySingle("Membership.findType", parameters);
-		c.setMembership(m);
-		// update address
-		Address a = p.getAddress();
-		a.setCity(city);
-		a.setStreet(street);
-		a.setZipcode(zip);
-		if(!p.getHealthInsurance().getName().equals(insurance)) {
-			Map<String, Object> healthInsuranceParams = new HashMap<String, Object>();
-			healthInsuranceParams.put("name", insurance);
-			HealthInsurance healthInsuranceEntity = (HealthInsurance) getDao().querySingle("HealthInsurance.findByName", healthInsuranceParams);
-			if(healthInsuranceEntity == null) {
-				healthInsuranceEntity = new HealthInsurance(insurance);
-			}
-			p.setHealthInsurance(healthInsuranceEntity);
-		}
-		State s = a.getState();
-		if(!s.getState().equals(state)) {
-			Map<String, Object> stateParams = new HashMap<String, Object>();
-			stateParams.put("state", state);
-			State stateEntity = (State) getDao().querySingle("State.findState", stateParams);
-			a.setState(stateEntity);
-		}
-		
-		// Persist the customer with the database
-		getDao().update(c);
-		
-		return c;
+	public Workout getWorkoutById(int id) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		return (Workout) getDao().querySingle("Workout.findId", params);
 	}
+
 	
-	public void removeCustomer(String id) {
+	public void deleteCustomer(String id) {
 		int cId = Integer.parseInt(id);
 		
 		HashMap<String, Object> params = new HashMap<>();
@@ -226,5 +85,12 @@ public class CustomerHandler extends GymSystemHandler {
 			return;
 		}
 		getDao().remove(c);
+	}
+	
+	public void addFeedback(int customerId, int workoutId, String feedback) {
+		Customer customer = this.getCustomerById(customerId);
+		Workout workout = this.getWorkoutById(workoutId);
+		workout.addFeedback(customer, feedback);
+		this.getDao().update(workout);
 	}
 }

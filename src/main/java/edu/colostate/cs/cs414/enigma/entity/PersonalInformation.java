@@ -2,6 +2,8 @@ package edu.colostate.cs.cs414.enigma.entity;
 
 import java.io.Serializable;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -57,14 +59,14 @@ public class PersonalInformation implements Serializable {
 	protected PersonalInformation() {}
 
 	public PersonalInformation(String email, String firstName, String lastName, String phoneNumber,
-			HealthInsurance healthInsurance, Address address) {
+			HealthInsurance healthInsurance, Address address) throws AddressException {
 		super();
-		this.email = email;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.phoneNumber = phoneNumber;
-		this.healthInsurance = healthInsurance;
-		this.address = address;
+		this.setEmail(email);
+		this.setFirstName(firstName);
+		this.setLastName(lastName);
+		this.setPhoneNumber(phoneNumber);
+		this.setHealthInsurance(healthInsurance);
+		this.setAddress(address);
 	}
 
 	public int getId() {
@@ -79,7 +81,14 @@ public class PersonalInformation implements Serializable {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public void setEmail(String email) throws AddressException {
+		if(email == null) {
+			throw new IllegalArgumentException("Email cannot be empty");
+		}
+		if(email.isEmpty()) {
+			throw new IllegalArgumentException("Email cannot be empty");
+		}
+		new InternetAddress(email).validate();
 		this.email = email;
 	}
 
@@ -88,6 +97,12 @@ public class PersonalInformation implements Serializable {
 	}
 
 	public void setFirstName(String firstName) {
+		if(firstName == null) {
+			throw new IllegalArgumentException("First name cannot be empty");
+		}
+		if(firstName.isEmpty()) {
+			throw new IllegalArgumentException("First name cannot be empty");
+		}
 		this.firstName = firstName;
 	}
 
@@ -96,6 +111,12 @@ public class PersonalInformation implements Serializable {
 	}
 
 	public void setLastName(String lastName) {
+		if(lastName == null) {
+			throw new IllegalArgumentException("Last name cannot be empty");
+		}
+		if(lastName.isEmpty()) {
+			throw new IllegalArgumentException("Last name cannot be empty");
+		}
 		this.lastName = lastName;
 	}
 
@@ -104,6 +125,12 @@ public class PersonalInformation implements Serializable {
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
+		if(phoneNumber == null) {
+			throw new IllegalArgumentException("Phone number must be 10 digits in format ###-###-####");
+		}
+		if(!phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
+			throw new IllegalArgumentException("Phone number must be 10 digits in format ###-###-####");
+		}
 		this.phoneNumber = phoneNumber;
 	}
 
@@ -112,6 +139,9 @@ public class PersonalInformation implements Serializable {
 	}
 
 	public void setHealthInsurance(HealthInsurance healthInsurance) {
+		if(healthInsurance == null) {
+			throw new IllegalArgumentException("Health Insurance cannot be empty");
+		}
 		this.healthInsurance = healthInsurance;
 	}
 
@@ -120,6 +150,9 @@ public class PersonalInformation implements Serializable {
 	}
 
 	public void setAddress(Address address) {
+		if(address == null) {
+			throw new IllegalArgumentException("Addres cannot be empty");
+		}
 		this.address = address;
 	}
 
@@ -183,8 +216,7 @@ public class PersonalInformation implements Serializable {
 
 	@Override
 	public String toString() {
-		return "PersonalInformation [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", phoneNumber=" + phoneNumber + ", healthInsurance=" + healthInsurance + ", address="
-				+ address + "]";
+		return "" + email + " " + firstName + " " + lastName + " " + phoneNumber
+				+ " " + healthInsurance + " " + address;
 	}
 }

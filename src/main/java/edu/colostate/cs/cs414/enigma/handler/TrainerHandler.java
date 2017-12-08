@@ -24,6 +24,7 @@ import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseDurationException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseException;
 import edu.colostate.cs.cs414.enigma.entity.exception.ExerciseSetException;
 import edu.colostate.cs.cs414.enigma.entity.exception.WorkHoursException;
+import edu.colostate.cs.cs414.enigma.handler.builder.TrainerBuilder;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Address;
 import edu.colostate.cs.cs414.enigma.entity.Customer;
@@ -32,157 +33,6 @@ import edu.colostate.cs.cs414.enigma.entity.ExerciseDuration;
 import edu.colostate.cs.cs414.enigma.entity.ExerciseSet;
 
 public class TrainerHandler extends GymSystemHandler {
-	
-	private void validateTrainerInformation(String firstName, String lastName, String phoneNumber, String email, String street,
-			String city, String state, String zipcode, String healthInsurance, String userName, String password, String confirmPassword) throws AddressException, IllegalArgumentException {
-		
-		if(email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || healthInsurance.isEmpty() || userName.isEmpty()
-				|| password.isEmpty() || street.isEmpty() || city.isEmpty() || zipcode.isEmpty() || state.isEmpty()) {			
-			throw new IllegalArgumentException("Missing Input");
-		}
-		if(password.length() < 0) {
-			throw new IllegalArgumentException("Password must be 8 characters");
-		}
-		if(!password.equals(confirmPassword)) {
-			throw new IllegalArgumentException("Passwords do not match");
-		}
-		if(!zipcode.matches("^[0-9]{5}$")) {
-			throw new IllegalArgumentException("Zipcode must be 5 digits");
-		}
-		if(!phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
-			throw new IllegalArgumentException("Phone number must be 10 digits in format ###-###-####");
-		}
-		new InternetAddress(email).validate();
-	}
-	
-	/**
-	 * Manager specific function to create a new trainer.
-	 * @param firstName First name of trainer.
-	 * @param lastName Last name of the trainer.
-	 * @param phoneNumber Phone number of trainer.
-	 * @param email Email of trainer.
-	 * @param street Street of the trainer.
-	 * @param city City of the trainer.
-	 * @param state State of the trainer.
-	 * @param zipcode Zipcode of the trainer.
-	 * @param healthInsurance Health insurance of the trainer.
-	 * @param userName Unique user name of the trainer.
-	 * @param password Password of the trainer.
-	 * @param confirmPassword Password of the trainer.
-	 * @return Trainer
-	 * @throws PersistenceException
-	 */
-	public Trainer createNewTrainer(String firstName, String lastName, String phoneNumber, String email, String street,
-			String city, String state, String zipcode, String healthInsurance, String userName, String password,
-			String confirmPassword) throws PersistenceException, AddressException, IllegalArgumentException {
-		
-		// Validate parameters
-		validateTrainerInformation(firstName, lastName, phoneNumber, email, street, city, state, zipcode,
-				healthInsurance, userName, password, confirmPassword);
-		
-		// Get a state entity/object
-		Map<String, Object> stateParams = new HashMap<String, Object>();
-		stateParams.put("state", state);
-		State stateEntity = (State) getDao().querySingle("State.findState", stateParams);
-		
-		// Create an address for the new trainer
-		Address addressEntity = new Address(street, city, zipcode, stateEntity);
-		
-		// Attempt to get a healthInsurance object
-		Map<String, Object> healthInsuranceParams = new HashMap<String, Object>();
-		healthInsuranceParams.put("name", healthInsurance);
-		HealthInsurance healthInsuranceEntity = (HealthInsurance) getDao().querySingle("HealthInsurance.findByName", healthInsuranceParams);
-		if(healthInsuranceEntity == null) {
-			healthInsuranceEntity = new HealthInsurance(healthInsurance);
-		}
-		
-		// Create a personalInformation for the new trainer
-		PersonalInformation personalInformationEntity = new PersonalInformation(email, firstName, lastName, phoneNumber,
-				healthInsuranceEntity, addressEntity);
-		
-		// Get the trainer userLevel object for the new trainer
-		Map<String, Object> userLevelParams = new HashMap<String, Object>();
-		userLevelParams.put("level", "TRAINER");
-		UserLevel userLevelEntity = (UserLevel) getDao().querySingle("UserLevel.findLevel", userLevelParams);
-		
-		// Create a user for the new trainer
-		User userEntity = new User(userName, password, userLevelEntity);
-		
-		// Create the new trainer
-		Trainer trainer = new Trainer(personalInformationEntity, userEntity);
-		
-		// Persist the new trainers information with the db
-		getDao().persist(trainer);
-		
-		return trainer;
-	}
-	
-	/**
-	 * Modify a trainer based of a specific trainer ID.
-	 * @param id ID of trainer to be modified.
-	 * @param firstName Modified first name of trainer.
-	 * @param lastName Modified last name of the trainer.
-	 * @param phoneNumber Modified phone number of trainer.
-	 * @param email Modified email of trainer.
-	 * @param street Modified street of the trainer.
-	 * @param city Modified city of the trainer.
-	 * @param state Modified state of the trainer.
-	 * @param zipcode Modified zipcode of the trainer.
-	 * @param healthInsurance Modified health insurance of the trainer.
-	 * @param userName Modified unique user name of the trainer.
-	 * @param password Modified password of the trainer.
-	 * @return Trainer
-	 * @throws PersistenceException
-	 */
-	public Trainer modifyTrainer(int id, String firstName, String lastName, String phoneNumber, String email,
-			String street, String city, String state, String zipcode, String healthInsurance, String userName,
-			String password, String confirmPassword) throws PersistenceException, AddressException, IllegalArgumentException {
-	
-		// Validate parameters
-		validateTrainerInformation(firstName, lastName, phoneNumber, email, street, city, state, zipcode,
-						healthInsurance, userName, password, confirmPassword);
-		
-		// Get the trainer entity to be updated
-		Trainer trainer = this.getTrainerById(id);
-		
-		// Update the trainers information that does not require a new object
-		PersonalInformation personalInformation = trainer.getPersonalInformation();
-		personalInformation.setFirstName(firstName);
-		personalInformation.setLastName(lastName);
-		personalInformation.setEmail(email);
-		personalInformation.setPhoneNumber(phoneNumber);
-		if(!personalInformation.getHealthInsurance().getName().equals(healthInsurance)) {
-			Map<String, Object> healthInsuranceParams = new HashMap<String, Object>();
-			healthInsuranceParams.put("name", healthInsurance);
-			HealthInsurance healthInsuranceEntity = (HealthInsurance) getDao().querySingle("HealthInsurance.findByName", healthInsuranceParams);
-			if(healthInsuranceEntity == null) {
-				healthInsuranceEntity = new HealthInsurance(healthInsurance);
-				getDao().persist(healthInsuranceEntity);
-			}
-			personalInformation.setHealthInsurance(healthInsuranceEntity);
-		}
-		
-		Address address = personalInformation.getAddress();
-		address.setCity(city);
-		address.setStreet(street);
-		address.setZipcode(zipcode);
-		if(!address.getState().getState().equals(state)) {
-			Map<String, Object> stateParams = new HashMap<String, Object>();
-			stateParams.put("state", state);
-			State stateEntity = (State) getDao().querySingle("State.findState", stateParams);
-			address.setState(stateEntity);
-		}
-		
-		User user = trainer.getUser();
-		user.setUsername(userName);
-		user.setPassword(password);
-		
-		
-		// Modify/update the trainers information with the db
-		getDao().update(trainer);
-		
-		return trainer;
-	}
 	
 	private Qualification getQualificationByName(String name) {
 		// Attempt to get the Qualification entity from the DB
@@ -223,17 +73,6 @@ public class TrainerHandler extends GymSystemHandler {
 	}
 	
 	public void addWorkHours(int trainerId, Date startDateTime, Date endDateTime) throws WorkHoursException {
-		
-		// Verify the start date time is before the end date time
-		if(startDateTime.compareTo(endDateTime) > 0) {
-			throw new WorkHoursException("Start date time cannot be after end data time");
-		}
-		
-		// Verify the start date time is not before the current date time
-		Date currentDateTime = new Date();
-		if(startDateTime.compareTo(currentDateTime) < 0) {
-			throw new WorkHoursException("Start date time cannot occur in the past");
-		}
 		
 		// Create new work hours
 		WorkHours workHours = new WorkHours(startDateTime, endDateTime);
@@ -310,6 +149,14 @@ public class TrainerHandler extends GymSystemHandler {
 		
 		return trainers;
 	}
+	
+	public void deleteTrainer(int trainerId) {
+		Trainer trainer = this.getTrainerById(trainerId);
+		trainer.removeAllWorkHours();
+		
+		// Delete the trainer
+		getDao().remove(trainer);
+	}
 
 	/**
 	 * Return a list of trainers matching a specific search value.
@@ -330,33 +177,12 @@ public class TrainerHandler extends GymSystemHandler {
 		return matchedTrainers;
 	}
 	
-	/**
-	 * Delete a trainer based on a specific trainer ID.
-	 * @param id ID of trainer to be deleted.
-	 */
-	public void deleteTrainer(int id) {
-		
-		// Get the trainer entity to be updated
-		Map<String, Object> trainerParams = new HashMap<String, Object>();
-		trainerParams.put("id", id);
-		Trainer trainer = (Trainer) getDao().querySingle("Trainer.findById", trainerParams);
-		trainer.removeAllWorkHours();
-		
-		// Delete the trainer
-		getDao().remove(trainer);
-	}
-	
 	public Exercise createExercise(String name, int machineId, int durationHours, int durationMinutes,
 			int durationSeconds, List<Integer> sets) throws PersistenceException, ExerciseDurationException, ExerciseSetException, ExerciseException {
 		
 		// Create a new exercise
 		Exercise exercise = new Exercise(name);
-		
-		// Only add a duration if hours, minutes, and seconds are non-null
-		if(durationHours != 0 || durationMinutes != 0 || durationSeconds != 0) {
-			ExerciseDuration duration = new ExerciseDuration(durationHours, durationMinutes, durationSeconds);
-			exercise.setDuration(duration);
-		}
+		exercise.setDuration(durationHours, durationMinutes, durationSeconds);
 		
 		// Only add a machine if the ID is not zero
 		if(machineId > 0) {
@@ -364,95 +190,27 @@ public class TrainerHandler extends GymSystemHandler {
 			exercise.setMachine(machine);
 		}
 		
-		// Persist the new exercise
+		// Persist the new exercise in order for any sets to be added
 		getDao().persist(exercise);
 		
 		// Check to see if repetitions need to be added
-		for(int i=0; i<sets.size(); i++) {
-			ExerciseSet set = new ExerciseSet(sets.get(i));
-			exercise.addSet(set);
-		}
-		if(sets.size() > 0) {
-			getDao().update(exercise);
-		}
+		exercise.setSets(sets);
+		getDao().update(exercise);
 		
 		return exercise;
 	}
 	
-	public Exercise modifyExercise(int exerciseId, String name, int machineId, int durationHours, int durationMinutes,
+	public Exercise updateExercise(int exerciseId, String name, int machineId, int durationHours, int durationMinutes,
 			int durationSeconds, List<Integer> sets) throws PersistenceException, ExerciseDurationException, ExerciseSetException, ExerciseException {
-		
-		// Get the exercise to be modified
 		Exercise exercise = this.getExerciseById(exerciseId);
-		
-		// Check if name needs to be update
-		if(!exercise.getName().equals(name)) {
-			exercise.setName(name);
+		exercise.setName(name);
+		exercise.setDuration(durationHours, durationMinutes, durationSeconds);
+		exercise.setSets(sets);
+		if(machineId > 0) {
+			Machine machine = this.getMachineById(machineId);
+			exercise.setMachine(machine);
 		}
-		
-		// Check if the duration needs to be modified
-		ExerciseDuration duration = exercise.getDuration();
-		if(durationHours != 0 || durationMinutes != 0 || durationSeconds != 0) {
-			if(duration == null) {
-				duration = new ExerciseDuration(durationHours, durationMinutes, durationSeconds);
-				exercise.setDuration(duration);
-			} else {
-				if(duration.getHours() != durationHours) {
-					duration.setHours(durationHours);
-				}
-				if(duration.getMinutes() != durationMinutes) {
-					duration.setMinutes(durationMinutes);
-				}
-				if(duration.getSeconds() != durationSeconds) {
-					duration.setSeconds(durationSeconds);
-				}
-			}
-		} else {
-			if(duration != null) {
-				exercise.deleteDuration();
-			}
-		}
-		
-		// Check if machine needs to be updated
-		Machine machine = exercise.getMachine();
-		if(machine == null) {
-			if(machineId > 0) {
-				machine = this.getMachineById(machineId);
-				exercise.setMachine(machine);
-			}
-		} else {
-			if(machine.getId() != machineId) {
-				machine = this.getMachineById(machineId);
-				exercise.setMachine(machine);
-			}
-		}		
-		
-		// Check to see if the sets are the same (order and repetition count)
-		boolean rebuildSets = false;
-		if(exercise.getSets().size() == sets.size()) {
-			for(int i=0; i<exercise.getSets().size(); i++) {
-				if(exercise.getSets().get(i).getRepetitions() != sets.get(i)) {
-					rebuildSets = true;
-				}
-			}
-		} else if(sets.size() != 0) {
-			rebuildSets = true;
-		} else {
-			exercise.deleteSets();
-		}
-		
-		if(rebuildSets) {
-			exercise.deleteSets();
-			getDao().update(exercise);
-			for(int i=0; i<sets.size(); i++) {
-				ExerciseSet set = new ExerciseSet(sets.get(i));
-				exercise.addSet(set);
-			}
-		}
-		
-		// Commit the changes
 		getDao().update(exercise);
-		
 		return exercise;
 	}
 	
@@ -462,12 +220,6 @@ public class TrainerHandler extends GymSystemHandler {
 		Exercise exercise = this.getExerciseById(exerciseId);
 		if(exercise == null) {
 			return;
-		}
-		
-		// All sets need to be deleted before removing the exercise
-		if(exercise.getSets().size() > 0) {
-			exercise.deleteSets();
-			getDao().update(exercise);
 		}
 		
 		// Delete the exercise
@@ -535,7 +287,7 @@ public class TrainerHandler extends GymSystemHandler {
 	public Workout createWorkout(String name, String[] exerciseNames) throws ExerciseException {
 		
 		//validations
-		if(name.isEmpty() || exerciseNames.length == 0) {
+		if(name.isEmpty() || exerciseNames == null || exerciseNames.length == 0) {
 			throw new IllegalArgumentException("missing input");
 		}
 		

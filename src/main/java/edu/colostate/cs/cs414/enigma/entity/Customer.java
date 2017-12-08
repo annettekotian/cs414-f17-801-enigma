@@ -34,20 +34,14 @@ import javax.persistence.Table;
 			+ " OR c.personalInformation.healthInsurance.name LIKE :keyword OR c.personalInformation.address.city LIKE :keyword"
 			+ " OR c.personalInformation.address.street LIKE :keyword OR c.personalInformation.address.zipcode LIKE :keyword"
 			+ " OR c.personalInformation.address.state.state LIKE :keyword OR c.id LIKE :keyword"
-			+ " OR c.membership.type LIKE :keyword") 
+			+ " OR c.membership.type LIKE :keyword") ,
+	@NamedQuery(name="Customer.findByUserId", query="Select c FROM Customer c where c.user.id = :id")
 	
 })
-public class Customer implements Serializable {
+public class Customer extends GymSystemUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id", unique=true, nullable=false, updatable=false)
-	private int id;
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="personal_information_id", unique=true, nullable=false, updatable=false)
-	private PersonalInformation personalInformation;
 	
 	//uni-directional many-to-one association to Membership
 	@ManyToOne
@@ -62,26 +56,10 @@ public class Customer implements Serializable {
 
 	protected Customer() {}
 
-	public Customer(PersonalInformation personalInformation, Membership membership) {
-		this.personalInformation = personalInformation;
+	public Customer(PersonalInformation personalInformation, Membership membership, User user) {
+		super(personalInformation, user);
 		this.membership = membership;
 		this.workouts = new ArrayList<Workout>();
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public PersonalInformation getPersonalInformation() {
-		return personalInformation;
-	}
-
-	public void setPersonalInformation(PersonalInformation personalInformation) {
-		this.personalInformation = personalInformation;
 	}
 
 	public Membership getMembership() {
@@ -117,10 +95,8 @@ public class Customer implements Serializable {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
+		int result = super.hashCode();
 		result = prime * result + ((membership == null) ? 0 : membership.hashCode());
-		result = prime * result + ((personalInformation == null) ? 0 : personalInformation.hashCode());
 		result = prime * result + ((workouts == null) ? 0 : workouts.hashCode());
 		return result;
 	}
@@ -131,21 +107,18 @@ public class Customer implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
+		if (!super.equals(obj))
+			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Customer other = (Customer) obj;
-		if (id != other.id)
-			return false;
+		
 		if (membership == null) {
 			if (other.membership != null)
 				return false;
 		} else if (!membership.equals(other.membership))
 			return false;
-		if (personalInformation == null) {
-			if (other.personalInformation != null)
-				return false;
-		} else if (!personalInformation.equals(other.personalInformation))
-			return false;
+		
 		if (workouts == null) {
 			if (other.workouts != null)
 				return false;
@@ -156,7 +129,8 @@ public class Customer implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Customer [id=" + id + ", personalInformation=" + personalInformation + ", membership=" + membership
+		String toString = this.getPersonalInformation().toString();
+		return toString + ", membership=" + membership
 				+ ", workouts=" + workouts + "]";
 	}
 }

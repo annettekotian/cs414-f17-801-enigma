@@ -35,6 +35,11 @@ import edu.colostate.cs.cs414.enigma.handler.CustomerHandler;
 import edu.colostate.cs.cs414.enigma.handler.ManagerHandler;
 
 import edu.colostate.cs.cs414.enigma.handler.TrainerHandler;
+import edu.colostate.cs.cs414.enigma.handler.builder.CustomerBuilder;
+import edu.colostate.cs.cs414.enigma.handler.builder.GymSystemUserBuilder;
+import edu.colostate.cs.cs414.enigma.handler.builder.ManagerBuilder;
+import edu.colostate.cs.cs414.enigma.handler.builder.PersonalInformationBuilder;
+import edu.colostate.cs.cs414.enigma.handler.builder.TrainerBuilder;
 
 /**
  * Servlet implementation class Manager
@@ -333,46 +338,12 @@ public class ManagerServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		switch (type) {
 		case "addMachine": {
-			Part part = request.getPart("machinePic");
-			InputStream content = part.getInputStream();
-			String uploadPath = getServletContext().getInitParameter("path_to_upload");
-			ManagerHandler mh = new ManagerHandler();
-			try {
-				Machine m = mh.addMachine(request.getParameter("machineName"), content, uploadPath,
-						request.getParameter("machineQuantity"));
-				values.put("machine", m);
-				out.println(new Gson().toJson(values));
-			} catch (MachineException e) {
-				response.sendError(500, e.toString());
-			} catch (IllegalArgumentException e) {
-				response.sendError(500, e.toString());
-			} catch (PersistenceException e) {
-				response.sendError(500, e.toString());
-			} finally {
-				mh.close();
-			}
+			createUpdateMachine(request, response, "create", values);
 			break;
 		}
 			
 		case "updateMachine": {
-			Part part = request.getPart("machinePic");
-			InputStream content = part.getInputStream();
-			String uploadPath = getServletContext().getInitParameter("path_to_upload");
-			ManagerHandler mh = new ManagerHandler();
-			try {
-				Machine m = mh.updateMachine(request.getParameter("machineId") ,request.getParameter("machineName"), 
-						content, uploadPath, request.getParameter("machineQuantity"));
-				values.put("machine", m);
-				out.println(new Gson().toJson(values));
-			} catch (MachineException e) {
-				response.sendError(500, e.toString());
-			} catch (IllegalArgumentException e) {
-				response.sendError(500, e.toString());
-			} catch (PersistenceException e) {
-				response.sendError(500, e.toString());
-			} finally {
-				mh.close();
-			}
+			createUpdateMachine(request, response, "update", values);
 			break;
 		}	
 		
@@ -380,7 +351,7 @@ public class ManagerServlet extends HttpServlet {
 			ManagerHandler mh = new ManagerHandler();
 			String uploadPath = getServletContext().getInitParameter("path_to_upload");
 			try {
-				mh.removeMachine(request.getParameter("id"), uploadPath);
+				mh.deleteMachine(request.getParameter("id"), uploadPath);
 				values.put("status", "success");
 				out.write(new Gson().toJson(values));
 			} catch (Exception e) {
@@ -393,111 +364,44 @@ public class ManagerServlet extends HttpServlet {
 			
 		case "createManager": {
 
-			String fName = request.getParameter("fName");
-			String lName = request.getParameter("lName");
-			String uName = request.getParameter("uName");
-			String password = request.getParameter("password");
-			String confirmPassword = request.getParameter("confirmPassword");
-			String email = request.getParameter("email");
-			String phone = request.getParameter("phone");
-			String street = request.getParameter("street");
-			String city = request.getParameter("city");
-			String state = request.getParameter("state");
-			String zip = request.getParameter("zip");
-			String insurance = request.getParameter("insurance");
-
-			ManagerHandler mh = new ManagerHandler();
+			ManagerBuilder mb = new ManagerBuilder();
+			buildPersonalInformation(mb, request);
+			buildGymSystemUser(mb, request);
 			try {
-				Manager m = mh.createManager(email, fName, lName, phone, insurance, uName, password, confirmPassword, street, city, zip,
-						state);
+				Manager m = mb.createManager();
 				values.put("manager", m);
 				values.put("status", "success");
 				out.write(new Gson().toJson(values));
 			} catch (IllegalArgumentException e) {
-				response.sendError(500, e.toString());
+				values.put("status", "failure");
+				values.put("message", e.getMessage());
+				out.write(new Gson().toJson(values));
 			} catch (PersistenceException e) {
-				response.sendError(500, e.toString());
+				values.put("status", "failure");
+				values.put("message", e.getMessage());
+				out.write(new Gson().toJson(values));
 			} catch (AddressException e) {
-				response.sendError(500, e.toString());
+				values.put("status", "failure");
+				values.put("message", e.getMessage());
+				out.write(new Gson().toJson(values));
 			} catch (Exception e) {
 				response.sendError(500, e.toString());
 			} finally {
-				mh.close();
+				mb.close();
 			}
 
 			break;
 		}
 			
 		case "createCustomer": {
-			String firstName = request.getParameter("fName");
-			String lastName = request.getParameter("lName");
-			String phoneNumber = request.getParameter("phone");
-			String email = request.getParameter("email");
-			String streetCustomer = request.getParameter("street");
-			String cityCustomer = request.getParameter("city");
-			String state = request.getParameter("state");
-			String zipcode = request.getParameter("zip");
-			String healthInsurance = request.getParameter("healthInsurance");
-			String membershipStatus = request.getParameter("membershipStatus");
 			
-			CustomerHandler ch = new CustomerHandler();
-			try {
-				Customer c = ch.createNewCustomer(email, firstName, lastName, phoneNumber, healthInsurance, streetCustomer, 
-						cityCustomer, zipcode, state, membershipStatus);
-				
-				values.put("customer", c);
-				values.put("status", "success");
-				if(c == null) {
-					values.put("status", "failure");
-				}
-				out.write(new Gson().toJson(values));
-			} catch (IllegalArgumentException e) {
-				response.sendError(500, e.toString());
-			} catch(PersistenceException e) {
-				response.sendError(500, e.toString());
-			} catch (AddressException e) {
-				response.sendError(500, e.toString());
-			} catch (Exception e) {
-				response.sendError(500, e.toString());
-			} finally {
-				ch.close();
-			}
-			
+			createUpdateCustomer(request, response, "create", values);		
 			break;
 		}
 		
 		case "updateCustomer":  {
-			String firstName = request.getParameter("fName");
-			String lastName = request.getParameter("lName");
-			String phoneNumber = request.getParameter("phone");
-			String email = request.getParameter("email");
-			String streetCustomer = request.getParameter("street");
-			String cityCustomer = request.getParameter("city");
-			String state = request.getParameter("state");
-			String zipcode = request.getParameter("zip");
-			String healthInsurance = request.getParameter("healthInsurance");
-			String membershipStatus = request.getParameter("membershipStatus");
-			int id = Integer.parseInt(request.getParameter("id"));
 			
-			CustomerHandler ch = new CustomerHandler();
-			try {
-				Customer c = ch.updateCustomer(id, email, firstName, lastName, phoneNumber, healthInsurance, streetCustomer, 
-						cityCustomer, zipcode, state, membershipStatus);
-				
-				values.put("customer", c);
-				values.put("status", "success");
-				if(c == null) {
-					values.put("status", "failure");
-				}
-				out.write(new Gson().toJson(values));
-			} catch(AddressException e) {
-				response.sendError(500, e.toString());
-			} catch(Exception e) {
-				response.sendError(500, e.toString());
-			} finally {
-				ch.close();
-			}
-			
+			createUpdateCustomer(request, response, "update", values);
 			break;
 		}
 		
@@ -505,7 +409,7 @@ public class ManagerServlet extends HttpServlet {
 			String cId = request.getParameter("id");
 			CustomerHandler ch = new CustomerHandler();
 			try {
-				ch.removeCustomer(cId);
+				ch.deleteCustomer(cId);
 				values.put("status", "success");
 				out.write(new Gson().toJson(values));
 			} catch(Exception e) {
@@ -517,94 +421,25 @@ public class ManagerServlet extends HttpServlet {
 		}
 		
 		case "createTrainer": {
-			String firstName = request.getParameter("firstName");
-			String lastName = request.getParameter("lastName");
-			String phoneNumber = request.getParameter("phone");
-			String email = request.getParameter("email");
-			String street = request.getParameter("street");
-			String city = request.getParameter("city");
-			String state = request.getParameter("state");
-			String zipcode = request.getParameter("zip");
-			String healthInsurance = request.getParameter("healthInsurance");
-			String userName = request.getParameter("userName");
-			String password = request.getParameter("password");
-			String confirmPassword = request.getParameter("confirmPassword");
 			
-			Map<String, Object> returnValues = new HashMap<String, Object>();
-			TrainerHandler th = new TrainerHandler();
-			try {
-				th.createNewTrainer(firstName, lastName, phoneNumber, email,street, city, state,
-						zipcode, healthInsurance, userName, password, confirmPassword);	
-				returnValues.put("rc", "0");
-			} catch(PersistenceException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getCause().getCause().toString());
-			} catch(AddressException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e);
-			} catch(IllegalArgumentException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e);
-			} catch(Exception e) {
-				response.sendError(500, e.toString());
-				return;
-			} finally {
-				th.close();
-			}
-			
+			createUpdateTrainer(request, response, "create", values);
 			response.setContentType("application/json");
-			out.write(new Gson().toJson(returnValues));
+			out.write(new Gson().toJson(values));
 			break;
 		}
 		
 		case "updateTrainer": {
-			String firstName = request.getParameter("firstName");
-			String lastName = request.getParameter("lastName");
-			String phoneNumber = request.getParameter("phone");
-			String email = request.getParameter("email");
-			String street = request.getParameter("street");
-			String city = request.getParameter("city");
-			String state = request.getParameter("state");
-			String zipcode = request.getParameter("zip");
-			String healthInsurance = request.getParameter("healthInsurance");
-			String userName = request.getParameter("userName");
-			String password = request.getParameter("password");
-			String confirmPassword = request.getParameter("confirmPassword");
-			int trainerId = Integer.parseInt(request.getParameter("id"));
-			
-			Map<String, Object> returnValues = new HashMap<String, Object>();
-			TrainerHandler th = new TrainerHandler();
-			try {
-				th.modifyTrainer(trainerId, firstName, lastName, phoneNumber, email, street,
-						city, state, zipcode, healthInsurance, userName, password, confirmPassword);	
-				returnValues.put("rc", "0");
-			} catch(PersistenceException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getCause().getCause().toString());
-			} catch(AddressException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getMessage());
-			} catch(IllegalArgumentException e) {
-				returnValues.put("rc", "1");
-				returnValues.put("msg", e.getMessage());
-			} catch(Exception e) {
-				response.sendError(500, e.toString());
-				return;
-			} finally {
-				th.close();
-			}
-			
+			createUpdateTrainer(request, response, "update", values);	
 			response.setContentType("application/json");
-			out.write(new Gson().toJson(returnValues));
+			out.write(new Gson().toJson(values));
 			break;
 		}
 		
 		case "deleteTrainer": {
-			int trainerId = Integer.parseInt(request.getParameter("id"));
 			Map<String, Object> returnValues = new HashMap<String, Object>();
 			TrainerHandler th = new TrainerHandler();
 			try {
-				th.deleteTrainer(trainerId);
+				th.deleteTrainer(Integer.parseInt(request.getParameter("id")));
 				returnValues.put("rc", "0");
 			} catch(PersistenceException e) {
 				returnValues.put("rc", "1");
@@ -732,4 +567,117 @@ public class ManagerServlet extends HttpServlet {
 		
 		}
 	}
+	
+	private void buildPersonalInformation (PersonalInformationBuilder pb, HttpServletRequest request) {
+		pb.setFirstName(request.getParameter("firstName")).setLastName(request.getParameter("lastName")).setPhoneNumber(request.getParameter("phone"))
+		.setEmail(request.getParameter("email")).setStreet(request.getParameter("street")).setCity(request.getParameter("city"))
+		.setState(request.getParameter("state")).setZipcode(request.getParameter("zip")).setHealthInsurance(request.getParameter("healthInsurance"));
+	
+	}
+	
+	private void buildGymSystemUser(GymSystemUserBuilder gb, HttpServletRequest request) {
+		gb.setUsername(request.getParameter("userName")).setPassword(request.getParameter("password")).setConfirmPassword(request.getParameter("confirmPassword"));
+	}
+	
+	private TrainerBuilder getTrainerBuilderFromRequest(HttpServletRequest request) {
+		TrainerBuilder tb = new TrainerBuilder();
+		buildPersonalInformation(tb, request);
+		buildGymSystemUser(tb, request);
+		return tb;
+	}
+	
+	private void createUpdateTrainer(HttpServletRequest request, HttpServletResponse response, String type, Map<String, Object> returnValues) throws IOException {
+		TrainerBuilder tb = getTrainerBuilderFromRequest(request);
+		try {
+			if(type.equals("create"))
+			{
+				tb.createTrainer();
+			} else {
+				tb.updateTrainer(Integer.parseInt(request.getParameter("id")));
+			}
+			
+			returnValues.put("rc", "0");
+		} catch(PersistenceException e) {
+			returnValues.put("rc", "1");
+			returnValues.put("msg", e.getCause().getCause().toString());
+		} catch(AddressException e) {
+			returnValues.put("rc", "1");
+			returnValues.put("msg", e.getMessage());
+		} catch(IllegalArgumentException e) {
+			returnValues.put("rc", "1");
+			returnValues.put("msg", e.getMessage());
+		} catch(Exception e) {
+			response.sendError(500, e.toString());
+			return;
+		} finally {
+			tb.close();
+		}
+		
+	}
+	
+	private void createUpdateCustomer(HttpServletRequest request, HttpServletResponse response, String type, Map<String, Object> returnValues) throws IOException {
+		CustomerBuilder cb = new CustomerBuilder();
+		buildPersonalInformation(cb, request);
+		buildGymSystemUser(cb, request);
+		cb.setMembershipStatus(request.getParameter("membershipStatus"));
+		
+		try {
+			Customer c = null;
+			if(type == "create") {
+				c = cb.createCustomer();	
+			} else {
+				c = cb.updateCustomer(Integer.parseInt(request.getParameter("id")));
+			}
+						
+			returnValues.put("customer", c);
+			returnValues.put("status", "success");
+			response.getWriter().write(new Gson().toJson(returnValues));
+					
+		} catch (IllegalArgumentException e) {
+			returnValues.put("status", "failure");
+			returnValues.put("message",e.getMessage());
+			response.getWriter().write(new Gson().toJson(returnValues));
+		} catch(PersistenceException e) {
+			returnValues.put("status", "failure");
+			returnValues.put("message", e.getCause().getCause().toString());
+			response.getWriter().write(new Gson().toJson(returnValues));
+		} catch (AddressException e) {
+			returnValues.put("status", "failure");
+			returnValues.put("message",e.getMessage());
+			response.getWriter().write(new Gson().toJson(returnValues));
+		} catch (Exception e) {
+			response.sendError(500, e.toString());
+		} finally {
+			cb.close();
+		}
+	}
+	
+	private void createUpdateMachine(HttpServletRequest request, HttpServletResponse response, String type, Map<String, Object> returnValues) throws IOException, ServletException {
+		Part part = request.getPart("machinePic");
+		InputStream content = part.getInputStream();
+		String uploadPath = getServletContext().getInitParameter("path_to_upload");
+		String quantity = request.getParameter("machineQuantity");
+		String machineName = request.getParameter("machineName");
+		ManagerHandler mh = new ManagerHandler();
+		Machine m = null;
+		try {
+			if(type.equals("create")) {
+				m = mh.createMachine(machineName, content, uploadPath, quantity);
+			} else {
+				m = mh.updateMachine(request.getParameter("machineId") , machineName, content, uploadPath, quantity);
+			}
+			
+			returnValues.put("machine", m);
+			response.getWriter().println(new Gson().toJson(returnValues));
+		} catch (MachineException e) {
+			response.sendError(500, e.toString());
+		} catch (IllegalArgumentException e) {
+			response.sendError(500, e.toString());
+		} catch (PersistenceException e) {
+			response.sendError(500, e.toString());
+		} finally {
+			mh.close();
+		}
+	}
+	
 }

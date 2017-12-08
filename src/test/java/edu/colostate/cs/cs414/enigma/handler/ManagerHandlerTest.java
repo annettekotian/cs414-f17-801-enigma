@@ -21,7 +21,10 @@ import org.junit.Test;
 import edu.colostate.cs.cs414.enigma.dao.EntityManagerDao;
 import edu.colostate.cs.cs414.enigma.entity.Machine;
 import edu.colostate.cs.cs414.enigma.entity.Manager;
+import edu.colostate.cs.cs414.enigma.entity.Trainer;
 import edu.colostate.cs.cs414.enigma.entity.exception.MachineException;
+import edu.colostate.cs.cs414.enigma.handler.builder.ManagerBuilder;
+import edu.colostate.cs.cs414.enigma.handler.builder.TrainerBuilder;
 
 
 public class ManagerHandlerTest {
@@ -53,426 +56,50 @@ public class ManagerHandlerTest {
 		dao.close();
 	}
 	
-	/********** Test for Create Manager 
-	 * @throws AddressException ************/
-
-	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoEmail() throws AddressException {
-		String fName = "Annette";
-		String lName = "Kotian";
-		//String  email = "ann@email.com";
-		String email = "";
-		String phone = "998-899-8834";
-		String insurance = "Cigna";
-		String userName = "annKot";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		//assertNull(m);
-		
-	}
 	
-	@Test(expected = AddressException.class)
-	public void testCreateManagerWithInvalidEmail() throws AddressException {
-		String fName = "Annette";
-		String lName = "Kotian";
-		//String  email = "ann@email.com";
-		String email = "abc";
-		String phone = "998-899-8834";
-		String insurance = "Cigna";
-		String userName = "annKot";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		//assertNull(m);
-		
-	}
-
-		
-	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoFirstName() throws AddressException {
-		//String fName = "Annette";
-		String fName = "";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "998-899-8834";;
-		String insurance = "Cigna";
-		String userName = "annKot";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		//assertNull(m);
-	}
 	
-	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoLastName() throws AddressException{
-		String fName = "Annette";
-		String lName = "";
-		String  email = "ann@email.com";
-		String phone = "998-899-8884";;
-		String insurance = "Cigna";
-		String userName = "annKot";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-//		assertNull(m);
-			
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoPhone() throws AddressException {
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "";
-		String insurance = "Cigna";
-		String userName = "annKot";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		//assertNull(m);
-			
-	}
-	
-
-	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithWrongPhoneformat() throws AddressException {
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "88888888";
-		String insurance = "Cigna";
-		String userName = "annKot";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		//assertNull(m);
-			
-	}
-	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoHI() throws AddressException{
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "998-899-8884";
-		String insurance = "";
-		String userName = "annKot";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		//assertNull(m);
-			
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoUserName() throws AddressException{
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "998-899-8884";
-		String insurance = "Cigna";
-		String userName = "";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		//assertNull(m);
-			
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoPass() throws AddressException {
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "998-899-8883";
-		String insurance = "Cigna";
-		String userName = "annKot1";
-		String userPass = "";
-		String confirmPass = "12345678";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		//assertNull(m);
-			
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithDifferentPasses()throws AddressException {
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "99999999";
-		String insurance = "Cigna";
-		String userName = "annKot1";
-		String userPass = "12345678";
-		String confirmPass = "12345";
-		String street = "720 City park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		//assertNull(m);
-			
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoStreet() throws AddressException {
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "99999999";
-		String insurance = "Cigna";
-		String userName = "annKot1";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
-		String street = "";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		//assertNull(m);
-			
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoCity() throws AddressException {
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "99999999";
-		String insurance = "Cigna";
-		String userName = "annKot1";
-		String userPass = "12345678";
-		String confirmPass = "12345";
-		String street = "720 City Park";
-		String city = "";
-		String state = "Colorado";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m  = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		//assertNull(m);
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoZip() throws AddressException {
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "99999999";
-		String insurance = "Cigna";
-		String userName = "annKot1";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
-		String street = "720 City Park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		//assertNull(m);
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithIncorrectZipFormat() throws AddressException {
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "99999999";
-		String insurance = "Cigna";
-		String userName = "annKot1";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
-		String street = "720 City Park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "88798888888";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		//assertNull(m);
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void testCreateManagerWithNoState() throws AddressException {
-		String fName = "Annette";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "99999999";
-		String insurance = "Cigna";
-		String userName = "annKot1";
-		String userPass = "12345678";
-		String confirmPass = "12345";
-		String street = "720 City Park";
-		String city = "Fort Collins";
-		String state = "";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		//assertNull(m);
-	}
-	
-	@Test
-	public void testCreateManager() throws AddressException {
-		String fName = "AnnetteRachel1";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String userName = "annKotRac1";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
-		String street = "720 City Park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager persistedM = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		persistedObjects.add(persistedM);
-		
-		Map<String, Object> managerParams = new HashMap<String, Object>();
-		managerParams.put("firstName", fName);
-		managerParams.put("lastName", lName);
-		Manager m = (Manager) dao.querySingle("Manager.findByName", managerParams);
-		assertTrue(m.getId() == persistedM.getId());
-		
-		
-		}
-	
-	@Test(expected = PersistenceException.class)
-	public void testCreateDuplicateManager() throws AddressException {
-		String fName = "AnnetteRachel";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "999-999-9988";
-		String insurance = "Cigna";
-		String userName = "annKotRac";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
-		String street = "720 City Park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
-		
-		ManagerHandler mh = new ManagerHandler();
-		Manager m = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		persistedObjects.add(m);
-		mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-			
-		
-		
-	}
 	
 	/*********** test for search Manager *****************/ 
 	
 	public void testSearchManagerByKeyword() throws AddressException {
-		
 		String fName = "AnnetteRachel123456yeyeteyety";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "999-999-9999";
-		String insurance = "Cigna";
-		String userName = "annKotRac1";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
-		String street = "720 City Park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
+		ManagerBuilder mb = new ManagerBuilder();
+		mb.setFirstName(fName).setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annkot1").setPassword("12345678").setConfirmPassword("12345678");
+		Manager persistedM = mb.createManager();
+		persistedObjects.add(persistedM);
+		mb.close();
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager persistedM = mh.createManager(email, fName , lName, phone, insurance, userName, userPass, confirmPass, street, city, zip, state);
-		persistedObjects.add(persistedM);
-		
 		List<Manager> list = mh.searchManager(fName);
 		assertTrue(list.size() == 1 && list.get(0).getPersonalInformation().getFirstName().equals(fName));
 	}
 	
 	@Test
 	public void testSearchManagerEmptyKeyword()throws AddressException {
+		ManagerBuilder mb = new ManagerBuilder();
+		mb.setFirstName("Annette123").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb.setUsername("annkot1").setPassword("12345678").setConfirmPassword("12345678");
+		Manager persistedM = mb.createManager();
+		persistedObjects.add(persistedM);
+	
 		
-		String fName = "AnnetteRachel123456yeyeteyety";
-		String lName = "Kotian";
-		String  email = "ann@email.com";
-		String phone = "999-999-9999";
-		String hiId = "Cigna";
-		String userName = "annKotRac1";
-		String userPass = "12345678";
-		String confirmPass = "12345678";
+		mb.close();
 		
-		String street = "720 City Park";
-		String city = "Fort Collins";
-		String state = "Colorado";
-		String zip = "80521";
+		ManagerBuilder mb2 = new ManagerBuilder();
+		mb2.setFirstName("Annette22123").setLastName("Kotian").setEmail("ann@email.com").setPhoneNumber("998-899-8884").setHealthInsurance("Cigna")
+		.setStreet("720 City park").setCity("Fort Collins").setState("Colorado").setZipcode("55555");
+		mb2.setUsername("annkot123").setPassword("12345678").setConfirmPassword("12345678");
+		Manager persistedM2 = mb2.createManager();
+		persistedObjects.add(persistedM2);
+		mb2.close();
 		
 		ManagerHandler mh = new ManagerHandler();
-		Manager m1 = mh.createManager(email, fName , lName, phone, hiId, userName, userPass, confirmPass, street, city, zip, state);
-		persistedObjects.add(m1);
-		Manager m2 = mh.createManager(email, fName , lName, phone, hiId, userName + "12334", userPass, confirmPass,  street, city, zip, state);
-		persistedObjects.add(m2);
-		
-		
 		List<Manager> list = mh.searchManager("");
 		assertTrue(list.size() >=2);
+		mh.close();
 	}
 	
 	
@@ -501,7 +128,7 @@ public class ManagerHandlerTest {
 		String name = "";
 		String quantity = "4";
 		String uploadPath = System.getProperty("user.home");
-		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+		Machine m = new ManagerHandler().createMachine(name, in, uploadPath, quantity);
 	}
 	
 	
@@ -511,7 +138,7 @@ public class ManagerHandlerTest {
 		String name = "Machine1234";
 		String quantity = "";
 		String uploadPath = System.getProperty("user.home");
-		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+		Machine m = new ManagerHandler().createMachine(name, in, uploadPath, quantity);
 	}
 	
 	
@@ -522,7 +149,7 @@ public class ManagerHandlerTest {
 		String name = "Machine1234";
 		String quantity = "4";
 		String uploadPath = System.getProperty("user.home");
-		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+		Machine m = new ManagerHandler().createMachine(name, in, uploadPath, quantity);
 	}
 	
 	
@@ -532,7 +159,7 @@ public class ManagerHandlerTest {
 		String name = "Machine1234";
 		String quantity = "4";
 		String uploadPath = "";
-		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+		Machine m = new ManagerHandler().createMachine(name, in, uploadPath, quantity);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -541,7 +168,7 @@ public class ManagerHandlerTest {
 		String name = "Machine1234";
 		String quantity = "4";
 		String uploadPath = System.getProperty("user.home");
-		Machine m = new ManagerHandler().addMachine(name, in, uploadPath, quantity);
+		Machine m = new ManagerHandler().createMachine(name, in, uploadPath, quantity);
 	}
 	
 	

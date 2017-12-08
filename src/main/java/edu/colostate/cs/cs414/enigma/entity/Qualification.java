@@ -86,6 +86,6 @@ public class Qualification implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Qualification [id=" + id + ", name=" + name + "]";
+		return name;
 	}
 }

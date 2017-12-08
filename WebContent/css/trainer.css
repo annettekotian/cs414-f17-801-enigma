@@ -24,7 +24,7 @@
 	margin-top: 20px;
 }
 #workoutResults {
-	margin-left:480px;
+	margin-left:408px;
 	margin-top: 20px;
 }
 
@@ -41,7 +41,7 @@
 	margin: 6px 0px 6px 0px
 }
 
-#customerTable table, #exerciseResults table, #workoutResults table {
+#customerTable table, #exerciseResults table, #workoutResults table, #workoutFeedback table {
 	font-size:13px;
 	text-align:center;
 	border:1px solid black;
@@ -55,7 +55,7 @@
 
 #customerTable th, #customerTable td, #exerciseResults th, #exerciseResults td, #workoutResults th, #workoutResults td,
 #workoutExercises th, #workoutExercises td, #editWorkoutExercises th, #editWorkoutExercises td, #addWorkoutExercisesTable th,
-#addWorkoutExercisesTable td{
+#addWorkoutExercisesTable td, #workoutFeedback td, #workoutFeedback th{
 	width: 150px;
 	border:1px solid black;
 	
